@@ -70,9 +70,9 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-gradient-to-r from-primary to-accent px-5 py-5 text-center shadow-lg">
+      <header className="bg-gradient-to-r from-primary via-accent to-black px-5 py-5 text-center shadow-lg">
         <h1 className="text-2xl font-bold text-primary-foreground md:text-3xl">
-          Ahmed Sports Live
+          Ahmed sports live 🇸🇴🇰🇪
         </h1>
       </header>
 
@@ -91,7 +91,7 @@ export default function HomePage() {
             ) : (
               <div className="flex h-full flex-col items-center justify-center bg-secondary text-muted-foreground">
                 <span className="text-5xl">⚽</span>
-                <h3 className="mt-4 text-xl font-semibold text-foreground">Ahmed Sports Live</h3>
+                <h3 className="mt-4 text-xl font-semibold text-foreground">Ahmed sports live 🇸🇴🇰🇪</h3>
                 <p className="mt-2 text-sm text-primary">
                   GUJI BATOONKA &apos;DAAWO&apos; EE HOOSE SI AD U SHIDDO CIYAARTA
                 </p>
@@ -194,7 +194,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="py-6 text-center text-muted-foreground">
-        © 2026 Ahmed Sports Live.
+        © 2026 Ahmed sports live 🇸🇴🇰🇪
       </footer>
     </div>
   )

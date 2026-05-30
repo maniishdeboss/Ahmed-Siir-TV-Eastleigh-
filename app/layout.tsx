@@ -6,7 +6,7 @@ import './globals.css'
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: 'Ahmed Sports Live',
+  title: 'Ahmed sports live 🇸🇴🇰🇪',
   description: 'Daawo ciyaaraha kubadda cagta toos ahaan - Live football streaming',
   generator: 'v0.app',
 }
