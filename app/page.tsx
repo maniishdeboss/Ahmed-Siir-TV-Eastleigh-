@@ -31,12 +31,12 @@ const matches: Match[] = [
 export default function HomePage() {
   const [currentMatch, setCurrentMatch] = useState<Match | null>(null)
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
-    { id: 1, username: "Taageere_123", message: "Waa ciyaar fiican!", timestamp: new Date() },
-    { id: 2, username: "Fan_456", message: "Arsenal way ku guuleysan!", timestamp: new Date() },
-    { id: 3, username: "Kubada_789", message: "Goolka labaad oo dhow!", timestamp: new Date() },
+    { id: 1, username: "Fan_123", message: "Great match so far!", timestamp: new Date() },
+    { id: 2, username: "Supporter_456", message: "Arsenal will win this!", timestamp: new Date() },
+    { id: 3, username: "Football_789", message: "Second goal coming soon!", timestamp: new Date() },
   ])
   const [newMessage, setNewMessage] = useState("")
-  const [username] = useState(`Taageere_${Math.floor(Math.random() * 900 + 100)}`)
+  const [username] = useState(`Fan_${Math.floor(Math.random() * 900 + 100)}`)
   const chatEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -93,7 +93,7 @@ export default function HomePage() {
                 <span className="text-5xl">⚽</span>
                 <h3 className="mt-4 text-xl font-semibold text-foreground">Ahmed sports live 🇸🇴🇰🇪</h3>
                 <p className="mt-2 text-sm text-primary">
-                  GUJI BATOONKA &apos;DAAWO&apos; EE HOOSE SI AD U SHIDDO CIYAARTA
+                  CLICK THE &apos;WATCH&apos; BUTTON BELOW TO START THE MATCH
                 </p>
               </div>
             )}
@@ -105,7 +105,7 @@ export default function HomePage() {
           {/* Matches Section */}
           <section>
             <h2 className="mb-4 flex items-center gap-2 border-l-4 border-primary pl-3 text-xl font-semibold">
-              Ciyaaraha Maanta
+              Today&apos;s Matches
             </h2>
             <div className="space-y-3">
               {matches.map((match) => (
@@ -122,7 +122,7 @@ export default function HomePage() {
                     )}
                     {match.status === "upcoming" && (
                       <span className="text-sm font-medium text-muted-foreground">
-                        SOO SOCOTA
+                        UPCOMING
                       </span>
                     )}
                     <div className="mt-1 font-bold text-card-foreground">
@@ -134,7 +134,7 @@ export default function HomePage() {
                     disabled={match.status !== "live"}
                     className="bg-primary font-bold text-primary-foreground hover:bg-accent"
                   >
-                    Daawo
+                    Watch
                   </Button>
                 </Card>
               ))}
@@ -144,12 +144,12 @@ export default function HomePage() {
           {/* Chat Section */}
           <section>
             <h2 className="mb-4 flex items-center gap-2 border-l-4 border-primary pl-3 text-xl font-semibold">
-              Falanqaynta
+              Live Chat
             </h2>
             <Card className="flex h-[400px] flex-col border-border bg-card">
               {/* Chat Header */}
               <div className="bg-secondary px-4 py-3 font-bold text-secondary-foreground">
-                Chat-ka Taageerayaasha (Live)
+                Fan Chat (Live)
               </div>
 
               {/* Chat Messages */}
@@ -174,7 +174,7 @@ export default function HomePage() {
               <div className="flex gap-2 p-3">
                 <Input
                   type="text"
-                  placeholder="Farriintaada qor..."
+                  placeholder="Type your message..."
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
@@ -184,7 +184,7 @@ export default function HomePage() {
                   onClick={sendMessage}
                   className="bg-primary font-bold text-primary-foreground hover:bg-accent"
                 >
-                  Dir
+                  Send
                 </Button>
               </div>
             </Card>

@@ -6,8 +6,8 @@ import './globals.css'
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: 'Ahmed sports live 🇸🇴🇰🇪',
-  description: 'Daawo ciyaaraha kubadda cagta toos ahaan - Live football streaming',
+  title: 'Ahmed sports live',
+  description: 'Watch live football matches - Live football streaming',
   generator: 'v0.app',
 }
 
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="so" className="dark bg-background">
+    <html lang="en" className="dark bg-background">
       <body className={`${inter.variable} font-sans antialiased`}>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
