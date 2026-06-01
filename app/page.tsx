@@ -1,10 +1,14 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useEffect, useState, useRef } from "react"
+import { createClient } from "@supabase/supabase-js"
+import Hls from 'hls.js'
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
-import { ScrollArea } from "@/components/ui/scroll-area"
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ""
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
+const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 interface Match {
   id: number
@@ -12,190 +16,128 @@ interface Match {
   awayTeam: string
   status: "live" | "upcoming" | "finished"
   videoUrl?: string
+  time?: string
 }
 
-interface ChatMessage {
-  id: number
-  username: string
-  message: string
-  timestamp: Date
-}
-
-const matches: Match[] = [
-  { id: 1, homeTeam: "Arsenal", awayTeam: "Chelsea", status: "live", videoUrl: "https://www.youtube.com/embed/live_stream" },
-  { id: 2, homeTeam: "Real Madrid", awayTeam: "Barcelona", status: "live", videoUrl: "https://www.youtube.com/embed/live_stream" },
-  { id: 3, homeTeam: "Manchester United", awayTeam: "Liverpool", status: "upcoming" },
-  { id: 4, homeTeam: "Bayern Munich", awayTeam: "Dortmund", status: "upcoming" },
-]
-
-export default function HomePage() {
-  const [currentMatch, setCurrentMatch] = useState<Match | null>(null)
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
-    { id: 1, username: "Fan_123", message: "Great match so far!", timestamp: new Date() },
-    { id: 2, username: "Supporter_456", message: "Arsenal will win this!", timestamp: new Date() },
-    { id: 3, username: "Football_789", message: "Second goal coming soon!", timestamp: new Date() },
-  ])
-  const [newMessage, setNewMessage] = useState("")
-  const [username] = useState(`Fan_${Math.floor(Math.random() * 900 + 100)}`)
-  const chatEndRef = useRef<HTMLDivElement>(null)
+export default function SportsStreamingApp() {
+  const [matches, setMatches] = useState<Match[]>([])
+  const [loading, setLoading] = useState(true)
+  const [activeStream, setActiveStream] = useState<string | null>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [chatMessages])
+    async function getMatches() {
+      try {
+        setLoading(true)
+        const { data, error } = await supabase
+         .from("matches")
+         .select("*")
+         .order("status", { ascending: false })
 
-  const playMatch = (match: Match) => {
-    setCurrentMatch(match)
-  }
-
-  const sendMessage = () => {
-    if (newMessage.trim() === "") return
-    
-    const message: ChatMessage = {
-      id: Date.now(),
-      username,
-      message: newMessage.trim(),
-      timestamp: new Date(),
+        if (error) throw error
+        if (data) {
+          const formatted = data.map((m: any) => ({
+            id: m.id,
+            homeTeam: m.team_one || m.homeTeam,
+            awayTeam: m.team_two || m.awayTeam,
+            status: m.status.toLowerCase(),
+            videoUrl: m.stream_url || m.videoUrl,
+            time: m.time
+          }))
+          setMatches(formatted)
+        }
+      } catch (error) {
+        console.error("Error:", error)
+      } finally {
+        setLoading(false)
+      }
     }
-    
-    setChatMessages((prev) => [...prev, message])
-    setNewMessage("")
-  }
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      sendMessage()
+    getMatches()
+
+    const channel = supabase
+     .channel('matches-changes')
+     .on('postgres_changes', 
+        { event: '*', schema: 'public', table: 'matches' }, 
+        () => getMatches()
+      )
+     .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    if (activeStream && activeStream.includes(".m3u8") && videoRef.current) {
+      const video = videoRef.current
+      if (Hls.isSupported()) {
+        const hls = new Hls()
+        hls.loadSource(activeStream)
+        hls.attachMedia(video)
+        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play())
+        return () => hls.destroy()
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = activeStream
+        video.play()
+      }
+    }
+  }, [activeStream])
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-primary via-accent to-black px-5 py-5 text-center shadow-lg">
-        <h1 className="text-2xl font-bold text-primary-foreground md:text-3xl">
-          Ahmed sports live 🇸🇴🇰🇪
-        </h1>
-      </header>
-
-      {/* Main Content */}
-      <main className="mx-auto max-w-6xl px-4 py-6">
-        {/* Video Player Section */}
-        <section className="mb-6 overflow-hidden rounded-xl bg-black">
-          <div className="aspect-video w-full">
-            {currentMatch ? (
-              <iframe
-                src={currentMatch.videoUrl}
-                className="h-full w-full"
-                allowFullScreen
-                title={`${currentMatch.homeTeam} vs ${currentMatch.awayTeam}`}
-              />
-            ) : (
-              <div className="flex h-full flex-col items-center justify-center bg-secondary text-muted-foreground">
-                <span className="text-5xl">⚽</span>
-                <h3 className="mt-4 text-xl font-semibold text-foreground">Ahmed sports live 🇸🇴🇰🇪</h3>
-                <p className="mt-2 text-sm text-primary">
-                  CLICK THE &apos;WATCH&apos; BUTTON BELOW TO START THE MATCH
-                </p>
+    <div className="min-h-screen bg-slate-950 text-white p-4">
+      <h1 className="text-2xl font-bold mb-4 flex items-center gap-2">
+        <span className="w-3 h-3 bg-red-600 rounded-full animate-pulse"></span>
+        Ahmed Sports Live
+      </h1>
+      
+      {loading? (
+        <div>Xogta waa la soo rarayaa...</div>
+      ) : matches.length === 0? (
+        <div>Wax ciyaaro ah lama helin. Supabase xog ku dar.</div>
+      ) : (
+        <div className="grid gap-4">
+          {matches.map((match) => (
+            <Card key={match.id} className="bg-slate-900 p-4 flex justify-between items-center border-slate-800">
+              <div>
+                <p className="font-medium">{match.homeTeam} vs {match.awayTeam}</p>
+                <span className="text-xs text-slate-400">{match.status.toUpperCase()} {match.time || ''}</span>
               </div>
-            )}
-          </div>
-        </section>
-
-        {/* Grid Layout */}
-        <div className="grid gap-6 md:grid-cols-[1.5fr_1fr]">
-          {/* Matches Section */}
-          <section>
-            <h2 className="mb-4 flex items-center gap-2 border-l-4 border-primary pl-3 text-xl font-semibold">
-              Today&apos;s Matches
-            </h2>
-            <div className="space-y-3">
-              {matches.map((match) => (
-                <Card
-                  key={match.id}
-                  className="flex items-center justify-between border-border bg-card p-4"
-                >
-                  <div>
-                    {match.status === "live" && (
-                      <span className="flex items-center gap-1 text-sm font-bold text-destructive">
-                        <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-destructive" />
-                        LIVE
-                      </span>
-                    )}
-                    {match.status === "upcoming" && (
-                      <span className="text-sm font-medium text-muted-foreground">
-                        UPCOMING
-                      </span>
-                    )}
-                    <div className="mt-1 font-bold text-card-foreground">
-                      ⚽ {match.homeTeam} vs {match.awayTeam}
-                    </div>
-                  </div>
-                  <Button
-                    onClick={() => playMatch(match)}
-                    disabled={match.status !== "live"}
-                    className="bg-primary font-bold text-primary-foreground hover:bg-accent"
-                  >
-                    Watch
-                  </Button>
-                </Card>
-              ))}
-            </div>
-          </section>
-
-          {/* Chat Section */}
-          <section>
-            <h2 className="mb-4 flex items-center gap-2 border-l-4 border-primary pl-3 text-xl font-semibold">
-              Live Chat
-            </h2>
-            <Card className="flex h-[400px] flex-col border-border bg-card">
-              {/* Chat Header */}
-              <div className="bg-secondary px-4 py-3 font-bold text-secondary-foreground">
-                Fan Chat (Live)
-              </div>
-
-              {/* Chat Messages */}
-              <ScrollArea className="flex-1 p-4">
-                <div className="space-y-3">
-                  {chatMessages.map((msg) => (
-                    <div
-                      key={msg.id}
-                      className="w-fit max-w-[85%] rounded-lg bg-secondary px-3 py-2"
-                    >
-                      <span className="block text-xs font-bold text-primary">
-                        {msg.username}:
-                      </span>
-                      <span className="text-sm text-secondary-foreground">{msg.message}</span>
-                    </div>
-                  ))}
-                  <div ref={chatEndRef} />
-                </div>
-              </ScrollArea>
-
-              {/* Chat Input */}
-              <div className="flex gap-2 p-3">
-                <Input
-                  type="text"
-                  placeholder="Type your message..."
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  className="flex-1 border-border bg-input text-foreground placeholder:text-muted-foreground"
-                />
-                <Button
-                  onClick={sendMessage}
-                  className="bg-primary font-bold text-primary-foreground hover:bg-accent"
-                >
-                  Send
-                </Button>
-              </div>
+              <Button
+                onClick={() => {
+                  if (match.status === "live" && match.videoUrl) {
+                    setActiveStream(match.videoUrl)
+                  } else {
+                    alert("Ciyaartan ma shidna hadda")
+                  }
+                }}
+                disabled={match.status!== "live"}
+                className={match.status === "live"? "bg-red-600 hover:bg-red-700" : "bg-gray-700"}
+              >
+                Watch Live
+              </Button>
             </Card>
-          </section>
+          ))}
         </div>
-      </main>
+      )}
 
-      {/* Footer */}
-      <footer className="py-6 text-center text-muted-foreground">
-        © 2026 Ahmed sports live 🇸🇴🇰🇪
-      </footer>
+      {activeStream && (
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50">
+          <div className="bg-slate-900 rounded-xl w-full max-w-3xl">
+            <div className="p-4 flex justify-between border-b border-slate-800">
+              <span className="font-semibold text-red-500">Toos u Daawasho</span>
+              <button onClick={() => setActiveStream(null)} className="text-slate-400 hover:text-white">Xir</button>
+            </div>
+            <div className="aspect-video bg-black">
+              {activeStream.includes(".m3u8")? (
+                <video ref={videoRef} controls autoPlay className="w-full h-full" />
+              ) : (
+                <iframe src={activeStream} className="w-full h-full border-0" allowFullScreen />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
