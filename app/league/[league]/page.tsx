@@ -26,7 +26,7 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
   }],
   'epl': [{
     id: 2, home_team: 'Red Bull Live', away_team: 'Extreme Sports',
-    home_logo: 'https://images.squarespace-cdn.com/content/v1/5a4b1b1b4c326ddb41e9e5d5/1515023841129-8QZQZQZQZQZQZ/redbull-logo.png',
+    home_logo: 'https://images.squarespace-cdn.com/content/v1/5a4b1b1b4c326ddb41e9e5d5/1515023841129-8QZQZQZQZ/redbull-logo.png',
     away_logo: 'https://images.squarespace-cdn.com/content/v1/5a4b1b1b4c326ddb41e9e5d5/1515023841129-8QZQZQZQZ/redbull-logo.png',
     home_score: 0, away_score: 0, match_time: 'LIVE NOW',
     link_1: 'https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8',
@@ -50,8 +50,8 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
   }],
   'serie-a': [{
     id: 5, home_team: 'Red Bull Live', away_team: 'Racing',
-    home_logo: 'https://images.squarespace-cdn.com/content/v1/5a4b1b1b4c326ddb41e9e5d5/1515023841129-8QZQZQZQZQZQZQZQZ/redbull-logo.png',
-    away_logo: 'https://images.squarespace-cdn.com/content/v1/5a4b1b1b4c326ddb41e9e5d5/1515023841129-8QZQZQZQZQZQZQZQZ/redbull-logo.png',
+    home_logo: 'https://images.squarespace-cdn.com/content/v1/5a4b1b1b4c326ddb41e9e5d5/1515023841129-8QZQZQZQZ/redbull-logo.png',
+    away_logo: 'https://images.squarespace-cdn.com/content/v1/5a4b1b1b4c326ddb41e9e5d5/1515023841129-8QZQZQZQZ/redbull-logo.png',
     home_score: 0, away_score: 0, match_time: 'LIVE 24/7',
     link_1: 'https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8',
     link_2: 'https://ntv1.akamaized.net/hls/live/2003878/NASA_NTV1-HLS/master.m3u8'
@@ -73,4 +73,20 @@ export default function LeaguePage() {
 
   return (
     <div className="bg-[#0A0A23] min-h-screen">
-      <div className="bg-[#1A1A4B] p-
+      <div className="bg-[#1A1A4B] p-4 flex items-center">
+        <Link href="/" className="text-white mr-4 text-2xl">←</Link>
+        <h1 className="text-white text-xl font-bold capitalize">{league?.replace(/-/g, ' ')}</h1>
+      </div>
+
+      <div className="p-3">
+        {matches.length === 0 && <p className="text-white text-center mt-10">No live matches right now</p>}
+        {matches.map((match) => (
+          <div key={match.id} className="bg-[#1A1A4B] rounded-lg p-4 mb-3">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-gray-400 text-xs">{match.match_time}</span>
+              <span className="bg-red-600 text-white text-xs px-2 py-1 rounded animate-pulse">LIVE</span>
+            </div>
+
+            <div className="flex justify-between items-center mb-3">
+              <div className="flex items-center gap-2 w-1/3">
+                <img src={match.home_logo} alt="" className="w-6 h-6
