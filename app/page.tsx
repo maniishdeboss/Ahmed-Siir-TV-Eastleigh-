@@ -1,110 +1,42 @@
 'use client'
-import { useEffect, useState } from 'react'
-import { supabase } from '../../../lib/supabase'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
 
-type Match = {
+type League = {
   id: number
-  league: string
-  home_team: string
-  away_team: string
-  home_logo: string
-  away_logo: string
-  home_score: number | null
-  away_score: number | null
-  match_time: string
-  is_live: boolean
-  link_1: string
-  link_2: string
+  name: string
+  slug: string
+  logo: string
 }
 
-const MOCK_MATCH: Match[] = [{
-  id: 1,
-  league: 'FIFA World Cup 2026',
-  home_team: 'Argentina',
-  away_team: 'Germany', 
-  home_logo: 'https://flagcdn.com/w80/ar.png',
-  away_logo: 'https://flagcdn.com/w80/de.png',
-  home_score: 2,
-  away_score: 1,
-  match_time: new Date().toISOString(),
-  is_live: true,
-  link_1: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8',
-  link_2: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
-}]
+const MOCK_LEAGUES: League[] = [
+  { id: 1, name: 'FIFA World Cup 2026', slug: 'fifa-world-cup-2026', logo: 'https://api.fifa.com/api/v3/picture/tournaments-sq-5/255711_w' },
+  { id: 2, name: 'UEFA Champions League', slug: 'uefa-champions-league', logo: 'https://img.uefa.com/imgml/uefacom/ucl/2024/logos/logo_dark.svg' },
+  { id: 3, name: 'English Premier League', slug: 'epl', logo: 'https://resources.premierleague.com/premierleague/badges/t1.png' },
+  { id: 4, name: 'La Liga', slug: 'la-liga', logo: 'https://assets.laliga.com/assets/logos/laliga-v-negro/laliga-v-negro-300x300.png' },
+  { id: 5, name: 'Serie A', slug: 'serie-a', logo: 'https://www.legaseriea.it/assets/logo-serie-a-2024.svg' },
+  { id: 6, name: 'Bundesliga', slug: 'bundesliga', logo: 'https://www.bundesliga.com/assets/logo/bundesliga-logo-2021.svg' },
+]
 
-export default function LeaguePage() {
-  const params = useParams()
-  const league = params.league as string
-  const [matches, setMatches] = useState<Match[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    if (!league) return
-    
-    async function getMatches() {
-      const leagueName = league.replace(/-/g, ' ')
-      const { data, error } = await supabase
-    .from('matches')
-    .select('*')
-    .ilike('league', `%${leagueName}%`)
-    .order('match_time', { ascending: true })
-      
-      if (error ||!data || data.length === 0) {
-        setMatches(MOCK_MATCH)
-      } else {
-        setMatches(data)
-      }
-      setLoading(false)
-    }
-    getMatches()
-  }, [league])
-
-  if (loading) return <div className="bg-[#0A0A23] min-h-screen text-white p-4">Loading...</div>
-
+export default function Home() {
   return (
     <div className="bg-[#0A0A23] min-h-screen">
-      <div className="bg-[#1A1A4B] p-4 flex items-center">
-        <Link href="/" className="text-white mr-4 text-2xl">←</Link>
-        <h1 className="text-white text-xl font-bold capitalize">{league?.replace(/-/g, ' ')}</h1>
+      <div className="bg-[#1A1A4B] p-4 flex justify-between items-center">
+        <h1 className="text-white text-xl font-bold">Ahmed Sports Live</h1>
+        <div className="w-3 h-3 bg-red-600 rounded-full animate-pulse"></div>
       </div>
       
-      <div className="p-3">
-        {matches.map((match) => (
-          <div key={match.id} className="bg-[#1A1A4B] rounded-lg p-4 mb-3">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-gray-400 text-xs">
-                {new Date(match.match_time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
-              </span>
-              {match.is_live && <span className="bg-red-600 text-white text-xs px-2 py-1 rounded animate-pulse">LIVE</span>}
-            </div>
-            
-            <div className="flex justify-between items-center mb-3">
-              <div className="flex items-center gap-2 w-1/3">
-                <img src={match.home_logo} alt="" className="w-6 h-6" />
-                <span className="text-white text-sm">{match.home_team}</span>
+      <div className="p-4 grid grid-cols-2 gap-4">
+        {MOCK_LEAGUES.map((league) => (
+          <Link href={`/league/${league.slug}`} key={league.id}>
+            <div className="bg-white rounded-lg overflow-hidden active:scale-95 transition">
+              <div className="h-24 flex items-center justify-center p-2 bg-gray-100">
+                <img src={league.logo} alt={league.name} className="max-h-16 max-w-full object-contain" />
               </div>
-              <span className="text-white font-bold text-lg">
-                {match.home_score?? '-'} : {match.away_score?? '-'}
-              </span>
-              <div className="flex items-center gap-2 w-1/3 justify-end">
-                <span className="text-white text-sm">{match.away_team}</span>
-                <img src={match.away_logo} alt="" className="w-6 h-6" />
+              <div className="bg-[#1A1A4B] p-2">
+                <h2 className="text-white text-sm font-semibold text-center truncate">{league.name}</h2>
               </div>
             </div>
-            
-            {match.is_live && (
-              <div className="flex gap-2">
-                <a href={match.link_1} target="_blank" className="flex-1 bg-blue-600 text-white text-center py-2 rounded text-sm font-bold active:scale-95">
-                  Channel 1 HD
-                </a>
-                <a href={match.link_2} target="_blank" className="flex-1 bg-gray-600 text-white text-center py-2 rounded text-sm font-bold active:scale-95">
-                  Channel 2 HD
-                </a>
-              </div>
-            )}
-          </div>
+          </Link>
         ))}
       </div>
     </div>
