@@ -19,7 +19,6 @@ type Match = {
   link_2: string
 }
 
-// Mock match hadii Supabase madhan yahay
 const MOCK_MATCH: Match[] = [{
   id: 1,
   league: 'FIFA World Cup 2026',
@@ -47,10 +46,10 @@ export default function LeaguePage() {
     async function getMatches() {
       const leagueName = league.replace(/-/g, ' ')
       const { data, error } = await supabase
-    .from('matches')
-    .select('*')
-    .ilike('league', `%${leagueName}%`)
-    .order('match_time', { ascending: true })
+     .from('matches')
+     .select('*')
+     .ilike('league', `%${leagueName}%`)
+     .order('match_time', { ascending: true })
       
       if (error ||!data || data.length === 0) {
         setMatches(MOCK_MATCH)
