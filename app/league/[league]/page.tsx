@@ -30,8 +30,8 @@ const MOCK_MATCH: Match[] = [{
   away_score: 1,
   match_time: new Date().toISOString(),
   is_live: true,
-  link_1: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8',
-  link_2: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
+  link_1: 'https://test-streams.mux.dev/x36xhzz.m3u8',
+  link_2: 'https://test-streams.mux.dev/x36xhzz.m3u8'
 }]
 
 export default function LeaguePage() {
