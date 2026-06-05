@@ -105,5 +105,4 @@ export default function LeaguePage() {
             </div>
           </div>
         ))}
-      </div>
-    </
+      </div
