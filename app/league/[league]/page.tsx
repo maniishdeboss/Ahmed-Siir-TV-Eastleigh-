@@ -1,4 +1,4 @@
-'use client'
+se client'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
@@ -100,6 +100,4 @@ export default function LeaguePage() {
           </div>
         ))}
       </div>
-    </div>
-  )
-}
+    </div
