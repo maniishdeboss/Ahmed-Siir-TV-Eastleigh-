@@ -26,8 +26,8 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
   }],
   'epl': [{
     id: 2, home_team: 'Red Bull Live', away_team: 'Extreme Sports',
-    home_logo: 'https://images.squarespace-cdn.com/content/v1/5a4b1b1b4c326ddb41e9e5d5/1515023841129-8QZQZQZQZ/redbull-logo.png',
-    away_logo: 'https://images.squarespace-cdn.com/content/v1/5a4b1b1b4c326ddb41e9e5d5/1515023841129-8QZQZQZQZ/redbull-logo.png',
+    home_logo: 'https://upload.wikimedia.org/wikipedia/en/5/5a/Red_Bull_logo.svg',
+    away_logo: 'https://upload.wikimedia.org/wikipedia/en/5/5a/Red_Bull_logo.svg',
     home_score: 0, away_score: 0, match_time: 'LIVE NOW',
     link_1: 'https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8',
     link_2: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
@@ -50,8 +50,8 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
   }],
   'serie-a': [{
     id: 5, home_team: 'Red Bull Live', away_team: 'Racing',
-    home_logo: 'https://images.squarespace-cdn.com/content/v1/5a4b1b1b4c326ddb41e9e5d5/1515023841129-8QZQZQZQZ/redbull-logo.png',
-    away_logo: 'https://images.squarespace-cdn.com/content/v1/5a4b1b1b4c326ddb41e9e5d5/1515023841129-8QZQZQZQZ/redbull-logo.png',
+    home_logo: 'https://upload.wikimedia.org/wikipedia/en/5/5a/Red_Bull_logo.svg',
+    away_logo: 'https://upload.wikimedia.org/wikipedia/en/5/5a/Red_Bull_logo.svg',
     home_score: 0, away_score: 0, match_time: 'LIVE 24/7',
     link_1: 'https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8',
     link_2: 'https://ntv1.akamaized.net/hls/live/2003878/NASA_NTV1-HLS/master.m3u8'
@@ -89,4 +89,29 @@ export default function LeaguePage() {
 
             <div className="flex justify-between items-center mb-3">
               <div className="flex items-center gap-2 w-1/3">
-                <img src={match.home_logo} alt="" className="w-6 h-6
+                <img src={match.home_logo} alt="" className="w-6 h-6" />
+                <span className="text-white text-sm">{match.home_team}</span>
+              </div>
+              <span className="text-white font-bold text-lg">
+                {match.home_score} : {match.away_score}
+              </span>
+              <div className="flex items-center gap-2 w-1/3 justify-end">
+                <span className="text-white text-sm">{match.away_team}</span>
+                <img src={match.away_logo} alt="" className="w-6 h-6" />
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <a href={match.link_1} target="_blank" className="flex-1 bg-blue-600 text-white text-center py-2 rounded text-sm font-bold active:scale-95">
+                Channel 1 HD
+              </a>
+              <a href={match.link_2} target="_blank" className="flex-1 bg-gray-600 text-white text-center py-2 rounded text-sm font-bold active:scale-95">
+                Channel 2 HD
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
