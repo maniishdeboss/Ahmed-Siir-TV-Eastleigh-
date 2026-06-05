@@ -1,27 +1,22 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Ahmed sports live',
-  description: 'Watch live football matches - Live football streaming',
-  generator: 'v0.app',
+  title: 'Kenya Live TV Hub - 11 Channels',
+  description: 'Watch NTV, Citizen TV, K24, KBC, Inooro, TV47, Kameme, KTN News Live Free',
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
-    <html lang="en" className="dark bg-background">
-      <body className={`${inter.variable} font-sans antialiased`}>
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
-      </body>
+    <html lang="en">
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }
