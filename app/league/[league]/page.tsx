@@ -18,7 +18,7 @@ type Match = {
 
 const MOCK_MATCHES: { [key: string]: Match[] } = {
   'fifa-world-cup-2026': [{
-    id: 1, home_team: 'YouTube Live', away_team: 'Sports Stream',
+    id: 1, home_team: 'Watch football Live', away_team: 'Sports Stream',
     home_logo: 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg',
     away_logo: 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg',
     home_score: 0, away_score: 0, match_time: 'LIVE 24/7',
