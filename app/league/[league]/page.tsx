@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 type Match = {
   id: number
@@ -71,6 +72,21 @@ export default function LeaguePage() {
   const league = params.league as string
   const matches = MOCK_MATCHES[league] || []
 
+  // Link-of Beinmatch  of free live
+  const [liveStreamLink, setLiveStreamLink] = useState('https://www.youtube.com/live/M152TYUrZ68')
+
+  useEffect(() => {
+    // Code-kan wuxuu si toos ah xogta ugala soo baxaya faylkii aad public dhex dhigtay
+    fetch('/links.json')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.beinmatch_live_url) {
+          setLiveStreamLink(data.beinmatch_live_url)
+        }
+      })
+      .catch((err) => console.error('Cillad baa dhacday marka la akhrinayay links.json:', err))
+  }, [])
+
   return (
     <div className="bg-[#0A0A23] min-h-screen">
       <div className="bg-[#1A1A4B] p-4 flex items-center">
@@ -79,13 +95,13 @@ export default function LeaguePage() {
       </div>
 
       <div className="p-3">
-        {/* YouTube Live Link */}
+        {/* Badanka sare hadda wuxuu si toos ah u furaa link-ga Beinmatch ee json-ka ku jira */}
         <a
-          href="https://www.youtube.com/live/M152TYUrZ68"
+          href={liveStreamLink}
           target="_blank"
           className="block bg-red-600 text-white text-center py-3 rounded-lg mb-4 font-bold text-lg active:scale-95"
         >
-          🔴 WATCH FOOTBALL LIVE NOW 
+          🔴 WATCH FOOTBALL LIVE NOW
         </a>
 
         {matches.length === 0 && <p className="text-white text-center mt-10">No live matches right now</p>}
