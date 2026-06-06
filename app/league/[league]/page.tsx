@@ -85,7 +85,7 @@ export default function LeaguePage() {
           target="_blank"
           className="block bg-red-600 text-white text-center py-3 rounded-lg mb-4 font-bold text-lg active:scale-95"
         >
-          🔴 DAAWO YOUTUBE LIVE
+          🔴 WATCH FOOTBALL LIVE NOW 
         </a>
 
         {matches.length === 0 && <p className="text-white text-center mt-10">No live matches right now</p>}
