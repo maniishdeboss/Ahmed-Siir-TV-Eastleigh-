@@ -32,7 +32,7 @@ export default async function Home() {
     <main className="min-h-screen bg-black text-white p-4">
       <div className="max-w-4xl mx-auto">
         
-        {/* LOGO-GA CUSUB */}
+        {/* LOGO-GAAGA AHMED LIVE TV */}
         <div className="flex justify-center mb-8 mt-4">
           <img 
             src="https://4dar91ffoetct2nu.public.blob.vercel-storage.com/AQN29k9rmW1lBjZ6UtMCYUk_Wq-U_KQWcGTJ2P9aQV6O9SrmlnRdbUWwQK44ihl3-4GPznRR3ms4qBl2NrQVyjib.jpg" 
