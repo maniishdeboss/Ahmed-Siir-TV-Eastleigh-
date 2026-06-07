@@ -24,7 +24,7 @@ export default function HomePage() {
           target="_blank"
           className="block bg-red-600 text-white text-center py-3 rounded-lg mb-4 font-bold text-lg active:scale-95"
         >
-          🔴 DAAWO YOUTUBE LIVE
+          🔴 WATCH LIVE NOW
         </a>
 
         <div className="grid grid-cols-2 gap-3">
