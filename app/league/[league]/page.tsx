@@ -30,13 +30,14 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
   'epl': [
     {
       id: 2, 
-      home_team: 'beIN SPORTS Premium 1', 
-      away_team: 'YouTube Stream',
+      home_team: 'EPL LIVE STREAM', 
+      away_team: 'YouTube Sports',
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      link_1: 'https://beinmatch26.com/bein/live/20155',
-      link_2: 'https://www.youtube.com/embed/dQw4w9WgXcQ' // Kani waa YouTube Embed Link oo si toos ah ugu dhex furmaya Player-ka
+      // Labadii Link ee YouTube Live ee ciyaarta ahaa oo loo beddelay Embed Player
+      link_1: 'https://www.youtube.com/embed/VZoPxuna9uM',
+      link_2: 'https://www.youtube.com/embed/K_Pw3qP4Cpc'
     }
   ],
   'uefa-champions-league': [
@@ -94,7 +95,8 @@ export default function LeaguePage() {
   const league = params.league as string
   const matches = MOCK_MATCHES[league] || []
 
-  const [liveStreamLink, setLiveStreamLink] = useState('https://beinmatch26.com/bein/live/20155')
+  // Default-ku wuxuu si toos ah u ridaa ciyaarta YouTube Stream 1
+  const [liveStreamLink, setLiveStreamLink] = useState('https://www.youtube.com/embed/VZoPxuna9uM')
   const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
   const [iframeError, setIframeError] = useState(false)
 
@@ -102,8 +104,8 @@ export default function LeaguePage() {
     fetch('/links.json')
       .then((res) => res.json())
       .then((data) => {
-        if (data.beinmatch_live_url) {
-          setLiveStreamLink(data.beinmatch_live_url)
+        if (data.youtube_live_url) {
+          setLiveStreamLink(data.youtube_live_url)
         }
       })
       .catch((err) => console.error('Error loading links.json:', err))
@@ -114,7 +116,6 @@ export default function LeaguePage() {
     setActiveVideoUrl(url)
   }
 
-  // Halkan waxaa laga saxay habka aqoonsiga: KALIYA waxaa loo xannibayaa haddii uu yahay beinmatch
   const isBeinmatch = activeVideoUrl ? activeVideoUrl.includes('beinmatch') : false
 
   return (
@@ -147,7 +148,6 @@ export default function LeaguePage() {
             
             <div className="relative pt-[56.25%] bg-black">
               {isBeinmatch || iframeError ? (
-                /* FALLBACK UI: Kaliya wuxuu soo baxayaa haddii uu yahay link-ga Beinmatch ee xanniban */
                 <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center p-4 text-center bg-[#0f0f2d]">
                   <span className="text-3xl mb-2">📺</span>
                   <p className="text-sm font-semibold text-gray-200 mb-1">
@@ -166,7 +166,6 @@ export default function LeaguePage() {
                   </a>
                 </div>
               ) : (
-                /* PREMIUM AUTO-PLAY PLAYER: Kan wuxuu si toos ah ugu dhex furmayaa YouTube-ka */
                 <iframe
                   src={activeVideoUrl}
                   className="absolute top-0 left-0 w-full h-full"
@@ -181,7 +180,7 @@ export default function LeaguePage() {
           </div>
         )}
 
-        {/* Badhanka Weyn */}
+        {/* Badhanka Cas ee weyn */}
         <button
           onClick={() => handleStreamSelect(liveStreamLink)}
           className="w-full bg-red-600 text-white text-center py-3 rounded-lg mb-4 font-bold text-lg active:scale-95 transition-transform"
@@ -208,15 +207,15 @@ export default function LeaguePage() {
                   activeVideoUrl === match.link_1 ? 'bg-blue-500 text-white ring-1 ring-white' : 'bg-blue-600 text-white'
                 }`}
               >
-                Stream 1
+                {league === 'epl' ? 'YouTube Stream 1' : 'Stream 1'}
               </button>
               <button 
                 onClick={() => handleStreamSelect(match.link_2)} 
                 className={`flex-1 text-center py-2.5 rounded text-sm font-bold active:scale-95 transition-all ${
-                  activeVideoUrl === match.link_2 ? 'bg-slate-500 text-white ring-1 ring-white' : 'bg-slate-600 text-white'
+                  activeVideoUrl === match.link_2 ? 'bg-blue-500 text-white ring-1 ring-white' : 'bg-blue-600 text-white'
                 }`}
               >
-                {match.id === 2 ? 'YouTube Stream' : 'Stream 2'}
+                {league === 'epl' ? 'YouTube Stream 2' : 'Stream 2'}
               </button>
             </div>
           </div>
