@@ -95,9 +95,8 @@ export default function LeaguePage() {
   const matches = MOCK_MATCHES[league] || []
 
   const [liveStreamLink, setLiveStreamLink] = useState('https://beinmatch26.com/bein/live/20154')
-  
-  // State-kan wuxuu qabanayaa link-ga hadda la daawanayo si loogu dhex furo iframe
   const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
+  const [iframeError, setIframeError] = useState(false)
 
   useEffect(() => {
     fetch('/links.json')
@@ -110,6 +109,12 @@ export default function LeaguePage() {
       .catch((err) => console.error('Error loading links.json:', err))
   }, [])
 
+  // Shaqadan waxay dib u dejisaa khaladaadka marka link cusub la gujiyo
+  const handleStreamSelect = (url: string) => {
+    setIframeError(false)
+    setActiveVideoUrl(url)
+  }
+
   return (
     <div className="bg-[#0A0A23] min-h-screen pb-10">
       {/* Header */}
@@ -120,9 +125,9 @@ export default function LeaguePage() {
 
       <div className="p-3 max-w-xl mx-auto">
         
-        {/* PREMIUM PLAYER: Kaliya wuxuu muuqanayaa marka link la gujiyo */}
+        {/* PLAYER AREA */}
         {activeVideoUrl && (
-          <div className="bg-[#1A1A4B] rounded-lg overflow-hidden mb-4 border border-red-600 shadow-xl animate-fade-in">
+          <div className="bg-[#1A1A4B] rounded-lg overflow-hidden mb-4 border border-red-600 shadow-xl">
             <div className="bg-[#111135] p-2 flex justify-between items-center border-b border-slate-800">
               <span className="text-xs text-red-500 font-bold animate-pulse flex items-center gap-1">
                 🔴 LIVE PLAYER
@@ -134,22 +139,43 @@ export default function LeaguePage() {
                 Xir Player-ka
               </button>
             </div>
+            
             <div className="relative pt-[56.25%] bg-black">
-              <iframe
-                src={activeVideoUrl}
-                className="absolute top-0 left-0 w-full h-full"
-                allowFullScreen
-                scrolling="no"
-                allow="autoplay; encrypted-media"
-                title="Ahmed Live Player"
-              />
+              {iframeError ? (
+                <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center p-4 text-center bg-zinc-900 text-white">
+                  <p className="text-sm font-semibold text-red-400 mb-2">
+                    ⚠️ Link-gan wuxuu diiday inuu si toos ah u furmo.
+                  </p>
+                  <p className="text-xs text-gray-400 mb-4">
+                    Si aad u daawato ciyaarta, fadlan isticmaal badhanka hoose.
+                  </p>
+                  <a 
+                    href={activeVideoUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="bg-blue-600 text-white text-xs px-4 py-2 rounded font-bold hover:bg-blue-500"
+                  >
+                    Halkan Ka Fur Ciyaarta 🚀
+                  </a>
+                </div>
+              ) : (
+                <iframe
+                  src={activeVideoUrl}
+                  className="absolute top-0 left-0 w-full h-full"
+                  allowFullScreen
+                  scrolling="no"
+                  allow="autoplay; encrypted-media"
+                  title="Ahmed Live Player"
+                  onError={() => setIframeError(true)}
+                />
+              )}
             </div>
           </div>
         )}
 
-        {/* Badhanka weyn ee rasmiga ah (Hadda wuxuu video-ga ku furayaa gudaha App-ka) */}
+        {/* Main Button */}
         <button
-          onClick={() => setActiveVideoUrl(liveStreamLink)}
+          onClick={() => handleStreamSelect(liveStreamLink)}
           className="w-full bg-red-600 text-white text-center py-3 rounded-lg mb-4 font-bold text-lg active:scale-95 transition-transform"
         >
           🔴 WATCH FOOTBALL LIVE NOW
@@ -167,20 +193,19 @@ export default function LeaguePage() {
               <span className="bg-red-600 text-white text-[10px] px-2 py-1 rounded animate-pulse font-black">LIVE</span>
             </div>
 
-            {/* Badhamadaan hadda ma furaan Chrome! Waxay si toos ah video-ga ugu shubayaan Player-ka sare */}
             <div className="flex gap-2">
               <button 
-                onClick={() => setActiveVideoUrl(match.link_1)} 
+                onClick={() => handleStreamSelect(match.link_1)} 
                 className={`flex-1 text-center py-2.5 rounded text-sm font-bold active:scale-95 transition-all ${
-                  activeVideoUrl === match.link_1 ? 'bg-blue-500 text-white ring-2 ring-white' : 'bg-blue-600 text-white hover:bg-blue-700'
+                  activeVideoUrl === match.link_1 ? 'bg-blue-500 text-white' : 'bg-blue-600 text-white'
                 }`}
               >
                 Stream 1
               </button>
               <button 
-                onClick={() => setActiveVideoUrl(match.link_2)} 
+                onClick={() => handleStreamSelect(match.link_2)} 
                 className={`flex-1 text-center py-2.5 rounded text-sm font-bold active:scale-95 transition-all ${
-                  activeVideoUrl === match.link_2 ? 'bg-slate-500 text-white ring-2 ring-white' : 'bg-slate-600 text-white hover:bg-slate-700'
+                  activeVideoUrl === match.link_2 ? 'bg-slate-500 text-white' : 'bg-slate-600 text-white'
                 }`}
               >
                 Stream 2
