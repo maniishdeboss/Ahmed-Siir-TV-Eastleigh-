@@ -13,7 +13,7 @@ export default function HomePage() {
   return (
     <div className="bg-[#0A0A23] min-h-screen">
       <div className="bg-[#1A1A4B] p-4">
-        <h1 className="text-white text-2xl font-bold text-center">Sports Live 🔴</h1>
+        <h1 className="text-white text-2xl font-bold text-center">Ahmed Abdikani Live 🇸🇴🇬🇲🇨🇦 🔴</h1>
         <p className="text-gray-300 text-center text-sm mt-1">Select a league to watch live</p>
       </div>
 
