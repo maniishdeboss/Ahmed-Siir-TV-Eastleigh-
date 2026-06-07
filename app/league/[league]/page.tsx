@@ -31,12 +31,12 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
     {
       id: 2, 
       home_team: 'beIN SPORTS Premium 1', 
-      away_team: 'Beinmatch Stream',
+      away_team: 'YouTube Stream',
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
       link_1: 'https://beinmatch26.com/bein/live/20155',
-      link_2: 'https://www.youtube.com/embed/dQw4w9WgXcQ' // Tusaale YouTube ah oo lagu tijaabiyo
+      link_2: 'https://www.youtube.com/embed/dQw4w9WgXcQ' // Kani waa YouTube Embed Link oo si toos ah ugu dhex furmaya Player-ka
     }
   ],
   'uefa-champions-league': [
@@ -114,8 +114,8 @@ export default function LeaguePage() {
     setActiveVideoUrl(url)
   }
 
-  // Hubinta nidaamka xannibaadda (Kaliya mareegaha block-ga leh sida beinmatch)
-  const isBlockedProvider = activeVideoUrl ? activeVideoUrl.includes('beinmatch') : false
+  // Halkan waxaa laga saxay habka aqoonsiga: KALIYA waxaa loo xannibayaa haddii uu yahay beinmatch
+  const isBeinmatch = activeVideoUrl ? activeVideoUrl.includes('beinmatch') : false
 
   return (
     <div className="bg-[#0A0A23] min-h-screen pb-10">
@@ -146,8 +146,8 @@ export default function LeaguePage() {
             </div>
             
             <div className="relative pt-[56.25%] bg-black">
-              {(iframeError || isBlockedProvider) ? (
-                /* FALLBACK UI: Kaliya wuxuu soo baxayaa haddii mareegtu tahay beinmatch ama cilad dhacdo */
+              {isBeinmatch || iframeError ? (
+                /* FALLBACK UI: Kaliya wuxuu soo baxayaa haddii uu yahay link-ga Beinmatch ee xanniban */
                 <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center p-4 text-center bg-[#0f0f2d]">
                   <span className="text-3xl mb-2">📺</span>
                   <p className="text-sm font-semibold text-gray-200 mb-1">
@@ -166,7 +166,7 @@ export default function LeaguePage() {
                   </a>
                 </div>
               ) : (
-                /* YOUTUBE EMBED PLAYER: Kan si toos ah ayuu u dhex jidhanayaa */
+                /* PREMIUM AUTO-PLAY PLAYER: Kan wuxuu si toos ah ugu dhex furmayaa YouTube-ka */
                 <iframe
                   src={activeVideoUrl}
                   className="absolute top-0 left-0 w-full h-full"
@@ -216,7 +216,7 @@ export default function LeaguePage() {
                   activeVideoUrl === match.link_2 ? 'bg-slate-500 text-white ring-1 ring-white' : 'bg-slate-600 text-white'
                 }`}
               >
-                Stream 2
+                {match.id === 2 ? 'YouTube Stream' : 'Stream 2'}
               </button>
             </div>
           </div>
