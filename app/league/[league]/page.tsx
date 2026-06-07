@@ -23,8 +23,8 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
       home_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      link_1: 'https://beinmatch26.com/bein/live/20154', 
-      link_2: 'https://beinmatch26.com/'
+      link_1: 'https://beinmatch26.com/bein/live/20155', 
+      link_2: 'https://beinmatch26.com/bein/live/20154'
     }
   ],
   'epl': [
@@ -35,7 +35,7 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      link_1: 'https://beinmatch26.com/bein/live/20154',
+      link_1: 'https://beinmatch26.com/bein/live/20155',
       link_2: 'https://beinmatch26.com/'
     }
   ],
@@ -47,7 +47,7 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
       home_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      link_1: 'https://beinmatch26.com/bein/live/20154',
+      link_1: 'https://beinmatch26.com/bein/live/20155',
       link_2: 'https://beinmatch26.com/'
     }
   ],
@@ -59,7 +59,7 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      link_1: 'https://beinmatch26.com/bein/live/20154',
+      link_1: 'https://beinmatch26.com/bein/live/20155',
       link_2: 'https://beinmatch26.com/'
     }
   ],
@@ -71,7 +71,7 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
       home_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      link_1: 'https://beinmatch26.com/bein/live/20154',
+      link_1: 'https://beinmatch26.com/bein/live/20155',
       link_2: 'https://beinmatch26.com/'
     }
   ],
@@ -83,7 +83,7 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      link_1: 'https://beinmatch26.com/bein/live/20154',
+      link_1: 'https://beinmatch26.com/bein/live/20155',
       link_2: 'https://beinmatch26.com/'
     }
   ]
@@ -94,8 +94,10 @@ export default function LeaguePage() {
   const league = params.league as string
   const matches = MOCK_MATCHES[league] || []
 
-  const [liveStreamLink, setLiveStreamLink] = useState('https://beinmatch26.com/bein/live/20154')
+  const [liveStreamLink, setLiveStreamLink] = useState('https://beinmatch26.com/bein/live/20155')
   const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
+  
+  // Tani waxay ogaanaysaa haddii mareegtu ay xannibto iframe-ka
   const [iframeError, setIframeError] = useState(false)
 
   useEffect(() => {
@@ -109,9 +111,8 @@ export default function LeaguePage() {
       .catch((err) => console.error('Error loading links.json:', err))
   }, [])
 
-  // Shaqadan waxay dib u dejisaa khaladaadka marka link cusub la gujiyo
   const handleStreamSelect = (url: string) => {
-    setIframeError(false)
+    setIframeError(false) // Dib u babi khaladka marka link cusub la gujiyo
     setActiveVideoUrl(url)
   }
 
@@ -125,12 +126,12 @@ export default function LeaguePage() {
 
       <div className="p-3 max-w-xl mx-auto">
         
-        {/* PLAYER AREA */}
+        {/* PREMIUM PLAYER CONTAINER */}
         {activeVideoUrl && (
           <div className="bg-[#1A1A4B] rounded-lg overflow-hidden mb-4 border border-red-600 shadow-xl">
             <div className="bg-[#111135] p-2 flex justify-between items-center border-b border-slate-800">
               <span className="text-xs text-red-500 font-bold animate-pulse flex items-center gap-1">
-                🔴 LIVE PLAYER
+                🔴 AHMED LIVE TV PLAYER
               </span>
               <button 
                 onClick={() => setActiveVideoUrl(null)} 
@@ -141,21 +142,23 @@ export default function LeaguePage() {
             </div>
             
             <div className="relative pt-[56.25%] bg-black">
-              {iframeError ? (
-                <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center p-4 text-center bg-zinc-900 text-white">
-                  <p className="text-sm font-semibold text-red-400 mb-2">
-                    ⚠️ Link-gan wuxuu diiday inuu si toos ah u furmo.
+              {iframeError || activeVideoUrl.includes('beinmatch') ? (
+                /* FALLBACK UI: Halkii ay shaashad cawl oo jaban soo baxi lahayd */
+                <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center p-4 text-center bg-[#0f0f2d]">
+                  <span className="text-3xl mb-2">📺</span>
+                  <p className="text-sm font-semibold text-gray-200 mb-1">
+                    Baahintu Waxay Diyaar Ku Tahay Stream-ka
                   </p>
-                  <p className="text-xs text-gray-400 mb-4">
-                    Si aad u daawato ciyaarta, fadlan isticmaal badhanka hoose.
+                  <p className="text-[11px] text-gray-400 mb-4 max-w-xs">
+                    Si aad u daawato ciyaarta adigoo adeegsanaya adeegga App-ka, fadlan guji badhanka hoose.
                   </p>
                   <a 
                     href={activeVideoUrl} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="bg-blue-600 text-white text-xs px-4 py-2 rounded font-bold hover:bg-blue-500"
+                    className="bg-red-600 text-white text-xs px-5 py-2 rounded-lg font-bold hover:bg-red-500 transition-all active:scale-95 shadow-md shadow-red-600/20"
                   >
-                    Halkan Ka Fur Ciyaarta 🚀
+                    Foor Baahinta Tooska Ah 🚀
                   </a>
                 </div>
               ) : (
@@ -165,7 +168,7 @@ export default function LeaguePage() {
                   allowFullScreen
                   scrolling="no"
                   allow="autoplay; encrypted-media"
-                  title="Ahmed Live Player"
+                  title="Ahmed Live TV Player"
                   onError={() => setIframeError(true)}
                 />
               )}
@@ -173,7 +176,7 @@ export default function LeaguePage() {
           </div>
         )}
 
-        {/* Main Button */}
+        {/* Badhanka Weyn */}
         <button
           onClick={() => handleStreamSelect(liveStreamLink)}
           className="w-full bg-red-600 text-white text-center py-3 rounded-lg mb-4 font-bold text-lg active:scale-95 transition-transform"
@@ -197,7 +200,7 @@ export default function LeaguePage() {
               <button 
                 onClick={() => handleStreamSelect(match.link_1)} 
                 className={`flex-1 text-center py-2.5 rounded text-sm font-bold active:scale-95 transition-all ${
-                  activeVideoUrl === match.link_1 ? 'bg-blue-500 text-white' : 'bg-blue-600 text-white'
+                  activeVideoUrl === match.link_1 ? 'bg-blue-500 text-white ring-1 ring-white' : 'bg-blue-600 text-white'
                 }`}
               >
                 Stream 1
@@ -205,7 +208,7 @@ export default function LeaguePage() {
               <button 
                 onClick={() => handleStreamSelect(match.link_2)} 
                 className={`flex-1 text-center py-2.5 rounded text-sm font-bold active:scale-95 transition-all ${
-                  activeVideoUrl === match.link_2 ? 'bg-slate-500 text-white' : 'bg-slate-600 text-white'
+                  activeVideoUrl === match.link_2 ? 'bg-slate-500 text-white ring-1 ring-white' : 'bg-slate-600 text-white'
                 }`}
               >
                 Stream 2
