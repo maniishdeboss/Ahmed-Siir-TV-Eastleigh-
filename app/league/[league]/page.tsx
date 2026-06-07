@@ -15,6 +15,19 @@ type Match = {
 }
 
 const MOCK_MATCHES: { [key: string]: Match[] } = {
+  'zee-tv': [
+    {
+      id: 10,
+      home_team: 'ZEE TV INDIA',
+      away_team: '24/7 Premium Live',
+      home_logo: 'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=100&auto=format&fit=crop',
+      away_logo: 'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=100&auto=format&fit=crop',
+      match_time: 'LIVE NOW',
+      // Kanaalka Zee TV ee rasmiga ah (M3U8 HLS Stream)
+      link_1: 'https://99723041.v0.b8cdn.com/live/zeetv/playlist.m3u8',
+      link_2: 'http://stream.1itv.team/zeecinema/index.m3u8'
+    }
+  ],
   'fifa-world-cup-2026': [
     {
       id: 1, 
@@ -97,7 +110,7 @@ export default function LeaguePage() {
   const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
   const [iframeError, setIframeError] = useState(false)
 
-  // AUTOPLAY: Marka uu qofku soo galo bogga horyaalka, cutubkan ayaa ciyaarta toos u daaraya!
+  // AUTOPLAY: Marka bogga la furo, toos u daar ciyaarta kowaad
   useEffect(() => {
     if (matches.length > 0) {
       setActiveVideoUrl(matches[0].link_1)
@@ -111,6 +124,9 @@ export default function LeaguePage() {
 
   const isBeinmatch = activeVideoUrl ? activeVideoUrl.includes('beinmatch') : false
   const isYoutube = activeVideoUrl ? activeVideoUrl.includes('youtube.com') : false
+  
+  // Wuxuu baarayaa haddii uu link-gu yahay IPTV caadi ah (.m3u8)
+  const isHlsStream = activeVideoUrl ? activeVideoUrl.includes('.m3u8') : false
 
   return (
     <div className="bg-[#0A0A23] min-h-screen pb-10">
@@ -141,7 +157,18 @@ export default function LeaguePage() {
             </div>
             
             <div className="relative pt-[56.25%] bg-black overflow-hidden">
-              {isBeinmatch || iframeError ? (
+              {/* 1. HADDII UU YAHAY LINK KANAAL TV OO .M3U8 AH */}
+              {isHlsStream ? (
+                <video
+                  src={activeVideoUrl}
+                  className="absolute top-0 left-0 w-full h-full"
+                  controls
+                  autoPlay
+                  muted
+                  playsInline
+                />
+              ) : isBeinmatch || iframeError ? (
+                /* 2. HADDII UU YAHAY MAREEG LA XIRAY IFRAME-KEEDA */
                 <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center p-4 text-center bg-[#0f0f2d]">
                   <span className="text-3xl mb-2">📺</span>
                   <p className="text-sm font-semibold text-gray-200 mb-1">
@@ -157,6 +184,7 @@ export default function LeaguePage() {
                   </a>
                 </div>
               ) : (
+                /* 3. HADDII UU YAHAY YOUTUBE AMA IFRAME CAADI AH */
                 <>
                   <iframe
                     src={activeVideoUrl}
@@ -188,7 +216,7 @@ export default function LeaguePage() {
           }}
           className="w-full bg-red-600 text-white text-center py-3 rounded-lg mb-4 font-bold text-lg active:scale-95 transition-transform"
         >
-          🔴 WATCH FOOTBALL LIVE NOW
+          🔴 WATCH LIVE NOW
         </button>
 
         {matches.length === 0 && <p className="text-white text-center mt-10">No live streams right now</p>}
