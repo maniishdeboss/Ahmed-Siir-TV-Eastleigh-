@@ -36,7 +36,7 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
       away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
       link_1: 'https://beinmatch26.com/bein/live/20155',
-      link_2: 'https://beinmatch26.com/'
+      link_2: 'https://www.youtube.com/embed/dQw4w9WgXcQ' // Tusaale YouTube ah oo lagu tijaabiyo
     }
   ],
   'uefa-champions-league': [
@@ -96,8 +96,6 @@ export default function LeaguePage() {
 
   const [liveStreamLink, setLiveStreamLink] = useState('https://beinmatch26.com/bein/live/20155')
   const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
-  
-  // Tani waxay ogaanaysaa haddii mareegtu ay xannibto iframe-ka
   const [iframeError, setIframeError] = useState(false)
 
   useEffect(() => {
@@ -112,9 +110,12 @@ export default function LeaguePage() {
   }, [])
 
   const handleStreamSelect = (url: string) => {
-    setIframeError(false) // Dib u babi khaladka marka link cusub la gujiyo
+    setIframeError(false)
     setActiveVideoUrl(url)
   }
+
+  // Hubinta nidaamka xannibaadda (Kaliya mareegaha block-ga leh sida beinmatch)
+  const isBlockedProvider = activeVideoUrl ? activeVideoUrl.includes('beinmatch') : false
 
   return (
     <div className="bg-[#0A0A23] min-h-screen pb-10">
@@ -134,7 +135,10 @@ export default function LeaguePage() {
                 🔴 AHMED LIVE TV PLAYER
               </span>
               <button 
-                onClick={() => setActiveVideoUrl(null)} 
+                onClick={() => {
+                  setActiveVideoUrl(null)
+                  setIframeError(false)
+                }} 
                 className="text-gray-400 hover:text-white text-xs bg-slate-800 px-2 py-0.5 rounded"
               >
                 Xir Player-ka
@@ -142,8 +146,8 @@ export default function LeaguePage() {
             </div>
             
             <div className="relative pt-[56.25%] bg-black">
-              {iframeError || activeVideoUrl.includes('beinmatch') ? (
-                /* FALLBACK UI: Halkii ay shaashad cawl oo jaban soo baxi lahayd */
+              {(iframeError || isBlockedProvider) ? (
+                /* FALLBACK UI: Kaliya wuxuu soo baxayaa haddii mareegtu tahay beinmatch ama cilad dhacdo */
                 <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center p-4 text-center bg-[#0f0f2d]">
                   <span className="text-3xl mb-2">📺</span>
                   <p className="text-sm font-semibold text-gray-200 mb-1">
@@ -162,6 +166,7 @@ export default function LeaguePage() {
                   </a>
                 </div>
               ) : (
+                /* YOUTUBE EMBED PLAYER: Kan si toos ah ayuu u dhex jidhanayaa */
                 <iframe
                   src={activeVideoUrl}
                   className="absolute top-0 left-0 w-full h-full"
