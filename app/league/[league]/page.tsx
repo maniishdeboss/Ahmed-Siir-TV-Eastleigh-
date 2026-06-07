@@ -35,7 +35,6 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      // Labadii Link ee YouTube Live ee ciyaarta ahaa oo loo beddelay Embed Player
       link_1: 'https://www.youtube.com/embed/VZoPxuna9uM',
       link_2: 'https://www.youtube.com/embed/K_Pw3qP4Cpc'
     }
@@ -95,21 +94,18 @@ export default function LeaguePage() {
   const league = params.league as string
   const matches = MOCK_MATCHES[league] || []
 
-  // Default-ku wuxuu si toos ah u ridaa ciyaarta YouTube Stream 1
-  const [liveStreamLink, setLiveStreamLink] = useState('https://www.youtube.com/embed/VZoPxuna9uM')
+  // YOUTUBE KABIXI: Halkan waxaa laga saaray link-gii YouTube-ka ee rasiirka ahaa
+  // Haddi ciyaar jirto wuxuu si toos ah u ridaa Stream-ka 1aad ee horyaalkaas
+  const defaultLink = matches.length > 0 ? matches[0].link_1 : ''
+  const [liveStreamLink, setLiveStreamLink] = useState(defaultLink)
   const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
   const [iframeError, setIframeError] = useState(false)
 
   useEffect(() => {
-    fetch('/links.json')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.youtube_live_url) {
-          setLiveStreamLink(data.youtube_live_url)
-        }
-      })
-      .catch((err) => console.error('Error loading links.json:', err))
-  }, [])
+    if (matches.length > 0) {
+      setLiveStreamLink(matches[0].link_1)
+    }
+  }, [league, matches])
 
   const handleStreamSelect = (url: string) => {
     setIframeError(false)
@@ -180,9 +176,13 @@ export default function LeaguePage() {
           </div>
         )}
 
-        {/* Badhanka Cas ee weyn */}
+        {/* BADHANKA CAS: YouTube waa laga saaray hadda! */}
         <button
-          onClick={() => handleStreamSelect(liveStreamLink)}
+          onClick={() => {
+            if (liveStreamLink) {
+              handleStreamSelect(liveStreamLink)
+            }
+          }}
           className="w-full bg-red-600 text-white text-center py-3 rounded-lg mb-4 font-bold text-lg active:scale-95 transition-transform"
         >
           🔴 WATCH FOOTBALL LIVE NOW
