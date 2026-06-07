@@ -95,6 +95,9 @@ export default function LeaguePage() {
   const matches = MOCK_MATCHES[league] || []
 
   const [liveStreamLink, setLiveStreamLink] = useState('https://beinmatch26.com/bein/live/20154')
+  
+  // State-kan wuxuu qabanayaa link-ga hadda la daawanayo si loogu dhex furo iframe
+  const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
 
   useEffect(() => {
     fetch('/links.json')
@@ -108,41 +111,80 @@ export default function LeaguePage() {
   }, [])
 
   return (
-    <div className="bg-[#0A0A23] min-h-screen">
-      <div className="bg-[#1A1A4B] p-4 flex items-center">
+    <div className="bg-[#0A0A23] min-h-screen pb-10">
+      {/* Header */}
+      <div className="bg-[#1A1A4B] p-4 flex items-center sticky top-0 z-50 shadow-md">
         <Link href="/" className="text-white mr-4 text-2xl">←</Link>
         <h1 className="text-white text-xl font-bold capitalize">{league?.replace(/-/g, ' ')}</h1>
       </div>
 
-      <div className="p-3">
-        {/* Main Football Live Link Button */}
-        <a
-          href={liveStreamLink}
-          target="_blank"
-          className="block bg-red-600 text-white text-center py-3 rounded-lg mb-4 font-bold text-lg active:scale-95"
+      <div className="p-3 max-w-xl mx-auto">
+        
+        {/* PREMIUM PLAYER: Kaliya wuxuu muuqanayaa marka link la gujiyo */}
+        {activeVideoUrl && (
+          <div className="bg-[#1A1A4B] rounded-lg overflow-hidden mb-4 border border-red-600 shadow-xl animate-fade-in">
+            <div className="bg-[#111135] p-2 flex justify-between items-center border-b border-slate-800">
+              <span className="text-xs text-red-500 font-bold animate-pulse flex items-center gap-1">
+                🔴 LIVE PLAYER
+              </span>
+              <button 
+                onClick={() => setActiveVideoUrl(null)} 
+                className="text-gray-400 hover:text-white text-xs bg-slate-800 px-2 py-0.5 rounded"
+              >
+                Xir Player-ka
+              </button>
+            </div>
+            <div className="relative pt-[56.25%] bg-black">
+              <iframe
+                src={activeVideoUrl}
+                className="absolute top-0 left-0 w-full h-full"
+                allowFullScreen
+                scrolling="no"
+                allow="autoplay; encrypted-media"
+                title="Ahmed Live Player"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Badhanka weyn ee rasmiga ah (Hadda wuxuu video-ga ku furayaa gudaha App-ka) */}
+        <button
+          onClick={() => setActiveVideoUrl(liveStreamLink)}
+          className="w-full bg-red-600 text-white text-center py-3 rounded-lg mb-4 font-bold text-lg active:scale-95 transition-transform"
         >
           🔴 WATCH FOOTBALL LIVE NOW
-        </a>
+        </button>
 
         {matches.length === 0 && <p className="text-white text-center mt-10">No live streams right now</p>}
         
         {matches.map((match) => (
-          <div key={match.id} className="bg-[#1A1A4B] rounded-lg p-4 mb-3">
+          <div key={match.id} className="bg-[#1A1A4B] rounded-lg p-4 mb-3 border border-slate-800/50">
             <div className="flex justify-between items-center mb-4">
               <div className="flex items-center gap-3">
                 <img src={match.home_logo} alt="soccer-logo" className="w-8 h-8 rounded-full object-cover border border-slate-600" />
                 <span className="text-white font-bold">{match.home_team}</span>
               </div>
-              <span className="bg-red-600 text-white text-[10px] px-2 py-1 rounded animate-pulse">LIVE</span>
+              <span className="bg-red-600 text-white text-[10px] px-2 py-1 rounded animate-pulse font-black">LIVE</span>
             </div>
 
+            {/* Badhamadaan hadda ma furaan Chrome! Waxay si toos ah video-ga ugu shubayaan Player-ka sare */}
             <div className="flex gap-2">
-              <a href={match.link_1} target="_blank" className="flex-1 bg-blue-600 text-white text-center py-2 rounded text-sm font-bold active:scale-95">
+              <button 
+                onClick={() => setActiveVideoUrl(match.link_1)} 
+                className={`flex-1 text-center py-2.5 rounded text-sm font-bold active:scale-95 transition-all ${
+                  activeVideoUrl === match.link_1 ? 'bg-blue-500 text-white ring-2 ring-white' : 'bg-blue-600 text-white hover:bg-blue-700'
+                }`}
+              >
                 Stream 1
-              </a>
-              <a href={match.link_2} target="_blank" className="flex-1 bg-slate-600 text-white text-center py-2 rounded text-sm font-bold active:scale-95">
+              </button>
+              <button 
+                onClick={() => setActiveVideoUrl(match.link_2)} 
+                className={`flex-1 text-center py-2.5 rounded text-sm font-bold active:scale-95 transition-all ${
+                  activeVideoUrl === match.link_2 ? 'bg-slate-500 text-white ring-2 ring-white' : 'bg-slate-600 text-white hover:bg-slate-700'
+                }`}
+              >
                 Stream 2
-              </a>
+              </button>
             </div>
           </div>
         ))}
