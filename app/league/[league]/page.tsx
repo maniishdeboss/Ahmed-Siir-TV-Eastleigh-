@@ -35,7 +35,6 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      // Modestbranding, autoplay, controls=0, iyo mute=1 si uu u qariyo YouTube una baxo si toos ah
       link_1: 'https://www.youtube.com/embed/VZoPxuna9uM?autoplay=1&mute=1&modestbranding=1&rel=0&controls=0&showinfo=0',
       link_2: 'https://www.youtube.com/embed/K_Pw3qP4Cpc?autoplay=1&mute=1&modestbranding=1&rel=0&controls=0&showinfo=0'
     }
@@ -97,6 +96,13 @@ export default function LeaguePage() {
 
   const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
   const [iframeError, setIframeError] = useState(false)
+
+  // AUTOPLAY: Marka uu qofku soo galo bogga horyaalka, cutubkan ayaa ciyaarta toos u daaraya!
+  useEffect(() => {
+    if (matches.length > 0) {
+      setActiveVideoUrl(matches[0].link_1)
+    }
+  }, [league, matches])
 
   const handleStreamSelect = (url: string) => {
     setIframeError(false)
@@ -173,7 +179,7 @@ export default function LeaguePage() {
           </div>
         )}
 
-        {/* BADHANKA CAS: Waxaa laga saaray wixii YouTube xiriir la lahaa. Wuxuu toos u kicinayaa ciyaarta horyaalka taal */}
+        {/* BADHANKA CAS */}
         <button
           onClick={() => {
             if (matches.length > 0) {
