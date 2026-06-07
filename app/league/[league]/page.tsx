@@ -94,13 +94,13 @@ export default function LeaguePage() {
   const league = params.league as string
   const matches = MOCK_MATCHES[league] || []
 
-  // YOUTUBE KABIXI: Halkan waxaa laga saaray link-gii YouTube-ka ee rasiirka ahaa
-  // Haddi ciyaar jirto wuxuu si toos ah u ridaa Stream-ka 1aad ee horyaalkaas
+  // Hadda si toos ah wuxuu u ridaa link-ga kowaad ee horyaalka (Ma jiro links.json oo wax badalaya)
   const defaultLink = matches.length > 0 ? matches[0].link_1 : ''
   const [liveStreamLink, setLiveStreamLink] = useState(defaultLink)
   const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
   const [iframeError, setIframeError] = useState(false)
 
+  // Mark kasta oo horyaal kale loo gudbo, badhanka weyn wuxuu qaadanayaa ciyaarta horyaalkaas u taal
   useEffect(() => {
     if (matches.length > 0) {
       setLiveStreamLink(matches[0].link_1)
@@ -176,7 +176,7 @@ export default function LeaguePage() {
           </div>
         )}
 
-        {/* BADHANKA CAS: YouTube waa laga saaray hadda! */}
+        {/* BADHANKA CAS: Gabi ahaanba waa ka nadiif YouTube hadda! */}
         <button
           onClick={() => {
             if (liveStreamLink) {
