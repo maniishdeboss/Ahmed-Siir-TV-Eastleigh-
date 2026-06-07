@@ -35,8 +35,9 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      link_1: 'https://www.youtube.com/embed/VZoPxuna9uM',
-      link_2: 'https://www.youtube.com/embed/K_Pw3qP4Cpc'
+      // AUTOPLAY: Waxaa lagu daray autoplay=1 iyo mute=1 si ay ciyaarta toos ugu dhex bilaabato player-ka
+      link_1: 'https://www.youtube.com/embed/VZoPxuna9uM?autoplay=1&mute=1&modestbranding=1&rel=0&controls=0&showinfo=0',
+      link_2: 'https://www.youtube.com/embed/K_Pw3qP4Cpc?autoplay=1&mute=1&modestbranding=1&rel=0&controls=0&showinfo=0'
     }
   ],
   'uefa-champions-league': [
@@ -94,13 +95,11 @@ export default function LeaguePage() {
   const league = params.league as string
   const matches = MOCK_MATCHES[league] || []
 
-  // Hadda si toos ah wuxuu u ridaa link-ga kowaad ee horyaalka (Ma jiro links.json oo wax badalaya)
   const defaultLink = matches.length > 0 ? matches[0].link_1 : ''
   const [liveStreamLink, setLiveStreamLink] = useState(defaultLink)
   const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
   const [iframeError, setIframeError] = useState(false)
 
-  // Mark kasta oo horyaal kale loo gudbo, badhanka weyn wuxuu qaadanayaa ciyaarta horyaalkaas u taal
   useEffect(() => {
     if (matches.length > 0) {
       setLiveStreamLink(matches[0].link_1)
@@ -113,6 +112,7 @@ export default function LeaguePage() {
   }
 
   const isBeinmatch = activeVideoUrl ? activeVideoUrl.includes('beinmatch') : false
+  const isYoutube = activeVideoUrl ? activeVideoUrl.includes('youtube.com') : false
 
   return (
     <div className="bg-[#0A0A23] min-h-screen pb-10">
@@ -142,41 +142,46 @@ export default function LeaguePage() {
               </button>
             </div>
             
-            <div className="relative pt-[56.25%] bg-black">
+            <div className="relative pt-[56.25%] bg-black overflow-hidden">
               {isBeinmatch || iframeError ? (
                 <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center p-4 text-center bg-[#0f0f2d]">
                   <span className="text-3xl mb-2">📺</span>
                   <p className="text-sm font-semibold text-gray-200 mb-1">
                     Baahintu Waxay Diyaar Ku Tahay Stream-ka
                   </p>
-                  <p className="text-[11px] text-gray-400 mb-4 max-w-xs">
-                    Si aad u daawato ciyaarta adigoo adeegsanaya adeegga App-ka, fadlan guji badhanka hoose.
-                  </p>
                   <a 
                     href={activeVideoUrl} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="bg-red-600 text-white text-xs px-5 py-2 rounded-lg font-bold hover:bg-red-500 transition-all active:scale-95 shadow-md shadow-red-600/20"
+                    className="bg-red-600 text-white text-xs px-5 py-2 rounded-lg font-bold hover:bg-red-500"
                   >
                     Foor Baahinta Tooska Ah 🚀
                   </a>
                 </div>
               ) : (
-                <iframe
-                  src={activeVideoUrl}
-                  className="absolute top-0 left-0 w-full h-full"
-                  allowFullScreen
-                  scrolling="no"
-                  allow="autoplay; encrypted-media"
-                  title="Ahmed Live TV Player"
-                  onError={() => setIframeError(true)}
-                />
+                <>
+                  <iframe
+                    src={activeVideoUrl}
+                    className="absolute top-0 left-0 w-full h-full"
+                    allowFullScreen={!isYoutube}
+                    scrolling="no"
+                    allow="autoplay; encrypted-media" // 'autoplay' halkan ayaa lagu daray si browser-ku u ogolaado
+                    title="Ahmed Live TV Player"
+                    onError={() => setIframeError(true)}
+                    style={isYoutube ? { pointerEvents: 'none' } : {}}
+                  />
+                  
+                  {/* Overlay-gii qarinyey koonaha hoose ee YouTube */}
+                  {isYoutube && (
+                    <div className="absolute bottom-0 right-0 w-[120px] h-[50px] bg-black/10 z-10 pointer-events-auto" />
+                  )}
+                </>
               )}
             </div>
           </div>
         )}
 
-        {/* BADHANKA CAS: Gabi ahaanba waa ka nadiif YouTube hadda! */}
+        {/* BADHANKA CAS */}
         <button
           onClick={() => {
             if (liveStreamLink) {
