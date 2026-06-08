@@ -15,7 +15,8 @@ type Match = {
 }
 
 const MOCK_MATCHES: { [key: string]: Match[] } = {
-  'fifa-world-cup-2026': [
+  // Halkan waxaa loo saxay 'fifa-world-cup' si uu ula jaanqaado bogga hore
+  'fifa-world-cup': [
     {
       id: 1, 
       home_team: 'beIN SPORTS HD 1', 
@@ -35,12 +36,12 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      // Modestbranding, autoplay, controls=0, iyo mute=1 si uu u qariyo YouTube una baxo si toos ah
       link_1: 'https://www.youtube.com/embed/VZoPxuna9uM?autoplay=1&mute=1&modestbranding=1&rel=0&controls=0&showinfo=0',
       link_2: 'https://www.youtube.com/embed/K_Pw3qP4Cpc?autoplay=1&mute=1&modestbranding=1&rel=0&controls=0&showinfo=0'
     }
   ],
-  'uefa-champions-league': [
+  // Halkan waxaa loo saxay 'uefa' si uu ugu xirmo bogga hore
+  'uefa': [
     {
       id: 3, 
       home_team: 'beIN SPORTS Premium 2', 
@@ -92,7 +93,7 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
 
 export default function LeaguePage() {
   const params = useParams()
-  const league = params.league as string
+  const league = params?.league as string
   const matches = MOCK_MATCHES[league] || []
 
   const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
@@ -147,7 +148,7 @@ export default function LeaguePage() {
                     rel="noopener noreferrer"
                     className="bg-red-600 text-white text-xs px-5 py-2 rounded-lg font-bold hover:bg-red-500"
                   >
-                    Foor Baahinta Tooska Ah 🚀
+                    Fura Baahinta Tooska Ah 🚀
                   </a>
                 </div>
               ) : (
@@ -173,7 +174,7 @@ export default function LeaguePage() {
           </div>
         )}
 
-        {/* BADHANKA CAS: Waxaa laga saaray wixii YouTube xiriir la lahaa. Wuxuu toos u kicinayaa ciyaarta horyaalka taal */}
+        {/* BADHANKA CAS */}
         <button
           onClick={() => {
             if (matches.length > 0) {
@@ -185,7 +186,7 @@ export default function LeaguePage() {
           🔴 WATCH FOOTBALL LIVE NOW
         </button>
 
-        {matches.length === 0 && <p className="text-white text-center mt-10">No live streams right now</p>}
+        {matches.length === 0 && <p className="text-white text-center mt-10">Hadda wax baahin ah ma jiraan.</p>}
         
         {matches.map((match) => (
           <div key={match.id} className="bg-[#1A1A4B] rounded-lg p-4 mb-3 border border-slate-800/50">
