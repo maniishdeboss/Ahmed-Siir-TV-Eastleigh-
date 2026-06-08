@@ -1,19 +1,8 @@
 'use client'
-
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import linksData from './links.json'
+import { useState } from 'react'
 
-const LEAGUES = [
-  { name: 'FIFA World Cup 2026', slug: 'fifa-world-cup', emoji: '⚽' },
-  { name: 'EPL', slug: 'epl', emoji: '⚽' },
-  { name: 'UEFA Champions League', slug: 'uefa', emoji: '🏆' },
-  { name: 'La Liga', slug: 'la-liga', emoji: '🇪🇸' },
-  { name: 'Serie A', slug: 'serie-a', emoji: '🇮🇹' },
-  { name: 'Bundesliga', slug: 'bundesliga', emoji: '🇩🇪' }
-]
-
-interface Match {
+type MainMatch = {
   id: number
   home_team: string
   away_team: string
@@ -24,97 +13,134 @@ interface Match {
   link_2: string
 }
 
+// Halkan waxaan ku soo celinnay YouTube Live Match iyo beIN SPORTS oo ah 2 BOX KALIYA!
+const HOMEPAGE_MATCHES: MainMatch[] = [
+  {
+    id: 1,
+    home_team: 'beIN SPORTS HD 1',
+    away_team: 'Beinmatch Live',
+    home_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+    away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+    match_time: 'LIVE NOW',
+    link_1: 'https://siiir.tv/', // Siiir TV link-gii ugu dambeeyey
+    link_2: 'https://beinmatch26.com/bein/live/20160'
+  },
+  {
+    id: 2,
+    home_team: 'YouTube Live Match',
+    away_team: 'Alternative Stream',
+    home_logo: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=100&auto=format&fit=crop', // YouTube Logo style
+    away_logo: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=100&auto=format&fit=crop',
+    match_time: 'LIVE NOW',
+    link_1: 'https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID', // Ama link-ga tooska ah ee YouTube-kaaga
+    link_2: 'https://siiir.tv/'
+  }
+]
+
 export default function HomePage() {
-  const [matches, setMatches] = useState<Match[]>([])
-
-  useEffect(() => {
-    // Si toos ah ayuu koodhku uga soo akhrisanayaa liiska ciyaaraha links.json
-    setMatches(linksData)
-  }, [])
-
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white pb-10 font-sans">
-      {/* Header-ka weyn ee Magacaaga Cusub */}
-      <div className="bg-[#1A1A4B] p-5 shadow-md text-center border-b border-gray-800">
-        <h1 className="text-white text-xl md:text-2xl font-black tracking-wide flex items-center justify-center gap-2">
-          Ahmed Abdikani LIVE TV 🇬🇲🇸🇴🇨🇦🔴
+      
+      {/* App Header */}
+      <div className="bg-[#1A1A4B] p-4 text-center border-b border-gray-800 sticky top-0 z-50 shadow-lg">
+        <h1 className="text-xl font-black tracking-wide flex items-center justify-center gap-2">
+          Ahmed Abdikani LIVE TV 🇸🇴 🖥️
         </h1>
-        <p className="text-gray-300 text-xs mt-1.5 font-medium tracking-wider">
-          Ciyaaraha Caalamiga ah oo Toos ah
-        </p>
+        <p className="text-[11px] text-gray-400 mt-0.5">Ciyaaraha Caalamiga ah oo Toos ah</p>
       </div>
 
-      {/* Qaybta Ciyaaraha Tooska ah */}
-      <div className="p-4 max-w-md mx-auto">
-        <h2 className="text-sm font-bold mb-4 text-yellow-400 uppercase tracking-wider flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
-          Ciyaaraha Maanta Toos u Socda
-        </h2>
+      <div className="p-4 max-w-xl mx-auto">
         
-        {matches.length === 0 ? (
-          <p className="text-gray-400 text-xs text-center py-6 bg-[#1A1A4B] rounded-xl border border-gray-800">
-            Wax ciyaar ah hadda ma sarrayso.
-          </p>
-        ) : (
-          matches.map((match) => (
-            <div key={match.id} className="bg-[#1A1A4B] p-4 rounded-xl mb-4 border border-gray-800 shadow-lg">
+        <h2 className="text-xs font-bold text-yellow-400 mb-4 tracking-wider uppercase flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+          🔴 CIYAARAHA MAANTA TOOS U SOCDA
+        </h2>
+
+        {/* LIISKA 2 BOX KALIYA EE BOGGA HORE */}
+        <div className="space-y-4 mb-8">
+          {HOMEPAGE_MATCHES.map((match) => (
+            <div key={match.id} className="bg-[#1A1A4B] rounded-2xl p-4 border border-gray-800 shadow-md">
               <div className="flex justify-between items-center mb-4">
-                <div className="text-center w-5/12">
-                  <img src={match.home_logo} alt={match.home_team} className="w-12 h-12 mx-auto rounded-full mb-1.5 object-cover border border-gray-700" />
-                  <p className="text-xs font-semibold truncate text-gray-200">{match.home_team}</p>
+                <div className="flex items-center gap-3">
+                  <img src={match.home_logo} alt="home" className="w-9 h-9 rounded-full object-cover border border-gray-700" />
+                  <span className="text-gray-200 font-bold text-xs">{match.home_team}</span>
                 </div>
-                <div className="text-center w-2/12">
-                  <span className="bg-red-600 text-[9px] px-2 py-0.5 rounded-full animate-pulse font-black text-white tracking-wider">
-                    {match.match_time}
-                  </span>
-                </div>
-                <div className="text-center w-5/12">
-                  <img src={match.away_logo} alt={match.away_team} className="w-12 h-12 mx-auto rounded-full mb-1.5 object-cover border border-gray-700" />
-                  <p className="text-xs font-semibold truncate text-gray-200">{match.away_team}</p>
+                <span className="text-[9px] bg-red-500/20 text-red-400 border border-red-500/30 px-2 py-0.5 rounded-md font-extrabold animate-pulse">
+                  {match.match_time}
+                </span>
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-200 font-bold text-xs">{match.away_team}</span>
+                  <img src={match.away_logo} alt="away" className="w-9 h-9 rounded-full object-cover border border-gray-700" />
                 </div>
               </div>
-              
-              {/* Badhamada Streams-ka ee u gudbaya Player-ka */}
-              <div className="grid grid-cols-2 gap-2 pt-1">
-                <Link
-                  href={`/league/live-stream`}
-                  className="bg-green-600 hover:bg-green-500 text-center py-2.5 rounded-lg font-bold text-xs transition-colors text-white block"
+
+              {/* Badhamada Stream-ka oo si toos ah paji cusub ugu furaya Siiir TV maadaama bogga hore uusan player lahayn */}
+              <div className="flex gap-3">
+                <a 
+                  href={match.link_1}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 text-center py-2.5 bg-green-600 hover:bg-green-500 text-white rounded-xl text-xs font-black block transition-all shadow-md"
                 >
                   Stream 1 (Live)
-                </Link>
-                <a
+                </a>
+                <a 
                   href={match.link_2}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-yellow-500 hover:bg-yellow-400 text-center py-2.5 rounded-lg text-xs transition-colors text-gray-900 font-bold block"
+                  className="flex-1 text-center py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black rounded-xl text-xs font-black block transition-all shadow-md"
                 >
                   Stream 2 (Backup)
                 </a>
               </div>
             </div>
-          ))
-        )}
-      </div>
-
-      <hr className="border-gray-800 my-4 max-w-md mx-auto" />
-
-      {/* Qaybta Horyaallada (Leagues) */}
-      <div className="p-4 max-w-md mx-auto">
-        <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
-          Horyaallada Naadiga
-        </h3>
-        <div className="grid grid-cols-2 gap-2">
-          {LEAGUES.map((league) => (
-            <Link 
-              key={league.slug} 
-              href={`/league/${league.slug}`}
-              className="bg-[#141432] hover:bg-[#1A1A4B] p-3 rounded-xl border border-gray-800 transition-colors flex items-center gap-2 block active:scale-95 transform"
-            >
-              <span className="text-sm">{league.emoji}</span>
-              <span className="text-xs font-semibold text-gray-200 truncate">{league.name}</span>
-            </Link>
           ))}
         </div>
+
+        {/* HORYAALLADA NAADIGA - FIFA IYO EPL KOR AYAA LOO QAADAY */}
+        <div className="mt-6">
+          <h3 className="text-xs font-bold text-gray-400 mb-3 tracking-wider uppercase">HORYAALLADA NAADIGA</h3>
+          <div className="grid grid-cols-2 gap-3">
+            
+            {/* 1. FIFA WORLD CUP */}
+            <Link href="/league/fifa-world-cup" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
+              <span>⚽</span>
+              <span className="text-xs font-bold">FIFA World Cup 2026</span>
+            </Link>
+
+            {/* 2. EPL */}
+            <Link href="/league/epl" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
+              <span>⚽</span>
+              <span className="text-xs font-bold">EPL</span>
+            </Link>
+
+            {/* 3. UEFA CHAMPIONS LEAGUE */}
+            <Link href="/league/uefa" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
+              <span>🏆</span>
+              <span className="text-xs font-bold">UEFA Champions League</span>
+            </Link>
+
+            {/* 4. LA LIGA */}
+            <Link href="/league/la-liga" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
+              <span>🇪🇸</span>
+              <span className="text-xs font-bold">La Liga</span>
+            </Link>
+
+            {/* 5. SERIE A */}
+            <Link href="/league/serie-a" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
+              <span>🇮🇹</span>
+              <span className="text-xs font-bold">Serie A</span>
+            </Link>
+
+            {/* 6. BUNDESLIGA */}
+            <Link href="/league/bundesliga" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
+              <span>🇩🇪</span>
+              <span className="text-xs font-bold">Bundesliga</span>
+            </Link>
+
+          </div>
+        </div>
+
       </div>
     </div>
   )
