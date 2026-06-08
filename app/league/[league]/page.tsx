@@ -1,155 +1,223 @@
-"use strict";
-"use client";
+'use client'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+type Match = {
+  id: number
+  home_team: string
+  away_team: string
+  home_logo: string
+  away_logo: string
+  match_time: string
+  link_1: string
+  link_2: string
+}
 
-interface Match {
-  id: number;
-  channel_1: string;
-  channel_2: string;
-  channel_3: string;
-  channel_4: string;
-  upcoming: string;
-  link_1: string;
-  link_2: string;
+const MOCK_MATCHES: { [key: string]: Match[] } = {
+  'fifa-world-cup-2026': [
+    {
+      id: 1, 
+      home_team: 'beIN SPORTS HD 1', 
+      away_team: 'Beinmatch Stream',
+      home_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+      match_time: 'LIVE NOW',
+      link_1: 'https://beinmatch26.com/bein/live/20155', 
+      link_2: 'https://beinmatch26.com/bein/live/20154'
+    }
+  ],
+  'epl': [
+    {
+      id: 2, 
+      home_team: 'EPL LIVE STREAM', 
+      away_team: 'Premium Sports',
+      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+      away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+      match_time: 'LIVE NOW',
+      // Modestbranding, autoplay, controls=0, iyo mute=1 si uu u qariyo YouTube una baxo si toos ah
+      link_1: 'https://www.youtube.com/embed/VZoPxuna9uM?autoplay=1&mute=1&modestbranding=1&rel=0&controls=0&showinfo=0',
+      link_2: 'https://www.youtube.com/embed/K_Pw3qP4Cpc?autoplay=1&mute=1&modestbranding=1&rel=0&controls=0&showinfo=0'
+    }
+  ],
+  'uefa-champions-league': [
+    {
+      id: 3, 
+      home_team: 'beIN SPORTS Premium 2', 
+      away_team: 'Beinmatch Stream',
+      home_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+      match_time: 'LIVE NOW',
+      link_1: 'https://beinmatch26.com/bein/live/20155',
+      link_2: 'https://beinmatch26.com/'
+    }
+  ],
+  'la-liga': [
+    {
+      id: 4, 
+      home_team: 'beIN SPORTS Premium 3', 
+      away_team: 'Beinmatch Stream',
+      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+      away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+      match_time: 'LIVE NOW',
+      link_1: 'https://beinmatch26.com/bein/live/20155',
+      link_2: 'https://beinmatch26.com/'
+    }
+  ],
+  'serie-a': [
+    {
+      id: 5, 
+      home_team: 'beIN SPORTS 4 HD', 
+      away_team: 'Beinmatch Stream',
+      home_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+      match_time: 'LIVE NOW',
+      link_1: 'https://beinmatch26.com/bein/live/20155',
+      link_2: 'https://beinmatch26.com/'
+    }
+  ],
+  'bundesliga': [
+    {
+      id: 6, 
+      home_team: 'beIN SPORTS 5 HD', 
+      away_team: 'Beinmatch Stream',
+      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+      away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+      match_time: 'LIVE NOW',
+      link_1: 'https://beinmatch26.com/bein/live/20155',
+      link_2: 'https://beinmatch26.com/'
+    }
+  ]
 }
 
 export default function LeaguePage() {
-  const params = useParams();
-  const league = params?.league as string;
+  const params = useParams()
+  const league = params.league as string
+  const matches = MOCK_MATCHES[league] || []
 
-  const [matches, setMatches] = useState<Match[]>([]);
-  const [activeStream, setActiveStream] = useState<string | null>(null);
-  const [currentMatchTitle, setCurrentMatchTitle] = useState<string>("");
+  const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
+  const [iframeError, setIframeError] = useState(false)
 
-  useEffect(() => {
-    // Koodhkan wuxuu si toos ah xogta uga soo jiidayaa GitHub links.json-kaaga weyn
-    fetch("https://raw.githubusercontent.com/maniishdeboss/v0-sports-live-website/main/links.json")
-      .then((res) => res.json())
-      .then((data) => setMatches(data))
-      .catch((err) => console.error("Error loading links:", err));
-  }, []);
+  const handleStreamSelect = (url: string) => {
+    setIframeError(false)
+    setActiveVideoUrl(url)
+  }
 
-  const handleStreamClick = (link: string, matchTitle: string) => {
-    // Haddii uu yahay Adsterra Smartlink, tab cusub ha u furo si dakhli u dhalan karo
-    if (link.includes("effectivecpmnetwork.com") || link.includes("adsterra")) {
-      window.open(link, "_blank");
-    } else {
-      // Haddii uu yahay link-ga ciyaaraha, ku dhex fur Player-ka gudaha app-ka
-      setActiveStream(link);
-      setCurrentMatchTitle(matchTitle);
-    }
-  };
+  const isBeinmatch = activeVideoUrl ? activeVideoUrl.includes('beinmatch') : false
+  const isYoutube = activeVideoUrl ? activeVideoUrl.includes('youtube.com') : false
 
   return (
-    <div className="min-h-screen bg-[#0d1b2a] text-white p-4 font-sans">
+    <div className="bg-[#0A0A23] min-h-screen pb-10">
       {/* Header */}
-      <div className="flex items-center mb-6">
-        <Link href="/" className="text-xl mr-4 hover:text-gray-400">
-          ←
-        </Link>
-        <h1 className="text-2xl font-bold capitalize">{league?.replace("-", " ")}</h1>
+      <div className="bg-[#1A1A4B] p-4 flex items-center sticky top-0 z-50 shadow-md">
+        <Link href="/" className="text-white mr-4 text-2xl">←</Link>
+        <h1 className="text-white text-xl font-bold capitalize">{league?.replace(/-/g, ' ')}</h1>
       </div>
 
-      {/* WATCH FOOTBALL LIVE NOW Banner */}
-      <div className="w-full bg-red-600 text-center py-3 rounded-lg font-bold text-lg mb-6 animate-pulse">
-        🔴 WATCH FOOTBALL LIVE NOW
-      </div>
-
-      {/* IN-APP VIDEO PLAYER COMPONENT */}
-      {activeStream && (
-        <div className="w-full max-w-2xl mx-auto bg-[#1b263b] rounded-xl p-4 border border-red-500 mb-6">
-          <div className="flex justify-between items-center mb-3">
-            <div className="flex items-center space-x-2">
-              <span className="w-3 h-3 bg-red-500 rounded-full animate-ping"></span>
-              <h2 className="text-sm font-bold text-red-400 uppercase tracking-wider">
-                Ahmed Live TV Player — {currentMatchTitle}
-              </h2>
+      <div className="p-3 max-w-xl mx-auto">
+        
+        {/* PREMIUM PLAYER CONTAINER */}
+        {activeVideoUrl && (
+          <div className="bg-[#1A1A4B] rounded-lg overflow-hidden mb-4 border border-red-600 shadow-xl">
+            <div className="bg-[#111135] p-2 flex justify-between items-center border-b border-slate-800">
+              <span className="text-xs text-red-500 font-bold animate-pulse flex items-center gap-1">
+                🔴 AHMED LIVE TV PLAYER
+              </span>
+              <button 
+                onClick={() => {
+                  setActiveVideoUrl(null)
+                  setIframeError(false)
+                }} 
+                className="text-gray-400 hover:text-white text-xs bg-slate-800 px-2 py-0.5 rounded"
+              >
+                Xir Player-ka
+              </button>
             </div>
-            <button
-              onClick={() => setActiveStream(null)}
-              className="bg-gray-700 hover:bg-gray-600 text-xs px-3 py-1 rounded-md transition"
-            >
-              Xir Player-ka
-            </button>
-          </div>
-
-          {/* Aspect Ratio Box ee Iframe-ka */}
-          <div className="relative w-full pt-[56.25%] bg-black rounded-lg overflow-hidden shadow-2xl">
-            <iframe
-              src={activeStream}
-              className="absolute top-0 left-0 w-full h-full border-0"
-              allowFullScreen
-              allow="autoplay; encrypted-media; picture-in-picture"
-              sandbox="allow-scripts allow-same-origin allow-forms"
-            ></iframe>
-          </div>
-          <p className="text-xs text-gray-400 mt-2 text-center">
-            Haddii baahintu istaagto ama ay jarto, fadlan dib u riix badhanka Stream-ka.
-          </p>
-        </div>
-      )}
-
-      {/* MATCHES LIST */}
-      <div className="max-w-xl mx-auto space-y-4">
-        {matches.length === 0 ? (
-          <p className="text-center text-gray-400">Ciyaaro diyaar ah ma jiraan hadda...</p>
-        ) : (
-          matches.map((match) => (
-            <div
-              key={match.id}
-              className="bg-[#1b263b] rounded-xl p-4 border border-gray-800 hover:border-gray-700 transition"
-            >
-              {/* Team Info Row */}
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center space-x-3 w-2/5">
-                  <img
-                    src={match.home_logo}
-                    alt={match.home_team}
-                    className="w-10 h-10 rounded-full bg-gray-800 object-cover"
+            
+            <div className="relative pt-[56.25%] bg-black overflow-hidden">
+              {isBeinmatch || iframeError ? (
+                <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center p-4 text-center bg-[#0f0f2d]">
+                  <span className="text-3xl mb-2">📺</span>
+                  <p className="text-sm font-semibold text-gray-200 mb-1">
+                    Baahintu Waxay Diyaar Ku Tahay Stream-ka
+                  </p>
+                  <a 
+                    href={activeVideoUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="bg-red-600 text-white text-xs px-5 py-2 rounded-lg font-bold hover:bg-red-500"
+                  >
+                    Foor Baahinta Tooska Ah 🚀
+                  </a>
+                </div>
+              ) : (
+                <>
+                  <iframe
+                    src={activeVideoUrl}
+                    className="absolute top-0 left-0 w-full h-full"
+                    allowFullScreen={!isYoutube}
+                    scrolling="no"
+                    allow="autoplay; encrypted-media"
+                    title="Ahmed Live TV Player"
+                    onError={() => setIframeError(true)}
+                    style={isYoutube ? { pointerEvents: 'none' } : {}}
                   />
-                  <span className="font-semibold text-sm truncate">{match.home_team}</span>
-                </div>
-
-                <div className="bg-green-600/20 text-green-400 text-xs font-bold px-2 py-1 rounded border border-green-600/30">
-                  {match.match_time}
-                </div>
-
-                <div className="flex items-center space-x-3 w-2/5 justify-end">
-                  <span className="font-semibold text-sm truncate text-right">{match.away_team}</span>
-                  <img
-                    src={match.away_logo}
-                    alt={match.away_team}
-                    className="w-10 h-10 rounded-full bg-gray-800 object-cover"
-                  />
-                </div>
-              </div>
-
-              {/* Stream Buttons Row */}
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  onClick={() =>
-                    handleStreamClick(match.link_1, `${match.home_team} vs ${match.away_team}`)
-                  }
-                  className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-4 rounded-lg text-sm transition text-center shadow-md shadow-blue-900/20"
-                >
-                  Stream 1
-                </button>
-                <button
-                  onClick={() =>
-                    handleStreamClick(match.link_2, `${match.home_team} vs ${match.away_team}`)
-                  }
-                  className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2.5 px-4 rounded-lg text-sm transition text-center shadow-md"
-                >
-                  Stream 2 (Ads)
-                </button>
-              </div>
+                  
+                  {/* Overlay daboolaya calaamadaha YouTube */}
+                  {isYoutube && (
+                    <div className="absolute bottom-0 right-0 w-[120px] h-[50px] bg-black/10 z-10 pointer-events-auto" />
+                  )}
+                </>
+              )}
             </div>
-          ))
+          </div>
         )}
+
+        {/* BADHANKA CAS: Waxaa laga saaray wixii YouTube xiriir la lahaa. Wuxuu toos u kicinayaa ciyaarta horyaalka taal */}
+        <button
+          onClick={() => {
+            if (matches.length > 0) {
+              handleStreamSelect(matches[0].link_1)
+            }
+          }}
+          className="w-full bg-red-600 text-white text-center py-3 rounded-lg mb-4 font-bold text-lg active:scale-95 transition-transform"
+        >
+          🔴 WATCH FOOTBALL LIVE NOW
+        </button>
+
+        {matches.length === 0 && <p className="text-white text-center mt-10">No live streams right now</p>}
+        
+        {matches.map((match) => (
+          <div key={match.id} className="bg-[#1A1A4B] rounded-lg p-4 mb-3 border border-slate-800/50">
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex items-center gap-3">
+                <img src={match.home_logo} alt="soccer-logo" className="w-8 h-8 rounded-full object-cover border border-slate-600" />
+                <span className="text-white font-bold">{match.home_team}</span>
+              </div>
+              <span className="bg-red-600 text-white text-[10px] px-2 py-1 rounded animate-pulse font-black">LIVE</span>
+            </div>
+
+            <div className="flex gap-2">
+              <button 
+                onClick={() => handleStreamSelect(match.link_1)} 
+                className={`flex-1 text-center py-2.5 rounded text-sm font-bold active:scale-95 transition-all ${
+                  activeVideoUrl === match.link_1 ? 'bg-blue-500 text-white ring-1 ring-white' : 'bg-blue-600 text-white'
+                }`}
+              >
+                Stream 1
+              </button>
+              <button 
+                onClick={() => handleStreamSelect(match.link_2)} 
+                className={`flex-1 text-center py-2.5 rounded text-sm font-bold active:scale-95 transition-all ${
+                  activeVideoUrl === match.link_2 ? 'bg-blue-500 text-white ring-1 ring-white' : 'bg-blue-600 text-white'
+                }`}
+              >
+                Stream 2
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
-  );
+  )
 }
