@@ -25,18 +25,19 @@ export default function LeaguePage() {
   const [currentMatchTitle, setCurrentMatchTitle] = useState<string>("");
 
   useEffect(() => {
-    fetch("/links.json")
+    // Koodhkan wuxuu si toos ah xogta uga soo jiidayaa GitHub links.json-kaaga weyn
+    fetch("https://raw.githubusercontent.com/maniishdeboss/v0-sports-live-website/main/links.json")
       .then((res) => res.json())
       .then((data) => setMatches(data))
       .catch((err) => console.error("Error loading links:", err));
   }, []);
 
   const handleStreamClick = (link: string, matchTitle: string) => {
-    // Haddii uu yahay Adsterra Smartlink, u oggolaan inuu tab cusub ku furmo si dakhli u dhalan karo
+    // Haddii uu yahay Adsterra Smartlink, tab cusub ha u furo si dakhli u dhalan karo
     if (link.includes("effectivecpmnetwork.com") || link.includes("adsterra")) {
       window.open(link, "_blank");
     } else {
-      // Haddii uu yahay link-ga ciyaaraha (Beinmatch), ku dhex fur Player-ka gudaha
+      // Haddii uu yahay link-ga ciyaaraha, ku dhex fur Player-ka gudaha app-ka
       setActiveStream(link);
       setCurrentMatchTitle(matchTitle);
     }
@@ -86,7 +87,7 @@ export default function LeaguePage() {
             ></iframe>
           </div>
           <p className="text-xs text-gray-400 mt-2 text-center">
-            Haddii baahintu istaagto ama ay jarto, fadlan dib u rais badhanka Stream-ka.
+            Haddii baahintu istaagto ama ay jarto, fadlan dib u riix badhanka Stream-ka.
           </p>
         </div>
       )}
