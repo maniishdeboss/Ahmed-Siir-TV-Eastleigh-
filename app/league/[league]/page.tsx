@@ -7,10 +7,10 @@ import { useParams } from "next/navigation";
 
 interface Match {
   id: number;
-  channel1: string;
-  channel2: string;
-  channel3: string;
-  channel4: string;
+  channel_1: string;
+  channel_2: string;
+  channel_3: string;
+  channel_4: string;
   upcoming: string;
   link_1: string;
   link_2: string;
