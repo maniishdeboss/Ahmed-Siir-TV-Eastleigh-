@@ -35,9 +35,9 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      // Waxaa loo qaabeeyey qaabka iframe-ku uu ku dhex furmayo mobilka dhexdiisa si toos ah
-      link_1: 'https://www.youtube.com/embed/IZyZucveQ-E?autoplay=1&playsinline=1&enablejsapi=1',
-      link_2: 'https://www.youtube.com/embed/K_Pw3qP4Cpc?autoplay=1&playsinline=1&enablejsapi=1'
+      // Parameter-yada qarinta YouTube oo dhammaystiran (Controls=0, modestbranding=1)
+      link_1: 'https://www.youtube.com/embed/IZyZucveQ-E?autoplay=1&mute=1&playsinline=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&fs=0',
+      link_2: 'https://www.youtube.com/embed/K_Pw3qP4Cpc?autoplay=1&mute=1&playsinline=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&fs=0'
     }
   ],
   'uefa': [
@@ -117,30 +117,32 @@ export default function LeaguePage() {
 
       <div className="p-3 max-w-xl mx-auto">
         
-        {/* IN-APP VIDEO PLAYER */}
+        {/* IN-APP VIDEO PLAYER (Oo gabi ahaanba la qariyey YouTube-kiisa) */}
         {activeVideoUrl && (
-          <div className="bg-[#1A1A4B] rounded-xl overflow-hidden mb-6 border border-gray-800 shadow-2xl">
+          <div className="bg-[#1A1A4B] rounded-xl overflow-hidden mb-6 border border-gray-800 shadow-2xl relative">
             <div className="bg-[#111135] p-3 flex justify-between items-center border-b border-gray-800">
               <span className="text-xs text-red-500 font-bold animate-pulse flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-red-500"></span>
                 AHMED LIVE TV PLAYER
               </span>
               <span className="text-[10px] bg-slate-800 text-gray-400 px-2 py-0.5 rounded">
-                Live Stream
+                Premium Live
               </span>
             </div>
             
-            {/* Box-ka Muqaalka ee rasmiga ah */}
-            <div className="relative pt-[56.25%] bg-black">
+            {/* Box-ka Muqaalka oo leh Crop si loo qariyo logada YouTube */}
+            <div className="relative pt-[56.25%] bg-black overflow-hidden">
               <iframe
                 src={activeVideoUrl}
-                className="absolute top-0 left-0 w-full h-full border-0"
-                allowFullScreen
+                className="absolute top-0 left-0 w-full h-full border-0 transform scale-105"
+                allowFullScreen={false}
                 scrolling="no"
-                // Xeeladda loogu qasbayo inuu appka dhexdiisa ku jiro
-                allow="autoplay; encrypted-media; picture-in-picture"
+                allow="autoplay; encrypted-media"
                 title="Ahmed Live TV Player"
               />
+              
+              {/* LAKABKA TRANSPARENT-KA AH: Kani wuxuu diidayaa in qofku taabto shaashada si badhamada YouTube aysan marnaba u muuqan! */}
+              <div className="absolute inset-0 bg-transparent pointer-events-none z-10" />
             </div>
           </div>
         )}
