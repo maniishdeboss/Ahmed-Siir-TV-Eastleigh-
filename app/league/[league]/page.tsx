@@ -7,11 +7,11 @@ import { useParams } from "next/navigation";
 
 interface Match {
   id: number;
-  home_team: string;
-  away_team: string;
-  home_logo: string;
-  away_logo: string;
-  match_time: string;
+  channel1: string;
+  channel2: string;
+  channel3: string;
+  channel4: string;
+  upcoming: string;
   link_1: string;
   link_2: string;
 }
