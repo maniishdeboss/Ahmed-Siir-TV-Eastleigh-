@@ -28,7 +28,7 @@ const HOMEPAGE_MATCHES: MainMatch[] = [
 // Xayeysiiska Adsterra (key)
 const ADSTERRA_URL = "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
 
-export default function HomePage() {https://siiir.tv/
+export default function HomePage() {
   
   const handleStreamClick = (streamUrl: string) => {
     window.open(ADSTERRA_URL, "_blank");
