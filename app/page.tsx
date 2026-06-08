@@ -12,6 +12,7 @@ type MainMatch = {
   link_2: string
 }
 
+// Waxaan ka saaray 'id: 2' oo ahaa qaybtii YouTube-ka
 const HOMEPAGE_MATCHES: MainMatch[] = [
   {
     id: 1,
@@ -22,17 +23,6 @@ const HOMEPAGE_MATCHES: MainMatch[] = [
     match_time: 'LIVE NOW',
     link_1: 'https://siiir.tv/',
     link_2: 'https://beinmatch26.com/bein/live/20160'
-  },
-  {
-    id: 2,
-    home_team: 'YouTube Live Match',
-    away_team: 'Alternative Stream',
-    home_logo: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=100&auto=format&fit=crop',
-    away_logo: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=100&auto=format&fit=crop',
-    match_time: 'LIVE NOW',
-    // XALKA YOUTUBE: Waxaan u dhex galinnay koodh YouTube oo shaqaynaya (Embed URL)
-    link_1: 'https://www.youtube.com/embed/jfKfPfyJRdk', 
-    link_2: 'https://siiir.tv/'
   }
 ]
 
@@ -96,37 +86,30 @@ export default function HomePage() {
         <div className="mt-6">
           <h3 className="text-xs font-bold text-gray-400 mb-3 tracking-wider uppercase">HORYAALLADA NAADIGA</h3>
           <div className="grid grid-cols-2 gap-3">
-            
             <Link href="/league/fifa-world-cup" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
               <span>⚽</span>
               <span className="text-xs font-bold">FIFA World Cup 2026</span>
             </Link>
-
             <Link href="/league/epl" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
               <span>⚽</span>
               <span className="text-xs font-bold">EPL</span>
             </Link>
-
             <Link href="/league/uefa" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
               <span>🏆</span>
               <span className="text-xs font-bold">UEFA Champions League</span>
             </Link>
-
             <Link href="/league/la-liga" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
               <span>🇪🇸</span>
               <span className="text-xs font-bold">La Liga</span>
             </Link>
-
             <Link href="/league/serie-a" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
               <span>🇮🇹</span>
               <span className="text-xs font-bold">Serie A</span>
             </Link>
-
             <Link href="/league/bundesliga" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
               <span>🇩🇪</span>
               <span className="text-xs font-bold">Bundesliga</span>
             </Link>
-
           </div>
         </div>
 
