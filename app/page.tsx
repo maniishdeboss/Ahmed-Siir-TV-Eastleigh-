@@ -1,62 +1,78 @@
 'use client'
+import Link from 'next/link'
 
+type MainMatch = {
+  id: number
+  home_team: string
+  away_team: string
+  home_logo: string
+  away_logo: string
+  match_time: string
+  link_1: string
+  link_2: string
+}
+
+// Halkan ayaad ku beddeli kartaa link-yada ciyaaraha
+const HOMEPAGE_MATCHES: MainMatch[] = [
+  {
+    id: 1,
+    home_team: 'beIN SPORTS HD 1',
+    away_team: 'Beinmatch Live',
+    home_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+    away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+    match_time: 'LIVE NOW',
+    link_1: 'https://siiir.tv/',
+    link_2: 'https://beinmatch26.com/bein/live/20160' 
+  }
+]
+
+// Halkan waa link-gaaga Xayeysiiska
 const ADSTERRA_URL = "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
 
 export default function HomePage() {
   
-  const handleStreamClick = () => {
+  const handleStreamClick = (streamUrl: string) => {
     window.open(ADSTERRA_URL, "_blank");
+    window.open(streamUrl, "_blank");
   };
 
   return (
-    <div className="bg-[#0A0A23] min-h-screen text-white p-4 font-sans">
-      
-      <div className="text-center mb-6">
-        <h1 className="text-xl font-bold">Ahmed Abdikani LIVE TV 🇸🇴 🖥️</h1>
-        <p className="text-[10px] text-gray-400">Ciyaaraha Caalamiga ah oo Toos ah</p>
+    <div className="bg-[#0A0A23] min-h-screen text-white pb-10 font-sans">
+      <div className="bg-[#1A1A4B] p-4 text-center border-b border-gray-800 sticky top-0 z-50 shadow-lg">
+        <h1 className="text-xl font-black tracking-wide">Ahmed Abdikani LIVE TV 🇸🇴 🖥️</h1>
       </div>
 
-      <h2 className="text-[10px] font-bold text-yellow-500 mb-3 uppercase tracking-widest flex items-center gap-2">
-        <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-        🔴 CIYAARAHA MAANTA TOOS U SOCDA
-      </h2>
+      <div className="p-4 max-w-xl mx-auto">
+        <h2 className="text-xs font-bold text-yellow-400 mb-4 uppercase flex items-center gap-2">
+          🔴 CIYAARAHA MAANTA TOOS U SOCDA
+        </h2>
 
-      <div className="space-y-4">
-        {/* Match 1 */}
-        <div className="bg-[#1A1A4B] rounded-2xl p-4 border border-gray-700">
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-xs">beIN SPORTS HD 1 vs Beinmatch Live</span>
-            <span className="text-[9px] bg-red-500/20 text-red-400 px-2 py-0.5 rounded">LIVE NOW</span>
-          </div>
-          <div className="flex gap-2">
-            <button onClick={handleStreamClick} className="flex-1 py-2 bg-yellow-500 text-black rounded-lg text-xs font-bold">Stream 2 ↗</button>
-            <button onClick={handleStreamClick} className="flex-1 py-2 bg-blue-600 rounded-lg text-xs font-bold">Stream 3 ↗</button>
-          </div>
-        </div>
+        <div className="space-y-4 mb-8">
+          {HOMEPAGE_MATCHES.map((match) => (
+            <div key={match.id} className="bg-[#1A1A4B] rounded-2xl p-4 border border-gray-800">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-xs font-bold">{match.home_team} vs {match.away_team}</span>
+                <span className="bg-red-500/20 text-red-400 px-2 py-0.5 rounded text-[9px] font-bold animate-pulse">
+                  {match.match_time}
+                </span>
+              </div>
 
-        {/* Match 2 */}
-        <div className="bg-[#1A1A4B] rounded-2xl p-4 border border-gray-700">
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-xs">YouTube Live Match vs Alternative Stream</span>
-            <span className="text-[9px] bg-red-500/20 text-red-400 px-2 py-0.5 rounded">LIVE NOW</span>
-          </div>
-          <div className="flex gap-2">
-            <button onClick={handleStreamClick} className="flex-1 py-2 bg-yellow-500 text-black rounded-lg text-xs font-bold">Stream 2 ↗</button>
-            <button onClick={handleStreamClick} className="flex-1 py-2 bg-blue-600 rounded-lg text-xs font-bold">Stream 3 ↗</button>
-          </div>
-        </div>
-      </div>
-
-      {/* HORYAALLADA */}
-      <div className="mt-8">
-        <h3 className="text-[10px] text-gray-400 mb-3 uppercase tracking-widest">HORYAALLADA NAADIGA</h3>
-        <div className="grid grid-cols-2 gap-2 text-xs font-bold">
-          <div className="bg-[#1A1A4B] p-3 rounded-lg border border-gray-700">⚽ FIFA World Cup 2026</div>
-          <div className="bg-[#1A1A4B] p-3 rounded-lg border border-gray-700">⚽ EPL</div>
-          <div className="bg-[#1A1A4B] p-3 rounded-lg border border-gray-700">🏆 UEFA Champions League</div>
-          <div className="bg-[#1A1A4B] p-3 rounded-lg border border-gray-700">🇪🇸 La Liga</div>
-          <div className="bg-[#1A1A4B] p-3 rounded-lg border border-gray-700">🇮🇹 Serie A</div>
-          <div className="bg-[#1A1A4B] p-3 rounded-lg border border-gray-700">🇩🇪 Bundesliga</div>
+              <div className="flex gap-3">
+                <button 
+                  onClick={() => handleStreamClick(match.link_1)}
+                  className="flex-1 py-2.5 bg-green-600 rounded-xl text-xs font-black"
+                >
+                  Stream 1 (Live) ↗
+                </button>
+                <button 
+                  onClick={() => handleStreamClick(match.link_2)}
+                  className="flex-1 py-2.5 bg-yellow-500 text-black rounded-xl text-xs font-black"
+                >
+                  Stream 2 (Beinmatch) ↗
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
