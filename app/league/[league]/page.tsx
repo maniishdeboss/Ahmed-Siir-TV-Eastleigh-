@@ -1,198 +1,43 @@
 'use client'
-import Link from 'next/link'
+import { useState } from 'react'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-
-type Match = {
-  id: number
-  home_team: string
-  away_team: string
-  home_logo: string
-  away_logo: string
-  match_time: string
-  link_1: string
-  link_2: string
-}
-
-const MOCK_MATCHES: { [key: string]: Match[] } = {
-  'fifa-world-cup': [
-    {
-      id: 1, 
-      home_team: '🇫🇷 FRANCE vs LIVE MATCH', 
-      away_team: 'Siiir TV Premium',
-      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
-      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
-      match_time: 'LIVE NOW',
-      link_1: 'https://siiir.tv/', 
-      link_2: 'https://beinmatch26.com/bein/live/20160'
-    },
-    {
-      id: 2, 
-      home_team: 'FIFA MATCH 2', 
-      away_team: 'Backup Stream',
-      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
-      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
-      match_time: '9:00 PM',
-      link_1: 'https://siiir.tv/',
-      link_2: 'https://beinmatch26.com/bein/live/20160'
-    }
-  ],
-  'epl': [
-    {
-      id: 1, 
-      home_team: '🇫🇷 FRANCE vs LIVE MATCH (EPL)', 
-      away_team: 'Siiir TV Sports',
-      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
-      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
-      match_time: 'LIVE NOW',
-      link_1: 'https://siiir.tv/',
-      link_2: 'https://beinmatch26.com/bein/live/20160'
-    },
-    {
-      id: 2, 
-      home_team: 'EPL MATCH 2', 
-      away_team: 'Backup Stream',
-      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
-      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
-      match_time: '9:00 PM',
-      link_1: 'https://siiir.tv/',
-      link_2: 'https://beinmatch26.com/bein/live/20160'
-    }
-  ],
-  'uefa': [
-    {
-      id: 1, 
-      home_team: '🇫🇷 FRANCE vs LIVE MATCH (UEFA)', 
-      away_team: 'Siiir TV Live',
-      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
-      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
-      match_time: 'LIVE NOW',
-      link_1: 'https://siiir.tv/',
-      link_2: 'https://beinmatch26.com/bein/live/20160'
-    }
-  ],
-  'la-liga': [
-    {
-      id: 1, 
-      home_team: '🇫🇷 FRANCE vs LIVE MATCH (La Liga)', 
-      away_team: 'Siiir TV Live',
-      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
-      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
-      match_time: 'LIVE NOW',
-      link_1: 'https://siiir.tv/',
-      link_2: 'https://beinmatch26.com/bein/live/20160'
-    }
-  ],
-  'serie-a': [
-    {
-      id: 1, 
-      home_team: '🇫🇷 FRANCE vs LIVE MATCH (Serie A)', 
-      away_team: 'Siiir TV Live',
-      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
-      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
-      match_time: 'LIVE NOW',
-      link_1: 'https://siiir.tv/',
-      link_2: 'https://beinmatch26.com/bein/live/20160'
-    }
-  ],
-  'bundesliga': [
-    {
-      id: 1, 
-      home_team: '🇫🇷 FRANCE vs LIVE MATCH (Bundesliga)', 
-      away_team: 'Siiir TV Live',
-      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
-      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
-      match_time: 'LIVE NOW',
-      link_1: 'https://siiir.tv/',
-      link_2: 'https://beinmatch26.com/bein/live/20160'
-    }
-  ]
-}
 
 export default function LeaguePage() {
   const params = useParams()
   const league = params?.league as string
-  const matches = MOCK_MATCHES[league] || []
-
-  const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (matches.length > 0 && !activeVideoUrl) {
-      // beIN match ka dhig midka caadiga ah si uusan player-ku u dillaacin
-      setActiveVideoUrl(matches[0].link_2)
-    }
-  }, [matches, activeVideoUrl])
+  
+  // Halkan ku beddel ID-ga rasmiga ah ee YouTube-kaaga
+  const [videoUrl, setVideoUrl] = useState("https://www.youtube.com/embed/lDePOyElEeY")
 
   return (
-    <div className="bg-[#0A0A23] min-h-screen text-white pb-10 font-sans">
-      <div className="bg-[#1A1A4B] p-4 flex items-center sticky top-0 z-50 shadow-md border-b border-gray-800">
-        <Link href="/" className="text-white mr-4 text-2xl hover:text-gray-300">←</Link>
-        <h1 className="text-white text-xl font-bold capitalize">{league?.replace(/-/g, ' ')}</h1>
+    <div className="bg-[#0A0A23] min-h-screen text-white p-4">
+      <h1 className="text-xl font-bold capitalize mb-4">{league?.replace(/-/g, ' ')}</h1>
+
+      {/* YouTube Player */}
+      <div className="relative pt-[56.25%] w-full bg-black rounded-2xl overflow-hidden mb-6">
+        <iframe
+          className="absolute top-0 left-0 w-full h-full"
+          src={videoUrl}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
       </div>
 
-      <div className="p-4 max-w-xl mx-auto">
+      {/* Button-yada Streams-ka */}
+      <div className="grid grid-cols-2 gap-4">
+        <button 
+          onClick={() => setVideoUrl("https://www.youtube.com/embed/lDePOyElEeY")}
+          className="py-3 bg-red-600 rounded-xl font-bold text-sm"
+        >
+          YouTube Live
+        </button>
         
-        {activeVideoUrl && (
-          <div className="bg-[#1A1A4B] rounded-2xl overflow-hidden mb-5 border border-gray-800 shadow-2xl">
-            <div className="bg-[#111135] p-3.5 flex justify-between items-center border-b border-gray-800">
-              <span className="text-xs text-red-500 font-extrabold animate-pulse flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-md shadow-red-500/50"></span>
-                AHMED LIVE TV PLAYER
-              </span>
-            </div>
-            
-            <div className="relative bg-black pt-[56.25%]">
-              <iframe
-                src={activeVideoUrl}
-                className="absolute top-0 left-0 w-full h-full border-0"
-                allowFullScreen
-                allow="autoplay; encrypted-media"
-                title="Ahmed Live TV Player"
-              />
-            </div>
-          </div>
-        )}
-
-        <div className="space-y-4">
-          {matches.map((match) => (
-            <div key={match.id} className="bg-[#1A1A4B] rounded-2xl p-4 border border-gray-800 shadow-lg">
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex -space-x-2">
-                    <img src={match.home_logo} alt="home" className="w-8 h-8 rounded-full object-cover border-2 border-[#1A1A4B]" />
-                    <img src={match.away_logo} alt="away" className="w-8 h-8 rounded-full object-cover border-2 border-[#1A1A4B]" />
-                  </div>
-                  <span className="text-gray-200 font-medium text-xs">{match.home_team}</span>
-                </div>
-                <span className="text-[9px] px-2 py-0.5 rounded-md font-bold bg-red-500/20 text-red-500 border border-red-500/30 animate-pulse">
-                  {match.match_time}
-                </span>
-              </div>
-
-              <div className="flex gap-3">
-                {/* XALKA: Siiir TV hadda wuxuu ku furmayaa Tab Cusub si uusan u dillaacin player-ka dhexdiisa */}
-                <a 
-                  href={match.link_1}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 text-center py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl text-xs font-black block transition-all hover:from-blue-500"
-                >
-                  Stream 1 (Siiir TV) ↗
-                </a>
-                
-                <button 
-                  onClick={() => setActiveVideoUrl(match.link_2)} 
-                  className={`flex-1 text-center py-2.5 rounded-xl text-xs font-bold transition-all ${
-                    activeVideoUrl === match.link_2 ? 'bg-blue-500 text-white' : 'bg-[#242466] text-gray-200'
-                  }`}
-                >
-                  Stream 2 (Beinmatch)
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
+        <button 
+          onClick={() => window.open("https://siiir.tv", "_blank")}
+          className="py-3 bg-blue-600 rounded-xl font-bold text-sm"
+        >
+          Siiir TV (External)
+        </button>
       </div>
     </div>
   )
