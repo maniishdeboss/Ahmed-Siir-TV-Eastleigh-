@@ -15,7 +15,6 @@ type Match = {
 }
 
 const MOCK_MATCHES: { [key: string]: Match[] } = {
-  // Halkan waxaa loo saxay 'fifa-world-cup' si uu ula jaanqaado bogga hore
   'fifa-world-cup': [
     {
       id: 1, 
@@ -36,11 +35,11 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      link_1: 'https://www.youtube.com/embed/VZoPxuna9uM?autoplay=1&mute=1&modestbranding=1&rel=0&controls=0&showinfo=0',
-      link_2: 'https://www.youtube.com/embed/K_Pw3qP4Cpc?autoplay=1&mute=1&modestbranding=1&rel=0&controls=0&showinfo=0'
+      // Waxaa loo qaabeeyey qaabka iframe-ku uu ku dhex furmayo mobilka dhexdiisa si toos ah
+      link_1: 'https://www.youtube.com/embed/IZyZucveQ-E?autoplay=1&playsinline=1&enablejsapi=1',
+      link_2: 'https://www.youtube.com/embed/K_Pw3qP4Cpc?autoplay=1&playsinline=1&enablejsapi=1'
     }
   ],
-  // Halkan waxaa loo saxay 'uefa' si uu ugu xirmo bogga hore
   'uefa': [
     {
       id: 3, 
@@ -97,120 +96,94 @@ export default function LeaguePage() {
   const matches = MOCK_MATCHES[league] || []
 
   const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
-  const [iframeError, setIframeError] = useState(false)
+
+  useEffect(() => {
+    if (matches.length > 0 && !activeVideoUrl) {
+      setActiveVideoUrl(matches[0].link_1)
+    }
+  }, [matches, activeVideoUrl])
 
   const handleStreamSelect = (url: string) => {
-    setIframeError(false)
     setActiveVideoUrl(url)
   }
 
-  const isBeinmatch = activeVideoUrl ? activeVideoUrl.includes('beinmatch') : false
-  const isYoutube = activeVideoUrl ? activeVideoUrl.includes('youtube.com') : false
-
   return (
-    <div className="bg-[#0A0A23] min-h-screen pb-10">
-      {/* Header */}
-      <div className="bg-[#1A1A4B] p-4 flex items-center sticky top-0 z-50 shadow-md">
-        <Link href="/" className="text-white mr-4 text-2xl">←</Link>
+    <div className="bg-[#0A0A23] min-h-screen text-white pb-10 font-sans">
+      {/* Top Header */}
+      <div className="bg-[#1A1A4B] p-4 flex items-center sticky top-0 z-50 shadow-md border-b border-gray-800">
+        <Link href="/" className="text-white mr-4 text-2xl hover:text-gray-300">←</Link>
         <h1 className="text-white text-xl font-bold capitalize">{league?.replace(/-/g, ' ')}</h1>
       </div>
 
       <div className="p-3 max-w-xl mx-auto">
         
-        {/* PREMIUM PLAYER CONTAINER */}
+        {/* IN-APP VIDEO PLAYER */}
         {activeVideoUrl && (
-          <div className="bg-[#1A1A4B] rounded-lg overflow-hidden mb-4 border border-red-600 shadow-xl">
-            <div className="bg-[#111135] p-2 flex justify-between items-center border-b border-slate-800">
-              <span className="text-xs text-red-500 font-bold animate-pulse flex items-center gap-1">
-                🔴 AHMED LIVE TV PLAYER
+          <div className="bg-[#1A1A4B] rounded-xl overflow-hidden mb-6 border border-gray-800 shadow-2xl">
+            <div className="bg-[#111135] p-3 flex justify-between items-center border-b border-gray-800">
+              <span className="text-xs text-red-500 font-bold animate-pulse flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                AHMED LIVE TV PLAYER
               </span>
-              <button 
-                onClick={() => {
-                  setActiveVideoUrl(null)
-                  setIframeError(false)
-                }} 
-                className="text-gray-400 hover:text-white text-xs bg-slate-800 px-2 py-0.5 rounded"
-              >
-                Xir Player-ka
-              </button>
+              <span className="text-[10px] bg-slate-800 text-gray-400 px-2 py-0.5 rounded">
+                Live Stream
+              </span>
             </div>
             
-            <div className="relative pt-[56.25%] bg-black overflow-hidden">
-              {isBeinmatch || iframeError ? (
-                <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center p-4 text-center bg-[#0f0f2d]">
-                  <span className="text-3xl mb-2">📺</span>
-                  <p className="text-sm font-semibold text-gray-200 mb-1">
-                    Baahintu Waxay Diyaar Ku Tahay Stream-ka
-                  </p>
-                  <a 
-                    href={activeVideoUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="bg-red-600 text-white text-xs px-5 py-2 rounded-lg font-bold hover:bg-red-500"
-                  >
-                    Fura Baahinta Tooska Ah 🚀
-                  </a>
-                </div>
-              ) : (
-                <>
-                  <iframe
-                    src={activeVideoUrl}
-                    className="absolute top-0 left-0 w-full h-full"
-                    allowFullScreen={!isYoutube}
-                    scrolling="no"
-                    allow="autoplay; encrypted-media"
-                    title="Ahmed Live TV Player"
-                    onError={() => setIframeError(true)}
-                    style={isYoutube ? { pointerEvents: 'none' } : {}}
-                  />
-                  
-                  {/* Overlay daboolaya calaamadaha YouTube */}
-                  {isYoutube && (
-                    <div className="absolute bottom-0 right-0 w-[120px] h-[50px] bg-black/10 z-10 pointer-events-auto" />
-                  )}
-                </>
-              )}
+            {/* Box-ka Muqaalka ee rasmiga ah */}
+            <div className="relative pt-[56.25%] bg-black">
+              <iframe
+                src={activeVideoUrl}
+                className="absolute top-0 left-0 w-full h-full border-0"
+                allowFullScreen
+                scrolling="no"
+                // Xeeladda loogu qasbayo inuu appka dhexdiisa ku jiro
+                allow="autoplay; encrypted-media; picture-in-picture"
+                title="Ahmed Live TV Player"
+              />
             </div>
           </div>
         )}
 
-        {/* BADHANKA CAS */}
-        <button
-          onClick={() => {
-            if (matches.length > 0) {
-              handleStreamSelect(matches[0].link_1)
-            }
-          }}
-          className="w-full bg-red-600 text-white text-center py-3 rounded-lg mb-4 font-bold text-lg active:scale-95 transition-transform"
-        >
+        {/* Badhanka gaduudka ah */}
+        <div className="w-full bg-red-600 text-white text-center py-3 rounded-lg mb-6 font-bold text-base shadow-lg tracking-wide">
           🔴 WATCH FOOTBALL LIVE NOW
-        </button>
+        </div>
 
-        {matches.length === 0 && <p className="text-white text-center mt-10">Hadda wax baahin ah ma jiraan.</p>}
+        {matches.length === 0 && (
+          <p className="text-gray-400 text-center mt-10">Hadda wax baahin ah ma jiraan.</p>
+        )}
         
+        {/* LIISKA CIYAARAHA IYO BADHAMADA STREAM-KA */}
         {matches.map((match) => (
-          <div key={match.id} className="bg-[#1A1A4B] rounded-lg p-4 mb-3 border border-slate-800/50">
-            <div className="flex justify-between items-center mb-4">
+          <div key={match.id} className="bg-[#1A1A4B] rounded-xl p-4 mb-4 border border-gray-800 shadow-md">
+            <div className="flex justify-between items-center mb-5">
               <div className="flex items-center gap-3">
-                <img src={match.home_logo} alt="soccer-logo" className="w-8 h-8 rounded-full object-cover border border-slate-600" />
-                <span className="text-white font-bold">{match.home_team}</span>
+                <img src={match.home_logo} alt="soccer-logo" className="w-9 h-9 rounded-full object-cover border border-gray-700" />
+                <span className="text-white font-semibold text-sm">{match.home_team}</span>
               </div>
-              <span className="bg-red-600 text-white text-[10px] px-2 py-1 rounded animate-pulse font-black">LIVE</span>
+              <span className="bg-red-600 text-white text-[10px] px-2.5 py-1 rounded-full animate-pulse font-black tracking-wider">
+                LIVE
+              </span>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <button 
                 onClick={() => handleStreamSelect(match.link_1)} 
-                className={`flex-1 text-center py-2.5 rounded text-sm font-bold active:scale-95 transition-all ${
-                  activeVideoUrl === match.link_1 ? 'bg-blue-500 text-white ring-1 ring-white' : 'bg-blue-600 text-white'
+                className={`flex-1 text-center py-3 rounded-xl text-xs font-bold transition-all transform active:scale-95 ${
+                  activeVideoUrl === match.link_1 
+                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20 ring-1 ring-blue-300' 
+                    : 'bg-blue-600 hover:bg-blue-500 text-white'
                 }`}
               >
                 Stream 1
               </button>
               <button 
                 onClick={() => handleStreamSelect(match.link_2)} 
-                className={`flex-1 text-center py-2.5 rounded text-sm font-bold active:scale-95 transition-all ${
-                  activeVideoUrl === match.link_2 ? 'bg-blue-500 text-white ring-1 ring-white' : 'bg-blue-600 text-white'
+                className={`flex-1 text-center py-3 rounded-xl text-xs font-bold transition-all transform active:scale-95 ${
+                  activeVideoUrl === match.link_2 
+                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20 ring-1 ring-blue-300' 
+                    : 'bg-blue-600 hover:bg-blue-500 text-white'
                 }`}
               >
                 Stream 2
