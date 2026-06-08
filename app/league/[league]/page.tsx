@@ -7,7 +7,7 @@ export default function LeaguePage() {
   const league = params?.league as string
   
   // Halkan ku beddel ID-ga rasmiga ah ee YouTube-kaaga
-  const [videoUrl, setVideoUrl] = useState("https://www.youtube.com/embed/lDePOyElEeY")
+  const [videoUrl, setVideoUrl] = useState("Https://www.youtube.com/embed/live/lDePOyElEeY?si=L6EG3rGbU0olQ44B  ")
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
