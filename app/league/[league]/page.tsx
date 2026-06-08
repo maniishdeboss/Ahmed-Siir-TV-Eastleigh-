@@ -14,28 +14,47 @@ type Match = {
   link_2: string
 }
 
-// Xogta horyaal kasta oo leh kulanka koowaad ee France iyo mareegaha rasmiga ah
 const MOCK_MATCHES: { [key: string]: Match[] } = {
   'fifa-world-cup': [
     {
       id: 1, 
-      home_team: 'FRANCE vs LIVE MATCH', 
+      home_team: '🇫🇷 FRANCE vs LIVE MATCH', 
       away_team: 'Siiir TV Premium',
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
-      link_1: 'https://siiir.tv/', // Link-gii cusbaa ee Siiir TV ayaan halkaan kaga dhigay midka koowaad!
+      link_1: 'https://siiir.tv/', 
+      link_2: 'https://beinmatch26.com/bein/live/20160'
+    },
+    {
+      id: 2, 
+      home_team: 'FIFA MATCH 2', 
+      away_team: 'Backup Stream',
+      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+      match_time: 'NEXT MATCH',
+      link_1: 'https://siiir.tv/',
       link_2: 'https://beinmatch26.com/bein/live/20160'
     }
   ],
   'epl': [
     {
       id: 1, 
-      home_team: 'FRANCE vs LIVE MATCH (EPL)', 
+      home_team: '🇫🇷 FRANCE vs LIVE MATCH (EPL)', 
       away_team: 'Siiir TV Sports',
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
+      link_1: 'https://siiir.tv/',
+      link_2: 'https://beinmatch26.com/bein/live/20160'
+    },
+    {
+      id: 2, 
+      home_team: 'EPL MATCH 2', 
+      away_team: 'Backup Stream',
+      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+      match_time: 'NEXT MATCH',
       link_1: 'https://siiir.tv/',
       link_2: 'https://beinmatch26.com/bein/live/20160'
     }
@@ -43,11 +62,21 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
   'uefa': [
     {
       id: 1, 
-      home_team: 'FRANCE vs LIVE MATCH (UEFA)', 
+      home_team: '🇫🇷 FRANCE vs LIVE MATCH (UEFA)', 
       away_team: 'Siiir TV Live',
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
+      link_1: 'https://siiir.tv/',
+      link_2: 'https://beinmatch26.com/bein/live/20160'
+    },
+    {
+      id: 2, 
+      home_team: 'UEFA MATCH 2', 
+      away_team: 'Backup Stream',
+      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+      match_time: 'NEXT MATCH',
       link_1: 'https://siiir.tv/',
       link_2: 'https://beinmatch26.com/bein/live/20160'
     }
@@ -55,11 +84,21 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
   'la-liga': [
     {
       id: 1, 
-      home_team: 'FRANCE vs LIVE MATCH (La Liga)', 
+      home_team: '🇫🇷 FRANCE vs LIVE MATCH (La Liga)', 
       away_team: 'Siiir TV Live',
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
+      link_1: 'https://siiir.tv/',
+      link_2: 'https://beinmatch26.com/bein/live/20160'
+    },
+    {
+      id: 2, 
+      home_team: 'LA LIGA MATCH 2', 
+      away_team: 'Backup Stream',
+      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+      match_time: 'NEXT MATCH',
       link_1: 'https://siiir.tv/',
       link_2: 'https://beinmatch26.com/bein/live/20160'
     }
@@ -67,11 +106,21 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
   'serie-a': [
     {
       id: 1, 
-      home_team: 'FRANCE vs LIVE MATCH (Serie A)', 
+      home_team: '🇫🇷 FRANCE vs LIVE MATCH (Serie A)', 
       away_team: 'Siiir TV Live',
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
+      link_1: 'https://siiir.tv/',
+      link_2: 'https://beinmatch26.com/bein/live/20160'
+    },
+    {
+      id: 2, 
+      home_team: 'SERIE A MATCH 2', 
+      away_team: 'Backup Stream',
+      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+      match_time: 'NEXT MATCH',
       link_1: 'https://siiir.tv/',
       link_2: 'https://beinmatch26.com/bein/live/20160'
     }
@@ -79,11 +128,21 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
   'bundesliga': [
     {
       id: 1, 
-      home_team: 'FRANCE vs LIVE MATCH (Bundesliga)', 
+      home_team: '🇫🇷 FRANCE vs LIVE MATCH (Bundesliga)', 
       away_team: 'Siiir TV Live',
       home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
       away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
       match_time: 'LIVE NOW',
+      link_1: 'https://siiir.tv/',
+      link_2: 'https://beinmatch26.com/bein/live/20160'
+    },
+    {
+      id: 2, 
+      home_team: 'BUNDESLIGA MATCH 2', 
+      away_team: 'Backup Stream',
+      home_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
+      away_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
+      match_time: 'NEXT MATCH',
       link_1: 'https://siiir.tv/',
       link_2: 'https://beinmatch26.com/bein/live/20160'
     }
@@ -93,21 +152,14 @@ const MOCK_MATCHES: { [key: string]: Match[] } = {
 export default function LeaguePage() {
   const params = useParams()
   const league = params?.league as string
-  
-  // Nidaamka dhalinaya 8 ciyaarood oo habaysan
-  const rawMatches = MOCK_MATCHES[league] || []
-  const matches = rawMatches.length > 0 ? Array.from({ length: 8 }, (_, i) => ({
-    ...rawMatches[0],
-    id: i + 1,
-    home_team: i === 0 ? '🇫🇷 FRANCE vs LIVE' : `${league?.replace(/-/g, ' ').toUpperCase()} Match ${i + 1}`,
-    match_time: i === 0 ? 'LIVE NOW' : 'NEXT MATCH',
-  })) : []
+  const matches = MOCK_MATCHES[league] || []
 
+  // Si toos ah ugu dhex fur player-ka dhexdiisa Siiir TV marka hore
   const [activeVideoUrl, setActiveVideoUrl] = useState<string | null>(null)
 
   useEffect(() => {
     if (matches.length > 0 && !activeVideoUrl) {
-      setActiveVideoUrl(matches[0].link_2) // Default player-ka sare ku rid link-ga video-ga ogol
+      setActiveVideoUrl(matches[0].link_1)
     }
   }, [matches, activeVideoUrl])
 
@@ -121,7 +173,7 @@ export default function LeaguePage() {
 
       <div className="p-4 max-w-xl mx-auto">
         
-        {/* PLAYER-KA SARE */}
+        {/* PLAYER-KA APPKAA DEFAUL AHAAN UGU DHEX FURMAYA */}
         {activeVideoUrl && (
           <div className="bg-[#1A1A4B] rounded-2xl overflow-hidden mb-5 border border-gray-800 shadow-2xl relative">
             <div className="bg-[#111135] p-3.5 flex justify-between items-center border-b border-gray-800">
@@ -139,7 +191,7 @@ export default function LeaguePage() {
                 src={activeVideoUrl}
                 className="absolute top-0 left-0 w-full h-full border-0 transform scale-105"
                 allowFullScreen
-                scrolling="no"
+                scrolling="yes"
                 allow="autoplay; encrypted-media"
                 title="Ahmed Live TV Player"
               />
@@ -148,11 +200,11 @@ export default function LeaguePage() {
         )}
 
         {/* Badhanka Cas */}
-        <div className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white text-center py-3.5 rounded-xl mb-6 font-black text-sm shadow-xl tracking-wider uppercase animate-pulse">
+        <div className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white text-center py-3.5 rounded-xl mb-6 font-black text-sm shadow-xl tracking-wider uppercase">
           🔴 WATCH LIVE SPORTS NOW
         </div>
 
-        {/* LIISKA 8-DA CIYAAROOD */}
+        {/* LIISKA 2 CIYAAROOD KALIYA EE KOOBAN */}
         <div className="space-y-4">
           {matches.map((match, i) => (
             <div key={match.id} className="bg-[#1A1A4B] rounded-2xl p-4 border border-gray-800 shadow-lg">
@@ -174,17 +226,19 @@ export default function LeaguePage() {
               </div>
 
               <div className="flex gap-3">
-                {/* Stream 1: Siiir TV wuxuu ku furmayaa paji cusub oo nadiif ah */}
-                <a 
-                  href={match.link_1}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 text-center py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white rounded-xl text-xs font-black block transition-all shadow-md shadow-blue-600/10"
+                {/* Badhanka 1: Hadda wuxuu toos ugu dhex furayaa Player-ka Sare dhexdiisa */}
+                <button 
+                  onClick={() => setActiveVideoUrl(match.link_1)} 
+                  className={`flex-1 text-center py-2.5 rounded-xl text-xs font-black transition-all ${
+                    activeVideoUrl === match.link_1 
+                      ? 'bg-blue-500 text-white ring-2 ring-blue-400' 
+                      : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white'
+                  }`}
                 >
                   {i === 0 ? 'Stream 1 (Siiir TV)' : 'Stream 1'}
-                </a>
+                </button>
                 
-                {/* Stream 2: Beinmatch Player-ka sare kaga dhex furi doona */}
+                {/* Badhanka 2 */}
                 <button 
                   onClick={() => setActiveVideoUrl(match.link_2)} 
                   className={`flex-1 text-center py-2.5 rounded-xl text-xs font-bold transition-all ${
