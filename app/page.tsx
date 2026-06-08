@@ -5,7 +5,7 @@ import Link from 'next/link'
 import linksData from './links.json'
 
 const LEAGUES = [
-  { name: 'FIFA World Cup 2026', slug: 'fifa-world-cup' },
+  { name: 'FIFA World Cup 2026', slug: 'fifa-world-cup', emoji: '⚽' },
   { name: 'EPL', slug: 'epl', emoji: '⚽' },
   { name: 'UEFA Champions League', slug: 'uefa', emoji: '🏆' },
   { name: 'La Liga', slug: 'la-liga', emoji: '🇪🇸' },
@@ -34,7 +34,7 @@ export default function HomePage() {
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white pb-10">
-      {/* Header-ka Naadiga ee Magacaaga Cusub */}
+      {/* Header-ka Naadiga ee Magacaaga */}
       <div className="bg-[#1A1A4B] p-4 shadow-md text-center">
         <h1 className="text-white text-xl md:text-2xl font-bold tracking-wide flex items-center justify-center gap-2">
           Ahmed Abdikani Live 🇸🇴🇬🇲🇨🇦 🔴
@@ -70,16 +70,14 @@ export default function HomePage() {
                 </div>
               </div>
               
-              {/* Badhamada Streams-ka */}
+              {/* Badhamada Streams-ka - Waxay si toos ah u geynayaan bogga Player-ka gudaha */}
               <div className="grid grid-cols-2 gap-2 pt-2">
-                <a
-                  href={match.link_1}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-green-600 hover:bg-green-500 text-center py-2 rounded-lg font-medium text-xs transition-colors text-white"
+                <Link
+                  href={`/league/live-stream`}
+                  className="bg-green-600 hover:bg-green-500 text-center py-2 rounded-lg font-medium text-xs transition-colors text-white block"
                 >
-                  Stream 1 (Live)
-                </a>
+                  Stream 1 (Live Player)
+                </Link>
                 <a
                   href={match.link_2}
                   target="_blank"
@@ -96,15 +94,19 @@ export default function HomePage() {
 
       <hr className="border-gray-800 my-6 max-w-md mx-auto" />
 
-      {/* Qaybta Horyaallada (Leagues) */}
+      {/* Qaybta Horyaallada (Leagues) ee hadda la guji karo */}
       <div className="p-4 max-w-md mx-auto">
         <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Horyaallada Naadiga</h3>
         <div className="grid grid-cols-2 gap-2">
           {LEAGUES.map((league) => (
-            <div key={league.slug} className="bg-[#141432] hover:bg-[#1A1A4B] p-3 rounded-lg border border-gray-800 transition-colors flex items-center gap-2 cursor-pointer">
+            <Link 
+              key={league.slug} 
+              href={`/league/${league.slug}`}
+              className="bg-[#141432] hover:bg-[#1A1A4B] p-3 rounded-lg border border-gray-800 transition-colors flex items-center gap-2 cursor-pointer block"
+            >
               <span>{league.emoji || '⚽'}</span>
               <span className="text-xs font-medium text-gray-200 truncate">{league.name}</span>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
