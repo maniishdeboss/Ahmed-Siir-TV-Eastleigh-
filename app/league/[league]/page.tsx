@@ -1,102 +1,154 @@
-'use client'
+"use strict";
+"use client";
 
-import Link from 'next/link'
-import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import linksData from '../../links.json' // Jidka saxda ah ee loogu laabanayo links.json
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
-type Match = {
-  id: number
-  home_team: string
-  away_team: string
-  home_logo: string
-  away_logo: string
-  match_time: string
-  link_1: string
-  link_2: string
+interface Match {
+  id: number;
+  home_team: string;
+  away_team: string;
+  home_logo: string;
+  away_logo: string;
+  match_time: string;
+  link_1: string;
+  link_2: string;
 }
 
 export default function LeaguePage() {
-  const params = useParams()
-  const leagueSlug = params.league as string
-  const [matches, setMatches] = useState<Match[]>([])
+  const params = useParams();
+  const league = params?.league as string;
+
+  const [matches, setMatches] = useState<Match[]>([]);
+  const [activeStream, setActiveStream] = useState<string | null>(null);
+  const [currentMatchTitle, setCurrentMatchTitle] = useState<string>("");
 
   useEffect(() => {
-    // Si toos ah ayuu halkan uga akhrisanayaa faylka links.json
-    setMatches(linksData)
-  }, [])
+    fetch("/links.json")
+      .then((res) => res.json())
+      .then((data) => setMatches(data))
+      .catch((err) => console.error("Error loading links:", err));
+  }, []);
 
-  // Magacyada horyaallada si qurux badan u soo bandhig
-  const getLeagueName = (slug: string) => {
-    const names: { [key: string]: string } = {
-      'fifa-world-cup': 'FIFA World Cup 2026',
-      'epl': 'English Premier League ⚽',
-      'uefa': 'UEFA Champions League 🏆',
-      'la-liga': 'La Liga 🇪🇸',
-      'serie-a': 'Serie A 🇮🇹',
-      'bundesliga': 'Bundesliga 🇩🇪'
+  const handleStreamClick = (link: string, matchTitle: string) => {
+    // Haddii uu yahay Adsterra Smartlink, u oggolaan inuu tab cusub ku furmo si dakhli u dhalan karo
+    if (link.includes("effectivecpmnetwork.com") || link.includes("adsterra")) {
+      window.open(link, "_blank");
+    } else {
+      // Haddii uu yahay link-ga ciyaaraha (Beinmatch), ku dhex fur Player-ka gudaha
+      setActiveStream(link);
+      setCurrentMatchTitle(matchTitle);
     }
-    return names[slug] || 'Horyaalka Naadiga'
-  }
+  };
 
   return (
-    <div className="bg-[#0A0A23] min-h-screen text-white pb-10">
-      {/* Header-ka Bogga Horyaalka */}
-      <div className="bg-[#1A1A4B] p-4 shadow-md flex items-center gap-4">
-        <Link href="/" className="text-gray-400 hover:text-white text-sm font-medium">
-          ← Dib u laabo
+    <div className="min-h-screen bg-[#0d1b2a] text-white p-4 font-sans">
+      {/* Header */}
+      <div className="flex items-center mb-6">
+        <Link href="/" className="text-xl mr-4 hover:text-gray-400">
+          ←
         </Link>
-        <h1 className="text-white text-lg font-bold uppercase tracking-wide">
-          {getLeagueName(leagueSlug)}
-        </h1>
+        <h1 className="text-2xl font-bold capitalize">{league?.replace("-", " ")}</h1>
       </div>
 
-      {/* Liiska Ciyaaraha */}
-      <div className="p-4 max-w-md mx-auto">
+      {/* WATCH FOOTBALL LIVE NOW Banner */}
+      <div className="w-full bg-red-600 text-center py-3 rounded-lg font-bold text-lg mb-6 animate-pulse">
+        🔴 WATCH FOOTBALL LIVE NOW
+      </div>
+
+      {/* IN-APP VIDEO PLAYER COMPONENT */}
+      {activeStream && (
+        <div className="w-full max-w-2xl mx-auto bg-[#1b263b] rounded-xl p-4 border border-red-500 mb-6">
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center space-x-2">
+              <span className="w-3 h-3 bg-red-500 rounded-full animate-ping"></span>
+              <h2 className="text-sm font-bold text-red-400 uppercase tracking-wider">
+                Ahmed Live TV Player — {currentMatchTitle}
+              </h2>
+            </div>
+            <button
+              onClick={() => setActiveStream(null)}
+              className="bg-gray-700 hover:bg-gray-600 text-xs px-3 py-1 rounded-md transition"
+            >
+              Xir Player-ka
+            </button>
+          </div>
+
+          {/* Aspect Ratio Box ee Iframe-ka */}
+          <div className="relative w-full pt-[56.25%] bg-black rounded-lg overflow-hidden shadow-2xl">
+            <iframe
+              src={activeStream}
+              className="absolute top-0 left-0 w-full h-full border-0"
+              allowFullScreen
+              allow="autoplay; encrypted-media; picture-in-picture"
+              sandbox="allow-scripts allow-same-origin allow-forms"
+            ></iframe>
+          </div>
+          <p className="text-xs text-gray-400 mt-2 text-center">
+            Haddii baahintu istaagto ama ay jarto, fadlan dib u rais badhanka Stream-ka.
+          </p>
+        </div>
+      )}
+
+      {/* MATCHES LIST */}
+      <div className="max-w-xl mx-auto space-y-4">
         {matches.length === 0 ? (
-          <p className="text-gray-400 text-sm text-center py-10">Wax ciyaar ah hadda ma sarrayso horyaalkan.</p>
+          <p className="text-center text-gray-400">Ciyaaro diyaar ah ma jiraan hadda...</p>
         ) : (
           matches.map((match) => (
-            <div key={match.id} className="bg-[#1A1A4B] p-4 rounded-xl mb-4 border border-gray-800 shadow-lg">
+            <div
+              key={match.id}
+              className="bg-[#1b263b] rounded-xl p-4 border border-gray-800 hover:border-gray-700 transition"
+            >
+              {/* Team Info Row */}
               <div className="flex justify-between items-center mb-4">
-                <div className="text-center w-5/12">
-                  <img src={match.home_logo} alt={match.home_team} className="w-12 h-12 mx-auto rounded-full mb-1 object-cover border border-gray-700" />
-                  <p className="text-xs font-semibold truncate text-gray-200">{match.home_team}</p>
+                <div className="flex items-center space-x-3 w-2/5">
+                  <img
+                    src={match.home_logo}
+                    alt={match.home_team}
+                    className="w-10 h-10 rounded-full bg-gray-800 object-cover"
+                  />
+                  <span className="font-semibold text-sm truncate">{match.home_team}</span>
                 </div>
-                <div className="text-center w-2/12">
-                  <span className="bg-red-600 text-[10px] px-2 py-0.5 rounded-full animate-pulse font-bold text-white">
-                    {match.match_time}
-                  </span>
+
+                <div className="bg-green-600/20 text-green-400 text-xs font-bold px-2 py-1 rounded border border-green-600/30">
+                  {match.match_time}
                 </div>
-                <div className="text-center w-5/12">
-                  <img src={match.away_logo} alt={match.away_team} className="w-12 h-12 mx-auto rounded-full mb-1 object-cover border border-gray-700" />
-                  <p className="text-xs font-semibold truncate text-gray-200">{match.away_team}</p>
+
+                <div className="flex items-center space-x-3 w-2/5 justify-end">
+                  <span className="font-semibold text-sm truncate text-right">{match.away_team}</span>
+                  <img
+                    src={match.away_logo}
+                    alt={match.away_team}
+                    className="w-10 h-10 rounded-full bg-gray-800 object-cover"
+                  />
                 </div>
               </div>
-              
-              {/* Badhamada Streams-ka */}
-              <div className="grid grid-cols-2 gap-2 pt-2">
-                <a
-                  href={match.link_1}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-green-600 hover:bg-green-500 text-center py-2 rounded-lg font-medium text-xs transition-colors text-white"
+
+              {/* Stream Buttons Row */}
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={() =>
+                    handleStreamClick(match.link_1, `${match.home_team} vs ${match.away_team}`)
+                  }
+                  className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-4 rounded-lg text-sm transition text-center shadow-md shadow-blue-900/20"
                 >
-                  Stream 1 (Live)
-                </a>
-                <a
-                  href={match.link_2}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-yellow-500 hover:bg-yellow-400 text-center py-2 rounded-lg font-medium text-xs transition-colors text-gray-900 font-bold"
+                  Stream 1
+                </button>
+                <button
+                  onClick={() =>
+                    handleStreamClick(match.link_2, `${match.home_team} vs ${match.away_team}`)
+                  }
+                  className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2.5 px-4 rounded-lg text-sm transition text-center shadow-md"
                 >
-                  Stream 2 (Backup)
-                </a>
+                  Stream 2 (Ads)
+                </button>
               </div>
             </div>
           ))
         )}
       </div>
     </div>
-  )
+  );
 }
