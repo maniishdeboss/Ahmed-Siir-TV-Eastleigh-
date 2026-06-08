@@ -12,7 +12,6 @@ type MainMatch = {
   link_2: string
 }
 
-// Waxaan ka saaray 'id: 2' oo ahaa qaybtii YouTube-ka
 const HOMEPAGE_MATCHES: MainMatch[] = [
   {
     id: 1,
@@ -26,7 +25,16 @@ const HOMEPAGE_MATCHES: MainMatch[] = [
   }
 ]
 
+// Xayeysiiska Adsterra (key)
+const ADSTERRA_URL = "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
+
 export default function HomePage() {
+  
+  const handleStreamClick = (streamUrl: string) => {
+    window.open(ADSTERRA_URL, "_blank");
+    window.open(streamUrl, "_blank");
+  };
+
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white pb-10 font-sans">
       
@@ -62,22 +70,18 @@ export default function HomePage() {
               </div>
 
               <div className="flex gap-3">
-                <a 
-                  href={match.link_1}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 text-center py-2.5 bg-green-600 hover:bg-green-500 text-white rounded-xl text-xs font-black block transition-all shadow-md"
+                <button 
+                  onClick={() => handleStreamClick(match.link_1)}
+                  className="flex-1 text-center py-2.5 bg-green-600 hover:bg-green-500 text-white rounded-xl text-xs font-black transition-all shadow-md"
                 >
                   Stream 1 (Live) ↗
-                </a>
-                <a 
-                  href={match.link_2}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 text-center py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black rounded-xl text-xs font-black block transition-all shadow-md"
+                </button>
+                <button 
+                  onClick={() => handleStreamClick(match.link_2)}
+                  className="flex-1 text-center py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black rounded-xl text-xs font-black transition-all shadow-md"
                 >
                   Stream 2 (Backup) ↗
-                </a>
+                </button>
               </div>
             </div>
           ))}
@@ -112,7 +116,6 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-
       </div>
     </div>
   )
