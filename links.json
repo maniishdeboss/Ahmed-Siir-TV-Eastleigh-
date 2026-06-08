@@ -1,3 +1,22 @@
-{
-  "beinmatch_live_url": "https://beinmatch-link-ga-maanta.com/stream"
-}
+[
+  {
+    "id": 1,
+    "home_team": "beIN SPORTS HD 1",
+    "away_team": "Beinmatch Stream",
+    "home_logo": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100",
+    "away_logo": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100",
+    "match_time": "LIVE NOW",
+    "link_1": "https://beinmatch26.com/bein/live/20154",
+    "link_2": "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847"
+  },
+  {
+    "id": 2,
+    "home_team": "YouTube Live Match",
+    "away_team": "Alternative Stream",
+    "home_logo": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100",
+    "away_logo": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100",
+    "match_time": "LIVE NOW",
+    "link_1": "https://www.youtube.com/watch?v=Astaanta_Ciyaarta", 
+    "link_2": "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847"
+  }
+]
