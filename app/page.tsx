@@ -1,6 +1,5 @@
 'use client'
 import Link from 'next/link'
-import { useState } from 'react'
 
 type MainMatch = {
   id: number
@@ -13,7 +12,6 @@ type MainMatch = {
   link_2: string
 }
 
-// Halkan waxaan ku soo celinnay YouTube Live Match iyo beIN SPORTS oo ah 2 BOX KALIYA!
 const HOMEPAGE_MATCHES: MainMatch[] = [
   {
     id: 1,
@@ -22,17 +20,18 @@ const HOMEPAGE_MATCHES: MainMatch[] = [
     home_logo: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=100&auto=format&fit=crop',
     away_logo: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?w=100&auto=format&fit=crop',
     match_time: 'LIVE NOW',
-    link_1: 'https://siiir.tv/', // Siiir TV link-gii ugu dambeeyey
+    link_1: 'https://siiir.tv/',
     link_2: 'https://beinmatch26.com/bein/live/20160'
   },
   {
     id: 2,
     home_team: 'YouTube Live Match',
     away_team: 'Alternative Stream',
-    home_logo: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=100&auto=format&fit=crop', // YouTube Logo style
+    home_logo: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=100&auto=format&fit=crop',
     away_logo: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=100&auto=format&fit=crop',
     match_time: 'LIVE NOW',
-    link_1: 'https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID', // Ama link-ga tooska ah ee YouTube-kaaga
+    // XALKA YOUTUBE: Waxaan u dhex galinnay koodh YouTube oo shaqaynaya (Embed URL)
+    link_1: 'https://www.youtube.com/embed/jfKfPfyJRdk', 
     link_2: 'https://siiir.tv/'
   }
 ]
@@ -41,7 +40,6 @@ export default function HomePage() {
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white pb-10 font-sans">
       
-      {/* App Header */}
       <div className="bg-[#1A1A4B] p-4 text-center border-b border-gray-800 sticky top-0 z-50 shadow-lg">
         <h1 className="text-xl font-black tracking-wide flex items-center justify-center gap-2">
           Ahmed Abdikani LIVE TV 🇸🇴 🖥️
@@ -56,7 +54,6 @@ export default function HomePage() {
           🔴 CIYAARAHA MAANTA TOOS U SOCDA
         </h2>
 
-        {/* LIISKA 2 BOX KALIYA EE BOGGA HORE */}
         <div className="space-y-4 mb-8">
           {HOMEPAGE_MATCHES.map((match) => (
             <div key={match.id} className="bg-[#1A1A4B] rounded-2xl p-4 border border-gray-800 shadow-md">
@@ -74,7 +71,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Badhamada Stream-ka oo si toos ah paji cusub ugu furaya Siiir TV maadaama bogga hore uusan player lahayn */}
               <div className="flex gap-3">
                 <a 
                   href={match.link_1}
@@ -82,7 +78,7 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   className="flex-1 text-center py-2.5 bg-green-600 hover:bg-green-500 text-white rounded-xl text-xs font-black block transition-all shadow-md"
                 >
-                  Stream 1 (Live)
+                  Stream 1 (Live) ↗
                 </a>
                 <a 
                   href={match.link_2}
@@ -90,49 +86,42 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   className="flex-1 text-center py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black rounded-xl text-xs font-black block transition-all shadow-md"
                 >
-                  Stream 2 (Backup)
+                  Stream 2 (Backup) ↗
                 </a>
               </div>
             </div>
           ))}
         </div>
 
-        {/* HORYAALLADA NAADIGA - FIFA IYO EPL KOR AYAA LOO QAADAY */}
         <div className="mt-6">
           <h3 className="text-xs font-bold text-gray-400 mb-3 tracking-wider uppercase">HORYAALLADA NAADIGA</h3>
           <div className="grid grid-cols-2 gap-3">
             
-            {/* 1. FIFA WORLD CUP */}
             <Link href="/league/fifa-world-cup" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
               <span>⚽</span>
               <span className="text-xs font-bold">FIFA World Cup 2026</span>
             </Link>
 
-            {/* 2. EPL */}
             <Link href="/league/epl" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
               <span>⚽</span>
               <span className="text-xs font-bold">EPL</span>
             </Link>
 
-            {/* 3. UEFA CHAMPIONS LEAGUE */}
             <Link href="/league/uefa" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
               <span>🏆</span>
               <span className="text-xs font-bold">UEFA Champions League</span>
             </Link>
 
-            {/* 4. LA LIGA */}
             <Link href="/league/la-liga" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
               <span>🇪🇸</span>
               <span className="text-xs font-bold">La Liga</span>
             </Link>
 
-            {/* 5. SERIE A */}
             <Link href="/league/serie-a" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
               <span>🇮🇹</span>
               <span className="text-xs font-bold">Serie A</span>
             </Link>
 
-            {/* 6. BUNDESLIGA */}
             <Link href="/league/bundesliga" className="bg-[#1A1A4B] p-3.5 rounded-xl border border-gray-800 hover:border-blue-500 transition-all flex items-center gap-2.5">
               <span>🇩🇪</span>
               <span className="text-xs font-bold">Bundesliga</span>
