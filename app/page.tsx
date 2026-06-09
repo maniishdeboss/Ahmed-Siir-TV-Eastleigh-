@@ -1,8 +1,6 @@
 'use client'
 import { useState } from 'react'
 
-const ADSTERRA_URL = "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
-
 const leagues = [
   { name: 'FIFA World Cup 2026', id: 'fifa' },
   { name: 'EPL', id: 'epl' },
@@ -14,8 +12,7 @@ const leagues = [
 
 export default function HomePage() {
   const [selectedLeague, setSelectedLeague] = useState<string | null>(null);
-
-  const openLink = (url: string) => window.open(url, '_blank');
+  const [streamUrl, setStreamUrl] = useState<string | null>(null);
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
@@ -35,21 +32,29 @@ export default function HomePage() {
         </div>
       ) : (
         <div>
-          <button onClick={() => setSelectedLeague(null)} className="mb-4 text-blue-400 font-bold">← Dib u noqo</button>
+          <button onClick={() => { setSelectedLeague(null); setStreamUrl(null); }} className="mb-4 text-blue-400 font-bold">← Dib u noqo</button>
           <h2 className="text-2xl font-bold mb-4 text-red-500">{leagues.find(l => l.id === selectedLeague)?.name}</h2>
-          
-          <a href={ADSTERRA_URL} target="_blank" className="block w-full bg-red-600 py-4 rounded-xl font-black mb-6 text-center">
-            🔴 WATCH FOOTBALL LIVE NOW
-          </a>
 
-          <div className="bg-[#1A1A4B] p-6 rounded-2xl border border-gray-700">
-            <p className="mb-4 font-bold text-lg">Dooro Link-ga Daawashada:</p>
-            <div className="grid grid-cols-2 gap-4">
-              <button onClick={() => openLink('https://beinmatch26.com/bein/live/20155')} className="bg-blue-600 py-4 rounded-xl font-bold">Stream 1</button>
-              <button onClick={() => openLink('https://beinmatch26.com/bein/live/20154')} className="bg-blue-600 py-4 rounded-xl font-bold">Stream 2</button>
-              <button onClick={() => openLink('https://www.youtube.com/embed/live_stream?channel=UC4QobU0R94nF_N-8e0s7T5w')} className="bg-red-500 py-4 rounded-xl font-bold col-span-2">YouTube Live</button>
+          {/* Halkan ayuu ka furmayaa Player-ka gudaha app-ka */}
+          {streamUrl ? (
+            <div className="bg-black p-2 rounded-xl mb-6">
+              <iframe 
+                src={streamUrl} 
+                className="w-full h-64 rounded-lg" 
+                allowFullScreen 
+                allow="autoplay; encrypted-media"
+              />
+              <button onClick={() => setStreamUrl(null)} className="w-full mt-2 bg-red-600 py-2 rounded-lg font-bold">Xir Player-ka</button>
             </div>
-          </div>
+          ) : (
+            <div className="bg-[#1A1A4B] p-6 rounded-2xl border border-gray-700">
+              <p className="mb-4 font-bold text-lg">Dooro Link-ga Daawashada:</p>
+              <div className="grid grid-cols-2 gap-4">
+                <button onClick={() => setStreamUrl('https://beinmatch26.com/bein/live/20155')} className="bg-blue-600 py-4 rounded-xl font-bold">Stream 1</button>
+                <button onClick={() => setStreamUrl('https://beinmatch26.com/bein/live/20154')} className="bg-blue-600 py-4 rounded-xl font-bold">Stream 2</button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
