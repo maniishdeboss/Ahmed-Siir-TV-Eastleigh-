@@ -49,8 +49,16 @@ export default function HomePage() {
 
         <p className="mb-4 font-bold text-lg">Dooro Stream-ka:</p>
         <div className="grid grid-cols-3 gap-2 mb-6">
-          {/* Halkan waa link-gaaga Adsterra ee saxda ah */}
-          <button onClick={() => { openExternal('https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847'); setTimeout(() => openExternal('https://beinmatch26.com/bein/live/20155'), 1000); }} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 1</button>
+          {/* Stream 1 oo leh xayeysiiskaaga Adsterra */}
+          <button 
+            onClick={() => { 
+              window.open('https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847', '_blank'); 
+              setTimeout(() => window.open('https://beinmatch26.com/bein/live/20155', '_blank'), 1000); 
+            }} 
+            className="bg-blue-600 py-2 rounded-xl font-bold"
+          >
+            Stream 1
+          </button>
           <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20154')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 2</button>
           <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20153')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 3</button>
         </div>
