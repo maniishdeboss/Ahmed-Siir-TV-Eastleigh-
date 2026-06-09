@@ -12,7 +12,19 @@ const leagues = [
 
 export default function HomePage() {
   const [activeIframe, setActiveIframe] = useState<string | null>(null);
+  
+  // Halkan geli LINK-GAaga Adsterra ee aad rabto in la arko
+  const ADSTERRA_LINK = 'https://link-gaaga-adsterra-halkan-geli.com'; 
+
   const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
+  
+  // Shaqada badhanka Stream 1 oo leh Adsterra
+  const handleStream1 = () => {
+    openExternal(ADSTERRA_LINK); // Waxay fureysaa xayeysiiska
+    setTimeout(() => {
+      openExternal('https://beinmatch26.com/bein/live/20155'); // Waxay fureysaa ciyaarta
+    }, 1000);
+  };
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
@@ -22,7 +34,6 @@ export default function HomePage() {
         </h1>
       </header>
 
-      {/* Qaybta Horyaallada */}
       <div className="grid grid-cols-2 gap-4 mb-8">
         {leagues.map(l => (
           <button key={l.id} className="bg-[#1A1A4B] p-4 rounded-xl font-bold border border-gray-700">
@@ -31,7 +42,6 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Qaybta Kanaallada iyo Stream-ka oo hadda wada socda */}
       <div className="bg-[#1A1A4B] p-6 rounded-2xl border border-gray-700 mb-8">
         <p className="mb-4 font-bold text-lg">Dooro Kanaalka:</p>
         <div className="grid grid-cols-3 gap-2 mb-6">
@@ -42,7 +52,8 @@ export default function HomePage() {
 
         <p className="mb-4 font-bold text-lg">Dooro Stream-ka:</p>
         <div className="grid grid-cols-3 gap-2 mb-6">
-          <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20155')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 1</button>
+          {/* Stream 1 oo leh Adsterra */}
+          <button onClick={handleStream1} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 1</button>
           <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20154')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 2</button>
           <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20153')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 3</button>
         </div>
@@ -52,7 +63,6 @@ export default function HomePage() {
         </button>
       </div>
 
-      {/* Qaybta Player-ka */}
       {activeIframe && (
         <div className="bg-black p-2 rounded-xl mb-6">
           <iframe src={activeIframe} className="w-full h-64 rounded-lg" allowFullScreen />
