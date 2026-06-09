@@ -44,13 +44,23 @@ export default function HomePage() {
             </div>
           ) : (
             <div className="bg-[#1A1A4B] p-6 rounded-2xl border border-gray-700">
-              <p className="mb-4 font-bold text-lg">Dooro Link-ga Daawashada:</p>
-              <div className="grid grid-cols-2 gap-4">
-                <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20155')} className="bg-blue-600 py-4 rounded-xl font-bold">Stream 1</button>
-                <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20154')} className="bg-blue-600 py-4 rounded-xl font-bold">Stream 2</button>
-                {/* Link-ga YouTube-ka cusub oo la geliyay */}
-                <button onClick={() => setActiveIframe('https://www.youtube.com/embed/7UlI4-Gcbok')} className="bg-red-500 py-4 rounded-xl font-bold col-span-2">YouTube Live (App-ka dhexdiisa)</button>
+              <p className="mb-4 font-bold text-lg">Dooro Kanaalka:</p>
+              <div className="grid grid-cols-3 gap-2 mb-6">
+                <button className="bg-gray-700 py-2 rounded-lg font-bold">Channel 1</button>
+                <button className="bg-gray-700 py-2 rounded-lg font-bold">Channel 2</button>
+                <button className="bg-gray-700 py-2 rounded-lg font-bold">Channel 3</button>
               </div>
+
+              <p className="mb-4 font-bold text-lg">Dooro Stream-ka:</p>
+              <div className="grid grid-cols-3 gap-2 mb-6">
+                <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20155')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 1</button>
+                <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20154')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 2</button>
+                <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20153')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 3</button>
+              </div>
+
+              <button onClick={() => setActiveIframe('https://www.youtube.com/embed/7UlI4-Gcbok')} className="w-full bg-red-500 py-4 rounded-xl font-bold">
+                YouTube Live (App-ka dhexdiisa)
+              </button>
             </div>
           )}
         </div>
