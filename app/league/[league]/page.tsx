@@ -1,43 +1,48 @@
 'use client'
 import { useState } from 'react'
-import { useParams } from 'next/navigation'
 
-export default function LeaguePage() {
-  const params = useParams()
-  const league = params?.league as string
-  
-  // Halkan ku beddel ID-ga rasmiga ah ee YouTube-kaaga
-  const [videoUrl, setVideoUrl] = useState("Https://www.youtube.com/embed/live/lDePOyElEeY?si=L6EG3rGbU0olQ44B  ")
+const ADSTERRA_URL = "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
+
+// Liiska horyaallada oo dhan
+const LEAGUES = [
+  { name: "FIFA World Cup 2026", icon: "⚽" },
+  { name: "EPL", icon: "⚽" },
+  { name: "Champions League", icon: "🏆" },
+  { name: "La Liga", icon: "🇪🇸" },
+  { name: "Serie A", icon: "🇮🇹" }
+];
+
+export default function HomePage() {
+  const handleStreamClick = (url: string) => {
+    window.open(ADSTERRA_URL, "_blank");
+    window.open(url, "_blank");
+  };
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
-      <h1 className="text-xl font-bold capitalize mb-4">{league?.replace(/-/g, ' ')}</h1>
+      <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV</h1>
+      
+      {/* Badhanka Cas */}
+      <button 
+        onClick={() => handleStreamClick('https://beinmatch26.com/bein/live/20160')}
+        className="w-full bg-red-600 py-4 rounded-lg font-black mb-6"
+      >
+        🔴 WATCH FOOTBALL LIVE NOW
+      </button>
 
-      {/* YouTube Player */}
-      <div className="relative pt-[56.25%] w-full bg-black rounded-2xl overflow-hidden mb-6">
-        <iframe
-          className="absolute top-0 left-0 w-full h-full"
-          src={videoUrl}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
-
-      {/* Button-yada Streams-ka */}
-      <div className="grid grid-cols-2 gap-4">
-        <button 
-          onClick={() => setVideoUrl("https://www.youtube.com/embed/lDePOyElEeY")}
-          className="py-3 bg-red-600 rounded-xl font-bold text-sm"
-        >
-          YouTube Live
-        </button>
-        
-        <button 
-          onClick={() => window.open("https://siiir.tv", "_blank")}
-          className="py-3 bg-blue-600 rounded-xl font-bold text-sm"
-        >
-          Siiir TV (External)
-        </button>
+      {/* Liiska Horyaallada */}
+      <h2 className="text-xs font-bold text-gray-400 mb-3 uppercase">HORYAALLADA</h2>
+      <div className="grid grid-cols-2 gap-3">
+        {LEAGUES.map((league) => (
+          <div key={league.name} className="bg-[#1A1A4B] p-4 rounded-xl border border-gray-700">
+            <span className="text-xl">{league.icon}</span>
+            <p className="text-xs font-bold mt-2">{league.name}</p>
+            <div className="flex gap-2 mt-3">
+              <button onClick={() => handleStreamClick('https://beinmatch26.com/bein/live/20160')} className="flex-1 bg-blue-600 text-[10px] py-1 rounded">Stream 1</button>
+              <button onClick={() => handleStreamClick('https://beinmatch26.com/bein/live/20160')} className="flex-1 bg-gray-600 text-[10px] py-1 rounded">Stream 2</button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )
