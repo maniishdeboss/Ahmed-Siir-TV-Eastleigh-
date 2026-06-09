@@ -48,7 +48,8 @@ export default function HomePage() {
               <div className="grid grid-cols-2 gap-4">
                 <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20155')} className="bg-blue-600 py-4 rounded-xl font-bold">Stream 1</button>
                 <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20154')} className="bg-blue-600 py-4 rounded-xl font-bold">Stream 2</button>
-                <button onClick={() => setActiveIframe('https://www.youtube.com/embed/live_stream?channel=UC4QobU0R94nF_N-8e0s7T5w')} className="bg-red-500 py-4 rounded-xl font-bold col-span-2">YouTube Live (App-ka dhexdiisa)</button>
+                {/* Link-ga YouTube-ka cusub oo la geliyay */}
+                <button onClick={() => setActiveIframe('https://www.youtube.com/embed/7UlI4-Gcbok')} className="bg-red-500 py-4 rounded-xl font-bold col-span-2">YouTube Live (App-ka dhexdiisa)</button>
               </div>
             </div>
           )}
