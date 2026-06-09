@@ -15,48 +15,39 @@ const leagues = [
 export default function HomePage() {
   const [selectedLeague, setSelectedLeague] = useState<string | null>(null);
 
-  const handleStreamClick = () => {
-    window.open('https://beinmatch26.com/bein/live/20155', '_blank');
-  };
+  const openLink = (url: string) => window.open(url, '_blank');
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
-      {/* Magacaaga oo si fiican u muuqda */}
       <header className="mb-8 text-center">
-        <h1 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-white">
-          Ahmed Abdikani LIVE TV 🇸🇴🇬🇲🔴
+        <h1 className="text-2xl font-black text-white">
+          Ahmed Abdikani LIVE TV 🇸🇴 🇬🇲 🔴
         </h1>
       </header>
 
       {!selectedLeague ? (
-        <>
-          <div className="grid grid-cols-2 gap-4">
-            {leagues.map(l => (
-              <button key={l.id} onClick={() => setSelectedLeague(l.id)} className="bg-[#1A1A4B] p-4 rounded-xl text-center font-bold border border-gray-700 hover:border-red-500 transition-all">
-                {l.name}
-              </button>
-            ))}
-          </div>
-        </>
+        <div className="grid grid-cols-2 gap-4">
+          {leagues.map(l => (
+            <button key={l.id} onClick={() => setSelectedLeague(l.id)} className="bg-[#1A1A4B] p-4 rounded-xl font-bold border border-gray-700">
+              {l.name}
+            </button>
+          ))}
+        </div>
       ) : (
         <div>
           <button onClick={() => setSelectedLeague(null)} className="mb-4 text-blue-400 font-bold">← Dib u noqo</button>
-          <h2 className="text-xl font-bold mb-4 text-red-500">{leagues.find(l => l.id === selectedLeague)?.name}</h2>
+          <h2 className="text-2xl font-bold mb-4 text-red-500">{leagues.find(l => l.id === selectedLeague)?.name}</h2>
           
-          <a href={ADSTERRA_URL} target="_blank" className="block w-full bg-red-600 py-4 rounded-xl font-black mb-6 text-center animate-pulse">
+          <a href={ADSTERRA_URL} target="_blank" className="block w-full bg-red-600 py-4 rounded-xl font-black mb-6 text-center">
             🔴 WATCH FOOTBALL LIVE NOW
           </a>
 
           <div className="bg-[#1A1A4B] p-6 rounded-2xl border border-gray-700">
             <p className="mb-4 font-bold text-lg">Dooro Link-ga Daawashada:</p>
-            {/* Badhannada Stream-ka oo si fudud loo taaban karo */}
             <div className="grid grid-cols-2 gap-4">
-              <button onClick={handleStreamClick} className="bg-blue-600 py-5 rounded-xl font-bold text-lg shadow-lg active:scale-95 transition-transform">
-                Stream 1
-              </button>
-              <button onClick={handleStreamClick} className="bg-blue-600 py-5 rounded-xl font-bold text-lg shadow-lg active:scale-95 transition-transform">
-                Stream 2
-              </button>
+              <button onClick={() => openLink('https://beinmatch26.com/bein/live/20155')} className="bg-blue-600 py-4 rounded-xl font-bold">Stream 1</button>
+              <button onClick={() => openLink('https://beinmatch26.com/bein/live/20154')} className="bg-blue-600 py-4 rounded-xl font-bold">Stream 2</button>
+              <button onClick={() => openLink('https://www.youtube.com/embed/live_stream?channel=UC4QobU0R94nF_N-8e0s7T5w')} className="bg-red-500 py-4 rounded-xl font-bold col-span-2">YouTube Live</button>
             </div>
           </div>
         </div>
