@@ -13,9 +13,9 @@ const leagues = [
 export default function HomePage() {
   const [selectedLeague, setSelectedLeague] = useState<string | null>(null);
 
-  // Habka furaya link-ga browser-ka
+  // Habka furaya link-ga browser-ka si toos ah
   const openStream = (url: string) => {
-    window.open(url, '_blank');
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -48,7 +48,7 @@ export default function HomePage() {
             <div className="grid grid-cols-2 gap-4">
               <button onClick={() => openStream('https://beinmatch26.com/bein/live/20155')} className="bg-blue-600 py-4 rounded-xl font-bold">Stream 1</button>
               <button onClick={() => openStream('https://beinmatch26.com/bein/live/20154')} className="bg-blue-600 py-4 rounded-xl font-bold">Stream 2</button>
-              <button onClick={() => openStream('https://www.youtube.com/embed/live_stream?channel=UC4QobU0R94nF_N-8e0s7T5w')} className="bg-red-500 py-4 rounded-xl font-bold col-span-2">YouTube Live</button>
+              <button onClick={() => openStream('https://www.youtube.com')} className="bg-red-500 py-4 rounded-xl font-bold col-span-2">YouTube Live</button>
             </div>
           </div>
         </div>
