@@ -2,28 +2,25 @@
 import { useState } from 'react'
 
 const leagues = [
-  { name: 'FIFA World Cup 2026', id: 'fifa' },
-  { name: 'EPL', id: 'epl' },
-  { name: 'UEFA Champions League', id: 'ucl' },
-  { name: 'La Liga', id: 'laliga' },
-  { name: 'Serie A', id: 'seriea' },
-  { name: 'Bundesliga', id: 'bundesliga' },
+  { name: 'FIFA World Cup 2026', id: 'fifa', url: 'https://beinmatch26.com/bein/live/20155' },
+  { name: 'EPL', id: 'epl', url: 'https://beinmatch26.com/bein/live/20154' },
+  { name: 'UEFA Champions League', id: 'ucl', url: 'https://www.youtube.com/embed/7UlI4-Gcbok' },
+  { name: 'La Liga', id: 'laliga', url: 'https://beinmatch26.com/bein/live/20153' },
+  { name: 'Serie A', id: 'seriea', url: 'https://beinmatch26.com/bein/live/20152' },
+  { name: 'Bundesliga', id: 'bundesliga', url: 'https://beinmatch26.com/bein/live/20151' },
 ];
 
 export default function HomePage() {
   const [activeIframe, setActiveIframe] = useState<string | null>(null);
-  
-  // Halkan geli LINK-GAaga Adsterra ee aad rabto in la arko
-  const ADSTERRA_LINK = 'https://link-gaaga-adsterra-halkan-geli.com'; 
 
   const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
   
-  // Shaqada badhanka Stream 1 oo leh Adsterra
-  const handleStream1 = () => {
-    openExternal(ADSTERRA_LINK); // Waxay fureysaa xayeysiiska
-    setTimeout(() => {
-      openExternal('https://beinmatch26.com/bein/live/20155'); // Waxay fureysaa ciyaarta
-    }, 1000);
+  const handleLeagueClick = (url: string) => {
+    if (url.includes('youtube')) {
+      setActiveIframe(url);
+    } else {
+      openExternal(url);
+    }
   };
 
   return (
@@ -36,7 +33,7 @@ export default function HomePage() {
 
       <div className="grid grid-cols-2 gap-4 mb-8">
         {leagues.map(l => (
-          <button key={l.id} className="bg-[#1A1A4B] p-4 rounded-xl font-bold border border-gray-700">
+          <button key={l.id} onClick={() => handleLeagueClick(l.url)} className="bg-[#1A1A4B] p-4 rounded-xl font-bold border border-gray-700">
             {l.name}
           </button>
         ))}
@@ -52,8 +49,8 @@ export default function HomePage() {
 
         <p className="mb-4 font-bold text-lg">Dooro Stream-ka:</p>
         <div className="grid grid-cols-3 gap-2 mb-6">
-          {/* Stream 1 oo leh Adsterra */}
-          <button onClick={handleStream1} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 1</button>
+          {/* Halkan waa link-gaaga Adsterra ee saxda ah */}
+          <button onClick={() => { openExternal('https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847'); setTimeout(() => openExternal('https://beinmatch26.com/bein/live/20155'), 1000); }} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 1</button>
           <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20154')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 2</button>
           <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20153')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 3</button>
         </div>
