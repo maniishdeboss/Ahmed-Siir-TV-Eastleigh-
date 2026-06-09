@@ -1,56 +1,57 @@
 'use client'
-import Link from 'next/link'
 
-// Link-gaaga xayeysiiska
 const ADSTERRA_URL = "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
 
-export default function HomePage() {
-  
-  // Shaqada Ads-ka (Ads-ka 2 ayaa furmaya: midkaaga iyo kan ciyaarta)
-  const handleStreamClick = (streamUrl: string) => {
-    window.open(ADSTERRA_URL, "_blank"); // Ads 1
-    window.open(streamUrl, "_blank");    // Ads 2 / Stream
+export default function FootballPlayerPage() {
+
+  const handleStreamClick = (url: string) => {
+    window.open(ADSTERRA_URL, "_blank"); // Ads-ka
+    window.open(url, "_blank");         // Link-ga ciyaarta
   };
 
   return (
-    <div className="bg-[#0A0A23] min-h-screen text-white pb-10 font-sans">
+    <div className="bg-[#0A0A23] min-h-screen text-white p-4">
       
-      <div className="bg-[#1A1A4B] p-4 text-center border-b border-gray-800">
-        <h1 className="text-xl font-black">Ahmed Abdikani LIVE TV 🇸🇴 🖥️</h1>
-        <p className="text-[11px] text-gray-400">Ciyaaraha Caalamiga ah oo Toos ah</p>
+      {/* Player Box */}
+      <div className="bg-[#1A1A4B] border border-gray-700 rounded-xl p-4 mb-4">
+        <div className="flex justify-between items-center mb-4">
+          <span className="text-red-500 font-bold text-xs">🔴 AHMED LIVE TV PLAYER</span>
+          <span className="text-[10px] bg-gray-700 px-2 py-1 rounded">Xir Player-ka</span>
+        </div>
+        
+        <div className="text-center py-10">
+          <p className="font-bold">Baahintu Waxay Diyaar Ku Tahay Stream-ka</p>
+          <p className="text-[10px] text-gray-400 mt-2">Si aad u daawato ciyaarta adigoo adeegsanaya adeegga App-ka, fadlan guji badhanka hoose.</p>
+          <button className="mt-4 bg-red-600 px-4 py-2 rounded text-xs font-bold">Foor Baahinta Tooska Ah 🚀</button>
+        </div>
       </div>
 
-      <div className="p-4 max-w-xl mx-auto">
-        <h2 className="text-xs font-bold text-yellow-400 mb-4 uppercase flex items-center gap-2">
-          🔴 CIYAARAHA MAANTA TOOS U SOCDA
-        </h2>
+      {/* Big Watch Button */}
+      <button className="w-full bg-red-600 py-4 rounded-lg font-black mb-4 flex items-center justify-center gap-2">
+        🔴 WATCH FOOTBALL LIVE NOW
+      </button>
 
-        <div className="space-y-4">
-          <div className="bg-[#1A1A4B] rounded-2xl p-4 border border-gray-800">
-            <p className="text-xs font-bold mb-4">France vs Belgium</p>
-            <div className="flex gap-3">
-              <button 
-                onClick={() => handleStreamClick('https://beinmatch26.com/bein/live/20160')}
-                className="flex-1 py-3 bg-green-600 rounded-xl text-xs font-black"
-              >
-                CHANNEL 1 ↗
-              </button>
-              <button 
-                onClick={() => handleStreamClick('https://beinmatch26.com/bein/live/20160')}
-                className="flex-1 py-3 bg-yellow-500 text-black rounded-xl text-xs font-black"
-              >
-                CHANNEL 2 ↗
-              </button>
-            </div>
-          </div>
+      {/* Streams Selection */}
+      <div className="bg-[#1A1A4B] border border-gray-700 rounded-xl p-4">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-8 h-8 bg-gray-500 rounded-full"></div>
+          <span className="font-bold text-xs">beIN SPORTS HD 1</span>
+          <span className="ml-auto bg-red-500 text-[10px] px-2 py-0.5 rounded">LIVE</span>
         </div>
-
-        <div className="mt-8">
-          <h3 className="text-xs font-bold text-gray-400 mb-3 uppercase">HORYAALLADA NAADIGA</h3>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-[#1A1A4B] p-3 rounded-lg border border-gray-800 text-xs font-bold">⚽ FIFA World Cup 2026</div>
-            <div className="bg-[#1A1A4B] p-3 rounded-lg border border-gray-800 text-xs font-bold">⚽ EPL</div>
-          </div>
+        
+        <div className="flex gap-2">
+          <button 
+            onClick={() => handleStreamClick('https://beinmatch26.com/bein/live/20160')}
+            className="flex-1 py-3 bg-blue-600 rounded text-xs font-bold"
+          >
+            Stream 1
+          </button>
+          <button 
+            onClick={() => handleStreamClick('https://beinmatch26.com/bein/live/20160')}
+            className="flex-1 py-3 bg-gray-600 rounded text-xs font-bold"
+          >
+            Stream 2
+          </button>
         </div>
       </div>
     </div>
