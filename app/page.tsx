@@ -61,7 +61,7 @@ export default function HomePage() {
         {/* Halkan waxaa lagu beddelay link-ga England vs Costa Rica */}
         <button onClick={() => setActiveIframe('https://www.koratzone.com/matches/%d8%a5%d9%86%d8%ac%d9%84%d8%aa%d8%b1%d8%a7-%d9%83%d9%88%d8%b3%d8%aa%d8%a7%d8%b1%d9%8a%d9%83%d8%a7/')} className="bg-blue-600 py-3 rounded-lg font-bold">England vs Costa Rica</button>
         
-        <button onClick={() => setActiveIframe('https://www.youtube.com/embed/7UlI4-Gcbok')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 3</button>
+        <button onClick={() => setActiveIframe('https://61t9ypekvvdc.09193519.net:8443/hls/ulgk1vzsw8aqr.m3u8?s=aoxElREfYwhR4fyt45SkYA&e=1781146702 ')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 3</button>
         <button onClick={() => setActiveIframe('https://www.youtube.com/embed/ntjJKCjNmcE')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 4</button>
       </div>
     </div>
