@@ -13,14 +13,9 @@ const leagues = [
 export default function HomePage() {
   const [activeIframe, setActiveIframe] = useState<string | null>(null);
 
-  const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
-  
+  // Waxaan badalay qaabkii loogu furayay linkiyada si ay gudaha u ahaadaan
   const handleLeagueClick = (url: string) => {
-    if (url.includes('youtube')) {
-      setActiveIframe(url);
-    } else {
-      openExternal(url);
-    }
+    setActiveIframe(url);
   };
 
   return (
@@ -40,37 +35,26 @@ export default function HomePage() {
       </div>
 
       <div className="bg-[#1A1A4B] p-6 rounded-2xl border border-gray-700 mb-8">
-        <p className="mb-4 font-bold text-lg">Dooro Kanaalka:</p>
-        <div className="grid grid-cols-3 gap-2 mb-6">
-          <button className="bg-gray-700 py-2 rounded-lg font-bold">Channel 1</button>
-          <button className="bg-gray-700 py-2 rounded-lg font-bold">Channel 2</button>
-          <button className="bg-gray-700 py-2 rounded-lg font-bold">Channel 3</button>
-        </div>
-
         <p className="mb-4 font-bold text-lg">Dooro Stream-ka:</p>
         <div className="grid grid-cols-3 gap-2 mb-6">
-          {/* Stream 1 oo leh xayeysiiskaaga Adsterra */}
           <button 
             onClick={() => { 
+              // Xayeysiiska ayaa furmaya, laakiin stream-ka wuxuu imanayaa iframe-ka hoose
               window.open('https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847', '_blank'); 
-              setTimeout(() => window.open('https://beinmatch26.com/bein/live/20155', '_blank'), 1000); 
+              setActiveIframe('https://beinmatch26.com/bein/live/20155'); 
             }} 
             className="bg-blue-600 py-2 rounded-xl font-bold"
           >
             Stream 1
           </button>
-          <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20154')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 2</button>
-          <button onClick={() => openExternal('https://beinmatch26.com/bein/live/20153')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 3</button>
+          <button onClick={() => setActiveIframe('https://beinmatch26.com/bein/live/20154')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 2</button>
+          <button onClick={() => setActiveIframe('https://beinmatch26.com/bein/live/20153')} className="bg-blue-600 py-2 rounded-xl font-bold">Stream 3</button>
         </div>
-
-        <button onClick={() => setActiveIframe('https://www.youtube.com/embed/7UlI4-Gcbok')} className="w-full bg-red-500 py-4 rounded-xl font-bold">
-          YouTube Live (App-ka dhexdiisa)
-        </button>
       </div>
 
       {activeIframe && (
         <div className="bg-black p-2 rounded-xl mb-6">
-          <iframe src={activeIframe} className="w-full h-64 rounded-lg" allowFullScreen />
+          <iframe src={activeIframe} className="w-full h-64 rounded-lg" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
           <button onClick={() => setActiveIframe(null)} className="w-full mt-2 bg-red-600 py-2 rounded-lg font-bold">Xir Player-ka</button>
         </div>
       )}
