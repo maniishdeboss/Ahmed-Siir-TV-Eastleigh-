@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import ReactPlayer from 'react-player'
 
+// Waxaad halkan ku haysataa quruxdii Home Screen-kaaga
 const LEAGUES = [
   { name: "FIFA World Cup 2026", icon: "🇸🇴 🏆🇬🇲 " },
   { name: "Premier League", icon: "🇬🇲🇸🇴 ⚽" },
@@ -16,8 +17,10 @@ export default function HomePage() {
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
+      {/* Cinwaankaaga */}
       <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
       
+      {/* Qaybta Player-ka */}
       {activeStream && (
         <div className="mb-6">
           <div className="w-full h-[50vh] bg-black border border-gray-600 rounded-lg overflow-hidden">
@@ -27,9 +30,6 @@ export default function HomePage() {
                height="100%"
                controls={true}
                playing={true}
-               config={{
-                 youtube: { playerVars: { origin: 'https://www.youtube.com' } }
-               }}
              />
           </div>
           <button 
@@ -41,6 +41,7 @@ export default function HomePage() {
         </div>
       )}
 
+      {/* Qaybta Leagues-ka ee aad qurxisay */}
       <div className="grid grid-cols-2 gap-3 mb-8">
         {LEAGUES.map((league) => (
           <div key={league.name} className="bg-[#1A1A4B] p-4 rounded-xl border border-gray-700">
@@ -50,16 +51,14 @@ export default function HomePage() {
         ))}
       </div>
 
+      {/* Qaybta Stream-ka */}
       <h2 className="text-xs font-bold text-gray-400 mb-3 uppercase">SELECT STREAM</h2>
       <div className="grid grid-cols-2 gap-3">
-        <button onClick={() => window.open('https://beinmatch26.com/bein/live/20168', '_blank')} className="bg-blue-600 py-3 rounded-lg font-bold">Stream 1</button>
-        <button onClick={() => setActiveStream('https://www.koratzone.com/matches/%d8%a5%d9%86%d8%ac%d9%84%d8%aa%d8%b1%d8%a7-%d9%83%d9%88%d8%b3%d8%aa%d8%a7%d8%b1%d9%8a%d9%83%d8%a7/')} className="bg-blue-600 py-3 rounded-lg font-bold">England vs Costa Rica</button>
+        <button onClick={() => window.open('https://beinmatch26.com/bein/live/20154', '_blank')} className="bg-blue-600 py-3 rounded-lg font-bold">beIN SPORTS HD 1</button>
+        <button onClick={() => setActiveStream('https://www.youtube.com/embed/ntjJKCjNmcE')} className="bg-green-600 py-3 rounded-lg font-bold">YouTube Live Match</button>
         
-        {/* Stream 3: Waxaan u beddelay link tijaabo ah si aan u hubino in player-ku shaqaynayo */}
-        <button onClick={() => setActiveStream('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 3 (Test)</button>
-        
-        {/* Stream 4: YouTube link oo toos ah */}
-        <button onClick={() => setActiveStream('https://www.youtube.com/watch?v=ntjJKCjNmcE')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 4 (YT)</button>
+        {/* Halkan waxaad ku dari kartaa link-ga xayeysiiska (Adsterra) */}
+        <button onClick={() => window.open('https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847', '_blank')} className="bg-purple-600 py-3 rounded-lg font-bold col-span-2">Support Ahmed TV (Ad)</button>
       </div>
     </div>
   )
