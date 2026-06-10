@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import ReactPlayer from 'react-player'
 
 const LEAGUES = [
   { name: "FIFA World Cup 2026", icon: "🇸🇴 🏆🇬🇲 " },
@@ -20,15 +21,13 @@ export default function HomePage() {
       {activeStream && (
         <div className="mb-6">
           <div className="w-full h-[50vh] bg-black border border-gray-600 rounded-lg overflow-hidden">
-             {/* Halkan waxaan ku isticmaalay video tag si uu u shaqeeyo .m3u8 */}
-             <video 
-               controls 
-               autoPlay 
-               className="w-full h-full"
-               src={activeStream}
-             >
-               Your browser does not support the video tag.
-             </video>
+             <ReactPlayer 
+               url={activeStream}
+               width="100%"
+               height="100%"
+               controls={true}
+               playing={true}
+             />
           </div>
           <button 
             onClick={() => setActiveStream(null)} 
@@ -52,10 +51,7 @@ export default function HomePage() {
       <div className="grid grid-cols-2 gap-3">
         <button onClick={() => window.open('https://beinmatch26.com/bein/live/20168', '_blank')} className="bg-blue-600 py-3 rounded-lg font-bold">Stream 1</button>
         <button onClick={() => setActiveStream('https://www.koratzone.com/matches/%d8%a5%d9%86%d8%ac%d9%84%d8%aa%d8%b1%d8%a7-%d9%83%d9%88%d8%b3%d8%aa%d8%a7%d8%b1%d9%8a%d9%83%d8%a7/')} className="bg-blue-600 py-3 rounded-lg font-bold">England vs Costa Rica</button>
-        
-        {/* Link-gii aad soo saartay ayaan halkan ku hagaajiyay meeshii qaldanayd */}
         <button onClick={() => setActiveStream('https://61t9ypekvvdc.09193519.net:8443/hls/ulgk1vzsw8aqr.m3u8?s=aoxElREfYwhR4fyt45SkYA&e=1781146702')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 3</button>
-        
         <button onClick={() => setActiveStream('https://www.youtube.com/embed/ntjJKCjNmcE')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 4</button>
       </div>
     </div>
