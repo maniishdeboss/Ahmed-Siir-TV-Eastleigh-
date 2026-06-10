@@ -11,22 +11,19 @@ const LEAGUES = [
 ];
 
 export default function HomePage() {
-  // Waxaan isticmaali doonaa 'activeIframe' si aan u xakameyno waxa soo baxaya
   const [activeIframe, setActiveIframe] = useState<string | null>(null);
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
       <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
       
-      {/* Badhanka WATCH NOW */}
       <button 
-        onClick={() => setActiveIframe('https://www.koratzone.com/  ')}
+        onClick={() => setActiveIframe('https://www.koratzone.com/')}
         className="w-full bg-red-600 py-4 rounded-lg font-black mb-6 animate-pulse"
       >
         WATCH NOW LIVE 🔴
       </button>
 
-      {/* Liiska Horyaallada */}
       <div className="grid grid-cols-2 gap-3 mb-8">
         {LEAGUES.map((league) => (
           <div key={league.name} className="bg-[#1A1A4B] p-4 rounded-xl border border-gray-700">
@@ -36,15 +33,17 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Halkan waxaa ka muuqanaya Iframe-ka */}
       {activeIframe && (
         <div className="mb-6">
-          <iframe 
-            src={activeIframe} 
-            className="w-full h-64 rounded-lg" 
-            allow="autoplay; encrypted-media" 
-            allowFullScreen
-          ></iframe>
+          <div className="w-full h-[50vh] rounded-lg overflow-y-auto bg-black border border-gray-600">
+             <iframe 
+               src={activeIframe} 
+               className="w-full h-full" 
+               allow="autoplay; encrypted-media" 
+               allowFullScreen
+               style={{ border: 'none' }}
+             ></iframe>
+          </div>
           <button 
             onClick={() => setActiveIframe(null)} 
             className="w-full mt-2 bg-gray-600 py-2 rounded-lg font-bold"
@@ -54,11 +53,14 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Qaybta Stream-ka */}
       <h2 className="text-xs font-bold text-gray-400 mb-3 uppercase">SELECT STREAM</h2>
       <div className="grid grid-cols-2 gap-3">
+        {/* Halkan waxaa ku haray hal beinmatch link */}
         <button onClick={() => window.open('https://beinmatch26.com/bein/live/20168', '_blank')} className="bg-blue-600 py-3 rounded-lg font-bold">Stream 1</button>
-        <button onClick={() => window.open('https://beinmatch26.com/bein/live/20160', '_blank')} className="bg-blue-600 py-3 rounded-lg font-bold">Stream 2</button>
+        
+        {/* Halkan waxaa lagu beddelay link-ga England vs Costa Rica */}
+        <button onClick={() => setActiveIframe('https://www.koratzone.com/matches/%d8%a5%d9%86%d8%ac%d9%84%d8%aa%d8%b1%d8%a7-%d9%83%d9%88%d8%b3%d8%aa%d8%a7%d8%b1%d9%8a%d9%83%d8%a7/')} className="bg-blue-600 py-3 rounded-lg font-bold">England vs Costa Rica</button>
+        
         <button onClick={() => setActiveIframe('https://www.youtube.com/embed/7UlI4-Gcbok')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 3</button>
         <button onClick={() => setActiveIframe('https://www.youtube.com/embed/ntjJKCjNmcE')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 4</button>
       </div>
