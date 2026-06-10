@@ -27,6 +27,11 @@ export default function HomePage() {
                height="100%"
                controls={true}
                playing={true}
+               config={{
+                 file: {
+                   hlsOptions: { debug: false }
+                 }
+               }}
              />
           </div>
           <button 
