@@ -11,18 +11,33 @@ const LEAGUES = [
 ];
 
 export default function HomePage() {
-  const [activeIframe, setActiveIframe] = useState<string | null>(null);
+  const [activeStream, setActiveStream] = useState<string | null>(null);
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
       <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
       
-      <button 
-        onClick={() => setActiveIframe('https://www.koratzone.com/')}
-        className="w-full bg-red-600 py-4 rounded-lg font-black mb-6 animate-pulse"
-      >
-        WATCH NOW LIVE 🔴
-      </button>
+      {activeStream && (
+        <div className="mb-6">
+          <div className="w-full h-[50vh] bg-black border border-gray-600 rounded-lg overflow-hidden">
+             {/* Halkan waxaan ku isticmaalay video tag si uu u shaqeeyo .m3u8 */}
+             <video 
+               controls 
+               autoPlay 
+               className="w-full h-full"
+               src={activeStream}
+             >
+               Your browser does not support the video tag.
+             </video>
+          </div>
+          <button 
+            onClick={() => setActiveStream(null)} 
+            className="w-full mt-2 bg-gray-600 py-2 rounded-lg font-bold"
+          >
+            Close Player
+          </button>
+        </div>
+      )}
 
       <div className="grid grid-cols-2 gap-3 mb-8">
         {LEAGUES.map((league) => (
@@ -33,36 +48,15 @@ export default function HomePage() {
         ))}
       </div>
 
-      {activeIframe && (
-        <div className="mb-6">
-          <div className="w-full h-[50vh] rounded-lg overflow-y-auto bg-black border border-gray-600">
-             <iframe 
-               src={activeIframe} 
-               className="w-full h-full" 
-               allow="autoplay; encrypted-media" 
-               allowFullScreen
-               style={{ border: 'none' }}
-             ></iframe>
-          </div>
-          <button 
-            onClick={() => setActiveIframe(null)} 
-            className="w-full mt-2 bg-gray-600 py-2 rounded-lg font-bold"
-          >
-            Close Player
-          </button>
-        </div>
-      )}
-
       <h2 className="text-xs font-bold text-gray-400 mb-3 uppercase">SELECT STREAM</h2>
       <div className="grid grid-cols-2 gap-3">
-        {/* Halkan waxaa ku haray hal beinmatch link */}
         <button onClick={() => window.open('https://beinmatch26.com/bein/live/20168', '_blank')} className="bg-blue-600 py-3 rounded-lg font-bold">Stream 1</button>
+        <button onClick={() => setActiveStream('https://www.koratzone.com/matches/%d8%a5%d9%86%d8%ac%d9%84%d8%aa%d8%b1%d8%a7-%d9%83%d9%88%d8%b3%d8%aa%d8%a7%d8%b1%d9%8a%d9%83%d8%a7/')} className="bg-blue-600 py-3 rounded-lg font-bold">England vs Costa Rica</button>
         
-        {/* Halkan waxaa lagu beddelay link-ga England vs Costa Rica */}
-        <button onClick={() => setActiveIframe('https://www.koratzone.com/matches/%d8%a5%d9%86%d8%ac%d9%84%d8%aa%d8%b1%d8%a7-%d9%83%d9%88%d8%b3%d8%aa%d8%a7%d8%b1%d9%8a%d9%83%d8%a7/')} className="bg-blue-600 py-3 rounded-lg font-bold">England vs Costa Rica</button>
+        {/* Link-gii aad soo saartay ayaan halkan ku hagaajiyay meeshii qaldanayd */}
+        <button onClick={() => setActiveStream('https://61t9ypekvvdc.09193519.net:8443/hls/ulgk1vzsw8aqr.m3u8?s=aoxElREfYwhR4fyt45SkYA&e=1781146702')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 3</button>
         
-        <button onClick={() => setActiveIframe('https://61t9ypekvvdc.09193519.net:8443/hls/ulgk1vzsw8aqr.m3u8?s=aoxElREfYwhR4fyt45SkYA&e=1781146702 ')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 3</button>
-        <button onClick={() => setActiveIframe('https://www.youtube.com/embed/ntjJKCjNmcE')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 4</button>
+        <button onClick={() => setActiveStream('https://www.youtube.com/embed/ntjJKCjNmcE')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 4</button>
       </div>
     </div>
   )
