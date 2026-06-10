@@ -3,12 +3,12 @@
 const ADSTERRA_URL = "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
 
 const LEAGUES = [
-  { name: "FIFA World Cup 2026", icon: "🇸🇴 🏆🇬🇲 ", url: "https://beinmatch26.com/bein/live/20155" },
-  { name: "Premier League", icon: "🇬🇲 ⚽🇸🇴 ", url: "https://beinmatch26.com/bein/live/20154" },
+  { name: "FIFA World Cup 2026", icon: "🏆", url: "https://beinmatch26.com/bein/live/20155" },
+  { name: "Premier League", icon: "⚽", url: "https://beinmatch26.com/bein/live/20154" },
   { name: "Champions League", icon: "⚽", url: "https://www.youtube.com/live/7UlI4-Gcbok" },
-  { name: "La Liga", icon: "🇸🇴 🇪🇸", url: "https://beinmatch26.com/bein/live/20159" },
+  { name: "La Liga", icon: "🇪🇸", url: "https://beinmatch26.com/bein/live/20153" },
   { name: "Serie A", icon: "🇮🇹", url: "https://beinmatch26.com/bein/live/20152" },
-  { name: "Bundesliga", icon: "🇩🇪", url: "https://beinmatch26.com/bein/live/20160" }
+  { name: "Bundesliga", icon: "🇩🇪", url: "https://beinmatch26.com/bein/live/20151" }
 ];
 
 export default function HomePage() {
@@ -28,7 +28,7 @@ export default function HomePage() {
         onClick={() => handleStreamClick('https://www.youtube.com/live/ntjJKCjNmcE')}
         className="w-full bg-red-600 py-4 rounded-lg font-black mb-6 animate-pulse text-lg"
       >
-        WATCH NOW LIVE/DAAWO HAADA🇬🇲🇸🇴😎 🔴
+        WATCH NOW LIVE 🔴
       </button>
 
       {/* Liiska Horyaallada */}
