@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 
-const ADSTERRA_URL = "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
+const ADSTERRA_URL = "blank ";
 
 const LEAGUES = [
   { name: "FIFA World Cup 2026", icon: "🇸🇴 🏆🇬🇲 " },
