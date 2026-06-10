@@ -11,17 +11,16 @@ const LEAGUES = [
 ];
 
 export default function HomePage() {
-  const handleStreamClick = (url: string) => {
-    window.open(url, "_blank");
-  };
+  // Waxaan isticmaali doonaa 'activeIframe' si aan u xakameyno waxa soo baxaya
+  const [activeIframe, setActiveIframe] = useState<string | null>(null);
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
       <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
       
-      {/* Badhanka WATCH NOW LIVE */}
+      {/* Badhanka WATCH NOW */}
       <button 
-        onClick={() => handleStreamClick('https://www.youtube.com/live/ntjJKCjNmcE')}
+        onClick={() => setActiveIframe('https://www.youtube.com/embed/ntjJKCjNmcE')}
         className="w-full bg-red-600 py-4 rounded-lg font-black mb-6 animate-pulse"
       >
         WATCH NOW LIVE 🔴
@@ -37,13 +36,31 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Qaybta Stream-ka oo lagu daray link-ga cusub */}
+      {/* Halkan waxaa ka muuqanaya Iframe-ka */}
+      {activeIframe && (
+        <div className="mb-6">
+          <iframe 
+            src={activeIframe} 
+            className="w-full h-64 rounded-lg" 
+            allow="autoplay; encrypted-media" 
+            allowFullScreen
+          ></iframe>
+          <button 
+            onClick={() => setActiveIframe(null)} 
+            className="w-full mt-2 bg-gray-600 py-2 rounded-lg font-bold"
+          >
+            Close Player
+          </button>
+        </div>
+      )}
+
+      {/* Qaybta Stream-ka */}
       <h2 className="text-xs font-bold text-gray-400 mb-3 uppercase">SELECT STREAM</h2>
       <div className="grid grid-cols-2 gap-3">
-        <button onClick={() => handleStreamClick('https://beinmatch26.com/bein/live/20168')} className="bg-blue-600 py-3 rounded-lg font-bold">Stream 1</button>
-        <button onClick={() => handleStreamClick('https://beinmatch26.com/bein/live/20160')} className="bg-blue-600 py-3 rounded-lg font-bold">Stream 2</button>
-        <button onClick={() => handleStreamClick('https://www.youtube.com/live/7UlI4-Gcbok')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 3</button>
-        <button onClick={() => handleStreamClick('https://www.youtube.com/live/ntjJKCjNmcE')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 4</button>
+        <button onClick={() => window.open('https://beinmatch26.com/bein/live/20168', '_blank')} className="bg-blue-600 py-3 rounded-lg font-bold">Stream 1</button>
+        <button onClick={() => window.open('https://beinmatch26.com/bein/live/20160', '_blank')} className="bg-blue-600 py-3 rounded-lg font-bold">Stream 2</button>
+        <button onClick={() => setActiveIframe('https://www.youtube.com/embed/7UlI4-Gcbok')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 3</button>
+        <button onClick={() => setActiveIframe('https://www.youtube.com/embed/ntjJKCjNmcE')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 4</button>
       </div>
     </div>
   )
