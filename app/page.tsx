@@ -1,8 +1,6 @@
 'use client'
 import { useState } from 'react'
 
-const ADSTERRA_URL = "blank ";
-
 const LEAGUES = [
   { name: "FIFA World Cup 2026", icon: "🇸🇴 🏆🇬🇲 " },
   { name: "Premier League", icon: "🇬🇲🇸🇴 ⚽" },
@@ -14,7 +12,6 @@ const LEAGUES = [
 
 export default function HomePage() {
   const handleStreamClick = (url: string) => {
-    window.open(ADSTERRA_URL, "_blank");
     window.open(url, "_blank");
   };
 
@@ -40,10 +37,10 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Qaybta Stream-ka 1, 2, 3, & 4 */}
+      {/* Qaybta Stream-ka oo lagu daray link-ga cusub */}
       <h2 className="text-xs font-bold text-gray-400 mb-3 uppercase">SELECT STREAM</h2>
       <div className="grid grid-cols-2 gap-3">
-        <button onClick={() => handleStreamClick('https://beinmatch26.com/bein/live/20160')} className="bg-blue-600 py-3 rounded-lg font-bold">Stream 1</button>
+        <button onClick={() => handleStreamClick('https://beinmatch26.com/bein/live/20168')} className="bg-blue-600 py-3 rounded-lg font-bold">Stream 1</button>
         <button onClick={() => handleStreamClick('https://beinmatch26.com/bein/live/20160')} className="bg-blue-600 py-3 rounded-lg font-bold">Stream 2</button>
         <button onClick={() => handleStreamClick('https://www.youtube.com/live/7UlI4-Gcbok')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 3</button>
         <button onClick={() => handleStreamClick('https://www.youtube.com/live/ntjJKCjNmcE')} className="bg-green-600 py-3 rounded-lg font-bold">Stream 4</button>
