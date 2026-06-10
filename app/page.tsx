@@ -20,7 +20,7 @@ export default function HomePage() {
       
       {/* Badhanka WATCH NOW */}
       <button 
-        onClick={() => setActiveIframe('https://www.youtube.com/embed/ntjJKCjNmcE')}
+        onClick={() => setActiveIframe('https://www.koratzone.com/  ')}
         className="w-full bg-red-600 py-4 rounded-lg font-black mb-6 animate-pulse"
       >
         WATCH NOW LIVE 🔴
