@@ -3,15 +3,14 @@ import ReactPlayer from 'react-player';
 
 const VideoPlayer = ({ streamUrl }) => {
   return (
-    <div className="player-wrapper">
-      {/* Sawirkaaga ayaa halkan ku jira */}
+    <div className="player-wrapper" style={{ width: '100%' }}>
+      {/* Waxaan u beddelay magaca file-ka logo.png si uusan khalad u dhicin */}
       <img 
-        src="/edited-photo (1).png" 
+        src="/logo.png" 
         alt="Ahmed Live TV" 
         style={{ width: '100%', marginBottom: '10px', borderRadius: '8px' }} 
       />
 
-      {/* Fiidiyowgaaga ayaa halkan ku jira */}
       <div className="player-container" style={{ 
         width: '100%', 
         height: '400px', 
