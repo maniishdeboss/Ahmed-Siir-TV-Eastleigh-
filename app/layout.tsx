@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import Script from 'next/script' 
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'Sports Live',
@@ -15,17 +15,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Kani waa koodka OneSignal ee ogeysiisyada kuu keenaya */}
+        {/* OneSignal Web SDK */}
         <Script 
           src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" 
           defer 
         />
         <Script id="onesignal-init" strategy="afterInteractive">
           {`
-            window.OneSignal = window.OneSignal || [];
-            OneSignal.push(function() {
-              OneSignal.init({
-                appId: "D5e7c99a-391f-4191-b811-e2b199450cfa",
+            window.OneSignalDeferred = window.OneSignalDeferred || [];
+            window.OneSignalDeferred.push(async function(OneSignal) {
+              await OneSignal.init({
+                appId: "d5e7c99a-391f-4191-b811-e2b199450cfa",
+                safari_web_id: "web.onesignal.auto.694eada3-a476-4a33-8c61-99aa6c1d60b0",
+                notifyButton: {
+                  enable: true,
+                },
               });
             });
           `}
