@@ -27,15 +27,34 @@ export default function RootLayout({
               await OneSignal.init({
                 appId: "d5e7c99a-391f-4191-b811-e2b199450cfa",
                 safari_web_id: "web.onesignal.auto.694eada3-a476-4a33-8c61-99aa6c1d60b0",
-                notifyButton: {
-                  enable: true,
-                },
               });
             });
           `}
         </Script>
       </head>
-      <body>{children}</body>
+      <body>
+        {/* Badhan Subscribe ah oo la arki karo */}
+        <div style={{ padding: '15px', textAlign: 'center', backgroundColor: '#1a1a1a' }}>
+          <button 
+            onClick={() => window.OneSignalDeferred.push(async (OneSignal) => {
+              await OneSignal.showNativePrompt();
+            })}
+            style={{ 
+              padding: '10px 20px', 
+              backgroundColor: '#ff0000', 
+              color: '#ffffff', 
+              border: 'none', 
+              borderRadius: '8px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              fontWeight: 'bold'
+            }}
+          >
+            Subscribe to Notifications
+          </button>
+        </div>
+        {children}
+      </body>
     </html>
   )
 }
