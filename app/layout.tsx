@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Script from 'next/script'
+import SubscribeButton from './SubscribeButton' // Halkan ayaan kaga soo dhex wacnay
 
 export const metadata: Metadata = {
   title: 'Sports Live',
@@ -15,7 +16,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* OneSignal Web SDK */}
         <Script 
           src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" 
           defer 
@@ -33,26 +33,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body>
-        {/* Badhan Subscribe ah */}
-        <div style={{ padding: '15px', textAlign: 'center', backgroundColor: '#1a1a1a' }}>
-          <button 
-            onClick={() => (window as any).OneSignalDeferred.push(async (OneSignal: any) => {
-              await OneSignal.showNativePrompt();
-            })}
-            style={{ 
-              padding: '10px 20px', 
-              backgroundColor: '#ff0000', 
-              color: '#ffffff', 
-              border: 'none', 
-              borderRadius: '8px',
-              fontSize: '16px',
-              cursor: 'pointer',
-              fontWeight: 'bold'
-            }}
-          >
-            Subscribe to Notifications
-          </button>
-        </div>
+        <SubscribeButton /> 
         {children}
       </body>
     </html>
