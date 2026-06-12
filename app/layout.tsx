@@ -33,10 +33,10 @@ export default function RootLayout({
         </Script>
       </head>
       <body>
-        {/* Badhan Subscribe ah oo la arki karo */}
+        {/* Badhan Subscribe ah */}
         <div style={{ padding: '15px', textAlign: 'center', backgroundColor: '#1a1a1a' }}>
           <button 
-            onClick={() => window.OneSignalDeferred.push(async (OneSignal) => {
+            onClick={() => (window as any).OneSignalDeferred.push(async (OneSignal: any) => {
               await OneSignal.showNativePrompt();
             })}
             style={{ 
