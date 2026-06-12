@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import ReactPlayer from 'react-player'
 
 const LEAGUES = [
   { name: "FIFA World Cup 2026", icon: "🇸🇴 🏆🇬🇲 " },
@@ -17,49 +16,61 @@ export default function HomePage() {
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
       <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
-      
+
+      {/* Video Player Section */}
       {activeStream && (
-        <div className="mb-6">
-          <div className="w-full h-[50vh] bg-black border border-gray-600 rounded-lg overflow-hidden">
-             <ReactPlayer 
-               url={activeStream}
-               width="100%"
-               height="100%"
-               controls={true}
-               playing={true}
-             />
-          </div>
+        <div className="mb-6 w-full aspect-video">
+          <iframe
+            src={activeStream}
+            className="w-full h-full rounded-lg border-2 border-white/20"
+            allowFullScreen
+          />
           <button 
-            onClick={() => setActiveStream(null)} 
-            className="w-full mt-2 bg-gray-600 py-2 rounded-lg font-bold"
+            onClick={() => setActiveStream(null)}
+            className="mt-2 w-full bg-slate-600 py-2 rounded-lg font-bold"
           >
             Close Player
           </button>
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-3 mb-8">
+      {/* League Buttons */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
         {LEAGUES.map((league) => (
-          <div key={league.name} className="bg-[#1A1A4B] p-4 rounded-xl border border-gray-700">
-            <span className="text-xl">{league.icon}</span>
-            <p className="text-xs font-bold mt-2">{league.name}</p>
-          </div>
+          <button 
+            key={league.name}
+            className="bg-[#1A1A3F] p-4 rounded-lg text-left"
+            onClick={() => setActiveStream("https://korazon.life/hard/2908c7d4425d87350.html?match=4697699")}
+          >
+            <div className="text-2xl mb-1">{league.icon}</div>
+            <div className="font-semibold text-sm">{league.name}</div>
+          </button>
         ))}
       </div>
 
-      <h2 className="text-xs font-bold text-gray-400 mb-3 uppercase">SELECT STREAM</h2>
-      <div className="grid grid-cols-2 gap-3">
-        <button onClick={() => window.open('https://beinmatch26.com/bein/live/20154', '_blank')} className="bg-blue-600 py-3 rounded-lg font-bold">beIN SPORTS HD 1</button>
-        <button onClick={() => setActiveStream('https://www.youtube.com/embed/ntjJKCjNmcE')} className="bg-green-600 py-3 rounded-lg font-bold">YouTube Live Match</button>
+      {/* Stream Selection Buttons */}
+      <div className="grid grid-cols-2 gap-4">
+        <button 
+          className="bg-blue-600 p-4 rounded-lg font-bold"
+          onClick={() => setActiveStream("https://korazon.life/hard/2908c7d4425d87350.html?match=4697699")}
+        >
+          beIN SPORTS HD 1
+        </button>
         
-        {/* Channel 4: Siiiiir.tv */}
-        <button onClick={() => window.open('https://www.siiiiir.tv/', '_blank')} className="bg-blue-600 py-3 rounded-lg font-bold">Channel 4</button>
-        
-        {/* Channel 5: Test video */}
-        <button onClick={() => setActiveStream('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8')} className="bg-green-600 py-3 rounded-lg font-bold">Channel 5 (Test)</button>
+        <button 
+          className="bg-green-600 p-4 rounded-lg font-bold"
+          onClick={() => setActiveStream("https://korazon.life/hard/2908c7d4425d87350.html?match=4697699")}
+        >
+          Channel 5 (Test)
+        </button>
+      </div>
 
-        <button onClick={() => window.open('https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847', '_blank')} className="bg-purple-600 py-3 rounded-lg font-bold col-span-2">Support Ahmed TV (Ad)</button>
+      {/* Support Button */}
+      <div className="mt-6">
+        <button className="w-full bg-purple-600 p-4 rounded-lg font-bold">
+          Support Ahmed TV (Ad)
+        </button>
       </div>
     </div>
-  )
+  );
 }
