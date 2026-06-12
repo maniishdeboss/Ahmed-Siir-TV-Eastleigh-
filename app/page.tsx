@@ -49,7 +49,7 @@ export default function HomePage() {
       </div>
 
       {/* Stream Selection Buttons */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 mb-4">
         <button 
           className="bg-blue-600 p-4 rounded-lg font-bold"
           onClick={() => setActiveStream("https://korazon.life/hard/2908c7d4425d87350.html?match=4697699")}
@@ -59,9 +59,23 @@ export default function HomePage() {
         
         <button 
           className="bg-green-600 p-4 rounded-lg font-bold"
-          onClick={() => setActiveStream("https://korazon.life/hard/2908c7d4425d87350.html?match=4697699")}
+          onClick={() => setActiveStream("https://www.siiiiir.tv/")}
         >
-          Channel 5 (Test)
+          Stream 3
+        </button>
+
+        <button 
+          className="bg-blue-600 p-4 rounded-lg font-bold"
+          onClick={() => setActiveStream("https://www.siiiiir.tv/")}
+        >
+          Stream 4
+        </button>
+        
+        <button 
+          className="bg-green-600 p-4 rounded-lg font-bold"
+          onClick={() => setActiveStream("https://www.siiiiir.tv/")}
+        >
+          Stream 5
         </button>
       </div>
 
