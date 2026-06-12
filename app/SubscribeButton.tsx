@@ -1,35 +1,25 @@
-'use client';
+'use client'; // Muhiim: Tani waxay u sheegaysaa Next.js inuu yahay Client Component
 
 export default function SubscribeButton() {
   return (
-    <div style={{ position: 'fixed', top: '10px', left: '10px', zIndex: 999999 }}>
-      <button 
-        onClick={() => {
-            // Hubi in OneSignal uu jiro ka hor inta aan la wicin
-            const OneSignal = (window as any).OneSignal;
-            if (OneSignal) {
-                OneSignal.push(async () => {
-                    await OneSignal.showNativePrompt();
-                });
-            } else {
-                // Halkan ayaan ku daray log si aad u ogaato haddii uu SDK-gu maqan yahay
-                console.log("OneSignal SDK weli ma rarnin");
-            }
-        }}
-        style={{ 
-          padding: '10px 15px', 
-          backgroundColor: '#ff0000', 
-          color: '#ffffff', 
-          border: 'none', 
-          borderRadius: '8px',
-          fontSize: '14px',
-          cursor: 'pointer',
-          fontWeight: 'bold',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-        }}
-      >
-        Subscribe
-      </button>
-    </div>
+    <button 
+      onClick={() => {
+        if ((window as any).OneSignal) {
+          (window as any).OneSignal.push((OneSignal: any) => {
+            OneSignal.showNativePrompt();
+          });
+        }
+      }}
+      style={{ 
+        padding: '10px 20px', 
+        backgroundColor: '#ff0000', 
+        color: '#fff', 
+        border: 'none', 
+        borderRadius: '5px',
+        cursor: 'pointer'
+      }}
+    >
+      Subscribe to Notifications
+    </button>
   );
 }
