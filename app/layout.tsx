@@ -5,9 +5,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
+        {/* Waxaan u beddelaynaa strategy-ga si uu u rarto ka dib marka boggu diyaar noqdo */}
         <Script 
           src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" 
-          defer 
+          strategy="afterInteractive"
         />
         <Script id="onesignal-init" strategy="afterInteractive">
           {`
