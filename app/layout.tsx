@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Script from 'next/script'
-import SubscribeButton from './SubscribeButton' // Halkan ayaan kaga soo dhex wacnay
+import SubscribeButton from './SubscribeButton' // Halkan ayaan kaga soo wacnay faylkii cusbaa
 
 export const metadata: Metadata = {
   title: 'Sports Live',
