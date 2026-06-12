@@ -1,15 +1,15 @@
-'use client'; // Tani waxay u sheegaysaa Next.js inuu yahay Client Component
+'use client';
 
 export default function SubscribeButton() {
   return (
-    <div style={{ padding: '15px', textAlign: 'center', backgroundColor: '#1a1a1a' }}>
+    <div style={{ padding: '15px', textAlign: 'center', backgroundColor: '#1a1a1a', zIndex: 9999, position: 'relative' }}>
       <button 
         onClick={() => {
-            if ((window as any).OneSignal) {
-                (window as any).OneSignal.push(async (OneSignal: any) => {
-                    await OneSignal.showNativePrompt();
-                });
-            }
+            // Waxaan isticmaalaynaa OneSignalDeferred si loo hubiyo in SDK-gu diyaar yahay
+            (window as any).OneSignalDeferred = (window as any).OneSignalDeferred || [];
+            (window as any).OneSignalDeferred.push(async (OneSignal: any) => {
+                await OneSignal.showNativePrompt();
+            });
         }}
         style={{ 
           padding: '10px 20px', 
@@ -19,7 +19,8 @@ export default function SubscribeButton() {
           borderRadius: '8px',
           fontSize: '16px',
           cursor: 'pointer',
-          fontWeight: 'bold'
+          fontWeight: 'bold',
+          pointerEvents: 'auto' 
         }}
       >
         Subscribe to Notifications
