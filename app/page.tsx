@@ -17,6 +17,11 @@ export default function HomePage() {
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
       <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
 
+      {/* XAYAYSIIN KOOBAAD (Sare) */}
+      <div className="bg-gray-800 p-2 text-center rounded mb-4">
+        <p className="text-xs">Halkan ku dheji koodhkaaga xayaysiinta 1</p>
+      </div>
+
       {/* Video Player Section */}
       {activeStream && (
         <div className="mb-6 w-full aspect-video">
@@ -77,6 +82,11 @@ export default function HomePage() {
         >
           Stream 5
         </button>
+      </div>
+
+      {/* XAYAYSIIN LABAAD (Dhexda) */}
+      <div className="bg-gray-800 p-4 text-center rounded mb-6">
+        <p className="text-xs">Halkan ku dheji koodhkaaga xayaysiinta 2</p>
       </div>
 
       {/* Support Button */}
