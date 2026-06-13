@@ -52,7 +52,7 @@ export default function HomePage() {
       <div className="grid grid-cols-2 gap-4 mb-4">
         <button 
           className="bg-blue-600 p-4 rounded-lg font-bold"
-          onClick={() => setActiveStream(https://sirtvnetwrok.one/hard/2908c7d4425d87350.html?match=4627868)}
+          onClick={() => setActiveStream("https://sirtvnetwrok.one/hard/2908c7d4425d87350.html?match=4627868")}
         >
           beIN SPORTS HD 1
         </button>
