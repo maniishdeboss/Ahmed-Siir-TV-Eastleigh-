@@ -17,9 +17,16 @@ export default function HomePage() {
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
       <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
 
-      {/* XAYAYSIIN KOOBAAD (Sare) */}
-      <div className="bg-gray-800 p-2 text-center rounded mb-4">
-        <p className="text-xs">Halkan ku dheji koodhkaaga xayaysiinta 1</p>
+      {/* XAYAYSIIN SARE OO WATSH NOW AH */}
+      <div className="bg-gray-800 p-4 text-center rounded mb-6 border border-yellow-500">
+        <p className="mb-2 text-sm">Ku taageer Ahmed TV adiga oo riixaya badhanka hoose</p>
+        <a 
+          href="https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847" 
+          target="_blank" 
+          className="block w-full bg-yellow-500 py-3 rounded-lg font-bold text-black"
+        >
+          WATCH NOW
+        </a>
       </div>
 
       {/* Video Player Section */}
@@ -82,11 +89,6 @@ export default function HomePage() {
         >
           Stream 5
         </button>
-      </div>
-
-      {/* XAYAYSIIN LABAAD (Dhexda) */}
-      <div className="bg-gray-800 p-4 text-center rounded mb-6">
-        <p className="text-xs">Halkan ku dheji koodhkaaga xayaysiinta 2</p>
       </div>
 
       {/* Support Button */}
