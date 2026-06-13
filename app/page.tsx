@@ -59,14 +59,14 @@ export default function HomePage() {
         
         <button 
           className="bg-green-600 p-4 rounded-lg font-bold"
-          onClick={() => setActiveStream("https://www.siiiiir.tv/")}
+          onClick={() => setActiveStream("https://sirtvnetwrok.one/hard/2908c7d4425d87350.html?match=4627856")}
         >
           Stream 3
         </button>
 
         <button 
           className="bg-blue-600 p-4 rounded-lg font-bold"
-          onClick={() => setActiveStream("https://www.siiiiir.tv/")}
+          onClick={() => setActiveStream("https://sirtvnetwrok.one/hard/2908c7d4425d87350.html?match=4627856")}
         >
           Stream 4
         </button>
