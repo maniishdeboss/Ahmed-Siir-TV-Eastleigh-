@@ -19,7 +19,7 @@ export default function HomePage() {
 
       {/* XAYAYSIIN SARE OO WATSH NOW AH */}
       <div className="bg-gray-800 p-4 text-center rounded mb-6 border border-yellow-500">
-        <p className="mb-2 text-sm">Ku taageer Ahmed TV adiga oo riixaya badhanka hoose</p>
+        <p className="mb-2 text-sm">📺🇬🇲 Kusodawow Ahmed live 🇸🇴 TV adiga oo riixaya gambaleel😜 </p>
         <a 
           href="https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847" 
           target="_blank" 
