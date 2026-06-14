@@ -10,15 +10,19 @@ const LEAGUES = [
   { name: "Bundesliga", icon: "🇩🇪🇬🇲🇸🇴 " }
 ];
 
+// Link-gaaga Adsterra
 const ADSTERRA_LINK = "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
-// Waxaan ku darnay query string-ga autoplay iyo mute
+// Stream URL-kaaga caadiga ah
 const STREAM_URL = "https://siir-tv.com/bein-sport-1/";
 
 export default function HomePage() {
   const [activeStream, setActiveStream] = useState<string | null>(null);
 
+  // Shaqadan ayaa loogu talagalay badhanka FIFA (Ads + Stream)
   const handleFifaPlay = () => {
+    // 1. Furo xayeysiiska tab cusub
     window.open(ADSTERRA_LINK, '_blank');
+    // 2. Ka dibna furo stream-ka
     setActiveStream(STREAM_URL);
   };
 
@@ -26,13 +30,12 @@ export default function HomePage() {
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
       <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
 
+      {/* Video Player Section */}
       {activeStream && (
         <div className="mb-6 w-full aspect-video relative">
           <iframe
-            // Halkan ayaan ku darnay autoplay iyo mute (mute=1 ayaa ka hubsan inuu shaqeeyo)
-            src={`${activeStream}?autoplay=1&mute=1`}
+            src={activeStream}
             className="w-full h-full rounded-lg border-2 border-white/20"
-            allow="autoplay; encrypted-media"
             allowFullScreen
           />
           <button 
@@ -44,7 +47,54 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* ... (Koodhkii badhamada wuxuu ahaanayaa sidii hore) ... */}
+      {/* League Buttons */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        {LEAGUES.map((league) => (
+          <button 
+            key={league.name}
+            className="bg-[#1A1A3F] p-4 rounded-lg text-left"
+            onClick={
+              // KALIYA FIFA ayaa leh xayeysiis
+              league.name === "FIFA World Cup 2026" 
+                ? handleFifaPlay 
+                : () => setActiveStream(STREAM_URL)
+            }
+          >
+            <div className="text-2xl mb-1">{league.icon}</div>
+            <div className="font-semibold text-sm">{league.name}</div>
+          </button>
+        ))}
+      </div>
+
+      {/* Stream Selection Buttons */}
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        {[
+          { name: "beIN SPORTS HD 1", color: "bg-blue-600" },
+          { name: "Stream 3", color: "bg-green-600" },
+          { name: "Stream 4", color: "bg-blue-600" },
+          { name: "Stream 5", color: "bg-green-600" }
+        ].map((stream) => (
+          <button 
+            key={stream.name}
+            className={`${stream.color} p-4 rounded-lg font-bold`}
+            // Badhamadan xayeysiis ma laha, si toos ah ayay u shaqaynayaan
+            onClick={() => setActiveStream(STREAM_URL)}
+          >
+            {stream.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Support Button */}
+      <div className="mt-6">
+        <button 
+          className="w-full bg-purple-600 p-4 rounded-lg font-bold"
+          // Badhankan isaga xayeysiis kaliya ayuu furaa (tab cusub)
+          onClick={() => window.open(ADSTERRA_LINK, '_blank')}
+        >
+          Support Ahmed TV (Ad)
+        </button>
+      </div>
     </div>
   );
 }
