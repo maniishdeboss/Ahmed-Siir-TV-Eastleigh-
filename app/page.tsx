@@ -28,7 +28,7 @@ export default function HomePage() {
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
-      <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
+      <h1 className="text-xl font-bold text-center mb-6">Ahmeed Abdikani LIVE TV 🔴</h1>
 
       {/* Video Player Section */}
       {activeStream && (
