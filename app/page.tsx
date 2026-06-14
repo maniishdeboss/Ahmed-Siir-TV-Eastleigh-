@@ -11,22 +11,36 @@ const LEAGUES = [
 ];
 
 export default function HomePage() {
-  // Link-ga aan soo helnay
-  const m3u8Link = "https://tromeligheal.enrigeplsa202362to.site/live/ad3/index.m3u8";
+  const [activeStream, setActiveStream] = useState<string | null>(null);
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
-      <header className="mb-8 text-center">
-        <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
-      </header>
+      <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
 
-      {/* Qaybta Horyaallada */}
-      <div className="grid grid-cols-2 gap-4 mb-8">
+      {/* Video Player Section */}
+      {activeStream && (
+        <div className="mb-6 w-full aspect-video">
+          <iframe
+            src={activeStream}
+            className="w-full h-full rounded-lg border-2 border-white/20"
+            allowFullScreen
+          />
+          <button 
+            onClick={() => setActiveStream(null)}
+            className="mt-2 w-full bg-slate-600 py-2 rounded-lg font-bold"
+          >
+            Close Player
+          </button>
+        </div>
+      )}
+
+      {/* League Buttons */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
         {LEAGUES.map((league) => (
           <button 
             key={league.name}
-            className="bg-[#1A1A3F] p-4 rounded-lg text-left border border-gray-700"
-            onClick={() => window.open(m3u8Link, '_blank')}
+            className="bg-[#1A1A3F] p-4 rounded-lg text-left"
+            onClick={() => setActiveStream("https://korazon.life/hard/2908c7d4425d87350.html?match=4697699")}
           >
             <div className="text-2xl mb-1">{league.icon}</div>
             <div className="font-semibold text-sm">{league.name}</div>
@@ -34,16 +48,43 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Qaybta Stream-ka oo toos u furaya browser-ka */}
-      <div className="bg-[#1A1A4B] p-6 rounded-2xl border border-gray-700 mb-8">
-        <p className="mb-4 font-bold text-lg">Dooro Stream-ka:</p>
+      {/* Stream Selection Buttons */}
+      <div className="grid grid-cols-2 gap-4 mb-4">
         <button 
-          onClick={() => window.open(m3u8Link, '_blank')} 
-          className="w-full bg-green-600 py-4 rounded-xl font-bold"
+          className="bg-blue-600 p-4 rounded-lg font-bold"
+          onClick={() => setActiveStream("https://sirtvnetwrok.one/hard/2908c7d4425d87350.html?match=4627868")}
         >
-          WATCH LIVE NOW
+          beIN SPORTS HD 1
+        </button>
+        
+        <button 
+          className="bg-green-600 p-4 rounded-lg font-bold"
+          onClick={() => setActiveStream("https://www.siiiiir.tv/")}
+        >
+          Stream 3
+        </button>
+
+        <button 
+          className="bg-blue-600 p-4 rounded-lg font-bold"
+          onClick={() => setActiveStream("https://www.siiiiir.tv/")}
+        >
+          Stream 4
+        </button>
+        
+        <button 
+          className="bg-green-600 p-4 rounded-lg font-bold"
+          onClick={() => setActiveStream("https://www.siiiiir.tv/")}
+        >
+          Stream 5
+        </button>
+      </div>
+
+      {/* Support Button */}
+      <div className="mt-6">
+        <button className="w-full bg-purple-600 p-4 rounded-lg font-bold">
+          Support Ahmed TV (Ad)
         </button>
       </div>
     </div>
-  )
+  );
 }
