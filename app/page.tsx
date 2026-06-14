@@ -1,44 +1,52 @@
 'use client'
 import { useState } from 'react'
 
-const LEAGUES = [
-  { name: "FIFA World Cup 2026", icon: "🏆" },
-  { name: "Premier League", icon: "⚽" },
-  { name: "Champions League", icon: "🌍" },
-  { name: "La Liga", icon: "🇪🇸" }
-];
+// Halkan ku beddel links-kaaga saxda ah
+const BEIN_STREAM = "https://siir-tv.com/bein-sport-1/"; 
 
 export default function HomePage() {
   const [activeStream, setActiveStream] = useState<string | null>(null);
 
   return (
     <div className="bg-[#050510] min-h-screen text-white">
-      {/* 1. Header-ka weyn ee leh beIN Sports */}
+      {/* Header-ka oo leh magacaaga */}
       <div className="p-4 bg-gradient-to-b from-blue-900 to-[#050510]">
-        <h2 className="text-lg font-bold mb-2">Featured Live</h2>
-        <div className="w-full aspect-video bg-gray-800 rounded-xl flex items-center justify-center">
-          <span className="text-4xl font-bold text-blue-500">beIN SPORTS 1</span>
-        </div>
-      </div>
-
-      {/* 2. Qaybta qaybaha (Categories) */}
-      <div className="px-4 py-2">
-        <h3 className="text-sm text-gray-400 font-semibold mb-3">Live Sports</h3>
-        <div className="grid grid-cols-2 gap-3">
-          {LEAGUES.map((league) => (
-            <div key={league.name} className="bg-[#101025] p-4 rounded-lg border border-white/5 hover:border-blue-500 transition">
-              <div className="text-3xl mb-2">{league.icon}</div>
-              <div className="font-bold text-sm">{league.name}</div>
+        <h1 className="text-xl font-bold text-center mb-4">Ahmed Abdikani LIVE TV 🔴</h1>
+        
+        {/* Player-ka */}
+        {activeStream ? (
+            <div className="w-full aspect-video bg-black rounded-xl overflow-hidden border border-white/20">
+                <iframe 
+                    src={activeStream} 
+                    className="w-full h-full" 
+                    allowFullScreen 
+                />
+                <button onClick={() => setActiveStream(null)} className="w-full bg-red-600 py-1 text-sm">Close</button>
             </div>
-          ))}
-        </div>
+        ) : (
+            <div className="w-full aspect-video bg-gray-800 rounded-xl flex items-center justify-center">
+                <p>Select a channel to watch</p>
+            </div>
+        )}
       </div>
 
-      {/* 3. Bottom Navigation (sida app-yada kale) */}
-      <div className="fixed bottom-0 w-full bg-[#101025] p-4 flex justify-between border-t border-white/10">
-        <div className="text-center text-blue-500">Home</div>
-        <div className="text-center text-gray-500">Live TV</div>
-        <div className="text-center text-gray-500">Movies</div>
+      {/* Buttons */}
+      <div className="px-4 py-2 grid grid-cols-2 gap-3">
+          <button 
+            onClick={() => setActiveStream(BEIN_STREAM)}
+            className="bg-[#101025] p-4 rounded-lg border border-blue-500"
+          >
+            <div className="text-2xl">🏆</div>
+            <div className="font-bold">FIFA World Cup</div>
+          </button>
+          
+          <button 
+            onClick={() => setActiveStream(BEIN_STREAM)}
+            className="bg-[#101025] p-4 rounded-lg border border-white/10"
+          >
+            <div className="text-2xl">⚽</div>
+            <div className="font-bold">Premier League</div>
+          </button>
       </div>
     </div>
   );
