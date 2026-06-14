@@ -2,98 +2,43 @@
 import { useState } from 'react'
 
 const LEAGUES = [
-  { name: "FIFA World Cup 2026", icon: "🇸🇴 🏆🇬🇲 " },
-  { name: "Premier League", icon: "🇬🇲🇸🇴 ⚽" },
-  { name: "Champions League", icon: "⚽🇸🇴🇬🇲 " },
-  { name: "La Liga", icon: "🇪🇸🇸🇴🇬🇲 " },
-  { name: "Serie A", icon: "🇮🇹🇬🇲🇸🇴 " },
-  { name: "Bundesliga", icon: "🇩🇪🇬🇲🇸🇴 " }
+  { name: "FIFA World Cup 2026", icon: "🏆" },
+  { name: "Premier League", icon: "⚽" },
+  { name: "Champions League", icon: "🌍" },
+  { name: "La Liga", icon: "🇪🇸" }
 ];
-
-// Link-gaaga Adsterra
-const ADSTERRA_LINK = "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
-// Stream URL-kaaga caadiga ah
-const STREAM_URL = "https://siir-tv.com/bein-sport-1/";
 
 export default function HomePage() {
   const [activeStream, setActiveStream] = useState<string | null>(null);
 
-  // Shaqadan ayaa loogu talagalay badhanka FIFA (Ads + Stream)
-  const handleFifaPlay = () => {
-    // 1. Furo xayeysiiska tab cusub
-    window.open(ADSTERRA_LINK, '_blank');
-    // 2. Ka dibna furo stream-ka
-    setActiveStream(STREAM_URL);
-  };
-
   return (
-    <div className="bg-[#0A0A23] min-h-screen text-white p-4">
-      <h1 className="text-xl font-bold text-center mb-6">Ahmeed Abdikani LIVE TV 🔴</h1>
-
-      {/* Video Player Section */}
-      {activeStream && (
-        <div className="mb-6 w-full aspect-video relative">
-          <iframe
-            src={activeStream}
-            className="w-full h-full rounded-lg border-2 border-white/20"
-            allowFullScreen
-          />
-          <button 
-            onClick={() => setActiveStream(null)}
-            className="mt-2 w-full bg-slate-600 py-2 rounded-lg font-bold"
-          >
-            Close Player
-          </button>
+    <div className="bg-[#050510] min-h-screen text-white">
+      {/* 1. Header-ka weyn ee leh beIN Sports */}
+      <div className="p-4 bg-gradient-to-b from-blue-900 to-[#050510]">
+        <h2 className="text-lg font-bold mb-2">Featured Live</h2>
+        <div className="w-full aspect-video bg-gray-800 rounded-xl flex items-center justify-center">
+          <span className="text-4xl font-bold text-blue-500">beIN SPORTS 1</span>
         </div>
-      )}
-
-      {/* League Buttons */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        {LEAGUES.map((league) => (
-          <button 
-            key={league.name}
-            className="bg-[#1A1A3F] p-4 rounded-lg text-left"
-            onClick={
-              // KALIYA FIFA ayaa leh xayeysiis
-              league.name === "FIFA World Cup 2026" 
-                ? handleFifaPlay 
-                : () => setActiveStream(STREAM_URL)
-            }
-          >
-            <div className="text-2xl mb-1">{league.icon}</div>
-            <div className="font-semibold text-sm">{league.name}</div>
-          </button>
-        ))}
       </div>
 
-      {/* Stream Selection Buttons */}
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        {[
-          { name: "beIN SPORTS HD 1", color: "bg-blue-600" },
-          { name: "Stream 3", color: "bg-green-600" },
-          { name: "Stream 4", color: "bg-blue-600" },
-          { name: "Stream 5", color: "bg-green-600" }
-        ].map((stream) => (
-          <button 
-            key={stream.name}
-            className={`${stream.color} p-4 rounded-lg font-bold`}
-            // Badhamadan xayeysiis ma laha, si toos ah ayay u shaqaynayaan
-            onClick={() => setActiveStream(STREAM_URL)}
-          >
-            {stream.name}
-          </button>
-        ))}
+      {/* 2. Qaybta qaybaha (Categories) */}
+      <div className="px-4 py-2">
+        <h3 className="text-sm text-gray-400 font-semibold mb-3">Live Sports</h3>
+        <div className="grid grid-cols-2 gap-3">
+          {LEAGUES.map((league) => (
+            <div key={league.name} className="bg-[#101025] p-4 rounded-lg border border-white/5 hover:border-blue-500 transition">
+              <div className="text-3xl mb-2">{league.icon}</div>
+              <div className="font-bold text-sm">{league.name}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Support Button */}
-      <div className="mt-6">
-        <button 
-          className="w-full bg-purple-600 p-4 rounded-lg font-bold"
-          // Badhankan isaga xayeysiis kaliya ayuu furaa (tab cusub)
-          onClick={() => window.open(ADSTERRA_LINK, '_blank')}
-        >
-          Support Ahmed TV (Ad)
-        </button>
+      {/* 3. Bottom Navigation (sida app-yada kale) */}
+      <div className="fixed bottom-0 w-full bg-[#101025] p-4 flex justify-between border-t border-white/10">
+        <div className="text-center text-blue-500">Home</div>
+        <div className="text-center text-gray-500">Live TV</div>
+        <div className="text-center text-gray-500">Movies</div>
       </div>
     </div>
   );
