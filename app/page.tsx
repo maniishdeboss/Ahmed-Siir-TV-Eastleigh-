@@ -10,10 +10,21 @@ const LEAGUES = [
   { name: "Bundesliga", icon: "🇩🇪🇬🇲🇸🇴 " }
 ];
 
+// Link-gaaga Adsterra
+const ADSTERRA_LINK = "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
+// Stream URL-kaaga caadiga ah
+const STREAM_URL = "https://siir-tv.com/bein-sport-1/";
+
 export default function HomePage() {
   const [activeStream, setActiveStream] = useState<string | null>(null);
-  // Link-gaaga cusub oo aan halkan dhigay si aan si sahlan u beddeli karno
-  const STREAM_URL = "https://siir-tv.com/bein-sport-1/";
+
+  // Shaqadan ayaa loogu talagalay badhanka FIFA (Ads + Stream)
+  const handleFifaPlay = () => {
+    // 1. Furo xayeysiiska tab cusub
+    window.open(ADSTERRA_LINK, '_blank');
+    // 2. Ka dibna furo stream-ka
+    setActiveStream(STREAM_URL);
+  };
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
@@ -21,7 +32,7 @@ export default function HomePage() {
 
       {/* Video Player Section */}
       {activeStream && (
-        <div className="mb-6 w-full aspect-video">
+        <div className="mb-6 w-full aspect-video relative">
           <iframe
             src={activeStream}
             className="w-full h-full rounded-lg border-2 border-white/20"
@@ -36,13 +47,18 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* League Buttons - Dhammaantood waxay isticmaalayaan STREAM_URL */}
+      {/* League Buttons */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         {LEAGUES.map((league) => (
           <button 
             key={league.name}
             className="bg-[#1A1A3F] p-4 rounded-lg text-left"
-            onClick={() => setActiveStream(STREAM_URL)}
+            onClick={
+              // KALIYA FIFA ayaa leh xayeysiis
+              league.name === "FIFA World Cup 2026" 
+                ? handleFifaPlay 
+                : () => setActiveStream(STREAM_URL)
+            }
           >
             <div className="text-2xl mb-1">{league.icon}</div>
             <div className="font-semibold text-sm">{league.name}</div>
@@ -50,40 +66,32 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Stream Selection Buttons - Dhammaantood waxay isticmaalayaan STREAM_URL */}
+      {/* Stream Selection Buttons */}
       <div className="grid grid-cols-2 gap-4 mb-4">
-        <button 
-          className="bg-blue-600 p-4 rounded-lg font-bold"
-          onClick={() => setActiveStream(STREAM_URL)}
-        >
-          beIN SPORTS HD 1
-        </button>
-        
-        <button 
-          className="bg-green-600 p-4 rounded-lg font-bold"
-          onClick={() => setActiveStream(STREAM_URL)}
-        >
-          Stream 3
-        </button>
-
-        <button 
-          className="bg-blue-600 p-4 rounded-lg font-bold"
-          onClick={() => setActiveStream(STREAM_URL)}
-        >
-          Stream 4
-        </button>
-        
-        <button 
-          className="bg-green-600 p-4 rounded-lg font-bold"
-          onClick={() => setActiveStream(STREAM_URL)}
-        >
-          Stream 5
-        </button>
+        {[
+          { name: "beIN SPORTS HD 1", color: "bg-blue-600" },
+          { name: "Stream 3", color: "bg-green-600" },
+          { name: "Stream 4", color: "bg-blue-600" },
+          { name: "Stream 5", color: "bg-green-600" }
+        ].map((stream) => (
+          <button 
+            key={stream.name}
+            className={`${stream.color} p-4 rounded-lg font-bold`}
+            // Badhamadan xayeysiis ma laha, si toos ah ayay u shaqaynayaan
+            onClick={() => setActiveStream(STREAM_URL)}
+          >
+            {stream.name}
+          </button>
+        ))}
       </div>
 
       {/* Support Button */}
       <div className="mt-6">
-        <button className="w-full bg-purple-600 p-4 rounded-lg font-bold">
+        <button 
+          className="w-full bg-purple-600 p-4 rounded-lg font-bold"
+          // Badhankan isaga xayeysiis kaliya ayuu furaa (tab cusub)
+          onClick={() => window.open(ADSTERRA_LINK, '_blank')}
+        >
           Support Ahmed TV (Ad)
         </button>
       </div>
