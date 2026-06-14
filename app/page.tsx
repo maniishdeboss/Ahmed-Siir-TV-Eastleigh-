@@ -52,7 +52,7 @@ export default function HomePage() {
           <button 
             key={league.name}
             className="bg-[#1A1A3F] p-4 rounded-lg text-left"
-            onClick={() => setActiveStream("https://korazon.life/hard/2908c7d4425d87350.html?match=4697699")}
+            onClick={() => setActiveStream("https://www.siiiir.tv/")}
           >
             <div className="text-2xl mb-1">{league.icon}</div>
             <div className="font-semibold text-sm">{league.name}</div>
@@ -64,28 +64,28 @@ export default function HomePage() {
       <div className="grid grid-cols-2 gap-4 mb-4">
         <button 
           className="bg-blue-600 p-4 rounded-lg font-bold"
-          onClick={() => setActiveStream("https://sirtvnetwrok.one/hard/2908c7d4425d87350.html?match=4627868")}
+          onClick={() => setActiveStream("https://www.siiiir.tv/")}
         >
           beIN SPORTS HD 1
         </button>
         
         <button 
           className="bg-green-600 p-4 rounded-lg font-bold"
-          onClick={() => setActiveStream("https://sirtvnetwrok.one/hard/2908c7d4425d87350.html?match=4627856")}
+          onClick={() => setActiveStream("https://www.siiiir.tv/")}
         >
           Stream 3
         </button>
 
         <button 
           className="bg-blue-600 p-4 rounded-lg font-bold"
-          onClick={() => setActiveStream("https://sirtvnetwrok.one/hard/2908c7d4425d87350.html?match=4627856")}
+          onClick={() => setActiveStream("https://www.siiiir.tv/")}
         >
           Stream 4
         </button>
         
         <button 
           className="bg-green-600 p-4 rounded-lg font-bold"
-          onClick={() => setActiveStream("https://www.siiiiir.tv/")}
+          onClick={() => setActiveStream("https://www.siiiir.tv/")}
         >
           Stream 5
         </button>
