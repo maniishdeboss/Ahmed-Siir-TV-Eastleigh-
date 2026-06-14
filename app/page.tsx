@@ -1,6 +1,9 @@
 'use client'
-import { useState } from 'react'
-import ReactPlayer from 'react-player'
+import { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
+
+// Waxaan u isticmaalay dynamic import si looga fogaado khaladka server-side rendering (SSR)
+const ReactPlayer = dynamic(() => import('react-player'), { ssr: false })
 
 const LEAGUES = [
   { name: "FIFA World Cup 2026", icon: "🇸🇴 🏆🇬🇲 " },
@@ -13,7 +16,12 @@ const LEAGUES = [
 
 export default function HomePage() {
   const [activeStream, setActiveStream] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
   const m3u8Link = "https://tromeligheal.enrigeplsa202362to.site/live/ad3/index.m3u8";
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
@@ -21,7 +29,6 @@ export default function HomePage() {
         <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
       </header>
 
-      {/* Qaybta Horyaallada oo calammadii ku soo laabteen */}
       <div className="grid grid-cols-2 gap-4 mb-8">
         {LEAGUES.map((league) => (
           <button 
@@ -35,7 +42,6 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Qaybta Stream-ka */}
       <div className="bg-[#1A1A4B] p-6 rounded-2xl border border-gray-700 mb-8">
         <p className="mb-4 font-bold text-lg">Dooro Stream-ka:</p>
         <button 
@@ -46,15 +52,19 @@ export default function HomePage() {
         </button>
       </div>
 
-      {/* Qaybta Player-ka */}
-      {activeStream && (
+      {activeStream && isClient && (
         <div className="bg-black p-2 rounded-xl mb-6">
           <ReactPlayer 
             url={activeStream} 
             playing={true} 
             controls={true} 
             width="100%" 
-            height="300px" 
+            height="300px"
+            config={{
+              file: {
+                forceHLS: true, // Waxay ku qasbaysaa player-ka inuu ula dhaqmo sidii HLS
+              }
+            }}
           />
           <button 
             onClick={() => setActiveStream(null)} 
