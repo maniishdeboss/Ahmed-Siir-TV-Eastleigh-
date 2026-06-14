@@ -10,16 +10,19 @@ const LEAGUES = [
   { name: "Bundesliga", icon: "🇩🇪🇬🇲🇸🇴 " }
 ];
 
-// Halkan waa Smartlink-gaaga cusub ee Adsterra
-const ADSTERRA_SMARTLINK = "https://lasereither.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
+// Link-gaaga Adsterra
+const ADSTERRA_LINK = "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
+// Stream URL-kaaga caadiga ah
 const STREAM_URL = "https://siir-tv.com/bein-sport-1/";
 
 export default function HomePage() {
   const [activeStream, setActiveStream] = useState<string | null>(null);
 
-  // Shaqadan ayaa loogu talagalay badhanka FIFA (Smartlink + Stream)
+  // Shaqadan ayaa loogu talagalay badhanka FIFA (Ads + Stream)
   const handleFifaPlay = () => {
-    window.open(ADSTERRA_SMARTLINK, '_blank');
+    // 1. Furo xayeysiiska tab cusub
+    window.open(ADSTERRA_LINK, '_blank');
+    // 2. Ka dibna furo stream-ka
     setActiveStream(STREAM_URL);
   };
 
@@ -31,9 +34,8 @@ export default function HomePage() {
       {activeStream && (
         <div className="mb-6 w-full aspect-video relative">
           <iframe
-            src={`${activeStream}?autoplay=1&mute=1`}
+            src={activeStream}
             className="w-full h-full rounded-lg border-2 border-white/20"
-            allow="autoplay; encrypted-media"
             allowFullScreen
           />
           <button 
@@ -52,6 +54,7 @@ export default function HomePage() {
             key={league.name}
             className="bg-[#1A1A3F] p-4 rounded-lg text-left"
             onClick={
+              // KALIYA FIFA ayaa leh xayeysiis
               league.name === "FIFA World Cup 2026" 
                 ? handleFifaPlay 
                 : () => setActiveStream(STREAM_URL)
@@ -74,6 +77,7 @@ export default function HomePage() {
           <button 
             key={stream.name}
             className={`${stream.color} p-4 rounded-lg font-bold`}
+            // Badhamadan xayeysiis ma laha, si toos ah ayay u shaqaynayaan
             onClick={() => setActiveStream(STREAM_URL)}
           >
             {stream.name}
@@ -85,7 +89,8 @@ export default function HomePage() {
       <div className="mt-6">
         <button 
           className="w-full bg-purple-600 p-4 rounded-lg font-bold"
-          onClick={() => window.open(ADSTERRA_SMARTLINK, '_blank')}
+          // Badhankan isaga xayeysiis kaliya ayuu furaa (tab cusub)
+          onClick={() => window.open(ADSTERRA_LINK, '_blank')}
         >
           Support Ahmed TV (Ad)
         </button>
