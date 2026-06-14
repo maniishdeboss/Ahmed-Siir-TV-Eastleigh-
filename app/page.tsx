@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import ReactPlayer from 'react-player'
 
 const LEAGUES = [
   { name: "FIFA World Cup 2026", icon: "🇸🇴 🏆🇬🇲 " },
@@ -11,53 +12,58 @@ const LEAGUES = [
 ];
 
 export default function HomePage() {
+  const [activeStream, setActiveStream] = useState<string | null>(null);
+  const m3u8Link = "https://tromeligheal.enrigeplsa202362to.site/live/ad3/index.m3u8";
+
   return (
     <div className="bg-[#0A0A23] min-h-screen text-white p-4">
-      <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
+      <header className="mb-8 text-center">
+        <h1 className="text-xl font-bold text-center mb-6">Ahmed Abdikani LIVE TV 🔴</h1>
+      </header>
 
-      {/* XAYAYSIIN SARE OO WATSH NOW AH */}
-      <div className="bg-gray-800 p-4 text-center rounded mb-6 border border-yellow-500">
-        <p className="mb-2 text-sm">📺🇬🇲 Kusodawow Ahmed live 🇸🇴 TV adiga oo riixaya gambaleel😜 </p>
-        <a 
-          href="https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="block w-full bg-yellow-500 py-3 rounded-lg font-bold text-black"
-        >
-          WATCH NOW
-        </a>
-      </div>
-
-      {/* League Buttons */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
+      {/* Qaybta Horyaallada oo calammadii ku soo laabteen */}
+      <div className="grid grid-cols-2 gap-4 mb-8">
         {LEAGUES.map((league) => (
-          <a 
+          <button 
             key={league.name}
-            href="https://www.siiiir.tv/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-[#1A1A3F] p-4 rounded-lg text-left block"
+            className="bg-[#1A1A3F] p-4 rounded-lg text-left border border-gray-700"
+            onClick={() => setActiveStream(m3u8Link)}
           >
             <div className="text-2xl mb-1">{league.icon}</div>
             <div className="font-semibold text-sm">{league.name}</div>
-          </a>
+          </button>
         ))}
       </div>
 
-      {/* Stream Selection Buttons */}
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <a href="https://www.siiiir.tv/" target="_blank" rel="noopener noreferrer" className="bg-blue-600 p-4 rounded-lg font-bold text-center">beIN SPORTS HD 1</a>
-        <a href="https://www.siiiir.tv/" target="_blank" rel="noopener noreferrer" className="bg-green-600 p-4 rounded-lg font-bold text-center">Stream 3</a>
-        <a href="https://www.siiiir.tv/" target="_blank" rel="noopener noreferrer" className="bg-blue-600 p-4 rounded-lg font-bold text-center">Stream 4</a>
-        <a href="https://www.siiiir.tv/" target="_blank" rel="noopener noreferrer" className="bg-green-600 p-4 rounded-lg font-bold text-center">Stream 5</a>
-      </div>
-
-      {/* Support Button */}
-      <div className="mt-6">
-        <button className="w-full bg-purple-600 p-4 rounded-lg font-bold">
-          Support Ahmed TV (Ad)
+      {/* Qaybta Stream-ka */}
+      <div className="bg-[#1A1A4B] p-6 rounded-2xl border border-gray-700 mb-8">
+        <p className="mb-4 font-bold text-lg">Dooro Stream-ka:</p>
+        <button 
+          onClick={() => setActiveStream(m3u8Link)} 
+          className="w-full bg-green-600 py-4 rounded-xl font-bold"
+        >
+          WATCH LIVE NOW
         </button>
       </div>
+
+      {/* Qaybta Player-ka */}
+      {activeStream && (
+        <div className="bg-black p-2 rounded-xl mb-6">
+          <ReactPlayer 
+            url={activeStream} 
+            playing={true} 
+            controls={true} 
+            width="100%" 
+            height="300px" 
+          />
+          <button 
+            onClick={() => setActiveStream(null)} 
+            className="w-full mt-2 bg-red-600 py-2 rounded-lg font-bold"
+          >
+            Xir Player-ka
+          </button>
+        </div>
+      )}
     </div>
-  );
+  )
 }
