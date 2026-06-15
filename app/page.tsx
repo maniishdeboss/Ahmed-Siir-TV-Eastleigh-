@@ -63,16 +63,16 @@ export default function HomePage() {
       </div>
 
       <div className="p-4">
-        {/* Halkan ayaa fiidyowga laga xakameeyay. Wuu madhan yahay ilaa la gujiyo kanaal. */}
+        {/* Halkan waxaan ku hagaajiyay inuusan iframe-ku soo bixinba ilaa kanaal la doorto */}
         <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 relative flex items-center justify-center">
           {activeStream ? (
             <iframe 
               src={`${activeStream}?autoplay=1&mute=1`} 
               className="w-full h-full"
-              allow="autoplay; encrypted-media" 
+              allow="autoplay; encrypted-media"
             />
           ) : (
-            <p className="text-white/40 text-sm">Fadlan dooro kanaal si aad u daawato</p>
+            <p className="text-white/40 text-sm italic">Fadlan dooro kanaal si aad u daawato</p>
           )}
         </div>
       </div>
