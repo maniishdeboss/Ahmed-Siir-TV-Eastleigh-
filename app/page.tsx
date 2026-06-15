@@ -46,7 +46,7 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`text-[10px] font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110' : 'opacity-60'}`}
+          className={`text-[10px] font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
         >
           {tab}
         </button>
@@ -58,12 +58,22 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
 // --- PAGES ---
 const HomePage = () => (
   <main className="p-4 pb-24">
-    {/* Hero Player */}
-    <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl mb-6">
-      <iframe src="https://www.youtube.com/embed/XghNs0Cx6JQ?autoplay=1&mute=1" className="w-full h-full" allowFullScreen />
+    {/* SIIR TV - Bedelka Filimka YouTube */}
+    <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6">
+      <iframe 
+        src="https://siir-tv.com/bein-sport-1/" 
+        className="w-full h-full" 
+        allowFullScreen 
+        allow="autoplay; encrypted-media"
+        title="SIIR TV Live"
+      />
+    </div>
+    <div className="flex items-center mb-8 px-2">
+      <span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-2 animate-pulse">LIVE</span>
+      <p className="text-sm font-bold text-white">SIIR TV - Live Streaming</p>
     </div>
 
-    {/* Featured Sports */}
+    {/* Featured Sports - SIDII HORE AYUU KU JIRAA */}
     <section className="mb-8">
       <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
       <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
@@ -76,13 +86,13 @@ const HomePage = () => (
       </div>
     </section>
 
-    {/* Featured TV (Sanduuqii Cagaarnaa) */}
+    {/* Premium Live TV - Kaliya SIIR iyo KOORA */}
     <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
       <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
       <div className="grid grid-cols-2 gap-4">
         {FEATURED_TV.map((tv, i) => (
-          <a key={i} href={tv.url} target="_blank" className={`bg-gradient-to-br ${tv.bg} p-6 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform`}>
-            <p className="font-black text-white">{tv.title}</p>
+          <a key={i} href={tv.url} target="_blank" className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}>
+            <p className="font-black text-white text-lg">{tv.title}</p>
           </a>
         ))}
       </div>
