@@ -4,24 +4,31 @@ import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆" },
-  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽" },
-  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆" },
-  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴" },
+  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍" },
+  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧" },
+  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡" },
+];
+
+const FEATURED_TV = [
+  { title: "SIIR TV", url: "https://siir-tv.com/bein-sport-1/", bg: "from-blue-900 to-black" },
+  { title: "KOORA TV", url: "https://koora-live.com/", bg: "from-green-900 to-black" },
 ];
 
 const WATCH_BY_COUNTRY = [
-  { country: "Somalia", flag: "🇸🇴", bg: "from-blue-500 to-blue-700" },
-  { country: "Ogadenia", flag: "🇬🇲", bg: "from-red-500 to-green-700" },
-  { country: "Kenya", flag: "🇰🇪", bg: "from-green-600 to-black/20" },
-  { country: "Global", flag: "🌍", bg: "from-purple-500 to-indigo-700" },
+  { country: "Somalia", flag: "🇸🇴", status: "Live", bg: "from-blue-500 to-blue-700" },
+  { country: "Ogadenia", flag: "🇬🇲", status: "Live", bg: "from-red-500 to-green-700" },
+  { country: "Kenya", flag: "🇰🇪", status: "Available", bg: "from-green-600 to-black/20" },
+  { country: "Global", flag: "🌍", status: "Live", bg: "from-purple-500 to-indigo-700" },
 ];
 
 const LIVE_CHANNELS = [
-  { title: "Makkah Live HD", color: "text-white" },
-  { title: "Wrestling WWE Live", color: "text-red-500" },
-  { title: "Somalia Live TV", color: "text-blue-400" },
-  { title: "Kenya Live TV", color: "text-green-500" },
+  { src: "XghNs0Cx6JQ", title: "Makkah Live HD", color: "text-white" },
+  { src: "2A_OLvCo_q8", title: "Wrestling WWE Live", color: "text-red-500" },
+  { src: "gCNeDWCI0vo", title: "Somalia Live TV", color: "text-blue-400" },
+  { src: "Kb638nMYjcw", title: "Kenya Live TV", color: "text-green-500" },
+  { src: "MiQe9ob9aDc", title: "Animals Live TV 1", color: "text-yellow-500" },
+  { src: "q9iTGiUtYik", title: "Animals Live TV 2", color: "text-yellow-500" },
 ];
 
 // --- COMPONENTS ---
@@ -51,11 +58,12 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
 // --- PAGES ---
 const HomePage = () => (
   <main className="p-4 pb-24">
-    {/* Hero section hadda waa mid banaan */}
-    <div className="w-full aspect-video bg-[#0a0a1a] rounded-3xl border border-white/10 mb-6 flex items-center justify-center">
-      <p className="text-white/30 font-bold">No stream selected</p>
+    {/* Hero Player */}
+    <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl mb-6">
+      <iframe src="https://www.youtube.com/embed/XghNs0Cx6JQ?autoplay=1&mute=1" className="w-full h-full" allowFullScreen />
     </div>
 
+    {/* Featured Sports */}
     <section className="mb-8">
       <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
       <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
@@ -67,6 +75,18 @@ const HomePage = () => (
         ))}
       </div>
     </section>
+
+    {/* Featured TV (Sanduuqii Cagaarnaa) */}
+    <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
+      <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {FEATURED_TV.map((tv, i) => (
+          <a key={i} href={tv.url} target="_blank" className={`bg-gradient-to-br ${tv.bg} p-6 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform`}>
+            <p className="font-black text-white">{tv.title}</p>
+          </a>
+        ))}
+      </div>
+    </section>
   </main>
 );
 
@@ -75,8 +95,11 @@ const LivePage = () => (
     <h2 className="text-2xl font-bold mb-6 text-center">Live Streaming Channels</h2>
     <div className="space-y-6">
       {LIVE_CHANNELS.map((item, index) => (
-        <div key={index} className="bg-[#111122] rounded-3xl p-6 border border-white/5 shadow-2xl">
-          <p className={`text-lg font-bold ${item.color}`}>{item.title}</p>
+        <div key={index} className="bg-[#111122] rounded-3xl p-4 border border-white/5 shadow-2xl">
+          <div className="aspect-video bg-black rounded-xl overflow-hidden mb-3 border border-white/5">
+            <iframe src={`https://www.youtube.com/embed/${item.src}`} className="w-full h-full" allow="autoplay; encrypted-media" allowFullScreen />
+          </div>
+          <p className={`text-sm font-bold ${item.color}`}>{item.title}</p>
         </div>
       ))}
     </div>
