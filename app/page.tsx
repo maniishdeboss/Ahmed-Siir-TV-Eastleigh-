@@ -66,7 +66,12 @@ export default function HomePage() {
 
       <div className="p-4">
         <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 relative">
-          <iframe src={`${activeStream || STREAM_URL}?autoplay=1&mute=1`} className="w-full h-full" />
+          <iframe 
+            src={`${activeStream || STREAM_URL}?autoplay=1&mute=1`} 
+            className="w-full h-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowFullScreen
+          />
         </div>
       </div>
 
