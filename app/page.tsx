@@ -36,7 +36,13 @@ export default function AhmedAbdikaniLiveTV() {
       {/* PLAYER CONTAINER */}
       {stream && (
         <div className="mb-6 aspect-video rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl shadow-purple-500/20 relative group">
-          <iframe src={stream} className="w-full h-full" allowFullScreen />
+          <iframe 
+            src={stream} 
+            className="w-full h-full" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowFullScreen 
+            title="Live Stream"
+          />
           <button 
             onClick={() => setStream(null)}
             className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-4 py-1 rounded-full text-xs font-bold hover:bg-red-600 transition-colors"
