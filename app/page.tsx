@@ -10,15 +10,15 @@ const CHANNELS = [
 ];
 
 const LEAGUES = [
-  { name: "World Cup 2026", icon: "🏆", color: "from-amber-500 to-orange-700" },
-  { name: "Premier League", icon: "⚽", color: "from-blue-500 to-indigo-700" },
-  { name: "Champions League", icon: "⭐", color: "from-indigo-600 to-purple-700" },
-  { name: "La Liga", icon: "🇪🇸", color: "from-red-500 to-pink-700" },
-  { name: "Serie A", icon: "🇮🇹", color: "from-sky-500 to-blue-700" },
-  { name: "Bundesliga", icon: "🇩🇪", color: "from-gray-600 to-slate-800" }
+  { name: "World Cup 2026", icon: "🏆⚽📺🇸🇴🇬🇲 ", color: "from-amber-500 to-orange-700" },
+  { name: "Premier League", icon: "⚽🇸🇴🇬🇲📺 ", color: "from-blue-500 to-indigo-700" },
+  { name: "Champions League", icon🏆🇬🇲🇸🇴📺 : "⭐", color: "from-indigo-600 to-purple-700" },
+  { name: "La Liga", icon: "🇪🇸🇸🇴📺🇬🇲 ", color: "from-red-500 to-pink-700" },
+  { name: "Serie A", icon: "🇮🇹🇬🇲🇸🇴📺⚽ ", color: "from-sky-500 to-blue-700" },
+  { name: "Bundesliga", icon: "🇩🇪🇸🇴🇬🇲📺⚽ ", color: "from-gray-600 to-slate-800" }
 ];
 
-export default function AhmedLiveTV() {
+export default function 📺🇸🇴🇬🇲 Ahmed Abdikani LiveTV🇸🇴🇬🇲⚽📺 () {
   const [activeTab, setActiveTab] = useState('LIVE');
   const [stream, setStream] = useState<string | null>(null);
 
