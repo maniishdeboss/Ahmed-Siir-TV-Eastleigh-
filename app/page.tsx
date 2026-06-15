@@ -37,12 +37,11 @@ export default function App() {
 
   const HomePage = () => (
     <main className="p-4 pb-24">
-      {/* Hero Player oo leh border cagaaran */}
+      {/* Hero Player - Halkan waxaan ka saaray YouTube-kii hore */}
       <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.4)] mb-6">
-        <iframe src={`${activeStream}?autoplay=1&mute=0`} className="w-full h-full" allowFullScreen />
+        <iframe src={`${activeStream}?autoplay=1`} className="w-full h-full" allowFullScreen />
       </div>
 
-      {/* Featured Sports */}
       <section className="mb-8">
         <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
@@ -55,7 +54,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Premium Live TV - Halkan ayay labada badhan yihiin */}
       <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
         <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
         <div className="grid grid-cols-2 gap-4">
