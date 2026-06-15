@@ -4,9 +4,9 @@ import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026🇸🇴📺🇬🇲 ", bg: "from-blue-600 to-blue-800", icon: "🏆" },
-  { id: 2, title: "Champions League🇸🇴📺🇬🇲 ", bg: "from-purple-600 to-indigo-800", icon: "⚽" },
-  { id: 3, title: "Premier League🇸🇴📺🇬🇲 ", bg: "from-emerald-600 to-green-800", icon: "🏆" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆" },
+  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽" },
+  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆" },
 ];
 
 const PREMIUM_TV = [
@@ -33,16 +33,16 @@ const WATCH_BY_COUNTRY = [
 // --- MAIN APP ---
 export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
-  // Koora TV oo ah kan ugu horreeya ee cagaaran
   const [activeStream, setActiveStream] = useState("https://www.youtube.com/embed/2A_OLvCo_q8");
 
   const HomePage = () => (
     <main className="p-4 pb-24">
-      {/* Hero Player oo leh border cagaaran oo qaabaysan */}
+      {/* Hero Player oo leh border cagaaran */}
       <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.4)] mb-6">
         <iframe src={`${activeStream}?autoplay=1&mute=0`} className="w-full h-full" allowFullScreen />
       </div>
 
+      {/* Featured Sports */}
       <section className="mb-8">
         <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
@@ -55,6 +55,7 @@ export default function App() {
         </div>
       </section>
 
+      {/* Premium Live TV - Halkan ayay labada badhan yihiin */}
       <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
         <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
         <div className="grid grid-cols-2 gap-4">
