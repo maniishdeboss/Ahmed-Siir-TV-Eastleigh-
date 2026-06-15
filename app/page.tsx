@@ -2,90 +2,52 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 
-const STREAM_URL = "https://siir-tv.com/bein-sport-1/";
-
+// Waxaan ka saarnay STREAM_URL oo toos loo rarto
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026🇸🇴⚽📺🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
-  { id: 2, title: "Champions league 🇸🇴⚽📺🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
-  { id: 3, title: "Premier League⚽📺🏆🇸🇴 ", bg: "from-purple-600 to-indigo-700", icon: "⚽" },
-  { id: 4, title: "Wrestling WWE💥💫 🇸🇴⚽📺🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
+  { id: 1, title: "FIFA World Cup 2026 🏆", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
+  { id: 2, title: "Champions league 🏆", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
+  { id: 3, title: "Premier League ⚽", bg: "from-purple-600 to-indigo-700", icon: "⚽" },
+  { id: 4, title: "Wrestling WWE 💥", bg: "from-amber-500 to-yellow-600", icon: "💥" },
 ];
 
 const WATCH_BY_COUNTRY = [
-  { country: "Somalia🇸🇴🇬🇲⚽📺 ", status: "Live", bg: "from-blue-500 to-blue-600", url: "https://www.youtube.com/embed/L0H0h6i8Lvs" },
-  { country: "Ogadenia🇬🇲🇸🇴📺 ", status: "Live", bg: "from-red-500 to-green-600", url: STREAM_URL },
-  { country: "Kenya🇰🇪📺 ", status: "Live Stream", bg: "from-green-700 to-black", url: "https://www.youtube.com/embed/PdYWHAru73g" },
+  { country: "Somalia 🇸🇴", status: "Live", bg: "from-blue-500 to-blue-600", url: "https://www.youtube.com/embed/L0H0h6i8Lvs" },
+  { country: "Ogadenia 🇬🇲", status: "Live", bg: "from-red-500 to-green-600", url: "https://siir-tv.com/bein-sport-1/" },
+  { country: "Kenya 🇰🇪", status: "Live Stream", bg: "from-green-700 to-black", url: "https://www.youtube.com/embed/PdYWHAru73g" },
 ];
-
-const HIGHLIGHTS = [
-  { title: "Goals Highlights 🔥", duration: "10 min", url: "https://www.youtube.com/embed/5h-camjSQ-4" },
-  { title: "Best of Rey Mysterio Match Recap 📋", duration: "Live", url: "https://www.youtube.com/embed/2A_OLvCo_q8" },
-];
-
-const AdsterraBanner = () => {
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = "//www.highperformancedpm.com/your-adsterra-code-here/invoke.js";
-    script.async = true;
-    script.dataset.cfasync = "false";
-    document.body.appendChild(script);
-    return () => { document.body.removeChild(script); };
-  }, []);
-  return <div id="container-your-adsterra-id" className="my-4 flex justify-center"></div>;
-};
-
-const OneSignalNotification = () => {
-  useEffect(() => {
-    const win = window as any;
-    win.OneSignal = win.OneSignal || [];
-    win.OneSignal.push(function() {
-      win.OneSignal.init({ appId: "YOUR_ONESIGNAL_APP_ID" });
-    });
-  }, []);
-  return (
-    <button onClick={() => (window as any).OneSignal?.showSlidedownPrompt()} className="text-yellow-400 text-2xl">
-      🔔
-    </button>
-  );
-};
 
 export default function HomePage() {
+  // Waxaan ka dhignay initial state "null" si uusan waxba u rarin marka ugu horeysa
   const [activeStream, setActiveStream] = useState<string | null>(null);
 
   return (
     <div className="bg-[#06060f] min-h-screen text-white pb-28 font-sans">
-      <Head>
-        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-      </Head>
-
       <div className="p-4 flex justify-between items-center border-b border-white/5">
-        <h1 className="text-lg font-black truncate">🇬🇲🇸🇴📺 Ahmed Abdikani LIVE TV📺🇸🇴🇸🇴🇬🇲🔴 </h1>
-        <OneSignalNotification />
+        <h1 className="text-lg font-black truncate">Ahmed Abdikani LIVE TV 📺</h1>
       </div>
 
       <div className="p-4">
-        <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 relative">
-          <iframe 
-            key={activeStream || STREAM_URL}
-            src={`${activeStream || STREAM_URL}?autoplay=1&mute=0`} 
-            className="w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowFullScreen
-          />
+        {/* Haddii aysan jirin stream firfircoon, muuji fariin ama sanduuq madow */}
+        <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 flex items-center justify-center relative">
+          {activeStream ? (
+            <iframe 
+              src={`${activeStream}?autoplay=1`} 
+              className="w-full h-full"
+              allow="autoplay; encrypted-media" 
+              allowFullScreen
+            />
+          ) : (
+            <p className="text-white/50 text-sm">Fadlan dooro kanaal si aad u daawato</p>
+          )}
         </div>
       </div>
 
-      <AdsterraBanner />
-
+      {/* Qaybta hoose sidiisii ayay u shaqaynaysaa */}
       <div className="px-4 mb-6">
         <h2 className="font-bold mb-3">Featured Sports</h2>
         <div className="flex gap-4 overflow-x-auto pb-2">
           {SPORTS_CHANNELS.map((ch) => (
-            <div key={ch.id} className={`shrink-0 w-64 h-36 bg-gradient-to-br ${ch.bg} rounded-xl p-4 flex flex-col justify-between`}>
-              <div className="flex justify-between items-start">
-                <div className="text-2xl">{ch.icon}</div>
-                <span className="bg-white text-black text-[10px] font-black px-2 py-1 rounded-full">WATCH NOW</span>
-              </div>
+            <div key={ch.id} className={`shrink-0 w-64 h-36 bg-gradient-to-br ${ch.bg} rounded-xl p-4`}>
               <h3 className="font-bold text-sm">{ch.title}</h3>
             </div>
           ))}
@@ -102,33 +64,9 @@ export default function HomePage() {
               onClick={() => setActiveStream(c.url)}
             >
               <p className="font-bold text-sm">{c.country}</p>
-              <p className="text-[10px] text-white/70">{c.status}</p>
             </div>
           ))}
         </div>
-      </div>
-
-      <div className="px-4">
-        <h2 className="font-bold mb-3">Recent Match Highlights</h2>
-        {HIGHLIGHTS.map((h, i) => (
-          <div key={i} className="bg-[#111122] p-3 rounded-xl mb-2">
-            <div className="flex justify-between mb-2">
-              <p className="text-xs font-bold">{h.title}</p>
-              <p className="text-[10px] text-gray-400">{h.duration}</p>
-            </div>
-            {h.url && (
-              <div className="w-full aspect-video rounded-lg overflow-hidden border border-white/5">
-                <iframe 
-                  key={h.url}
-                  src={h.url} 
-                  className="w-full h-full" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen
-                />
-              </div>
-            )}
-          </div>
-        ))}
       </div>
     </div>
   );
