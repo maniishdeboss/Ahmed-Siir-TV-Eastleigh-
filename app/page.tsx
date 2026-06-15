@@ -10,7 +10,7 @@ const SPORTS_CHANNELS = [
 
 const WATCH_BY_COUNTRY = [
   { country: "Somalia 🇸🇴", status: "Live", bg: "from-blue-500 to-blue-600", url: "https://www.youtube.com/embed/L0H0h6i8Lvs" },
-  { country: "Ogadenia 🇬🇲", status: "Live", bg: "from-red-500 to-green-600", url: "https://siir-tv.com/bein-sport-1/" },
+  { country: "Ogadenia 🇬🇲", status: "Coming Soon", bg: "from-gray-700 to-black", url: "" },
   { country: "Kenya 🇰🇪", status: "Live Stream", bg: "from-green-700 to-black", url: "https://www.youtube.com/embed/PdYWHAru73g" },
 ];
 
@@ -19,7 +19,7 @@ export default function HomePage() {
 
   return (
     <div className="bg-[#06060f] min-h-screen text-white font-sans pb-10">
-      {/* Header-kaaga cagaaran */}
+      {/* Header */}
       <div className="bg-[#84cc16] p-4 text-black font-bold text-lg shadow-lg">
         Ahmed sports live TV
       </div>
@@ -27,7 +27,7 @@ export default function HomePage() {
       <div className="p-4">
         <h1 className="text-xl font-bold mb-4">Ahmed Abdikani LIVE TV 📺</h1>
         
-        {/* Meesha fiidyowga (Wuxuu ahaanayaa mid madhan marka ugu horeysa) */}
+        {/* Video Player */}
         <div className="w-full aspect-video bg-black rounded-2xl border border-white/10 flex items-center justify-center mb-6 shadow-2xl">
           {activeStream ? (
             <iframe 
@@ -58,7 +58,10 @@ export default function HomePage() {
             <div 
               key={i} 
               className={`flex-1 h-24 bg-gradient-to-b ${c.bg} rounded-2xl p-3 cursor-pointer border border-white/10 shadow-lg hover:opacity-90 transition-opacity`}
-              onClick={() => setActiveStream(c.url)}
+              onClick={() => {
+                if (c.url) setActiveStream(c.url);
+                else alert("Kanaalkan weli diyaar ma ahan!");
+              }}
             >
               <p className="font-bold text-sm">{c.country}</p>
               <p className="text-[10px] text-white/70">{c.status}</p>
