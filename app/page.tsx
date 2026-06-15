@@ -10,20 +10,25 @@ const LEAGUES = [
   { name: "Bundesliga", icon: "🇩🇪🇬🇲🇸🇴 " }
 ];
 
-// Link-gaaga Adsterra
 const ADSTERRA_LINK = "https://www.effectivecpmnetwork.com/q837jyihaw?key=d55cb1f2f8b7f2b42fa4d820c07f4847";
-// Stream URL-kaaga caadiga ah
 const STREAM_URL = "https://siir-tv.com/bein-sport-1/";
 
 export default function HomePage() {
   const [activeStream, setActiveStream] = useState<string | null>(null);
 
-  // Shaqadan ayaa loogu talagalay badhanka FIFA (Ads + Stream)
-  const handleFifaPlay = () => {
-    // 1. Furo xayeysiiska tab cusub
-    window.open(ADSTERRA_LINK, '_blank');
-    // 2. Ka dibna furo stream-ka
-    setActiveStream(STREAM_URL);
+  // Shaqadan ayaa loogu talagalay furidda xayeysiiska iyo stream-ka
+  const handleStreamClick = (isFifa: boolean) => {
+    if (isFifa) {
+      // 1. Furo xayeysiiska si aamin ah
+      window.open(ADSTERRA_LINK, '_blank', 'noopener,noreferrer');
+      
+      // 2. Furo stream-ka 500ms ka dib si uu browser-ku u oggolaado
+      setTimeout(() => {
+        setActiveStream(STREAM_URL);
+      }, 500);
+    } else {
+      setActiveStream(STREAM_URL);
+    }
   };
 
   return (
@@ -36,6 +41,7 @@ export default function HomePage() {
           <iframe
             src={activeStream}
             className="w-full h-full rounded-lg border-2 border-white/20"
+            allow="autoplay; fullscreen; picture-in-picture"
             allowFullScreen
           />
           <button 
@@ -53,12 +59,7 @@ export default function HomePage() {
           <button 
             key={league.name}
             className="bg-[#1A1A3F] p-4 rounded-lg text-left"
-            onClick={
-              // KALIYA FIFA ayaa leh xayeysiis
-              league.name === "FIFA World Cup 2026" 
-                ? handleFifaPlay 
-                : () => setActiveStream(STREAM_URL)
-            }
+            onClick={() => handleStreamClick(league.name === "FIFA World Cup 2026")}
           >
             <div className="text-2xl mb-1">{league.icon}</div>
             <div className="font-semibold text-sm">{league.name}</div>
@@ -77,8 +78,7 @@ export default function HomePage() {
           <button 
             key={stream.name}
             className={`${stream.color} p-4 rounded-lg font-bold`}
-            // Badhamadan xayeysiis ma laha, si toos ah ayay u shaqaynayaan
-            onClick={() => setActiveStream(STREAM_URL)}
+            onClick={() => handleStreamClick(false)}
           >
             {stream.name}
           </button>
@@ -89,8 +89,7 @@ export default function HomePage() {
       <div className="mt-6">
         <button 
           className="w-full bg-purple-600 p-4 rounded-lg font-bold"
-          // Badhankan isaga xayeysiis kaliya ayuu furaa (tab cusub)
-          onClick={() => window.open(ADSTERRA_LINK, '_blank')}
+          onClick={() => window.open(ADSTERRA_LINK, '_blank', 'noopener,noreferrer')}
         >
           Support Ahmed TV (Ad)
         </button>
