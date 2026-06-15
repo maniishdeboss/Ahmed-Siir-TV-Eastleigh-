@@ -46,7 +46,7 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`text-[10px] font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
+          className={`text- font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
         >
           {tab}
         </button>
@@ -55,50 +55,103 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
   );
 };
 
+// --- PLAYER MODAL COMPONENT ---
+const PlayerModal = ({ isOpen, onClose, channel }: { isOpen: boolean; onClose: () => void; channel: any }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/95 z-[100] flex flex-col">
+      {/* Header */}
+      <div className="flex justify-between items-center p-4 bg-[#0a0a1a] border-b border-white/10">
+        <h3 className="text-lg font-bold text-white">{channel.title}</h3>
+        <button 
+          onClick={onClose}
+          className="text-white bg-red-600 px-4 py-2 rounded-lg font-bold"
+        >
+          XIR ✕
+        </button>
+      </div>
+      
+      {/* Player */}
+      <div className="flex-1 w-full">
+        <iframe 
+          src={channel.url} 
+          className="w-full h-full" 
+          allowFullScreen 
+          allow="autoplay; encrypted-media; picture-in-picture"
+          title={channel.title}
+        />
+      </div>
+    </div>
+  );
+};
+
 // --- PAGES ---
-const HomePage = () => (
-  <main className="p-4 pb-24">
-    {/* SIIR TV - Bedelka Filimka YouTube */}
-    <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6">
-      <iframe 
-        src="https://siir-tv.com/bein-sport-1/" 
-        className="w-full h-full" 
-        allowFullScreen 
-        allow="autoplay; encrypted-media"
-        title="SIIR TV Live"
+const HomePage = () => {
+  const [playerOpen, setPlayerOpen] = useState(false);
+  const [selectedChannel, setSelectedChannel] = useState<any>(null);
+
+  const openPlayer = (channel: any) => {
+    setSelectedChannel(channel);
+    setPlayerOpen(true);
+  };
+
+  return (
+    <main className="p-4 pb-24">
+      {/* SIIR TV - Bedelka Filimka */}
+      <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6">
+        <iframe 
+          src="https://siir-tv.com/bein-sport-1/" 
+          className="w-full h-full" 
+          allowFullScreen 
+          allow="autoplay; encrypted-media"
+          title="SIIR TV Live"
+        />
+      </div>
+      <div className="flex items-center mb-8 px-2">
+        <span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-2 animate-pulse">LIVE</span>
+        <p className="text-sm font-bold text-white">SIIR TV - Live Streaming</p>
+      </div>
+
+      {/* Featured Sports */}
+      <section className="mb-8">
+        <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
+        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+          {SPORTS_CHANNELS.map((ch) => (
+            <div key={ch.id} className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg`}>
+              <span className="text-2xl">{ch.icon}</span>
+              <h3 className="font-bold text-xs text-white">{ch.title}</h3>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Premium Live TV - Hadda APP-ka ayuu ku furmayaa */}
+      <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
+        <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
+        <div className="grid grid-cols-2 gap-4">
+          {FEATURED_TV.map((tv, i) => (
+            <button 
+              key={i} 
+              onClick={() => openPlayer(tv)}
+              className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg active:scale-95`}
+            >
+              <p className="font-black text-white text-lg">{tv.title}</p>
+              <p className="text-xs text-white/70 mt-1">Tap to watch</p>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Player Modal */}
+      <PlayerModal 
+        isOpen={playerOpen} 
+        onClose={() => setPlayerOpen(false)} 
+        channel={selectedChannel} 
       />
-    </div>
-    <div className="flex items-center mb-8 px-2">
-      <span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-2 animate-pulse">LIVE</span>
-      <p className="text-sm font-bold text-white">SIIR TV - Live Streaming</p>
-    </div>
-
-    {/* Featured Sports - SIDII HORE AYUU KU JIRAA */}
-    <section className="mb-8">
-      <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
-      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-        {SPORTS_CHANNELS.map((ch) => (
-          <div key={ch.id} className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg`}>
-            <span className="text-2xl">{ch.icon}</span>
-            <h3 className="font-bold text-xs text-white">{ch.title}</h3>
-          </div>
-        ))}
-      </div>
-    </section>
-
-    {/* Premium Live TV - Kaliya SIIR iyo KOORA */}
-    <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
-      <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
-      <div className="grid grid-cols-2 gap-4">
-        {FEATURED_TV.map((tv, i) => (
-          <a key={i} href={tv.url} target="_blank" className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}>
-            <p className="font-black text-white text-lg">{tv.title}</p>
-          </a>
-        ))}
-      </div>
-    </section>
-  </main>
-);
+    </main>
+  );
+};
 
 const LivePage = () => (
   <section className="p-4 text-white pb-24">
