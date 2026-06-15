@@ -60,7 +60,7 @@ export default function HomePage() {
       </Head>
 
       <div className="p-4 flex justify-between items-center border-b border-white/5">
-        <h1 className="text-lg font-black truncate">Ahmed Abdikani LIVE TV</h1>
+        <h1 className="text-lg font-black truncate">🇬🇲🇸🇴📺 Ahmed Abdikani LIVE TV📺🇸🇴🇸🇴🇬🇲🔴 </h1>
         <OneSignalNotification />
       </div>
 
