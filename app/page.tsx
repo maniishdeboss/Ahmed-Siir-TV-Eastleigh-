@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 const LEAGUES = [
-  { name: "FIFA World Cup 2026", icon: "🇸🇴 🏆🇬🇲 " },
+  { name: "FIFA World Cup 2026", icon: "🇸🇴 🇰🇪 🏆🇬🇲 " },
   { name: "Premier League", icon: "🇬🇲🇸🇴 ⚽" },
   { name: "Champions League", icon: "⚽🇸🇴🇬🇲 " },
   { name: "La Liga", icon: "🇪🇸🇸🇴🇬🇲 " },
