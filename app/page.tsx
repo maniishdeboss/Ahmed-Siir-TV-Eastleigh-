@@ -18,8 +18,8 @@ const WATCH_BY_COUNTRY = [
 ];
 
 const HIGHLIGHTS = [
-  { title: "Goals Highlights 🔥", duration: "10 min", url: "https://www.youtube.com/embed/5h-camjSQ-4" },
-  { title: "Match Recap 📋", duration: "15 min", url: "" },
+  { title: "Goals Highlights 🔥", url: "https://www.youtube.com/embed/5h-camjSQ-4" },
+  { title: "Ww Wrestling ", url: "https://www.youtube.com/embed/2A_OLvCo_q8" },
   { title: "News Aljazira📺🇸🇴🇬🇲 ", duration: "Live", url: "https://www.youtube.com/embed/gCNeDWCI0vo" },
 ];
 
