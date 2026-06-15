@@ -2,27 +2,28 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 
-const STREAM_URL = "https://siir-tv.com/bein-sport-1/";
-
+// --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026🇸🇴⚽📺🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
-  { id: 2, title: "Champions league 🇸🇴⚽📺🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
-  { id: 3, title: "Premier League⚽📺🏆🇸🇴 ", bg: "from-purple-600 to-indigo-700", icon: "⚽" },
-  { id: 4, title: "Wrestling WWE💥💫 🇸🇴⚽📺🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴" },
+  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍" },
+  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧" },
+  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡" },
 ];
 
 const WATCH_BY_COUNTRY = [
-  { country: "Somalia🇸🇴🇬🇲⚽📺 ", status: "Live", bg: "from-blue-500 to-blue-600" },
-  { country: "Ogadenia🇬🇲🇸🇴📺 ", status: "Live", bg: "from-red-500 to-green-600" },
-  { country: "Kenya🇰🇪📺 ", status: "Available", bg: "from-green-700 to-white/10" },
+  { country: "Somalia", flag: "🇸🇴", status: "Live", bg: "from-blue-500 to-blue-700" },
+  { country: "Ogadenia", flag: "🇬🇲", status: "Live", bg: "from-red-500 to-green-700" },
+  { country: "Kenya", flag: "🇰🇪", status: "Available", bg: "from-green-600 to-black/20" },
+  { country: "Global", flag: "🌍", status: "Live", bg: "from-purple-500 to-indigo-700" },
 ];
 
 const HIGHLIGHTS = [
-  { title: "Goals Highlights 🔥", duration: "10 min", url: "https://www.youtube.com/embed/5h-camjSQ-4" },
-  { title: "Match Recap 📋", duration: "15 min", url: "" },
-  { title: "News Aljazira📺🇸🇴🇬🇲 ", duration: "Live", url: "https://www.youtube.com/embed/gCNeDWCI0vo" },
+  { title: "Goals Highlights 🔥", duration: "24/7", url: "https://www.youtube.com/embed/5h-camjSQ-4" },
+  { title: "Match Recap 📋", duration: "24/7", url: "" },
+  { title: "News Aljazira 📺", duration: "Live", url: "https://www.youtube.com/embed/gCNeDWCI0vo" },
 ];
 
+// --- COMPONENTS ---
 const AdsterraBanner = () => {
   useEffect(() => {
     const script = document.createElement('script');
@@ -32,94 +33,99 @@ const AdsterraBanner = () => {
     document.body.appendChild(script);
     return () => { document.body.removeChild(script); };
   }, []);
-  return <div id="container-your-adsterra-id" className="my-4 flex justify-center"></div>;
+  return <div id="container-your-adsterra-id" className="my-6 flex justify-center py-4 bg-white/5 rounded-xl border border-white/5"></div>;
 };
 
-const OneSignalNotification = () => {
-  useEffect(() => {
-    const win = window as any;
-    win.OneSignal = win.OneSignal || [];
-    win.OneSignal.push(function() {
-      win.OneSignal.init({ appId: "YOUR_ONESIGNAL_APP_ID" });
-    });
-  }, []);
-  return (
-    <button onClick={() => (window as any).OneSignal?.showSlidedownPrompt()} className="text-yellow-400 text-2xl">
-      🔔
-    </button>
-  );
-};
+const Header = () => (
+  <header className="p-4 flex justify-between items-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-0 z-50">
+    <h1 className="text-xl font-black tracking-tighter text-white">AHMED <span className="text-blue-500">LIVE</span> TV</h1>
+    <button className="bg-white/10 p-2 rounded-full hover:bg-white/20 transition">🔔</button>
+  </header>
+);
 
+const BottomNav = () => (
+  <nav className="fixed bottom-0 w-full bg-[#0a0a1a] border-t border-white/10 p-4 flex justify-around backdrop-blur-xl z-50">
+    {['Home', 'Live', 'Browse', 'Profile'].map((nav) => (
+      <button key={nav} className="text-[10px] font-bold opacity-60 hover:opacity-100 uppercase tracking-widest text-white transition">
+        {nav}
+      </button>
+    ))}
+  </nav>
+);
+
+// --- MAIN PAGE ---
 export default function HomePage() {
-  const [activeStream, setActiveStream] = useState<string | null>(null);
+  const [activeStream, setActiveStream] = useState("https://siir-tv.com/bein-sport-1/");
 
   return (
     <div className="bg-[#06060f] min-h-screen text-white pb-28 font-sans">
       <Head>
+        <title>Ahmed Abdikani Live TV</title>
         <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
       </Head>
 
-      <div className="p-4 flex justify-between items-center border-b border-white/5">
-        <h1 className="text-lg font-black truncate">🇬🇲🇸🇴📺 Ahmed Abdikani LIVE TV📺🇸🇴🇸🇴🇬🇲🔴 </h1>
-        <OneSignalNotification />
-      </div>
+      <Header />
 
-      <div className="p-4">
-        <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 relative">
-          <iframe src={`${activeStream || STREAM_URL}?autoplay=1&mute=1`} className="w-full h-full" />
+      {/* Hero Player */}
+      <main className="p-4">
+        <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative group">
+          <iframe src={`${activeStream}?autoplay=1&mute=1`} className="w-full h-full" allowFullScreen />
         </div>
-      </div>
+      </main>
 
       <AdsterraBanner />
 
-      <div className="px-4 mb-6">
-        <h2 className="font-bold mb-3">Featured Sports</h2>
-        <div className="flex gap-4 overflow-x-auto pb-2">
+      {/* Featured Sports */}
+      <section className="px-4 mb-8">
+        <h2 className="text-lg font-bold mb-4 opacity-90">Featured Sports</h2>
+        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
           {SPORTS_CHANNELS.map((ch) => (
-            <div key={ch.id} className={`shrink-0 w-64 h-36 bg-gradient-to-br ${ch.bg} rounded-xl p-4 flex flex-col justify-between`}>
+            <div key={ch.id} className={`shrink-0 w-48 h-32 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 transition-transform hover:scale-105`}>
               <div className="flex justify-between items-start">
-                <div className="text-2xl">{ch.icon}</div>
-                <span className="bg-white text-black text-[10px] font-black px-2 py-1 rounded-full">WATCH NOW</span>
+                <span className="text-2xl">{ch.icon}</span>
+                <span className="text-2xl">{ch.flag}</span>
               </div>
               <h3 className="font-bold text-sm">{ch.title}</h3>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="px-4 mb-6">
-        <h2 className="font-bold mb-3">Watch By Country</h2>
-        <div className="flex gap-3 overflow-x-auto">
+      {/* Country Grid */}
+      <section className="px-4 mb-8">
+        <h2 className="text-lg font-bold mb-4 opacity-90">Watch By Country</h2>
+        <div className="grid grid-cols-2 gap-4">
           {WATCH_BY_COUNTRY.map((c, i) => (
-            <div key={i} className={`shrink-0 w-32 h-24 bg-gradient-to-b ${c.bg} rounded-xl p-3`}>
-              <p className="font-bold text-sm">{c.country}</p>
-              <p className="text-[10px] text-white/70">{c.status}</p>
+            <div key={i} className={`bg-gradient-to-br ${c.bg} p-4 rounded-2xl border border-white/10 flex items-center gap-3 transition hover:scale-105`}>
+              <span className="text-3xl">{c.flag}</span>
+              <div>
+                <p className="font-bold text-sm">{c.country}</p>
+                <p className="text-[10px] text-white/70 uppercase tracking-widest">{c.status}</p>
+              </div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className="px-4">
-        <h2 className="font-bold mb-3">Recent Match Highlights</h2>
+      {/* Highlights */}
+      <section className="px-4">
+        <h2 className="text-lg font-bold mb-4 opacity-90">Match Highlights</h2>
         {HIGHLIGHTS.map((h, i) => (
-          <div key={i} className="bg-[#111122] p-3 rounded-xl mb-2">
-            <div className="flex justify-between mb-2">
+          <div key={i} className="bg-[#111122] p-4 rounded-2xl mb-4 border border-white/5 hover:border-blue-500/30 transition">
+            <div className="flex justify-between mb-3">
               <p className="text-xs font-bold">{h.title}</p>
               <p className="text-[10px] text-gray-400">{h.duration}</p>
             </div>
             {h.url && (
-              <div className="w-full aspect-video rounded-lg overflow-hidden border border-white/5">
-                <iframe 
-                  src={h.url} 
-                  className="w-full h-full" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen
-                />
+              <div className="w-full aspect-video rounded-xl overflow-hidden border border-white/5">
+                <iframe src={h.url} className="w-full h-full" allowFullScreen />
               </div>
             )}
           </div>
         ))}
-      </div>
+      </section>
+
+      <BottomNav />
     </div>
   );
 }
