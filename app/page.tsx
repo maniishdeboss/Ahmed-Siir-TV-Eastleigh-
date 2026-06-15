@@ -4,10 +4,15 @@ import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026🇬🇲🇸🇴📺🔴 ", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴" },
-  { id: 2, title: "Champions League🇬🇲🇸🇴📺🔴 ", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍" },
-  { id: 3, title: "Premier League🇸🇴🇬🇲🔴 ", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧" },
-  { id: 4, title: "Wrestling WWE🇬🇲🇸🇴📺🔴 ", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴" },
+  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍" },
+  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧" },
+  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡" },
+];
+
+const FEATURED_TV = [
+  { title: "SIIR TV", url: "https://siir-tv.com/bein-sport-1/", bg: "from-blue-900 to-black" },
+  { title: "KOORA TV", url: "https://koora-live.com/", bg: "from-green-900 to-black" },
 ];
 
 const WATCH_BY_COUNTRY = [
@@ -58,7 +63,7 @@ const HomePage = () => (
       <iframe src="https://www.youtube.com/embed/XghNs0Cx6JQ?autoplay=1&mute=1" className="w-full h-full" allowFullScreen />
     </div>
 
-    {/* Sports Channels Section */}
+    {/* Featured Sports */}
     <section className="mb-8">
       <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
       <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
@@ -67,6 +72,18 @@ const HomePage = () => (
             <span className="text-2xl">{ch.icon}</span>
             <h3 className="font-bold text-xs text-white">{ch.title}</h3>
           </div>
+        ))}
+      </div>
+    </section>
+
+    {/* Featured TV (Sanduuqii Cagaarnaa) */}
+    <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
+      <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {FEATURED_TV.map((tv, i) => (
+          <a key={i} href={tv.url} target="_blank" className={`bg-gradient-to-br ${tv.bg} p-6 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform`}>
+            <p className="font-black text-white">{tv.title}</p>
+          </a>
         ))}
       </div>
     </section>
