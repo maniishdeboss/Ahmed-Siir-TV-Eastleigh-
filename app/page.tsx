@@ -11,10 +11,16 @@ const SPORTS_CHANNELS = [
   { id: 4, title: "Wrestling WWE💥💫 🇸🇴⚽📺🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
 ];
 
+const WATCH_BY_COUNTRY = [
+  { country: "Somalia🇸🇴🇬🇲⚽📺 ", status: "Live", bg: "from-blue-500 to-blue-600" },
+  { country: "Ogadenia🇬🇲🇸🇴📺 ", status: "Live", bg: "from-red-500 to-green-600" },
+  { country: "Kenya🇰🇪📺 ", status: "Available", bg: "from-green-700 to-white/10" },
+];
+
 const HIGHLIGHTS = [
-  { title: "Goals Highlights 🔥", duration: "10 min", desc: "All weekend goals" },
-  { title: "Match Recap 📋", duration: "15 min", desc: "Full tactical breakdown" },
-  { title: "News Aljazira📺🇸🇴🇬🇲 ", duration: "5 min", desc: "Best goalkeeping" },
+  { title: "Goals Highlights 🔥", duration: "10 min" },
+  { title: "Match Recap 📋", duration: "15 min" },
+  { title: "News Aljazira📺🇸🇴🇬🇲 ", duration: "5 min" },
 ];
 
 const AdsterraBanner = () => {
@@ -79,6 +85,28 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="px-4 mb-6">
+        <h2 className="font-bold mb-3">Watch By Country</h2>
+        <div className="flex gap-3 overflow-x-auto">
+          {WATCH_BY_COUNTRY.map((c, i) => (
+            <div key={i} className={`shrink-0 w-32 h-24 bg-gradient-to-b ${c.bg} rounded-xl p-3`}>
+              <p className="font-bold text-sm">{c.country}</p>
+              <p className="text-[10px] text-white/70">{c.status}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="px-4">
+        <h2 className="font-bold mb-3">Recent Match Highlights</h2>
+        {HIGHLIGHTS.map((h, i) => (
+          <div key={i} className="bg-[#111122] p-3 rounded-xl mb-2 flex justify-between">
+            <p className="text-xs font-bold">{h.title}</p>
+            <p className="text-[10px] text-gray-400">{h.duration}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
