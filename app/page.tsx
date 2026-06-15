@@ -17,7 +17,6 @@ const WATCH_BY_COUNTRY = [
   { country: "Kenya🇰🇪📺 ", status: "Live Stream", bg: "from-green-700 to-black", url: "https://www.youtube.com/embed/PdYWHAru73g" },
 ];
 
-// Halkaan ayaan ka saaray link-gii Citizen
 const HIGHLIGHTS = [
   { title: "Goals Highlights 🔥", duration: "10 min", url: "https://www.youtube.com/embed/5h-camjSQ-4" },
   { title: "Best of Rey Mysterio Match Recap 📋", duration: "Live", url: "https://www.youtube.com/embed/2A_OLvCo_q8" },
