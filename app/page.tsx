@@ -1,13 +1,11 @@
 'use client'
-import { useState, useEffect } from 'react'
-import Head from 'next/head'
+import { useState } from 'react'
 
-// Waxaan ka saarnay STREAM_URL oo toos loo rarto
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026 🏆", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
-  { id: 2, title: "Champions league 🏆", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
-  { id: 3, title: "Premier League ⚽", bg: "from-purple-600 to-indigo-700", icon: "⚽" },
-  { id: 4, title: "Wrestling WWE 💥", bg: "from-amber-500 to-yellow-600", icon: "💥" },
+  { id: 1, title: "FIFA World Cup 2026 🏆", bg: "from-amber-500 to-yellow-600" },
+  { id: 2, title: "Champions league 🏆", bg: "from-amber-500 to-yellow-600" },
+  { id: 3, title: "Premier League ⚽", bg: "from-purple-600 to-indigo-700" },
+  { id: 4, title: "Wrestling WWE 💥", bg: "from-amber-500 to-yellow-600" },
 ];
 
 const WATCH_BY_COUNTRY = [
@@ -17,53 +15,53 @@ const WATCH_BY_COUNTRY = [
 ];
 
 export default function HomePage() {
-  // Waxaan ka dhignay initial state "null" si uusan waxba u rarin marka ugu horeysa
   const [activeStream, setActiveStream] = useState<string | null>(null);
 
   return (
-    <div className="bg-[#06060f] min-h-screen text-white pb-28 font-sans">
-      <div className="p-4 flex justify-between items-center border-b border-white/5">
-        <h1 className="text-lg font-black truncate">Ahmed Abdikani LIVE TV 📺</h1>
+    <div className="bg-[#06060f] min-h-screen text-white font-sans pb-10">
+      {/* Header-kaaga cagaaran */}
+      <div className="bg-[#84cc16] p-4 text-black font-bold text-lg shadow-lg">
+        Ahmed sports live TV
       </div>
-
+      
       <div className="p-4">
-        {/* Haddii aysan jirin stream firfircoon, muuji fariin ama sanduuq madow */}
-        <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 flex items-center justify-center relative">
+        <h1 className="text-xl font-bold mb-4">Ahmed Abdikani LIVE TV 📺</h1>
+        
+        {/* Meesha fiidyowga (Wuxuu ahaanayaa mid madhan marka ugu horeysa) */}
+        <div className="w-full aspect-video bg-black rounded-2xl border border-white/10 flex items-center justify-center mb-6 shadow-2xl">
           {activeStream ? (
             <iframe 
               src={`${activeStream}?autoplay=1`} 
-              className="w-full h-full"
+              className="w-full h-full rounded-2xl"
               allow="autoplay; encrypted-media" 
               allowFullScreen
             />
           ) : (
-            <p className="text-white/50 text-sm">Fadlan dooro kanaal si aad u daawato</p>
+            <p className="text-white/40 text-sm">Fadlan dooro kanaal si aad u daawato</p>
           )}
         </div>
-      </div>
 
-      {/* Qaybta hoose sidiisii ayay u shaqaynaysaa */}
-      <div className="px-4 mb-6">
-        <h2 className="font-bold mb-3">Featured Sports</h2>
-        <div className="flex gap-4 overflow-x-auto pb-2">
+        {/* Featured Sports */}
+        <h2 className="font-bold mb-3 text-white/90">Featured Sports</h2>
+        <div className="flex gap-4 overflow-x-auto pb-6">
           {SPORTS_CHANNELS.map((ch) => (
-            <div key={ch.id} className={`shrink-0 w-64 h-36 bg-gradient-to-br ${ch.bg} rounded-xl p-4`}>
+            <div key={ch.id} className={`shrink-0 w-64 h-32 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-end shadow-md`}>
               <h3 className="font-bold text-sm">{ch.title}</h3>
             </div>
           ))}
         </div>
-      </div>
 
-      <div className="px-4 mb-6">
-        <h2 className="font-bold mb-3">Watch By Country</h2>
-        <div className="flex gap-3 overflow-x-auto">
+        {/* Watch By Country */}
+        <h2 className="font-bold mb-3 text-white/90">Watch By Country</h2>
+        <div className="flex gap-3">
           {WATCH_BY_COUNTRY.map((c, i) => (
             <div 
               key={i} 
-              className={`shrink-0 w-32 h-24 bg-gradient-to-b ${c.bg} rounded-xl p-3 cursor-pointer`}
+              className={`flex-1 h-24 bg-gradient-to-b ${c.bg} rounded-2xl p-3 cursor-pointer border border-white/10 shadow-lg hover:opacity-90 transition-opacity`}
               onClick={() => setActiveStream(c.url)}
             >
               <p className="font-bold text-sm">{c.country}</p>
+              <p className="text-[10px] text-white/70">{c.status}</p>
             </div>
           ))}
         </div>
