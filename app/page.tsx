@@ -18,9 +18,9 @@ const WATCH_BY_COUNTRY = [
 ];
 
 const HIGHLIGHTS = [
-  { title: "Goals Highlights 🔥", duration: "10 min" },
-  { title: "Match Recap 📋", duration: "15 min" },
-  { title: "News Aljazira📺🇸🇴🇬🇲 ", duration: "5 min" },
+  { title: "Goals Highlights 🔥", duration: "10 min", url: "" },
+  { title: "Match Recap 📋", duration: "15 min", url: "" },
+  { title: "News Aljazira📺🇸🇴🇬🇲 ", duration: "Live", url: "https://www.youtube.com/embed/gCNeDWCI0vo" },
 ];
 
 const AdsterraBanner = () => {
@@ -102,9 +102,21 @@ export default function HomePage() {
       <div className="px-4">
         <h2 className="font-bold mb-3">Recent Match Highlights</h2>
         {HIGHLIGHTS.map((h, i) => (
-          <div key={i} className="bg-[#111122] p-3 rounded-xl mb-2 flex justify-between">
-            <p className="text-xs font-bold">{h.title}</p>
-            <p className="text-[10px] text-gray-400">{h.duration}</p>
+          <div key={i} className="bg-[#111122] p-3 rounded-xl mb-2">
+            <div className="flex justify-between mb-2">
+              <p className="text-xs font-bold">{h.title}</p>
+              <p className="text-[10px] text-gray-400">{h.duration}</p>
+            </div>
+            {h.url && (
+              <div className="w-full aspect-video rounded-lg overflow-hidden border border-white/5">
+                <iframe 
+                  src={h.url} 
+                  className="w-full h-full" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen
+                />
+              </div>
+            )}
           </div>
         ))}
       </div>
