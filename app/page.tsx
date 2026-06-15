@@ -3,22 +3,22 @@ import { useState, useEffect } from 'react'
 import Head from 'next/head'
 
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026🇸🇴⚽📺🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆", url: "https://siir-tv.com/bein-sport-1/" },
-  { id: 2, title: "Champions league 🇸🇴⚽📺🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆", url: "https://siir-tv.com/bein-sport-1/" },
-  { id: 3, title: "Premier League⚽📺🏆🇸🇴 ", bg: "from-purple-600 to-indigo-700", icon: "⚽", url: "https://siir-tv.com/bein-sport-1/" },
-  { id: 4, title: "Wrestling WWE💥💫 🇸🇴⚽📺🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆", url: "https://siir-tv.com/bein-sport-1/" },
+  { id: 1, title: "FIFA World Cup 2026 🇸🇴⚽🏆", bg: "from-amber-500 to-yellow-600", icon: "🏆", url: "https://siir-tv.com/bein-sport-1/" },
+  { id: 2, title: "Champions League 🇪🇺⚽🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆", url: "https://siir-tv.com/bein-sport-1/" },
+  { id: 3, title: "Premier League 🏴󠁧󠁢󠁥󠁮󠁧󠁿⚽🏆 ", bg: "from-purple-600 to-indigo-700", icon: "⚽", url: "https://siir-tv.com/bein-sport-1/" },
+  { id: 4, title: "Wrestling WWE 💥🇸🇴 ", bg: "from-amber-500 to-yellow-600", icon: "💥", url: "https://siir-tv.com/bein-sport-1/" },
 ];
 
 const WATCH_BY_COUNTRY = [
-  { country: "Somalia🇸🇴🇬🇲⚽📺 ", status: "Live", bg: "from-blue-500 to-blue-600" },
-  { country: "Ogadenia🇬🇲🇸🇴📺 ", status: "Live", bg: "from-red-500 to-green-600" },
-  { country: "Kenya🇰🇪📺 ", status: "Available", bg: "from-green-700 to-white/10" },
+  { country: "Somalia 🇸🇴🇬🇲⚽", status: "Live", bg: "from-blue-500 to-blue-600" },
+  { country: "Ogadenia 🇬🇲🇸🇴📺", status: "Live", bg: "from-red-500 to-green-600" },
+  { country: "Kenya 🇰🇪📺", status: "Available", bg: "from-green-700 to-white/10" },
 ];
 
 const HIGHLIGHTS = [
   { title: "Goals Highlights 🔥", duration: "10 min", url: "https://www.youtube.com/embed/5h-camjSQ-4" },
   { title: "Match Recap 📋", duration: "15 min", url: "" },
-  { title: "News Aljazira📺🇸🇴🇬🇲 ", duration: "Live", url: "https://www.youtube.com/embed/gCNeDWCI0vo" },
+  { title: "News Aljazira 📺🇸🇴", duration: "Live", url: "https://www.youtube.com/embed/gCNeDWCI0vo" },
 ];
 
 const AdsterraBanner = () => {
@@ -50,6 +50,13 @@ const OneSignalNotification = () => {
 
 export default function HomePage() {
   const [activeStream, setActiveStream] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChannelSelect = (url: string) => {
+    setIsLoading(true);
+    setActiveStream(url);
+    setTimeout(() => setIsLoading(false), 2000); 
+  };
 
   return (
     <div className="bg-[#06060f] min-h-screen text-white pb-28 font-sans">
@@ -58,18 +65,24 @@ export default function HomePage() {
       </Head>
 
       <div className="p-4 flex justify-between items-center border-b border-white/5">
-        <h1 className="text-lg font-black truncate">🇬🇲🇸🇴📺 Ahmed Abdikani LIVE TV📺🇸🇴🇸🇴🇬🇲🔴 </h1>
+        <h1 className="text-lg font-black truncate">🇬🇲🇸🇴📺 Ahmed Abdikani LIVE TV 📺🇸🇴</h1>
         <OneSignalNotification />
       </div>
 
       <div className="p-4">
-        {/* Halkan waxaan ku hagaajiyay inuusan iframe-ku soo bixinba ilaa kanaal la doorto */}
         <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 relative flex items-center justify-center">
+          {isLoading && (
+            <div className="absolute inset-0 z-20 bg-black/90 flex flex-col items-center justify-center">
+              <div className="w-12 h-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+              <p className="text-amber-500 font-bold animate-pulse tracking-widest">LOADING STREAM...</p>
+            </div>
+          )}
+          
           {activeStream ? (
             <iframe 
               src={`${activeStream}?autoplay=1&mute=1`} 
               className="w-full h-full"
-              allow="autoplay; encrypted-media"
+              allow="autoplay; encrypted-media" 
             />
           ) : (
             <p className="text-white/40 text-sm italic">Fadlan dooro kanaal si aad u daawato</p>
@@ -85,7 +98,7 @@ export default function HomePage() {
           {SPORTS_CHANNELS.map((ch) => (
             <div 
               key={ch.id} 
-              onClick={() => setActiveStream(ch.url)}
+              onClick={() => handleChannelSelect(ch.url)}
               className={`shrink-0 w-64 h-36 bg-gradient-to-br ${ch.bg} rounded-xl p-4 flex flex-col justify-between cursor-pointer`}
             >
               <div className="flex justify-between items-start">
