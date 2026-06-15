@@ -7,20 +7,11 @@ const SPORTS_CHANNELS = [
   { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆" },
   { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽" },
   { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆" },
-  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥" },
 ];
 
-// URLs-ka aan rabno inay ka dhex shaqeeyaan Player-ka sare
 const PREMIUM_TV = [
   { title: "SIIR TV", url: "https://www.youtube.com/embed/XghNs0Cx6JQ" }, 
   { title: "KOORA TV", url: "https://www.youtube.com/embed/2A_OLvCo_q8" },
-];
-
-const WATCH_BY_COUNTRY = [
-  { country: "Somalia", flag: "🇸🇴", status: "Live", bg: "from-blue-500 to-blue-700" },
-  { country: "Ogadenia", flag: "🇬🇲", status: "Live", bg: "from-red-500 to-green-700" },
-  { country: "Kenya", flag: "🇰🇪", status: "Available", bg: "from-green-600 to-black/20" },
-  { country: "Global", flag: "🌍", status: "Live", bg: "from-purple-500 to-indigo-700" },
 ];
 
 const LIVE_CHANNELS = [
@@ -28,42 +19,28 @@ const LIVE_CHANNELS = [
   { src: "2A_OLvCo_q8", title: "Wrestling WWE Live", color: "text-red-500" },
   { src: "gCNeDWCI0vo", title: "Somalia Live TV", color: "text-blue-400" },
   { src: "Kb638nMYjcw", title: "Kenya Live TV", color: "text-green-500" },
+  { src: "MiQe9ob9aDc", title: "Animals Live TV 1", color: "text-yellow-500" },
+  { src: "q9iTGiUtYik", title: "Animals Live TV 2", color: "text-yellow-500" },
 ];
 
-// --- COMPONENTS ---
-const Header = () => (
-  <header className="p-4 flex justify-between items-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-1 z-50 mt-3 rounded-b-2xl mx-2 shadow-xl">
-    <h1 className="text-2xl font-black tracking-tighter text-white">AHMED <span className="text-blue-500">LIVE</span> TV</h1>
-  </header>
-);
-
-const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
-  const tabs = ['Home', 'Live', 'Browse', 'Profile'];
-  return (
-    <nav className="fixed bottom-0 w-full bg-[#0a0a1a]/95 border-t border-white/10 p-4 flex justify-around backdrop-blur-xl z-50 shadow-2xl rounded-t-3xl">
-      {tabs.map((tab) => (
-        <button
-          key={tab}
-          onClick={() => setActiveTab(tab)}
-          className={`text-[10px] font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110' : 'opacity-60'}`}
-        >
-          {tab}
-        </button>
-      ))}
-    </nav>
-  );
-};
+const WATCH_BY_COUNTRY = [
+  { country: "Somalia", flag: "🇸🇴", bg: "from-blue-500 to-blue-700" },
+  { country: "Ogadenia", flag: "🇬🇲", bg: "from-red-500 to-green-700" },
+  { country: "Kenya", flag: "🇰🇪", bg: "from-green-600 to-black/20" },
+  { country: "Global", flag: "🌍", bg: "from-purple-500 to-indigo-700" },
+];
 
 // --- MAIN APP ---
 export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
   const [activeStream, setActiveStream] = useState("https://www.youtube.com/embed/XghNs0Cx6JQ");
 
+  // --- PAGES ---
   const HomePage = () => (
     <main className="p-4 pb-24">
-      {/* Hero Player - Halkan ayay TV-yada ka dhex furmi doonaan */}
+      {/* Hero Player */}
       <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl mb-6">
-        <iframe src={`${activeStream}?autoplay=1&mute=0`} className="w-full h-full" allowFullScreen />
+        <iframe src={`${activeStream}?autoplay=1`} className="w-full h-full" allowFullScreen />
       </div>
 
       {/* Featured Sports */}
@@ -79,16 +56,12 @@ export default function App() {
         </div>
       </section>
 
-      {/* Premium Live TV (SIIR TV & KOORA TV) */}
+      {/* Premium Live TV */}
       <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
         <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
         <div className="grid grid-cols-2 gap-4">
           {PREMIUM_TV.map((tv, i) => (
-            <button 
-              key={i} 
-              onClick={() => setActiveStream(tv.url)}
-              className="bg-white/5 p-6 rounded-2xl border border-white/10 text-center hover:bg-green-600/20 transition-all"
-            >
+            <button key={i} onClick={() => setActiveStream(tv.url)} className="bg-white/5 p-6 rounded-2xl border border-white/10 text-center hover:bg-green-600/20 transition-all">
               <p className="font-black text-white">{tv.title}</p>
             </button>
           ))}
@@ -102,17 +75,17 @@ export default function App() {
       case 'Home': return <HomePage />;
       case 'Live': return (
         <section className="p-4 text-white pb-24">
-            <h2 className="text-2xl font-bold mb-6 text-center">Live Streaming Channels</h2>
-            <div className="space-y-6">
+          <h2 className="text-2xl font-bold mb-6 text-center">Live Streaming Channels</h2>
+          <div className="space-y-6">
             {LIVE_CHANNELS.map((item, index) => (
-                <div key={index} className="bg-[#111122] rounded-3xl p-4 border border-white/5 shadow-2xl">
+              <div key={index} className="bg-[#111122] rounded-3xl p-4 border border-white/5 shadow-2xl">
                 <div className="aspect-video bg-black rounded-xl overflow-hidden mb-3 border border-white/5">
-                    <iframe src={`https://www.youtube.com/embed/${item.src}`} className="w-full h-full" allow="autoplay; encrypted-media" allowFullScreen />
+                  <iframe src={`https://www.youtube.com/embed/${item.src}`} className="w-full h-full" allowFullScreen />
                 </div>
                 <p className={`text-sm font-bold ${item.color}`}>{item.title}</p>
-                </div>
+              </div>
             ))}
-            </div>
+          </div>
         </section>
       );
       case 'Browse': return (
@@ -143,9 +116,17 @@ export default function App() {
       <Head>
         <title>Ahmed Abdikani Live TV</title>
       </Head>
-      <Header />
+      <header className="p-4 flex justify-between items-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-1 z-50 mt-3 rounded-b-2xl mx-2 shadow-xl">
+        <h1 className="text-2xl font-black tracking-tighter text-white">AHMED <span className="text-blue-500">LIVE</span> TV</h1>
+      </header>
       {renderPage()}
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      <nav className="fixed bottom-0 w-full bg-[#0a0a1a]/95 border-t border-white/10 p-4 flex justify-around backdrop-blur-xl z-50 shadow-2xl rounded-t-3xl">
+        {['Home', 'Live', 'Browse', 'Profile'].map((tab) => (
+          <button key={tab} onClick={() => setActiveTab(tab)} className={`text-[10px] font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110' : 'opacity-60'}`}>
+            {tab}
+          </button>
+        ))}
+      </nav>
     </div>
   );
 }
