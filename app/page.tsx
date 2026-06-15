@@ -7,9 +7,11 @@ const STREAM_URL = "https://siir-tv.com/bein-sport-1/";
 // Component-ka OneSignal (Gambaleelka)
 const OneSignalNotification = () => {
   useEffect(() => {
-    window.OneSignal = window.OneSignal || [];
-    window.OneSignal.push(function() {
-      window.OneSignal.init({
+    // TypeScript workaround si looga fogaado error-ka build-ka
+    const win = window as any;
+    win.OneSignal = win.OneSignal || [];
+    win.OneSignal.push(function() {
+      win.OneSignal.init({
         appId: "YOUR_ONESIGNAL_APP_ID", // Halkan geli ID-gaaga OneSignal
       });
     });
@@ -17,8 +19,8 @@ const OneSignalNotification = () => {
 
   return (
     <button 
-      onClick={() => window.OneSignal && window.OneSignal.showSlidedownPrompt()} 
-      className="text-yellow-400 text-xl hover:scale-110 transition"
+      onClick={() => (window as any).OneSignal?.showSlidedownPrompt()} 
+      className="text-yellow-400 text-2xl hover:scale-110 transition"
     >
       🔔
     </button>
@@ -64,11 +66,13 @@ export default function HomePage() {
         <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
       </Head>
 
+      {/* Header leh Gambaleelka */}
       <div className="p-4 flex justify-between items-center border-b border-white/5">
-        <h1 className="text-lg font-black">🇬🇲🇸🇴 Ahmed Abdikani LIVE TV🇸🇴🇬🇲⚽📺 </h1>
+        <h1 className="text-lg font-black">🇬🇲🇸🇴📺 Ahmed Abdikani LIVE TV🇬🇲⚽🇰🇪📺🇸🇴 </h1>
         <OneSignalNotification />
       </div>
 
+      {/* Player Area */}
       <div className="p-4">
         <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 relative">
           <iframe src={`${activeStream || STREAM_URL}?autoplay=1&mute=1`} className="w-full h-full" />
@@ -77,6 +81,7 @@ export default function HomePage() {
 
       <AdsterraBanner />
 
+      {/* Featured Sports */}
       <div className="px-4 mb-6">
         <h2 className="font-bold mb-3">Featured Sports</h2>
         <div className="flex gap-4 overflow-x-auto pb-2">
@@ -92,6 +97,7 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Watch By Country */}
       <div className="px-4 mb-6">
         <h2 className="font-bold mb-3">Watch By Country</h2>
         <div className="flex gap-3 overflow-x-auto">
@@ -104,6 +110,7 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Highlights List */}
       <div className="px-4">
         <h2 className="font-bold mb-3">Recent Match Highlights</h2>
         {HIGHLIGHTS.map((h, i) => (
