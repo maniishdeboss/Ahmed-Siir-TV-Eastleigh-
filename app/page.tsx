@@ -4,15 +4,21 @@ import { useState, useEffect } from 'react'
 const STREAM_URL = "https://siir-tv.com/bein-sport-1/";
 
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026🏆 ", subtitle: "Live Match", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
-  { id: 2, title: "Premier League🏆 ", subtitle: "Super Sunday", bg: "from-purple-600 to-indigo-700", icon: "⚽" },
-  { id: 3, title: "Champions League🏆 ", subtitle: "Europe Nights", bg: "from-blue-600 to-cyan-700", icon: "🌍" },
+  { id: 1, title: "FIFA World Cup 2026🇸🇴⚽📺🏆 ", subtitle: "LIVE MATCH", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
+  { id: 2, title: "Champions league 🇸🇴⚽📺🏆 ", subtitle: "LIVE MATCH", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
+  { id: 3, title: "Premier League⚽📺🏆🇸🇴 ", subtitle: "SUPER SUNDAY", bg: "from-purple-600 to-indigo-700", icon: "⚽" },
+  { id: 4, title: "Wrestling WWE💥💫 🇸🇴⚽📺🏆 ", subtitle: "LIVE MATCH", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
 ];
 
 const WATCH_BY_COUNTRY = [
-  { country: "Somalia 🇸🇴", status: "Live Streaming", bg: "from-blue-500 to-blue-600" },
-  { country: "Ogadenia 🇬🇲", status: "Live Streaming", bg: "from-red-500 to-green-600" },
-  { country: "Kenya 🇰🇪", status: "Available", bg: "from-green-700 to-white/10" },
+  { country: "Somalia🇸🇴🇬🇲⚽📺 ", status: "Live", bg: "from-blue-500 to-blue-600" },
+  { country: "Ogadenia🇬🇲🇸🇴📺 ", status: "Live", bg: "from-red-500 to-green-600" },
+  { country: "Kenya🇰🇪📺 ", status: "Available", bg: "from-green-700 to-white/10" },
+];
+
+const HIGHLIGHTS = [
+  { title: "Goals Highlights 🔥", duration: "10 min" },
+  { title: "Match Recap 📋", duration: "15 min" },
 ];
 
 const AdsterraBanner = () => {
@@ -32,40 +38,30 @@ export default function HomePage() {
 
   return (
     <div className="bg-[#06060f] min-h-screen text-white pb-28 font-sans">
-      
-      {/* Header */}
-      <div className="p-4 flex justify-between items-center bg-[#06060f] border-b border-white/5">
-        <h1 className="text-lg font-black text-white">Ahmed Abdikani LIVE TV</h1>
-        {/* Gambaleelka Notifications */}
-        <button className="text-xl hover:scale-110 transition">🔔</button>
+      {/* Header sida 1000287129.jpg */}
+      <div className="p-4 flex justify-between items-center border-b border-white/5">
+        <h1 className="text-lg font-black">Ahmed Abdikani LIVE TV</h1>
+        <button className="text-xl">🔔</button>
       </div>
 
-      {/* Banner & Player */}
+      {/* Player Area */}
       <div className="p-4">
-        {activeStream ? (
-           <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10">
-             <iframe src={`${activeStream}?autoplay=1`} className="w-full h-full" allowFullScreen />
-             <button onClick={() => setActiveStream(null)} className="absolute top-3 right-3 bg-black/50 px-2 py-1 rounded text-xs">✕</button>
-           </div>
-        ) : (
-          <div onClick={() => setActiveStream(STREAM_URL)} className="w-full aspect-video bg-gradient-to-r from-purple-900 to-indigo-900 rounded-2xl flex flex-col items-center justify-center cursor-pointer">
-            <p className="font-bold">Tap to Stream beIN SPORTS 1 HD</p>
-          </div>
-        )}
+        <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 relative">
+          <iframe src={`${activeStream || STREAM_URL}?autoplay=1&mute=1`} className="w-full h-full" />
+        </div>
       </div>
 
       <AdsterraBanner />
 
-      {/* Featured Sports */}
-      <div className="px-4">
-        <h2 className="text-md font-extrabold mb-3">Featured Sports</h2>
-        <div className="flex gap-4 overflow-x-auto pb-3">
+      {/* Featured Sports sida 1000287129.jpg */}
+      <div className="px-4 mb-6">
+        <h2 className="font-bold mb-3">Featured Sports</h2>
+        <div className="flex gap-4 overflow-x-auto pb-2">
           {SPORTS_CHANNELS.map((ch) => (
-            <div key={ch.id} onClick={() => setActiveStream(STREAM_URL)} className={`shrink-0 w-64 h-36 bg-gradient-to-br ${ch.bg} rounded-xl p-4 flex flex-col justify-between cursor-pointer relative`}>
-              <div className="flex justify-between">
+            <div key={ch.id} className={`shrink-0 w-64 h-36 bg-gradient-to-br ${ch.bg} rounded-xl p-4 flex flex-col justify-between`}>
+              <div className="flex justify-between items-start">
                 <div className="text-2xl">{ch.icon}</div>
-                {/* Badhanka Watch Now ee aad codsatay */}
-                <span className="bg-white text-black text-[9px] font-black px-2 py-1 rounded-full uppercase">Watch Now</span>
+                <span className="bg-white text-black text-[10px] font-black px-2 py-1 rounded-full">WATCH NOW</span>
               </div>
               <h3 className="font-bold text-sm">{ch.title}</h3>
             </div>
@@ -73,8 +69,29 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Qaybaha kale halkaan ayay ku xigayaan... */}
-      
+      {/* Watch By Country sida 1000287116_2.jpg */}
+      <div className="px-4 mb-6">
+        <h2 className="font-bold mb-3">Watch By Country</h2>
+        <div className="flex gap-3 overflow-x-auto">
+          {WATCH_BY_COUNTRY.map((c, i) => (
+            <div key={i} className={`shrink-0 w-32 h-24 bg-gradient-to-b ${c.bg} rounded-xl p-3`}>
+              <p className="font-bold text-sm">{c.country}</p>
+              <p className="text-[10px] text-white/70">{c.status}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Highlights List */}
+      <div className="px-4">
+        <h2 className="font-bold mb-3">Recent Match Highlights</h2>
+        {HIGHLIGHTS.map((h, i) => (
+          <div key={i} className="bg-[#111122] p-3 rounded-xl mb-2 flex justify-between">
+            <p className="text-xs font-bold">{h.title}</p>
+            <p className="text-[10px] text-gray-400">{h.duration}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
