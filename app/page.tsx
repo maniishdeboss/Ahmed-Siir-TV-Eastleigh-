@@ -1,13 +1,13 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴" },
-  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍" },
-  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧" },
-  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡" },
+  { id: 1, title: "FIFA World Cup 2026🇬🇲🇸🇴📺🔴 ", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴" },
+  { id: 2, title: "Champions League🇬🇲🇸🇴📺🔴 ", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍" },
+  { id: 3, title: "Premier League🇸🇴🇬🇲🔴 ", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧" },
+  { id: 4, title: "Wrestling WWE🇬🇲🇸🇴📺🔴 ", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡" },
 ];
 
 const WATCH_BY_COUNTRY = [
@@ -17,7 +17,6 @@ const WATCH_BY_COUNTRY = [
   { country: "Global", flag: "🌍", status: "Live", bg: "from-purple-500 to-indigo-700" },
 ];
 
-// Liiska channels-ka aad soo dirtay
 const LIVE_CHANNELS = [
   { src: "XghNs0Cx6JQ", title: "Makkah Live HD", color: "text-white" },
   { src: "2A_OLvCo_q8", title: "Wrestling WWE Live", color: "text-red-500" },
@@ -54,9 +53,23 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
 // --- PAGES ---
 const HomePage = () => (
   <main className="p-4 pb-24">
+    {/* Hero Player */}
     <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl mb-6">
       <iframe src="https://www.youtube.com/embed/XghNs0Cx6JQ?autoplay=1&mute=1" className="w-full h-full" allowFullScreen />
     </div>
+
+    {/* Sports Channels Section */}
+    <section className="mb-8">
+      <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
+      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+        {SPORTS_CHANNELS.map((ch) => (
+          <div key={ch.id} className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg`}>
+            <span className="text-2xl">{ch.icon}</span>
+            <h3 className="font-bold text-xs text-white">{ch.title}</h3>
+          </div>
+        ))}
+      </div>
+    </section>
   </main>
 );
 
@@ -99,7 +112,7 @@ const ProfilePage = () => (
 
 // --- MAIN APP ---
 export default function App() {
-  const [activeTab, setActiveTab] = useState('Live');
+  const [activeTab, setActiveTab] = useState('Home');
 
   const renderPage = () => {
     switch (activeTab) {
@@ -107,7 +120,7 @@ export default function App() {
       case 'Live': return <LivePage />;
       case 'Browse': return <BrowsePage />;
       case 'Profile': return <ProfilePage />;
-      default: return <LivePage />;
+      default: return <HomePage />;
     }
   };
 
@@ -115,7 +128,6 @@ export default function App() {
     <div className="bg-[#06060f] min-h-screen text-white font-sans">
       <Head>
         <title>Ahmed Abdikani Live TV</title>
-        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
       </Head>
       <Header />
       {renderPage()}
