@@ -18,7 +18,7 @@ const WATCH_BY_COUNTRY = [
 ];
 
 const HIGHLIGHTS = [
-  { title: "Goals Highlights 🔥", duration: "10 min", url: "" },
+  { title: "Goals Highlights 🔥", duration: "10 min", url: "https://www.youtube.com/embed/5h-camjSQ-4" },
   { title: "Match Recap 📋", duration: "15 min", url: "" },
   { title: "News Aljazira📺🇸🇴🇬🇲 ", duration: "Live", url: "https://www.youtube.com/embed/gCNeDWCI0vo" },
 ];
