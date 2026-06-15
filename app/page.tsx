@@ -4,9 +4,9 @@ import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆" },
-  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽" },
-  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆" },
+  { id: 1, title: "FIFA World Cup 2026🇸🇴📺🇬🇲 ", bg: "from-blue-600 to-blue-800", icon: "🏆" },
+  { id: 2, title: "Champions League🇸🇴📺🇬🇲 ", bg: "from-purple-600 to-indigo-800", icon: "⚽" },
+  { id: 3, title: "Premier League🇸🇴📺🇬🇲 ", bg: "from-emerald-600 to-green-800", icon: "🏆" },
 ];
 
 const PREMIUM_TV = [
@@ -33,13 +33,14 @@ const WATCH_BY_COUNTRY = [
 // --- MAIN APP ---
 export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
-  // Halkan ku beddel ID-ga muuqaalka Youtube-ka aad rabto inuu ka dhex muuqdo Hero Player-ka
-  const [activeStream, setActiveStream] = useState("https://www.youtube.com/embed/HUK_wB83_dY");
+  // Koora TV oo ah kan ugu horreeya ee cagaaran
+  const [activeStream, setActiveStream] = useState("https://www.youtube.com/embed/2A_OLvCo_q8");
 
   const HomePage = () => (
     <main className="p-4 pb-24">
-      <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl mb-6">
-        <iframe src={`${activeStream}?autoplay=1`} className="w-full h-full" allowFullScreen />
+      {/* Hero Player oo leh border cagaaran oo qaabaysan */}
+      <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.4)] mb-6">
+        <iframe src={`${activeStream}?autoplay=1&mute=0`} className="w-full h-full" allowFullScreen />
       </div>
 
       <section className="mb-8">
