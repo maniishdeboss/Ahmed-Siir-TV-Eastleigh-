@@ -1,9 +1,9 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const STREAM_URL = "https://siir-tv.com/bein-sport-1/";
 
-// Xogta la diyaariyey si ay sawirro iyo qoraallo xirfad leh u yeeshaan
+// Xogta la diyaariyey
 const SPORTS_CHANNELS = [
   { id: 1, title: "FIFA World Cup 2026🏆📺⚽🇸🇴 ", subtitle: "Live Match", bg: "from-amber-500 to-yellow-600", icon: "🏆" },
   { id: 2, title: "Premier League🏆📺🇸🇴⚽ ", subtitle: "Super Sunday", bg: "from-purple-600 to-indigo-700", icon: "⚽" },
@@ -22,6 +22,20 @@ const HIGHLIGHTS = [
   { title: "Top Saves 🧤", duration: "5 min", desc: "Best goalkeeping" },
 ];
 
+// Component-ka Adsterra
+const AdsterraBanner = () => {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = "//www.highperformancedpm.com/your-adsterra-code-here/invoke.js"; // Halkan ku beddel code-kaaga
+    script.async = true;
+    script.dataset.cfasync = "false";
+    document.body.appendChild(script);
+    return () => { document.body.removeChild(script); };
+  }, []);
+
+  return <div id="container-your-adsterra-id" className="my-4 flex justify-center"></div>;
+};
+
 export default function HomePage() {
   const [activeStream, setActiveStream] = useState<string | null>(null);
   const [currentTab, setCurrentTab] = useState<'home' | 'live' | 'movies'>('home');
@@ -31,12 +45,11 @@ export default function HomePage() {
       
       {/* Top Banner & Header */}
       <div className="p-4 bg-gradient-to-b from-blue-950/40 to-[#06060f] border-b border-white/5">
-        {/* Midabka magaca ayaa laga dhigay white aad u dhalaalaya oo leh shadow */}
         <h1 className="text-xl font-black tracking-wider text-center text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] mb-4">
           🇸🇴 Ahmed Abdikani LIVE TV 🇬🇲 📺
         </h1>
 
-        {/* Dynamic Video Player Area */}
+        {/* Player */}
         {activeStream ? (
           <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-blue-500/10 relative group">
             <iframe src={`${activeStream}?autoplay=1&mute=1`} className="w-full h-full" allowFullScreen />
@@ -59,7 +72,10 @@ export default function HomePage() {
         )}
       </div>
 
-      {/* HORIZONTAL SECTION 1: Sports Live (Cards Like StreamNext) */}
+      {/* Adsterra Banner */}
+      <AdsterraBanner />
+
+      {/* HORIZONTAL SECTION 1: Featured Sports */}
       <div className="mt-6">
         <div className="px-4 flex justify-between items-center mb-3">
           <h2 className="text-md font-extrabold tracking-wide text-white/90">Featured Sports</h2>
@@ -67,11 +83,7 @@ export default function HomePage() {
         </div>
         <div className="flex overflow-x-auto gap-4 px-4 pb-3 scrollbar-none snap-x overflow-y-hidden">
           {SPORTS_CHANNELS.map((ch) => (
-            <div 
-              key={ch.id}
-              onClick={() => setActiveStream(STREAM_URL)}
-              className={`snap-center shrink-0 w-64 h-36 bg-gradient-to-br ${ch.bg} rounded-xl p-4 flex flex-col justify-between cursor-pointer border border-white/10 hover:scale-[1.02] transition active:scale-95`}
-            >
+            <div key={ch.id} onClick={() => setActiveStream(STREAM_URL)} className={`snap-center shrink-0 w-64 h-36 bg-gradient-to-br ${ch.bg} rounded-xl p-4 flex flex-col justify-between cursor-pointer border border-white/10 hover:scale-[1.02] transition active:scale-95`}>
               <div className="text-3xl bg-white/10 w-12 h-12 rounded-lg flex items-center justify-center backdrop-blur-sm">{ch.icon}</div>
               <div>
                 <span className="text-[10px] uppercase tracking-widest font-black text-white/60">{ch.subtitle}</span>
@@ -89,11 +101,7 @@ export default function HomePage() {
         </div>
         <div className="flex overflow-x-auto gap-3 px-4 pb-3 scrollbar-none snap-x overflow-y-hidden">
           {WATCH_BY_COUNTRY.map((item, idx) => (
-            <div 
-              key={idx}
-              onClick={() => setActiveStream(STREAM_URL)}
-              className={`snap-center shrink-0 w-40 bg-gradient-to-b ${item.bg} p-4 rounded-xl flex flex-col justify-between h-28 border border-white/5 cursor-pointer`}
-            >
+            <div key={idx} onClick={() => setActiveStream(STREAM_URL)} className={`snap-center shrink-0 w-40 bg-gradient-to-b ${item.bg} p-4 rounded-xl flex flex-col justify-between h-28 border border-white/5 cursor-pointer`}>
               <div className="font-black text-lg">{item.country.split(' ')[1]}</div>
               <div>
                 <h4 className="font-bold text-xs text-white">{item.country.split(' ')[0]}</h4>
@@ -104,16 +112,12 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* VERTICAL SECTION 3: Highlights List */}
+      {/* VERTICAL SECTION 3: Highlights */}
       <div className="mt-6 px-4">
         <h2 className="text-md font-extrabold tracking-wide text-white/90 mb-3">Recent Match Highlights</h2>
         <div className="space-y-3">
           {HIGHLIGHTS.map((hl, idx) => (
-            <div 
-              key={idx}
-              onClick={() => setActiveStream(STREAM_URL)}
-              className="bg-[#111122] p-3 rounded-xl border border-white/5 flex items-center justify-between cursor-pointer hover:bg-[#15152d] transition"
-            >
+            <div key={idx} onClick={() => setActiveStream(STREAM_URL)} className="bg-[#111122] p-3 rounded-xl border border-white/5 flex items-center justify-between cursor-pointer hover:bg-[#15152d] transition">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-blue-950 rounded-lg flex items-center justify-center text-md border border-white/5">🎬</div>
                 <div>
@@ -127,28 +131,16 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* STICKY BOTTOM NAVIGATION BAR (Sida StreamNext) */}
+      {/* STICKY BOTTOM NAVIGATION */}
       <div className="fixed bottom-0 inset-x-0 bg-[#0c0c1a]/95 border-t border-white/10 backdrop-blur-lg px-6 py-3 flex justify-between items-center z-50">
-        <button 
-          onClick={() => setCurrentTab('home')}
-          className={`flex flex-col items-center gap-1 transition ${currentTab === 'home' ? 'text-blue-400 font-bold scale-105' : 'text-gray-400 text-xs'}`}
-        >
-          <span className="text-lg">🏠</span>
-          <span className="text-[10px]">Home</span>
+        <button onClick={() => setCurrentTab('home')} className={`flex flex-col items-center gap-1 transition ${currentTab === 'home' ? 'text-blue-400 font-bold scale-105' : 'text-gray-400 text-xs'}`}>
+          <span className="text-lg">🏠</span><span className="text-[10px]">Home</span>
         </button>
-        <button 
-          onClick={() => setCurrentTab('live')}
-          className={`flex flex-col items-center gap-1 transition ${currentTab === 'live' ? 'text-blue-400 font-bold scale-105' : 'text-gray-400 text-xs'}`}
-        >
-          <span className="text-lg">📡</span>
-          <span className="text-[10px]">Live TV</span>
+        <button onClick={() => setCurrentTab('live')} className={`flex flex-col items-center gap-1 transition ${currentTab === 'live' ? 'text-blue-400 font-bold scale-105' : 'text-gray-400 text-xs'}`}>
+          <span className="text-lg">📡</span><span className="text-[10px]">Live TV</span>
         </button>
-        <button 
-          onClick={() => setCurrentTab('movies')}
-          className={`flex flex-col items-center gap-1 transition ${currentTab === 'movies' ? 'text-blue-400 font-bold scale-105' : 'text-gray-400 text-xs'}`}
-        >
-          <span className="text-lg">🎬</span>
-          <span className="text-[10px]">Browse</span>
+        <button onClick={() => setCurrentTab('movies')} className={`flex flex-col items-center gap-1 transition ${currentTab === 'movies' ? 'text-blue-400 font-bold scale-105' : 'text-gray-400 text-xs'}`}>
+          <span className="text-lg">🎬</span><span className="text-[10px]">Browse</span>
         </button>
       </div>
 
