@@ -12,7 +12,7 @@ const SPORTS_CHANNELS = [
 ];
 
 const WATCH_BY_COUNTRY = [
-  { country: "Somalia🇸🇴🇬🇲⚽📺 ", status: "Live", bg: "from-blue-500 to-blue-600", url: STREAM_URL },
+  { country: "Somalia🇸🇴🇬🇲⚽📺 ", status: "Live", bg: "from-blue-500 to-blue-600", url: "https://www.youtube.com/embed/L0H0h6i8Lvs" },
   { country: "Ogadenia🇬🇲🇸🇴📺 ", status: "Live", bg: "from-red-500 to-green-600", url: STREAM_URL },
   { country: "Kenya🇰🇪📺 ", status: "Live Stream", bg: "from-green-700 to-black", url: "https://www.youtube.com/embed/PdYWHAru73g" },
 ];
@@ -120,6 +120,7 @@ export default function HomePage() {
             {h.url && (
               <div className="w-full aspect-video rounded-lg overflow-hidden border border-white/5">
                 <iframe 
+                  key={h.url}
                   src={h.url} 
                   className="w-full h-full" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
