@@ -1,73 +1,135 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Head from 'next/head'
 
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026 🏆", bg: "from-amber-500 to-yellow-600" },
-  { id: 2, title: "Champions league 🏆", bg: "from-amber-500 to-yellow-600" },
-  { id: 3, title: "Premier League ⚽", bg: "from-purple-600 to-indigo-700" },
-  { id: 4, title: "Wrestling WWE 💥", bg: "from-amber-500 to-yellow-600" },
+  { id: 1, title: "FIFA World Cup 2026🇸🇴⚽📺🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆", url: "https://siir-tv.com/bein-sport-1/" },
+  { id: 2, title: "Champions league 🇸🇴⚽📺🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆", url: "https://siir-tv.com/bein-sport-1/" },
+  { id: 3, title: "Premier League⚽📺🏆🇸🇴 ", bg: "from-purple-600 to-indigo-700", icon: "⚽", url: "https://siir-tv.com/bein-sport-1/" },
+  { id: 4, title: "Wrestling WWE💥💫 🇸🇴⚽📺🏆 ", bg: "from-amber-500 to-yellow-600", icon: "🏆", url: "https://siir-tv.com/bein-sport-1/" },
 ];
 
 const WATCH_BY_COUNTRY = [
-  { country: "Somalia 🇸🇴", status: "Live", bg: "from-blue-500 to-blue-600", url: "https://www.youtube.com/embed/L0H0h6i8Lvs" },
-  { country: "Ogadenia 🇬🇲", status: "Coming Soon", bg: "from-gray-700 to-black", url: "" },
-  { country: "Kenya 🇰🇪", status: "Live Stream", bg: "from-green-700 to-black", url: "https://www.youtube.com/embed/PdYWHAru73g" },
+  { country: "Somalia🇸🇴🇬🇲⚽📺 ", status: "Live", bg: "from-blue-500 to-blue-600" },
+  { country: "Ogadenia🇬🇲🇸🇴📺 ", status: "Live", bg: "from-red-500 to-green-600" },
+  { country: "Kenya🇰🇪📺 ", status: "Available", bg: "from-green-700 to-white/10" },
 ];
+
+const HIGHLIGHTS = [
+  { title: "Goals Highlights 🔥", duration: "10 min", url: "https://www.youtube.com/embed/5h-camjSQ-4" },
+  { title: "Match Recap 📋", duration: "15 min", url: "" },
+  { title: "News Aljazira📺🇸🇴🇬🇲 ", duration: "Live", url: "https://www.youtube.com/embed/gCNeDWCI0vo" },
+];
+
+const AdsterraBanner = () => {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = "//www.highperformancedpm.com/your-adsterra-code-here/invoke.js";
+    script.async = true;
+    script.dataset.cfasync = "false";
+    document.body.appendChild(script);
+    return () => { document.body.removeChild(script); };
+  }, []);
+  return <div id="container-your-adsterra-id" className="my-4 flex justify-center"></div>;
+};
+
+const OneSignalNotification = () => {
+  useEffect(() => {
+    const win = window as any;
+    win.OneSignal = win.OneSignal || [];
+    win.OneSignal.push(function() {
+      win.OneSignal.init({ appId: "YOUR_ONESIGNAL_APP_ID" });
+    });
+  }, []);
+  return (
+    <button onClick={() => (window as any).OneSignal?.showSlidedownPrompt()} className="text-yellow-400 text-2xl">
+      🔔
+    </button>
+  );
+};
 
 export default function HomePage() {
   const [activeStream, setActiveStream] = useState<string | null>(null);
 
   return (
-    <div className="bg-[#06060f] min-h-screen text-white font-sans pb-10">
-      {/* Header */}
-      <div className="bg-[#84cc16] p-4 text-black font-bold text-lg shadow-lg">
-        Ahmed sports live TV
+    <div className="bg-[#06060f] min-h-screen text-white pb-28 font-sans">
+      <Head>
+        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+      </Head>
+
+      <div className="p-4 flex justify-between items-center border-b border-white/5">
+        <h1 className="text-lg font-black truncate">🇬🇲🇸🇴📺 Ahmed Abdikani LIVE TV📺🇸🇴🇸🇴🇬🇲🔴 </h1>
+        <OneSignalNotification />
       </div>
-      
+
       <div className="p-4">
-        <h1 className="text-xl font-bold mb-4">Ahmed Abdikani LIVE TV 📺</h1>
-        
-        {/* Video Player */}
-        <div className="w-full aspect-video bg-black rounded-2xl border border-white/10 flex items-center justify-center mb-6 shadow-2xl">
+        {/* Halkan ayaa fiidyowga laga xakameeyay. Wuu madhan yahay ilaa la gujiyo kanaal. */}
+        <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 relative flex items-center justify-center">
           {activeStream ? (
             <iframe 
-              src={`${activeStream}?autoplay=1`} 
-              className="w-full h-full rounded-2xl"
+              src={`${activeStream}?autoplay=1&mute=1`} 
+              className="w-full h-full"
               allow="autoplay; encrypted-media" 
-              allowFullScreen
             />
           ) : (
             <p className="text-white/40 text-sm">Fadlan dooro kanaal si aad u daawato</p>
           )}
         </div>
+      </div>
 
-        {/* Featured Sports */}
-        <h2 className="font-bold mb-3 text-white/90">Featured Sports</h2>
-        <div className="flex gap-4 overflow-x-auto pb-6">
+      <AdsterraBanner />
+
+      <div className="px-4 mb-6">
+        <h2 className="font-bold mb-3">Featured Sports</h2>
+        <div className="flex gap-4 overflow-x-auto pb-2">
           {SPORTS_CHANNELS.map((ch) => (
-            <div key={ch.id} className={`shrink-0 w-64 h-32 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-end shadow-md`}>
+            <div 
+              key={ch.id} 
+              onClick={() => setActiveStream(ch.url)}
+              className={`shrink-0 w-64 h-36 bg-gradient-to-br ${ch.bg} rounded-xl p-4 flex flex-col justify-between cursor-pointer`}
+            >
+              <div className="flex justify-between items-start">
+                <div className="text-2xl">{ch.icon}</div>
+                <span className="bg-white text-black text-[10px] font-black px-2 py-1 rounded-full">WATCH NOW</span>
+              </div>
               <h3 className="font-bold text-sm">{ch.title}</h3>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Watch By Country */}
-        <h2 className="font-bold mb-3 text-white/90">Watch By Country</h2>
-        <div className="flex gap-3">
+      <div className="px-4 mb-6">
+        <h2 className="font-bold mb-3">Watch By Country</h2>
+        <div className="flex gap-3 overflow-x-auto">
           {WATCH_BY_COUNTRY.map((c, i) => (
-            <div 
-              key={i} 
-              className={`flex-1 h-24 bg-gradient-to-b ${c.bg} rounded-2xl p-3 cursor-pointer border border-white/10 shadow-lg hover:opacity-90 transition-opacity`}
-              onClick={() => {
-                if (c.url) setActiveStream(c.url);
-                else alert("Kanaalkan weli diyaar ma ahan!");
-              }}
-            >
+            <div key={i} className={`shrink-0 w-32 h-24 bg-gradient-to-b ${c.bg} rounded-xl p-3`}>
               <p className="font-bold text-sm">{c.country}</p>
               <p className="text-[10px] text-white/70">{c.status}</p>
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="px-4">
+        <h2 className="font-bold mb-3">Recent Match Highlights</h2>
+        {HIGHLIGHTS.map((h, i) => (
+          <div key={i} className="bg-[#111122] p-3 rounded-xl mb-2">
+            <div className="flex justify-between mb-2">
+              <p className="text-xs font-bold">{h.title}</p>
+              <p className="text-[10px] text-gray-400">{h.duration}</p>
+            </div>
+            {h.url && (
+              <div className="w-full aspect-video rounded-lg overflow-hidden border border-white/5">
+                <iframe 
+                  src={h.url} 
+                  className="w-full h-full" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen
+                />
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
