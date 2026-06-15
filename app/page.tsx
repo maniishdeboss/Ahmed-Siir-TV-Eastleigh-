@@ -18,7 +18,7 @@ const LEAGUES = [
   { name: "Bundesliga", icon: "🇩🇪🇸🇴🇬🇲📺⚽", color: "from-gray-600 to-slate-800" }
 ];
 
-export default function 🇸🇴📺 AhmedAbdikaniLiveTV🇬🇲🇸🇴📺() {
+export default function AhmedAbdikaniLiveTV() {
   const [activeTab, setActiveTab] = useState('LIVE');
   const [stream, setStream] = useState<string | null>(null);
 
