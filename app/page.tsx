@@ -11,8 +11,8 @@ const SPORTS_CHANNELS = [
 ];
 
 const FEATURED_TV = [
-  { title: "SIIR TV", url: "https://siir-tv.com/bein-sport-1/", bg: "from-blue-900 to-black" },
-  { title: "KOORA TV", url: "https://koora-live.com/", bg: "from-green-900 to-black" },
+  { title: "SIIR TV", url: "https://a12.kooora-sia.com/bein-1/", bg: "from-blue-900 to-black" },
+  { title: "KOORA TV", url: "https://a12.kooora-sia.com/bein-1/", bg: "from-green-900 to-black" },
 ];
 
 const WATCH_BY_COUNTRY = [
@@ -61,7 +61,7 @@ const HomePage = () => (
     {/* SIIR TV - Bedelka Filimka YouTube */}
     <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6">
       <iframe 
-        src="https://siir-tv.com/bein-sport-1/" 
+        src="https://a12.kooora-sia.com/bein-1/" 
         className="w-full h-full" 
         allowFullScreen 
         allow="autoplay; encrypted-media"
