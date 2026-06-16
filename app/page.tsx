@@ -1,6 +1,7 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
+import Hls from 'hls.js' // npm install hls.js
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
@@ -10,8 +11,9 @@ const SPORTS_CHANNELS = [
   { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡" },
 ];
 
+// Halkan geli m3u8 link-ga saxda ah ee SIIR TV
 const FEATURED_TV = [
-  { title: "SIIR TV", url: "https://siir-tv.com/bein-sport-1/", bg: "from-blue-900 to-black" },
+  { title: "SIIR TV", url: "PUT_YOUR_M3U8_LINK_HERE", bg: "from-blue-900 to-black" },
   { title: "KOORA TV", url: "https://koora-live.com/", bg: "from-green-900 to-black" },
 ];
 
@@ -31,6 +33,35 @@ const LIVE_CHANNELS = [
   { src: "q9iTGiUtYik", title: "Animals Live TV 2", color: "text-yellow-500" },
 ];
 
+// --- HLS VIDEO PLAYER COMPONENT ---
+const HLSPlayer = ({ src }: { src: string }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(src);
+        hls.attachMedia(videoRef.current);
+        hls.on(Hls.Events.ERROR, function (event, data) {
+          console.log('HLS Error:', data);
+        });
+      } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+        videoRef.current.src = src;
+      }
+    }
+  }, [src]);
+
+  return (
+    <video
+      ref={videoRef}
+      className="w-full h-full"
+      controls
+      autoPlay
+    />
+  );
+};
+
 // --- COMPONENTS ---
 const Header = () => (
   <header className="p-4 flex justify-between items-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-1 z-50 mt-3 rounded-b-2xl mx-2 shadow-xl">
@@ -46,7 +77,7 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`text- font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
+          className={`text- font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
         >
           {tab}
         </button>
@@ -61,26 +92,28 @@ const PlayerModal = ({ isOpen, onClose, channel }: { isOpen: boolean; onClose: (
 
   return (
     <div className="fixed inset-0 bg-black/95 z-[100] flex flex-col">
-      {/* Header */}
       <div className="flex justify-between items-center p-4 bg-[#0a0a1a] border-b border-white/10">
         <h3 className="text-lg font-bold text-white">{channel.title}</h3>
-        <button 
+        <button
           onClick={onClose}
           className="text-white bg-red-600 px-4 py-2 rounded-lg font-bold"
         >
           XIR ✕
         </button>
       </div>
-      
-      {/* Player */}
-      <div className="flex-1 w-full">
-        <iframe 
-          src={channel.url} 
-          className="w-full h-full" 
-          allowFullScreen 
-          allow="autoplay; encrypted-media; picture-in-picture"
-          title={channel.title}
-        />
+
+      <div className="flex-1 w-full bg-black">
+        {channel.url.includes('.m3u8')? (
+          <HLSPlayer src={channel.url} />
+        ) : (
+          <iframe
+            src={channel.url}
+            className="w-full h-full"
+            allowFullScreen
+            allow="autoplay; encrypted-media; picture-in-picture"
+            title={channel.title}
+          />
+        )}
       </div>
     </div>
   );
@@ -96,17 +129,14 @@ const HomePage = () => {
     setPlayerOpen(true);
   };
 
+  // Ku badal kan m3u8 link-ga SIIR TV
+  const mainStreamUrl = "PUT_YOUR_M3U8_LINK_HERE";
+
   return (
     <main className="p-4 pb-24">
-      {/* SIIR TV - Bedelka Filimka */}
+      {/* SIIR TV - Hadda HLS Player */}
       <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6">
-        <iframe 
-          src="https://siir-tv.com/bein-sport-1/" 
-          className="w-full h-full" 
-          allowFullScreen 
-          allow="autoplay; encrypted-media"
-          title="SIIR TV Live"
-        />
+        <HLSPlayer src={mainStreamUrl} />
       </div>
       <div className="flex items-center mb-8 px-2">
         <span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-2 animate-pulse">LIVE</span>
@@ -126,13 +156,13 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Premium Live TV - Hadda APP-ka ayuu ku furmayaa */}
+      {/* Premium Live TV */}
       <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
         <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
         <div className="grid grid-cols-2 gap-4">
           {FEATURED_TV.map((tv, i) => (
-            <button 
-              key={i} 
+            <button
+              key={i}
               onClick={() => openPlayer(tv)}
               className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg active:scale-95`}
             >
@@ -143,11 +173,10 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Player Modal */}
-      <PlayerModal 
-        isOpen={playerOpen} 
-        onClose={() => setPlayerOpen(false)} 
-        channel={selectedChannel} 
+      <PlayerModal
+        isOpen={playerOpen}
+        onClose={() => setPlayerOpen(false)}
+        channel={selectedChannel}
       />
     </main>
   );
