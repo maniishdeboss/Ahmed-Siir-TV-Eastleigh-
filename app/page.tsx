@@ -12,7 +12,7 @@ const SPORTS_CHANNELS = [
 
 const FEATURED_TV = [
   { title: "SIIR TV", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627862", bg: "from-blue-900 to-black" },
-  { title: "Siir Tv", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627862", bg: "from-green-900 to-black" },
+  { title: "BeIN Sports", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627862", bg: "from-green-900 to-black" },
 ];
 
 const WATCH_BY_COUNTRY = [
@@ -58,22 +58,29 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
 // --- PAGES ---
 const HomePage = () => (
   <main className="p-4 pb-24">
-    {/* SIIR TV - Bedelka Filimka YouTube */}
-    <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6">
-      <iframe 
-        src="https://a12.kooora-sia.com/bein-1/" 
-        className="w-full h-full" 
-        allowFullScreen 
-        allow="autoplay; encrypted-media"
-        title="SIIR TV Live"
-      />
+    {/* SIIR TV Banner - iframe-kii wasakhda ahaa waan saaray */}
+    <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6 p-8 relative">
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800')] bg-cover bg-center opacity-20"></div>
+      <div className="relative z-10 text-center">
+        <div className="text-6xl mb-4">📺</div>
+        <h2 className="text-3xl font-black text-white mb-2">SIIR TV</h2>
+        <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
+        <a 
+          href="https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627862" 
+          target="_blank"
+          className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-lg"
+        >
+          ▶ DAARO LIVE HADA
+        </a>
+      </div>
     </div>
+    
     <div className="flex items-center mb-8 px-2">
       <span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-2 animate-pulse">LIVE</span>
       <p className="text-sm font-bold text-white">SIIR TV - Live Streaming</p>
     </div>
 
-    {/* Featured Sports - SIDII HORE AYUU KU JIRAA */}
+    {/* Featured Sports */}
     <section className="mb-8">
       <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
       <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
@@ -86,7 +93,7 @@ const HomePage = () => (
       </div>
     </section>
 
-    {/* Premium Live TV - Kaliya SIIR iyo KOORA */}
+    {/* Premium Live TV */}
     <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
       <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
       <div className="grid grid-cols-2 gap-4">
