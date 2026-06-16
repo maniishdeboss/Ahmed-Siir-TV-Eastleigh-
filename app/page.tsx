@@ -12,7 +12,7 @@ const SPORTS_CHANNELS = [
 
 const FEATURED_TV = [
   { title: "SIIR TV", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627862", bg: "from-blue-900 to-black" },
-  { title: "Siir Tv", Url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627862," bg: "from-green-900 to-black" },
+  { title: "Siir Tv", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627862", bg: "from-green-900 to-black" },
 ];
 
 const WATCH_BY_COUNTRY = [
