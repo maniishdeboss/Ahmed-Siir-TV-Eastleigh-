@@ -204,7 +204,7 @@ const ProfilePage = () => (
 
 // --- MAIN PAGE (Main Entry Point) ---
 export default function App() {
-  const [activeStream, setActiveStream] = useState("https://siir-tv.com/bein-sport-1/");
+  const [activeStream, setActiveStream] = useState("https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627862");
   const [activeTab, setActiveTab] = useState('Home'); // Maaree boggaga kala duwan
 
   // Go'aami bogga la muujinayo iyadoo loo eegayo tab-ka firfircoon
