@@ -61,7 +61,7 @@ const HomePage = () => (
     {/* SIIR TV - Bedelka Filimka YouTube */}
     <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6">
       <iframe 
-        src="https://b.worldcuplives.online/bein-1/" 
+        src="https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" 
         className="w-full h-full" 
         allowFullScreen 
         allow="autoplay; encrypted-media"
@@ -106,7 +106,7 @@ const LivePage = () => (
     <div className="space-y-6">
       {LIVE_CHANNELS.map((item, index) => (
         <div key={index} className="bg-[#111122] rounded-3xl p-4 border border-white/5 shadow-2xl">
-          <div className="aspect-video bg-black rounded-xl overflow-hidden mb-3 border border-white/5">
+          <div className="aspect-video bg-black https overflow-hidden mb-3 border border-white/5">
             <iframe src={`https://www.youtube.com/embed/${item.src}`} className="w-full h-full" allow="autoplay; encrypted-media" allowFullScreen />
           </div>
           <p className={`text-sm font-bold ${item.color}`}>{item.title}</p>
