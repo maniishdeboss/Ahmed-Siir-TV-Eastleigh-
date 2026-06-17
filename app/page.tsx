@@ -4,10 +4,11 @@ import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🇵🇹v🇨🇩", flag: "🇸🇴", youtube: "R0BYkr7wTZ4" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: "R0BYkr7wTZ4" },
   { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", youtube: null },
   { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: null },
   { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: null },
+  { id: 5, title: "Stream Live", bg: "from-red-600 to-rose-800", icon: "📡", flag: "🔴", link: "https://m.defr.online/2026/06/17/por/" },
 ];
 
 const FEATURED_TV = [
@@ -121,18 +122,33 @@ const HomePage = () => {
         <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
           {SPORTS_CHANNELS.map((ch) => (
-            <button
-              key={ch.id}
-              onClick={() => ch.youtube && handlePlayVideo(ch.youtube, ch.title)}
-              disabled={!ch.youtube}
-              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
-            >
-              <div className="flex justify-between items-start w-full">
-                <span className="text-2xl">{ch.icon}</span>
-                {ch.youtube && <span className="text- bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
-              </div>
-              <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
-            </button>
+            ch.link ? (
+              <a
+                key={ch.id}
+                href={ch.link}
+                target="_blank"
+                className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer`}
+              >
+                <div className="flex justify-between items-start w-full">
+                  <span className="text-2xl">{ch.icon}</span>
+                  <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>
+                </div>
+                <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
+              </a>
+            ) : (
+              <button
+                key={ch.id}
+                onClick={() => ch.youtube && handlePlayVideo(ch.youtube, ch.title)}
+                disabled={!ch.youtube}
+                className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
+              >
+                <div className="flex justify-between items-start w-full">
+                  <span className="text-2xl">{ch.icon}</span>
+                  {ch.youtube && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
+                </div>
+                <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
+              </button>
+            )
           ))}
         </div>
       </section>
@@ -203,22 +219,4 @@ export default function App() {
   };
 
   return (
-    <div className="bg-[#06060f] min-h-screen text-white font-sans">
-      <Head>
-        <title>Ahmed Abdikani Live TV</title>
-      </Head>
-      <Header />
-      {renderPage()}
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-      <style jsx global>{`
-       .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-       .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
-    </div>
-  );
-}
+    <div className="
