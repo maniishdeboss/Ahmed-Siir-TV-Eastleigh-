@@ -1,14 +1,15 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
+import Hls from 'hls.js'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴🔥", youtube: "R0BYkr7wTZ4" },
-  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🇸🇴🌍", youtube: null },
-  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇸🇴🇬🇧", youtube: null },
-  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "🇸🇴🔥⚡", youtube: null },
-  { id: 5, title: "Stream Live", bg: "from-red-600 to-rose-800", icon: "📡", flag: "🇸🇴🔥🔴", streamUrl: "https://m.defr.online/2026/06/17/por/" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: "R0BYkr7wTZ4" },
+  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", youtube: null },
+  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: null },
+  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: null },
+  { id: 5, title: "Stream Live", bg: "from-red-600 to-rose-800", icon: "📡", flag: "🔴", m3u8: "https://26cup-live.s3.eu-north-1.amazonaws.com/max1/max1_144p/index.m3u8" },
 ];
 
 const FEATURED_TV = [
@@ -32,6 +33,44 @@ const LIVE_CHANNELS = [
   { src: "q9iTGiUtYik", title: "Animals Live TV 2", color: "text-yellow-500" },
 ];
 
+// --- HLS PLAYER COMPONENT ---
+const HLSPlayer = ({ src, title, onClose }: { src: string; title: string; onClose: () => void }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(src);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play();
+      });
+      return () => hls.destroy();
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = src;
+      video.play();
+    }
+  }, [src]);
+
+  return (
+    <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-red-500/30 shadow-2xl">
+      <div className="flex justify-between items-center mb-3">
+        <div className="flex items-center gap-2">
+          <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse">LIVE</span>
+          <p className="text-sm font-bold text-white">{title}</p>
+        </div>
+        <button onClick={onClose} className="text-white/60 hover:text-white text-3xl leading-none">×</button>
+      </div>
+      <div className="aspect-video bg-black rounded-xl overflow-hidden">
+        <video ref={videoRef} controls autoPlay className="w-full h-full" />
+      </div>
+    </div>
+  );
+};
+
 // --- COMPONENTS ---
 const Header = () => (
   <header className="p-4 flex justify-between items-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-1 z-50 mt-3 rounded-b-2xl mx-2 shadow-xl">
@@ -47,7 +86,7 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`text- font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
+          className={`text- font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
         >
           {tab}
         </button>
@@ -59,18 +98,18 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
 // --- PAGES ---
 const HomePage = () => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
-  const [activeStream, setActiveStream] = useState<string | null>(null);
+  const [activeM3U8, setActiveM3U8] = useState<string | null>(null);
   const [activeTitle, setActiveTitle] = useState<string>("");
 
   const handlePlayVideo = (youtubeId: string, title: string) => {
     setActiveVideo(youtubeId);
-    setActiveStream(null);
+    setActiveM3U8(null);
     setActiveTitle(title);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handlePlayStream = (streamUrl: string, title: string) => {
-    setActiveStream(streamUrl);
+  const handlePlayM3U8 = (m3u8Url: string, title: string) => {
+    setActiveM3U8(m3u8Url);
     setActiveVideo(null);
     setActiveTitle(title);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -78,7 +117,6 @@ const HomePage = () => {
 
   return (
     <main className="p-4 pb-24">
-      {/* YouTube Player */}
       {activeVideo && (
         <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-blue-500/30 shadow-2xl">
           <div className="flex justify-between items-center mb-3">
@@ -86,49 +124,15 @@ const HomePage = () => {
               <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse">LIVE</span>
               <p className="text-sm font-bold text-white">{activeTitle}</p>
             </div>
-            <button
-              onClick={() => setActiveVideo(null)}
-              className="text-white/60 hover:text-white text-3xl leading-none"
-            >
-              ×
-            </button>
+            <button onClick={() => setActiveVideo(null)} className="text-white/60 hover:text-white text-3xl leading-none">×</button>
           </div>
           <div className="aspect-video bg-black rounded-xl overflow-hidden">
-            <iframe
-              src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1`}
-              className="w-full h-full"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-            />
+            <iframe src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1`} className="w-full h-full" allow="autoplay; encrypted-media" allowFullScreen />
           </div>
         </div>
       )}
 
-      {/* Stream Player - Iframe */}
-      {activeStream && (
-        <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-red-500/30 shadow-2xl">
-          <div className="flex justify-between items-center mb-3">
-            <div className="flex items-center gap-2">
-              <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse">LIVE</span>
-              <p className="text-sm font-bold text-white">{activeTitle}</p>
-            </div>
-            <button
-              onClick={() => setActiveStream(null)}
-              className="text-white/60 hover:text-white text-3xl leading-none"
-            >
-              ×
-            </button>
-          </div>
-          <div className="aspect-video bg-black rounded-xl overflow-hidden">
-            <iframe
-              src={activeStream}
-              className="w-full h-full"
-              allow="autoplay; encrypted-media; fullscreen"
-              allowFullScreen
-            />
-          </div>
-        </div>
-      )}
+      {activeM3U8 && <HLSPlayer src={activeM3U8} title={activeTitle} onClose={() => setActiveM3U8(null)} />}
 
       <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6 p-8 relative">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800')] bg-cover bg-center opacity-20"></div>
@@ -140,10 +144,10 @@ const HomePage = () => {
           <h2 className="text-3xl font-black text-white mb-2">SIIR TV</h2>
           <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
           <button
-            onClick={() => handlePlayStream("https://m.defr.online/2026/06/17/por/", "SIIR TV - Stream 1")}
+            onClick={() => handlePlayM3U8("https://26cup-live.s3.eu-north-1.amazonaws.com/max1/max1_144p/index.m3u8", "SIIR TV - Stream 1")}
             className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-lg"
           >
-            ▶ 🇵🇹vs🇨🇩💥⚡ Watch now
+            ▶ DAARO LIVE HADA
           </button>
         </div>
       </div>
@@ -161,14 +165,14 @@ const HomePage = () => {
               key={ch.id}
               onClick={() => {
                 if (ch.youtube) handlePlayVideo(ch.youtube, ch.title);
-                if (ch.streamUrl) handlePlayStream(ch.streamUrl, ch.title);
+                if (ch.m3u8) handlePlayM3U8(ch.m3u8, ch.title);
               }}
-              disabled={!ch.youtube && !ch.streamUrl}
-              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube || ch.streamUrl ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
+              disabled={!ch.youtube &&!ch.m3u8}
+              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube || ch.m3u8? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
             >
               <div className="flex justify-between items-start w-full">
                 <span className="text-2xl">{ch.icon}</span>
-                {(ch.youtube || ch.streamUrl) && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
+                {(ch.youtube || ch.m3u8) && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
               </div>
               <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
             </button>
@@ -250,10 +254,10 @@ export default function App() {
       {renderPage()}
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       <style jsx global>{`
-       .scrollbar-hide::-webkit-scrollbar {
+      .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
-       .scrollbar-hide {
+      .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
