@@ -61,7 +61,7 @@ const HomePage = () => (
     {/* SIIR TV - Bedelka Filimka YouTube */}
     <div className="w-full aspect-video bg-black rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6">
       <iframe 
-        src="https://siir-tv.com/bein-sport-1/" 
+        src="https://b.worldcuplives.online/bein-1/" 
         className="w-full h-full" 
         allowFullScreen 
         allow="autoplay; encrypted-media"
