@@ -12,7 +12,7 @@ const SPORTS_CHANNELS = [
 
 const FEATURED_TV = [
   { title: "SIIR TV", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4697734", bg: "from-blue-900 to-black" },
-  { title: "BeIN Sports", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4697734, bg: "from-green-900 to-black" },
+  { title: "BeIN Sports", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4697734", bg: "from-green-900 to-black" },
 ];
 
 const WATCH_BY_COUNTRY = [
@@ -46,7 +46,7 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`text- font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
+          className={`text-sm font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
         >
           {tab}
         </button>
@@ -126,7 +126,7 @@ const HomePage = () => {
             >
               <div className="flex justify-between items-start w-full">
                 <span className="text-2xl">{ch.icon}</span>
-                {ch.youtube && <span className="text- bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
+                {ch.youtube && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
               </div>
               <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
             </button>
