@@ -4,7 +4,7 @@ import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: "R0BYkr7wTZ4" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🇵🇹v🇨🇩", flag: "🇸🇴", youtube: "R0BYkr7wTZ4" },
   { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", youtube: null },
   { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: null },
   { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: null },
@@ -95,12 +95,15 @@ const HomePage = () => {
 
       <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6 p-8 relative">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800')] bg-cover bg-center opacity-20"></div>
+        <div className="absolute top-3 right-3">
+          <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse font-bold">STREAM 1</span>
+        </div>
         <div className="relative z-10 text-center">
           <div className="text-6xl mb-4">📺</div>
           <h2 className="text-3xl font-black text-white mb-2">SIIR TV</h2>
           <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
           <a
-            href="https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627862"
+            href="https://m.defr.online/2026/06/17/por/"
             target="_blank"
             className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-lg"
           >
