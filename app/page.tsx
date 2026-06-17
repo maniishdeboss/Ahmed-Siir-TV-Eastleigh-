@@ -88,8 +88,14 @@ const HomePage = () => {
               height="100%"
               config={{
                 file: {
+                  forceHLS: true,
                   attributes: {
                     crossOrigin: "anonymous"
+                  },
+                  hlsOptions: {
+                    enableWorker: true,
+                    lowLatencyMode: true,
+                    backBufferLength: 90
                   }
                 }
               }}
