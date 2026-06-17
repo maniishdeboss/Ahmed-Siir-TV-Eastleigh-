@@ -15,7 +15,14 @@ const FEATURED_TV = [
   { title: "BeIN Sports", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4697734", bg: "from-green-900 to-black" },
 ];
 
-// LEAGUES DATA - SIDA SAWIRKA
+const WATCH_BY_COUNTRY = [
+  { country: "Somalia", flag: "🇸🇴", status: "Live", bg: "from-blue-500 to-blue-700" },
+  { country: "Ogadenia", flag: "🇬🇲", status: "Live", bg: "from-red-500 to-green-700" },
+  { country: "Kenya", flag: "🇰🇪", status: "Available", bg: "from-green-600 to-black/20" },
+  { country: "Global", flag: "🌍", status: "Live", bg: "from-purple-500 to-indigo-700" },
+];
+
+// LEAGUES DATA
 const FOOTBALL_LEAGUES = [
   { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "bg-gradient-to-r from-blue-600 to-blue-800" },
   { id: 2, name: "International Friendly", logo: "⚽", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
@@ -25,28 +32,21 @@ const FOOTBALL_LEAGUES = [
   { id: 6, name: "Ligue 1", logo: "🇫🇷", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
 ];
 
-// MATCHES DATA - TUSAALE
+// MATCHES DATA - LINK CUSUB
 const MATCHES_DATA: Record<number, any[]> = {
-  1: [ // FIFA World Cup
+  1: [
     { id: 1, team1: "England", team2: "Croatia", flag1: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", flag2: "🇭🇷", time: "Starting Soon...", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4697734" },
     { id: 2, team1: "Ghana", team2: "Panama", flag1: "🇬🇭", flag2: "🇵🇦", time: "18/Jun/2026 02:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4697734" },
     { id: 3, team1: "Uzbekistan", team2: "Colombia", flag1: "🇺🇿", flag2: "🇨🇴", time: "18/Jun/2026 05:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4697734" },
   ],
-  3: [ // Premier League
+  3: [
     { id: 1, team1: "Arsenal", team2: "Chelsea", flag1: "🔴", flag2: "🔵", time: "Today 22:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4697734" },
     { id: 2, team1: "Man City", team2: "Liverpool", flag1: "🔵", flag2: "🔴", time: "Tomorrow 19:30", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4697734" },
   ],
-  5: [ // La Liga
+  5: [
     { id: 1, team1: "Barcelona", team2: "Real Madrid", flag1: "🔵", flag2: "⚪", time: "Sunday 22:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4697734" },
   ],
 };
-
-const WATCH_BY_COUNTRY = [
-  { country: "Somalia", flag: "🇸🇴", status: "Live", bg: "from-blue-500 to-blue-700" },
-  { country: "Ogadenia", flag: "🇬🇲", status: "Live", bg: "from-red-500 to-green-700" },
-  { country: "Kenya", flag: "🇰🇪", status: "Available", bg: "from-green-600 to-black/20" },
-  { country: "Global", flag: "🌍", status: "Live", bg: "from-purple-500 to-indigo-700" },
-];
 
 // --- COMPONENTS ---
 const Header = () => (
@@ -139,32 +139,4 @@ const HomePage = () => {
               key={ch.id}
               onClick={() => ch.youtube && handlePlayVideo(ch.youtube, ch.title)}
               disabled={!ch.youtube}
-              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
-            >
-              <div className="flex justify-between items-start w-full">
-                <span className="text-2xl">{ch.icon}</span>
-                {ch.youtube && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
-              </div>
-              <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
-        <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
-        <div className="grid grid-cols-2 gap-4">
-          {FEATURED_TV.map((tv, i) => (
-            <a key={i} href={tv.url} target="_blank" className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}>
-              <p className="font-black text-white text-lg">{tv.title}</p>
-            </a>
-          ))}
-        </div>
-      </section>
-    </main>
-  );
-};
-
-// LIVE PAGE - SIDA SAWIRKA "Football Live HD"
-const LivePage = () => {
- 
+              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p
