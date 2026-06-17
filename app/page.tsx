@@ -4,10 +4,10 @@ import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴" },
-  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍" },
-  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧" },
-  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: "R0BYkr7wTZ4" },
+  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", youtube: null },
+  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: null },
+  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: null },
 ];
 
 const FEATURED_TV = [
@@ -56,116 +56,73 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
 };
 
 // --- PAGES ---
-const HomePage = () => (
-  <main className="p-4 pb-24">
-    {/* SIIR TV Banner - iframe-kii wasakhda ahaa waan saaray */}
-    <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6 p-8 relative">
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800')] bg-cover bg-center opacity-20"></div>
-      <div className="relative z-10 text-center">
-        <div className="text-6xl mb-4">📺</div>
-        <h2 className="text-3xl font-black text-white mb-2">SIIR TV</h2>
-        <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
-        <a 
-          href="https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627862" 
-          target="_blank"
-          className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-lg"
-        >
-          ▶ DAARO LIVE HADA
-        </a>
-      </div>
-    </div>
-    
-    <div className="flex items-center mb-8 px-2">
-      <span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-2 animate-pulse">LIVE</span>
-      <p className="text-sm font-bold text-white">SIIR TV - Live Streaming</p>
-    </div>
+const HomePage = () => {
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [activeTitle, setActiveTitle] = useState<string>("");
 
-    {/* Featured Sports */}
-    <section className="mb-8">
-      <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
-      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-        {SPORTS_CHANNELS.map((ch) => (
-          <div key={ch.id} className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg`}>
-            <span className="text-2xl">{ch.icon}</span>
-            <h3 className="font-bold text-xs text-white">{ch.title}</h3>
-          </div>
-        ))}
-      </div>
-    </section>
-
-    {/* Premium Live TV */}
-    <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
-      <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
-      <div className="grid grid-cols-2 gap-4">
-        {FEATURED_TV.map((tv, i) => (
-          <a key={i} href={tv.url} target="_blank" className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}>
-            <p className="font-black text-white text-lg">{tv.title}</p>
-          </a>
-        ))}
-      </div>
-    </section>
-  </main>
-);
-
-const LivePage = () => (
-  <section className="p-4 text-white pb-24">
-    <h2 className="text-2xl font-bold mb-6 text-center">Live Streaming Channels</h2>
-    <div className="space-y-6">
-      {LIVE_CHANNELS.map((item, index) => (
-        <div key={index} className="bg-[#111122] rounded-3xl p-4 border border-white/5 shadow-2xl">
-          <div className="aspect-video bg-black rounded-xl overflow-hidden mb-3 border border-white/5">
-            <iframe src={`https://www.youtube.com/embed/${item.src}`} className="w-full h-full" allow="autoplay; encrypted-media" allowFullScreen />
-          </div>
-          <p className={`text-sm font-bold ${item.color}`}>{item.title}</p>
-        </div>
-      ))}
-    </div>
-  </section>
-);
-
-const BrowsePage = () => (
-  <section className="p-4 pb-24 text-center">
-    <h2 className="text-xl font-bold mb-4">Browse Categories</h2>
-    <div className="grid grid-cols-2 gap-4">
-        {WATCH_BY_COUNTRY.map((c, i) => (
-            <div key={i} className={`bg-gradient-to-br ${c.bg} p-4 rounded-2xl border border-white/10`}>
-                <span className="text-3xl">{c.flag}</span>
-                <p className="font-bold text-sm text-white">{c.country}</p>
-            </div>
-        ))}
-    </div>
-  </section>
-);
-
-const ProfilePage = () => (
-  <section className="p-4 pb-24 text-center">
-    <h2 className="text-xl font-bold">Profile</h2>
-    <p className="text-gray-400">Ahmed Abdikani Mohamed</p>
-  </section>
-);
-
-// --- MAIN APP ---
-export default function App() {
-  const [activeTab, setActiveTab] = useState('Home');
-
-  const renderPage = () => {
-    switch (activeTab) {
-      case 'Home': return <HomePage />;
-      case 'Live': return <LivePage />;
-      case 'Browse': return <BrowsePage />;
-      case 'Profile': return <ProfilePage />;
-      default: return <HomePage />;
-    }
+  const handlePlayVideo = (youtubeId: string, title: string) => {
+    setActiveVideo(youtubeId);
+    setActiveTitle(title);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div className="bg-[#06060f] min-h-screen text-white font-sans">
-      <Head>
-        <title>Ahmed Abdikani Live TV</title>
-      </Head>
-      <Header />
-      {renderPage()}
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-    </div>
-  );
-}
+    <main className="p-4 pb-24">
+      {/* Video Player */}
+      {activeVideo && (
+        <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-blue-500/30 shadow-2xl animate-in">
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center gap-2">
+              <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse">LIVE</span>
+              <p className="text-sm font-bold text-white">{activeTitle}</p>
+            </div>
+            <button 
+              onClick={() => setActiveVideo(null)}
+              className="text-white/60 hover:text-white text-3xl leading-none"
+            >
+              ×
+            </button>
+          </div>
+          <div className="aspect-video bg-black rounded-xl overflow-hidden">
+            <iframe 
+              src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1`} 
+              className="w-full h-full" 
+              allow="autoplay; encrypted-media" 
+              allowFullScreen 
+            />
+          </div>
+        </div>
+      )}
+
+      {/* SIIR TV Banner */}
+      <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6 p-8 relative">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800')] bg-cover bg-center opacity-20"></div>
+        <div className="relative z-10 text-center">
+          <div className="text-6xl mb-4">📺</div>
+          <h2 className="text-3xl font-black text-white mb-2">SIIR TV</h2>
+          <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
+          <a 
+            href="https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627862" 
+            target="_blank"
+            className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-lg"
+          >
+            ▶ DAARO LIVE HADA
+          </a>
+        </div>
+      </div>
+      
+      <div className="flex items-center mb-8 px-2">
+        <span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-2 animate-pulse">LIVE</span>
+        <p className="text-sm font-bold text-white">SIIR TV - Live Streaming</p>
+      </div>
+
+      {/* Featured Sports */}
+      <section className="mb-8">
+        <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
+        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+          {SPORTS_CHANNELS.map((ch) => (
+            <button 
+              key={ch.id} 
+              onClick={() => ch.youtube && handlePlayVideo(ch.youtube, ch.title)}
+              disabled={!ch.youtube}
+              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube ? 'cursor-pointer' : 'cursor-not
