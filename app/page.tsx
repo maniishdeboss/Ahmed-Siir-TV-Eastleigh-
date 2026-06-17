@@ -3,8 +3,20 @@ import { useState } from 'react'
 import Head from 'next/head'
 import ReactPlayer from 'react-player'
 
+// --- TYPE DEFINITION ---
+interface SportChannel {
+  id: number;
+  title: string;
+  bg: string;
+  icon: string;
+  flag: string;
+  youtube?: string | null;
+  m3u8?: string;
+  iframe?: string;
+}
+
 // --- DATA SECTION ---
-const SPORTS_CHANNELS = [
+const SPORTS_CHANNELS: SportChannel[] = [
   { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: "R0BYkr7wTZ4" },
   { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", youtube: null },
   { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: null },
