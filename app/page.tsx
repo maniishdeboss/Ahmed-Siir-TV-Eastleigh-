@@ -139,4 +139,169 @@ const HomePage = () => {
               key={ch.id}
               onClick={() => ch.youtube && handlePlayVideo(ch.youtube, ch.title)}
               disabled={!ch.youtube}
-              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p
+              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
+            >
+              <div className="flex justify-between items-start w-full">
+                <span className="text-2xl">{ch.icon}</span>
+                {ch.youtube && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
+              </div>
+              <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
+        <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
+        <div className="grid grid-cols-2 gap-4">
+          {FEATURED_TV.map((tv, i) => (
+            <a key={i} href={tv.url} target="_blank" className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}>
+              <p className="font-black text-white text-lg">{tv.title}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+};
+
+// LIVE PAGE - FIXED
+const LivePage = () => {
+  const [selectedLeague, setSelectedLeague] = useState<number | null>(null);
+  const [activeStream, setActiveStream] = useState<string | null>(null);
+
+  if (selectedLeague) {
+    const matches = MATCHES_DATA[selectedLeague] || [];
+    const leagueName = FOOTBALL_LEAGUES.find(l => l.id === selectedLeague)?.name || "";
+    
+    return (
+      <section className="bg-[#0a0a1f] min-h-screen pb-24">
+        <div className="bg-[#0a0a1f] p-4 flex items-center gap-4 border-b border-white/10 sticky top-0 z-40">
+          <button onClick={() => {setSelectedLeague(null); setActiveStream(null);}} className="text-white text-2xl">←</button>
+          <h2 className="text-xl font-bold text-white">{leagueName}</h2>
+        </div>
+
+        {activeStream && (
+          <div className="bg-black aspect-video">
+            <iframe 
+              src={activeStream} 
+              className="w-full h-full" 
+              allow="autoplay; encrypted-media; fullscreen" 
+              allowFullScreen 
+            />
+          </div>
+        )}
+
+        <div className="p-2">
+          {matches.map((match) => (
+            <div key={match.id} className="bg-[#111122] mb-2 rounded-lg border border-white/5">
+              <button 
+                onClick={() => setActiveStream(match.link)}
+                className="w-full p-4 flex items-center justify-between hover:bg-white/5 transition"
+              >
+                <div className="flex items-center gap-3 flex-1">
+                  <div className="text-center w-20">
+                    <div className="text-2xl">{match.flag1}</div>
+                    <div className="text-2xl">{match.flag2}</div>
+                  </div>
+                  <div className="text-left">
+                    <p className="font-bold text-white text-sm">{match.team1} VS {match.team2}</p>
+                    <p className="text-xs text-white/50">{match.time}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs text-red-500 font-bold">{match.quality}</p>
+                  <p className="text-xs text-blue-400">{match.id}</p>
+                </div>
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="bg-[#0a0a1f] min-h-screen pb-24">
+      <div className="bg-[#0a0a1f] p-4 flex justify-between items-center border-b border-white/10 sticky top-0 z-40">
+        <h1 className="text-2xl font-bold text-white">Football Live HD</h1>
+        <div className="flex gap-4 text-white/60">
+          <button>⟲</button>
+          <button>⭐</button>
+          <button>⤴</button>
+        </div>
+      </div>
+
+      <div className="p-2">
+        {FOOTBALL_LEAGUES.map((league) => (
+          <button
+            key={league.id}
+            onClick={() => setSelectedLeague(league.id)}
+            className={`${league.bg} w-full mb-2 p-6 rounded-lg border border-white/10 flex flex-col items-center justify-center hover:opacity-80 transition`}
+          >
+            <div className="bg-white p-4 rounded mb-3 w-32 h-20 flex items-center justify-center">
+              <span className="text-4xl">{league.logo}</span>
+            </div>
+            <p className="font-bold text-white text-lg">{league.name}</p>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const BrowsePage = () => (
+  <section className="p-4 pb-24 text-center">
+    <h2 className="text-xl font-bold mb-4">Browse Categories</h2>
+    <div className="grid grid-cols-2 gap-4">
+        {WATCH_BY_COUNTRY.map((c, i) => (
+            <div key={i} className={`bg-gradient-to-br ${c.bg} p-4 rounded-2xl border border-white/10`}>
+                <span className="text-3xl">{c.flag}</span>
+                <p className="font-bold text-sm text-white">{c.country}</p>
+            </div>
+        ))}
+    </div>
+  </section>
+);
+
+const ProfilePage = () => (
+  <section className="p-4 pb-24 text-center">
+    <h2 className="text-xl font-bold">Profile</h2>
+    <p className="text-gray-400">Ahmed Abdikani Mohamed</p>
+  </section>
+);
+
+// --- MAIN APP ---
+export default function App() {
+  const [activeTab, setActiveTab] = useState('Home');
+
+  const renderPage = () => {
+    switch (activeTab) {
+      case 'Home': return <HomePage />;
+      case 'Live': return <LivePage />;
+      case 'Browse': return <BrowsePage />;
+      case 'Profile': return <ProfilePage />;
+      default: return <HomePage />;
+    }
+  };
+
+  return (
+    <div className="bg-[#06060f] min-h-screen text-white font-sans">
+      <Head>
+        <title>Ahmed Abdikani Live TV</title>
+      </Head>
+      <Header />
+      {renderPage()}
+      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      <style jsx global>{`
+       .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+       .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+    </div>
+  );
+}
