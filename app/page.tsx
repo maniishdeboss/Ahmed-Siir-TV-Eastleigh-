@@ -9,7 +9,7 @@ const SPORTS_CHANNELS = [
   { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", youtube: null },
   { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: null },
   { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: null },
-  { id: 5, title: "Stream Live", bg: "from-red-600 to-rose-800", icon: "📡", flag: "🔴", m3u8: "https://26cup-live.s3.eu-north-1.amazonaws.com/max1/max1_144p/index.m3u8" },
+  { id: 5, title: "Stream Live", bg: "from-red-600 to-rose-800", icon: "📡", flag: "🔴", iframe: "https://www.siiiir.tv/" },
 ];
 
 const FEATURED_TV = [
@@ -61,10 +61,12 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
 const HomePage = () => {
   const [activeUrl, setActiveUrl] = useState<string | null>(null);
   const [activeTitle, setActiveTitle] = useState<string>("");
+  const [isIframe, setIsIframe] = useState(false);
 
-  const handlePlay = (url: string, title: string) => {
+  const handlePlay = (url: string, title: string, iframe: boolean = false) => {
     setActiveUrl(url);
     setActiveTitle(title);
+    setIsIframe(iframe);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -80,26 +82,28 @@ const HomePage = () => {
             <button onClick={() => setActiveUrl(null)} className="text-white/60 hover:text-white text-3xl leading-none">×</button>
           </div>
           <div className="aspect-video bg-black rounded-xl overflow-hidden">
-            <ReactPlayer
-              url={activeUrl}
-              playing
-              controls
-              width="100%"
-              height="100%"
-              config={{
-                file: {
-                  forceHLS: true,
-                  attributes: {
-                    crossOrigin: "anonymous"
-                  },
-                  hlsOptions: {
-                    enableWorker: true,
-                    lowLatencyMode: true,
-                    backBufferLength: 90
+            {isIframe ? (
+              <iframe 
+                src={activeUrl} 
+                className="w-full h-full" 
+                allow="autoplay; encrypted-media; fullscreen" 
+                allowFullScreen 
+              />
+            ) : (
+              <ReactPlayer
+                url={activeUrl}
+                playing
+                controls
+                width="100%"
+                height="100%"
+                config={{
+                  file: {
+                    attributes: { crossOrigin: "anonymous" },
+                    forceHLS: true,
                   }
-                }
-              }}
-            />
+                }}
+              />
+            )}
           </div>
         </div>
       )}
@@ -114,7 +118,7 @@ const HomePage = () => {
           <h2 className="text-3xl font-black text-white mb-2">SIIR TV</h2>
           <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
           <button
-            onClick={() => handlePlay("https://26cup-live.s3.eu-north-1.amazonaws.com/max1/max1_144p/index.m3u8", "SIIR TV - Stream 1")}
+            onClick={() => handlePlay("https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4697734", "SIIR TV - Stream 1", true)}
             className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-lg"
           >
             ▶ DAARO LIVE HADA
@@ -136,13 +140,14 @@ const HomePage = () => {
               onClick={() => {
                 if (ch.youtube) handlePlay(`https://www.youtube.com/watch?v=${ch.youtube}`, ch.title);
                 if (ch.m3u8) handlePlay(ch.m3u8, ch.title);
+                if (ch.iframe) handlePlay(ch.iframe, ch.title, true);
               }}
-              disabled={!ch.youtube && !ch.m3u8}
-              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube || ch.m3u8 ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
+              disabled={!ch.youtube && !ch.m3u8 && !ch.iframe}
+              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube || ch.m3u8 || ch.iframe ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
             >
               <div className="flex justify-between items-start w-full">
                 <span className="text-2xl">{ch.icon}</span>
-                {(ch.youtube || ch.m3u8) && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
+                {(ch.youtube || ch.m3u8 || ch.iframe) && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
               </div>
               <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
             </button>
