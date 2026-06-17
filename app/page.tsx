@@ -4,11 +4,11 @@ import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: "R0BYkr7wTZ4" },
-  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", youtube: null },
-  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: null },
-  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: null },
-  { id: 5, title: "Stream Live", bg: "from-red-600 to-rose-800", icon: "📡", flag: "🔴", link: "https://m.defr.online/2026/06/17/por/" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴🔥", youtube: "R0BYkr7wTZ4" },
+  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🇸🇴🌍", youtube: null },
+  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇸🇴🇬🇧", youtube: null },
+  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "🇸🇴🔥⚡", youtube: null },
+  { id: 5, title: "Stream Live", bg: "from-red-600 to-rose-800", icon: "📡", flag: "🇸🇴🔥🔴", streamUrl: "https://m.defr.online/2026/06/17/por/" },
 ];
 
 const FEATURED_TV = [
@@ -59,16 +59,26 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
 // --- PAGES ---
 const HomePage = () => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [activeStream, setActiveStream] = useState<string | null>(null);
   const [activeTitle, setActiveTitle] = useState<string>("");
 
   const handlePlayVideo = (youtubeId: string, title: string) => {
     setActiveVideo(youtubeId);
+    setActiveStream(null);
+    setActiveTitle(title);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handlePlayStream = (streamUrl: string, title: string) => {
+    setActiveStream(streamUrl);
+    setActiveVideo(null);
     setActiveTitle(title);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <main className="p-4 pb-24">
+      {/* YouTube Player */}
       {activeVideo && (
         <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-blue-500/30 shadow-2xl">
           <div className="flex justify-between items-center mb-3">
@@ -94,6 +104,32 @@ const HomePage = () => {
         </div>
       )}
 
+      {/* Stream Player - Iframe */}
+      {activeStream && (
+        <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-red-500/30 shadow-2xl">
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center gap-2">
+              <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse">LIVE</span>
+              <p className="text-sm font-bold text-white">{activeTitle}</p>
+            </div>
+            <button
+              onClick={() => setActiveStream(null)}
+              className="text-white/60 hover:text-white text-3xl leading-none"
+            >
+              ×
+            </button>
+          </div>
+          <div className="aspect-video bg-black rounded-xl overflow-hidden">
+            <iframe
+              src={activeStream}
+              className="w-full h-full"
+              allow="autoplay; encrypted-media; fullscreen"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      )}
+
       <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6 p-8 relative">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800')] bg-cover bg-center opacity-20"></div>
         <div className="absolute top-3 right-3">
@@ -103,13 +139,12 @@ const HomePage = () => {
           <div className="text-6xl mb-4">📺</div>
           <h2 className="text-3xl font-black text-white mb-2">SIIR TV</h2>
           <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
-          <a
-            href="https://m.defr.online/2026/06/17/por/"
-            target="_blank"
+          <button
+            onClick={() => handlePlayStream("https://m.defr.online/2026/06/17/por/", "SIIR TV - Stream 1")}
             className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-lg"
           >
-            ▶ DAARO LIVE HADA
-          </a>
+            ▶ 🇵🇹vs🇨🇩💥⚡ Watch now
+          </button>
         </div>
       </div>
 
@@ -122,33 +157,21 @@ const HomePage = () => {
         <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
           {SPORTS_CHANNELS.map((ch) => (
-            ch.link ? (
-              <a
-                key={ch.id}
-                href={ch.link}
-                target="_blank"
-                className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer`}
-              >
-                <div className="flex justify-between items-start w-full">
-                  <span className="text-2xl">{ch.icon}</span>
-                  <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>
-                </div>
-                <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
-              </a>
-            ) : (
-              <button
-                key={ch.id}
-                onClick={() => ch.youtube && handlePlayVideo(ch.youtube, ch.title)}
-                disabled={!ch.youtube}
-                className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
-              >
-                <div className="flex justify-between items-start w-full">
-                  <span className="text-2xl">{ch.icon}</span>
-                  {ch.youtube && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
-                </div>
-                <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
-              </button>
-            )
+            <button
+              key={ch.id}
+              onClick={() => {
+                if (ch.youtube) handlePlayVideo(ch.youtube, ch.title);
+                if (ch.streamUrl) handlePlayStream(ch.streamUrl, ch.title);
+              }}
+              disabled={!ch.youtube && !ch.streamUrl}
+              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube || ch.streamUrl ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
+            >
+              <div className="flex justify-between items-start w-full">
+                <span className="text-2xl">{ch.icon}</span>
+                {(ch.youtube || ch.streamUrl) && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
+              </div>
+              <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
+            </button>
           ))}
         </div>
       </section>
@@ -219,4 +242,22 @@ export default function App() {
   };
 
   return (
-    <div className="
+    <div className="bg-[#06060f] min-h-screen text-white font-sans">
+      <Head>
+        <title>Ahmed Abdikani Live TV</title>
+      </Head>
+      <Header />
+      {renderPage()}
+      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      <style jsx global>{`
+       .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+       .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+    </div>
+  );
+}
