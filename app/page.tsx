@@ -11,8 +11,8 @@ const SPORTS_CHANNELS = [
 ];
 
 const FEATURED_TV = [
-  { title: "SIIR TV", url: "https://siir-tv.com/bein-sport-1/", bg: "from-blue-900 to-black" },
-  { title: "KOORA TV", url: "https://koora-live.com/", bg: "from-green-900 to-black" },
+  { title: "SIIR TV", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", bg: "from-blue-900 to-black" },
+  { title: "KOORA TV", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", bg: "from-green-900 to-black" },
 ];
 
 const WATCH_BY_COUNTRY = [
