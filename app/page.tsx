@@ -32,7 +32,7 @@ const FOOTBALL_LEAGUES = [
   { id: 6, name: "Ligue 1", logo: "🇫🇷", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
 ];
 
-// MATCHES DATA - LINK CUSUB EE ENGLAND VS CROATIA
+// MATCHES DATA - LINK CUSUB DHAMMAAN
 const MATCHES_DATA: Record<number, any[]> = {
   1: [
     { 
@@ -166,30 +166,4 @@ const HomePage = () => {
               key={ch.id}
               onClick={() => ch.youtube && handlePlayVideo(ch.youtube, ch.title)}
               disabled={!ch.youtube}
-              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
-            >
-              <div className="flex justify-between items-start w-full">
-                <span className="text-2xl">{ch.icon}</span>
-                {ch.youtube && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
-              </div>
-              <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
-        <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
-        <div className="grid grid-cols-2 gap-4">
-          {FEATURED_TV.map((tv, i) => (
-            <a key={i} href={tv.url} target="_blank" className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}>
-              <p className="font-black text-white text-lg">{tv.title}</p>
-            </a>
-          ))}
-        </div>
-      </section>
-    </main>
-  );
-};
-
-// LIVE PAGE - LINK CUSUB EE ENGLAND VS CROATIA
+              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95
