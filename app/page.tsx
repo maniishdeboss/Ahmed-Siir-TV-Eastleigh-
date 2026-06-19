@@ -41,7 +41,7 @@ const MATCHES_DATA: Record<number, any[]> = {
       team2: "Croatia", 
       flag1: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", 
       flag2: "🇭🇷", 
-      time: "Starting Soon...", 
+      time: "Finished Fulltime 4:2..", 
       quality: "HD", 
       link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" 
     },
