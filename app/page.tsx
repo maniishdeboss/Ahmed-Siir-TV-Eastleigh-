@@ -8,7 +8,6 @@ const SPORTS_CHANNELS = [
   { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", youtube: null },
   { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: null },
   { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: "2A_OLvCo_q8" },
-  // CHANNELS CUSUB - LINKS LAGU SHUBAY
   { id: 5, title: "Wildlife Live", bg: "from-green-600 to-lime-800", icon: "🦁", flag: "🌿", youtube: "MiQe9ob9aDc" },
   { id: 6, title: "Al Jazeera", bg: "from-teal-600 to-cyan-800", icon: "📰", flag: "🇶🇦", youtube: "gCNeDWCI0vo" },
   { id: 7, title: "Movies Live", bg: "from-pink-600 to-rose-800", icon: "🎥", flag: "🎞️", youtube: "89c4owSHL2E" },
@@ -19,8 +18,8 @@ const SPORTS_CHANNELS = [
 ];
 
 const FEATURED_TV = [
-  { title: "Ahmed Abdikani Live TV 🇸🇴", url: "https://www.youtube.com/watch?v=kGJEuoSsVsM", bg: "from-blue-900 to-black", isYoutube: true },
-  { title: "BeIN Sports", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", bg: "from-green-900 to-black", isYoutube: false },
+  { title: "World cup - Live", url: "https://www.siiiiir.tv/", bg: "from-blue-900 to-black", isYoutube: false },
+  { title: "BeIN Sports", url: "https://www.siiiiir.tv/", bg: "from-green-900 to-black", isYoutube: false },
 ];
 
 const WATCH_BY_COUNTRY = [
@@ -32,12 +31,12 @@ const WATCH_BY_COUNTRY = [
 
 // LEAGUES DATA
 const FOOTBALL_LEAGUES = [
-  { id: 1, name: "FIFA World Cup", logo: "🏴󠁧󠁢󠁳󠁣󠁴󠁿🏆🇲🇦", bg: "bg-gradient-to-r from-blue-600 to-blue-800" },
-  { id: 2, name: "International Friendly", logo: "🇩🇪⚽🇨🇮", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
-  { id: 3, name: "English Premier League", logo: "🏟️🇸🇴🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
-  { id: 4, name: "Serie A", logo: "🇮🇹🇸🇴", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
-  { id: 5, name: "La Liga", logo: "🇸🇴🇪🇸", bg: "bg-gradient-to-r from-red-600 to-yellow-500" },
-  { id: 6, name: "Ligue 1", logo: "🇫🇷🇸🇴", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
+  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "bg-gradient-to-r from-blue-600 to-blue-800" },
+  { id: 2, name: "International Friendly", logo: "⚽", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
+  { id: 3, name: "English Premier League", logo: "🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
+  { id: 4, name: "Serie A", logo: "🇮🇹", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
+  { id: 5, name: "La Liga", logo: "🇪🇸", bg: "bg-gradient-to-r from-red-600 to-yellow-500" },
+  { id: 6, name: "Ligue 1", logo: "🇫🇷", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
 ];
 
 // MATCHES DATA
@@ -45,14 +44,14 @@ const MATCHES_DATA: Record<number, any[]> = {
   1: [
     { 
       id: 1, 
-      team1: "USA", 
-      team2: "Australia ", 
-      flag1: "🇺🇸", 
-      flag2: "🇦🇺", 
+      team1: "Ahmed TV", 
+      team2: "World cup ", 
+      flag1: "📺💥🇸🇴", 
+      flag2: "🇸🇴🇦🇺", 
       time: "LIVE NOW", 
       quality: "HD", 
-      link: "https://www.youtube.com/embed/kGJEuoSsVsM?autoplay=1",
-      isYoutube: true
+      link: "https://www.siiiiir.tv/",
+      isYoutube: false
     },
     { 
       id: 2, 
@@ -71,7 +70,7 @@ const MATCHES_DATA: Record<number, any[]> = {
       team2: "Morocco", 
       flag1: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", 
       flag2: "🇲🇦", 
-      time: "20/Jun/2026 1:00", 
+      time: "Ongoing 0-1 1:00", 
       quality: "HD", 
       link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865",
       isYoutube: false
@@ -154,20 +153,21 @@ const HomePage = () => {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800')] bg-cover bg-center opacity-20"></div>
         <div className="relative z-10 text-center">
           <div className="text-6xl mb-4">📺</div>
-          <h2 className="text-3xl font-black text-white mb-2">Ahmed Abdikani Live TV 🇸🇴</h2>
+          <h2 className="text-3xl font-black text-white mb-2">SIIR TV - Live 🇸🇴</h2>
           <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
-          <button
-            onClick={() => handlePlayVideo("kGJEuoSsVsM", "Ahmed Abdikani Live TV 🇸🇴", true)}
+          <a
+            href="https://www.siiiiir.tv/"
+            target="_blank"
             className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-lg"
           >
             ▶ DAARO LIVE HADA
-          </button>
+          </a>
         </div>
       </div>
 
       <div className="flex items-center mb-8 px-2">
         <span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-2 animate-pulse">LIVE</span>
-        <p className="text-sm font-bold text-white">Ahmed Abdikani Live TV 🇸🇴 - Live Streaming</p>
+        <p className="text-sm font-bold text-white">SIIR TV - Live Streaming</p>
       </div>
 
       <section className="mb-8">
@@ -196,7 +196,7 @@ const HomePage = () => {
           {FEATURED_TV.map((tv, i) => (
             <button 
               key={i} 
-              onClick={() => handlePlayVideo(tv.isYoutube ? "kGJEuoSsVsM" : tv.url, tv.title, tv.isYoutube)}
+              onClick={() => tv.isYoutube ? handlePlayVideo("kGJEuoSsVsM", tv.title, true) : window.open(tv.url, '_blank')}
               className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}
             >
               <p className="font-black text-white text-lg">{tv.title}</p>
