@@ -4,7 +4,7 @@ import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: "R0BYkr7wTZ4" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: "GDieIfkT1FQ" },
   { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", youtube: null },
   { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: null },
   { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: null },
@@ -24,15 +24,15 @@ const WATCH_BY_COUNTRY = [
 
 // LEAGUES DATA
 const FOOTBALL_LEAGUES = [
-  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "bg-gradient-to-r from-blue-600 to-blue-800" },
-  { id: 2, name: "International Friendly", logo: "⚽", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
-  { id: 3, name: "English Premier League", logo: "🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
-  { id: 4, name: "Serie A", logo: "🇮🇹", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
-  { id: 5, name: "La Liga", logo: "🇪🇸", bg: "bg-gradient-to-r from-red-600 to-yellow-500" },
-  { id: 6, name: "Ligue 1", logo: "🇫🇷", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
+  { id: 1, name: "FIFA World Cup", logo: "🇸🇴🇬🇲🏆", bg: "bg-gradient-to-r from-blue-600 to-blue-800" },
+  { id: 2, name: "International Friendly", logo: "🇬🇲🇸🇴⚽", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
+  { id: 3, name: "English Premier League", logo: "🇬🇲🇸🇴🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
+  { id: 4, name: "Serie A", logo: "🇮🇹🇬🇲🇸🇴", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
+  { id: 5, name: "La Liga", logo: "🇸🇴🇬🇲🇪🇸", bg: "bg-gradient-to-r from-red-600 to-yellow-500" },
+  { id: 6, name: "Ligue 1", logo: "🇫🇷🇬🇲🇸🇴", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
 ];
 
-// MATCHES DATA - LINK CUSUB EE ENGLAND
+// MATCHES DATA - LINK CUSUB
 const MATCHES_DATA: Record<number, any[]> = {
   1: [
     { 
@@ -47,27 +47,27 @@ const MATCHES_DATA: Record<number, any[]> = {
     },
     { 
       id: 2, 
-      team1: "Ghana", 
-      team2: "Panama", 
-      flag1: "🇬🇭", 
-      flag2: "🇵🇦", 
-      time: "18/Jun/2026 02:00", 
+      team1: "Scotland", 
+      team2: "Morocco", 
+      flag1: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", 
+      flag2: "🇲🇦", 
+      time: "20/Jun/2026 1:00", 
       quality: "HD", 
       link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" 
     },
     { 
       id: 3, 
-      team1: "Uzbekistan", 
-      team2: "Colombia", 
-      flag1: "🇺🇿", 
-      flag2: "🇨🇴", 
-      time: "18/Jun/2026 05:00", 
+      team1: "Germany", 
+      team2: "Ivory coast", 
+      flag1: "🇩🇪", 
+      flag2: "🇨🇮", 
+      time: "20/Jun/2026 23:00", 
       quality: "HD", 
       link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" 
     },
   ],
   3: [
-    { id: 1, team1: "Arsenal", team2: "Chelsea", flag1: "🔴", flag2: "🔵", time: "Today 22:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" },
+    { id: 1, team1: "Arsenal", team2: "Chelsea", flag1: "🏟️🔴", flag2: "🔵", time: "Today 22:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" },
     { id: 2, team1: "Man City", team2: "Liverpool", flag1: "🔵", flag2: "🔴", time: "Tomorrow 19:30", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" },
   ],
   5: [
@@ -83,7 +83,7 @@ const Header = () => (
 );
 
 const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
-  const tabs = ['Home', 'Live', 'Browse', 'Profile'];
+  const = ['Home', 'Live', 'Browse', 'Profile'];
   return (
     <nav className="fixed bottom-0 w-full bg-[#0a0a1a]/95 border-t border-white/10 p-4 flex justify-around backdrop-blur-xl z-50 shadow-2xl rounded-t-3xl">
       {tabs.map((tab) => (
@@ -192,7 +192,7 @@ const HomePage = () => {
   );
 };
 
-// LIVE PAGE - ENGLAND LINK CUSUB
+// LIVE PAGE
 const LivePage = () => {
   const [selectedLeague, setSelectedLeague] = useState<number | null>(null);
   const [activeStream, setActiveStream] = useState<string | null>(null);
@@ -264,7 +264,7 @@ const LivePage = () => {
           <button
             key={league.id}
             onClick={() => setSelectedLeague(league.id)}
-            className={`${league.bg} w-full mb-2 p-6 rounded-lg border border-white/10 flex flex-col items-center justify-center hover:opacity-80 transition`}
+            className={`${league.bg} w-full mb-2 p-6 rounded-lg border border-white/10 flex-col items-center justify-center hover:opacity-80 transition`}
           >
             <div className="bg-white p-4 rounded mb-3 w-32 h-20 flex items-center justify-center">
               <span className="text-4xl">{league.logo}</span>
