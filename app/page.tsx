@@ -19,20 +19,20 @@ const WATCH_BY_COUNTRY = [
   { country: "Somalia", flag: "🇸🇴", status: "Live", bg: "from-blue-500 to-blue-700" },
   { country: "Ogadenia", flag: "🇬🇲", status: "Live", bg: "from-red-500 to-green-700" },
   { country: "Kenya", flag: "🇰🇪", status: "Available", bg: "from-green-600 to-black/20" },
-  { country: "Global", flag: "🏟️🌍", status: "Live", bg: "from-purple-500 to-indigo-700" },
+  { country: "Global", flag: "🌍", status: "Live", bg: "from-purple-500 to-indigo-700" },
 ];
 
 // LEAGUES DATA
 const FOOTBALL_LEAGUES = [
-  { id: 1, name: "FIFA World Cup", logo: "🇸🇴🇬🇲🏆", bg: "bg-gradient-to-r from-blue-600 to-blue-800" },
-  { id: 2, name: "International Friendly", logo: "🇬🇲🇸🇴⚽", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
-  { id: 3, name: "English Premier League", logo: "🇬🇲🇸🇴🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
-  { id: 4, name: "Serie A", logo: "🇮🇹🇬🇲🇸🇴", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
-  { id: 5, name: "La Liga", logo: "🇸🇴🇬🇲🇪🇸", bg: "bg-gradient-to-r from-red-600 to-yellow-500" },
-  { id: 6, name: "Ligue 1", logo: "🇫🇷🇬🇲🇸🇴", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
+  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "bg-gradient-to-r from-blue-600 to-blue-800" },
+  { id: 2, name: "International Friendly", logo: "⚽", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
+  { id: 3, name: "English Premier League", logo: "🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
+  { id: 4, name: "Serie A", logo: "🇮🇹", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
+  { id: 5, name: "La Liga", logo: "🇪🇸", bg: "bg-gradient-to-r from-red-600 to-yellow-500" },
+  { id: 6, name: "Ligue 1", logo: "🇫🇷", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
 ];
 
-// MATCHES DATA - LINK CUSUB
+// MATCHES DATA - ENGLAND LINK CUSUB
 const MATCHES_DATA: Record<number, any[]> = {
   1: [
     { 
@@ -67,7 +67,7 @@ const MATCHES_DATA: Record<number, any[]> = {
     },
   ],
   3: [
-    { id: 1, team1: "Arsenal", team2: "Chelsea", flag1: "🏟️🔴", flag2: "🔵", time: "Today 22:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" },
+    { id: 1, team1: "Arsenal", team2: "Chelsea", flag1: "🔴", flag2: "🔵", time: "Today 22:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" },
     { id: 2, team1: "Man City", team2: "Liverpool", flag1: "🔵", flag2: "🔴", time: "Tomorrow 19:30", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" },
   ],
   5: [
@@ -83,7 +83,7 @@ const Header = () => (
 );
 
 const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
-  const = ['Home', 'Live', 'Browse', 'Profile'];
+  const tabs = ['Home', 'Live', 'Browse', 'Profile'];
   return (
     <nav className="fixed bottom-0 w-full bg-[#0a0a1a]/95 border-t border-white/10 p-4 flex justify-around backdrop-blur-xl z-50 shadow-2xl rounded-t-3xl">
       {tabs.map((tab) => (
@@ -264,7 +264,7 @@ const LivePage = () => {
           <button
             key={league.id}
             onClick={() => setSelectedLeague(league.id)}
-            className={`${league.bg} w-full mb-2 p-6 rounded-lg border border-white/10 flex-col items-center justify-center hover:opacity-80 transition`}
+            className={`${league.bg} w-full mb-2 p-6 rounded-lg border border-white/10 flex flex-col items-center justify-center hover:opacity-80 transition`}
           >
             <div className="bg-white p-4 rounded mb-3 w-32 h-20 flex items-center justify-center">
               <span className="text-4xl">{league.logo}</span>
@@ -282,7 +282,7 @@ const BrowsePage = () => (
     <h2 className="text-xl font-bold mb-4">Browse Categories</h2>
     <div className="grid grid-cols-2 gap-4">
         {WATCH_BY_COUNTRY.map((c, i) => (
-            <div key={i} className={`bg-gradient-to-br ${c.bg} p-4 rounded-2xl border-white/10`}>
+            <div key={i} className={`bg-gradient-to-br ${c.bg} p-4 rounded-2xl border border-white/10`}>
                 <span className="text-3xl">{c.flag}</span>
                 <p className="font-bold text-sm text-white">{c.country}</p>
             </div>
