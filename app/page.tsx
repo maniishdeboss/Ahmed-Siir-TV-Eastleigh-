@@ -19,7 +19,7 @@ const WATCH_BY_COUNTRY = [
   { country: "Somalia", flag: "🇸🇴", status: "Live", bg: "from-blue-500 to-blue-700" },
   { country: "Ogadenia", flag: "🇬🇲", status: "Live", bg: "from-red-500 to-green-700" },
   { country: "Kenya", flag: "🇰🇪", status: "Available", bg: "from-green-600 to-black/20" },
-  { country: "Global", flag: "🌍", status: "Live", bg: "from-purple-500 to-indigo-700" },
+  { country: "Global", flag: "🏟️🌍", status: "Live", bg: "from-purple-500 to-indigo-700" },
 ];
 
 // LEAGUES DATA
