@@ -8,6 +8,14 @@ const SPORTS_CHANNELS = [
   { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", youtube: null },
   { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: null },
   { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: "2A_OLvCo_q8" },
+  // NEW 6 CHANNELS
+  { id: 5, title: "Highlights", bg: "from-yellow-600 to-orange-700", icon: "🎬", flag: "📺", youtube: "dQw4w9WgXcQ" },
+  { id: 6, title: "Al Jazeera", bg: "from-teal-600 to-cyan-800", icon: "📰", flag: "🇶🇦", youtube: "gCNeDWCI0vo" },
+  { id: 7, title: "Movie", bg: "from-pink-600 to-rose-800", icon: "🎥", flag: "🎞️", youtube: "oHg5SJYRHA0" },
+  { id: 8, title: "Animals", bg: "from-green-600 to-lime-800", icon: "🦁", flag: "🌿", youtube: "8r1CZTLk-Gk" },
+  { id: 9, title: "Kenya Citizens", bg: "from-red-600 to-black", icon: "🇰🇪", flag: "🇰🇪", youtube: "ZbZSe6N_BXs" },
+  { id: 10, title: "Somali TV", bg: "from-blue-500 to-cyan-600", icon: "🇸🇴", flag: "🇸🇴", youtube: "aqz-KE-bpKQ" },
+  { id: 11, title: "Sports Live Highlights", bg: "from-indigo-600 to-purple-800", icon: "⚡", flag: "🏅", youtube: "kJQP7kiw5Fk" },
 ];
 
 const FEATURED_TV = [
@@ -163,7 +171,7 @@ const HomePage = () => {
       </div>
 
       <section className="mb-8">
-        <h2 className="text-lg font-bold mb-4 text-white/90">Featured Sports</h2>
+        <h2 className="text-lg font-bold mb-4 text-white/90">Featured Channels - 11 Live Streams</h2>
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
           {SPORTS_CHANNELS.map((ch) => (
             <button
@@ -200,7 +208,7 @@ const HomePage = () => {
   );
 };
 
-// LIVE PAGE - FIXED TYPO
+// LIVE PAGE
 const LivePage = () => {
   const [selectedLeague, setSelectedLeague] = useState<number | null>(null);
   const [activeStream, setActiveStream] = useState<string | null>(null);
