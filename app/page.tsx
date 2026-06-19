@@ -7,7 +7,7 @@ const SPORTS_CHANNELS = [
   { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: "GDieIfkT1FQ" },
   { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", youtube: null },
   { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: null },
-  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: null },
+  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: "2A_OLvCo_q8" },
 ];
 
 const FEATURED_TV = [
@@ -32,15 +32,15 @@ const FOOTBALL_LEAGUES = [
   { id: 6, name: "Ligue 1", logo: "🇫🇷", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
 ];
 
-// MATCHES DATA - AHMED ABDIKANI LIVE TV YOUTUBE
+// MATCHES DATA
 const MATCHES_DATA: Record<number, any[]> = {
   1: [
     { 
       id: 1, 
-      team1: "Ahmed Abdikani Live", 
-      team2: "TV 🇸🇴", 
-      flag1: "📺", 
-      flag2: "🇸🇴", 
+      team1: "USA", 
+      team2: "Australia ", 
+      flag1: "🇺🇸", 
+      flag2: "🇦🇺", 
       time: "LIVE NOW", 
       quality: "HD", 
       link: "https://www.youtube.com/embed/kGJEuoSsVsM?autoplay=1",
@@ -52,7 +52,7 @@ const MATCHES_DATA: Record<number, any[]> = {
       team2: "Croatia", 
       flag1: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", 
       flag2: "🇭🇷", 
-      time: "Starting Soon...", 
+      time: "Finished 4:2...", 
       quality: "HD", 
       link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865",
       isYoutube: false
@@ -200,7 +200,7 @@ const HomePage = () => {
   );
 };
 
-// LIVE PAGE - YOUTUBE LINK AHMED ABDIKANI
+// LIVE PAGE
 const LivePage = () => {
   const [selectedLeague, setSelectedLeague] = useState<number | null>(null);
   const [activeStream, setActiveStream] = useState<string | null>(null);
@@ -216,7 +216,7 @@ const LivePage = () => {
           <h2 className="text-xl font-bold text-white">{leagueName}</h2>
         </div>
 
-        {activeStream && (
+        {aAhmedStream && (
           <div className="bg-black aspect-video">
             <iframe 
               src={activeStream} 
@@ -231,7 +231,7 @@ const LivePage = () => {
           {matches.map((match) => (
             <div key={match.id} className="bg-[#111122] mb-2 rounded-lg border border-white/5">
               <button 
-                onClick={() => setActiveStream(match.isYoutube ? `https://www.youtube.com/embed/${match.link.split('kGJEuoSsVsM')[0]}kGJEuoSsVsM?autoplay=1` : match.link)}
+                onClick={() => setActiveStream(match.isYoutube ? match.link : match.link)}
                 className="w-full p-4 flex items-center justify-between hover:bg-white/5 transition"
               >
                 <div className="flex items-center gap-3 flex-1">
