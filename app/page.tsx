@@ -200,7 +200,7 @@ const HomePage = () => {
   );
 };
 
-// LIVE PAGE
+// LIVE PAGE - FIXED TYPO
 const LivePage = () => {
   const [selectedLeague, setSelectedLeague] = useState<number | null>(null);
   const [activeStream, setActiveStream] = useState<string | null>(null);
@@ -216,7 +216,7 @@ const LivePage = () => {
           <h2 className="text-xl font-bold text-white">{leagueName}</h2>
         </div>
 
-        {aAhmedStream && (
+        {activeStream && (
           <div className="bg-black aspect-video">
             <iframe 
               src={activeStream} 
@@ -231,7 +231,7 @@ const LivePage = () => {
           {matches.map((match) => (
             <div key={match.id} className="bg-[#111122] mb-2 rounded-lg border border-white/5">
               <button 
-                onClick={() => setActiveStream(match.isYoutube ? match.link : match.link)}
+                onClick={() => setActiveStream(match.link)}
                 className="w-full p-4 flex items-center justify-between hover:bg-white/5 transition"
               >
                 <div className="flex items-center gap-3 flex-1">
