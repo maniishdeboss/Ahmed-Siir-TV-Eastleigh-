@@ -11,8 +11,8 @@ const SPORTS_CHANNELS = [
 ];
 
 const FEATURED_TV = [
-  { title: "Ahmed Abdikani Live TV 🇸🇴🇬🇲", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", bg: "from-blue-900 to-black" },
-  { title: "BeIN Sports", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", bg: "from-green-900 to-black" },
+  { title: "Ahmed Abdikani Live TV 🇸🇴", url: "https://www.youtube.com/watch?v=kGJEuoSsVsM", bg: "from-blue-900 to-black", isYoutube: true },
+  { title: "BeIN Sports", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", bg: "from-green-900 to-black", isYoutube: false },
 ];
 
 const WATCH_BY_COUNTRY = [
@@ -32,46 +32,49 @@ const FOOTBALL_LEAGUES = [
   { id: 6, name: "Ligue 1", logo: "🇫🇷", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
 ];
 
-// MATCHES DATA
+// MATCHES DATA - AHMED ABDIKANI LIVE TV YOUTUBE
 const MATCHES_DATA: Record<number, any[]> = {
   1: [
     { 
       id: 1, 
+      team1: "Ahmed Abdikani Live", 
+      team2: "TV 🇸🇴", 
+      flag1: "📺", 
+      flag2: "🇸🇴", 
+      time: "LIVE NOW", 
+      quality: "HD", 
+      link: "https://www.youtube.com/embed/kGJEuoSsVsM?autoplay=1",
+      isYoutube: true
+    },
+    { 
+      id: 2, 
       team1: "England", 
       team2: "Croatia", 
       flag1: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", 
       flag2: "🇭🇷", 
       time: "Starting Soon...", 
       quality: "HD", 
-      link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" 
+      link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865",
+      isYoutube: false
     },
     { 
-      id: 2, 
+      id: 3, 
       team1: "Scotland", 
       team2: "Morocco", 
       flag1: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", 
       flag2: "🇲🇦", 
       time: "20/Jun/2026 1:00", 
       quality: "HD", 
-      link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" 
-    },
-    { 
-      id: 3, 
-      team1: "Germany", 
-      team2: "Ivory coast", 
-      flag1: "🇩🇪", 
-      flag2: "🇨🇮", 
-      time: "20/Jun/2026 23:00", 
-      quality: "HD", 
-      link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" 
+      link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865",
+      isYoutube: false
     },
   ],
   3: [
-    { id: 1, team1: "Arsenal", team2: "Chelsea", flag1: "🔴", flag2: "🔵", time: "Today 22:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" },
-    { id: 2, team1: "Man City", team2: "Liverpool", flag1: "🔵", flag2: "🔴", time: "Tomorrow 19:30", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" },
+    { id: 1, team1: "Arsenal", team2: "Chelsea", flag1: "🔴", flag2: "🔵", time: "Today 22:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", isYoutube: false },
+    { id: 2, team1: "Man City", team2: "Liverpool", flag1: "🔵", flag2: "🔴", time: "Tomorrow 19:30", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", isYoutube: false },
   ],
   5: [
-    { id: 1, team1: "Barcelona", team2: "Real Madrid", flag1: "🔵", flag2: "⚪", time: "Sunday 22:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" },
+    { id: 1, team1: "Barcelona", team2: "Real Madrid", flag1: "🔵", flag2: "⚪", time: "Sunday 22:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", isYoutube: false },
   ],
 };
 
@@ -103,10 +106,12 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
 const HomePage = () => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [activeTitle, setActiveTitle] = useState<string>("");
+  const [isYoutubeVideo, setIsYoutubeVideo] = useState(false);
 
-  const handlePlayVideo = (youtubeId: string, title: string) => {
-    setActiveVideo(youtubeId);
+  const handlePlayVideo = (url: string, title: string, isYoutube: boolean = true) => {
+    setActiveVideo(url);
     setActiveTitle(title);
+    setIsYoutubeVideo(isYoutube);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -128,9 +133,9 @@ const HomePage = () => {
           </div>
           <div className="aspect-video bg-black rounded-xl overflow-hidden">
             <iframe
-              src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1`}
+              src={isYoutubeVideo ? `https://www.youtube.com/embed/${activeVideo}?autoplay=1` : activeVideo}
               className="w-full h-full"
-              allow="autoplay; encrypted-media"
+              allow="autoplay; encrypted-media; fullscreen"
               allowFullScreen
             />
           </div>
@@ -143,13 +148,12 @@ const HomePage = () => {
           <div className="text-6xl mb-4">📺</div>
           <h2 className="text-3xl font-black text-white mb-2">Ahmed Abdikani Live TV 🇸🇴</h2>
           <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
-          <a
-            href="https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865"
-            target="_blank"
+          <button
+            onClick={() => handlePlayVideo("kGJEuoSsVsM", "Ahmed Abdikani Live TV 🇸🇴", true)}
             className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-lg"
           >
             ▶ DAARO LIVE HADA
-          </a>
+          </button>
         </div>
       </div>
 
@@ -182,9 +186,13 @@ const HomePage = () => {
         <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
         <div className="grid grid-cols-2 gap-4">
           {FEATURED_TV.map((tv, i) => (
-            <a key={i} href={tv.url} target="_blank" className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}>
+            <button 
+              key={i} 
+              onClick={() => handlePlayVideo(tv.isYoutube ? "kGJEuoSsVsM" : tv.url, tv.title, tv.isYoutube)}
+              className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}
+            >
               <p className="font-black text-white text-lg">{tv.title}</p>
-            </a>
+            </button>
           ))}
         </div>
       </section>
@@ -192,7 +200,7 @@ const HomePage = () => {
   );
 };
 
-// LIVE PAGE
+// LIVE PAGE - YOUTUBE LINK AHMED ABDIKANI
 const LivePage = () => {
   const [selectedLeague, setSelectedLeague] = useState<number | null>(null);
   const [activeStream, setActiveStream] = useState<string | null>(null);
@@ -223,7 +231,7 @@ const LivePage = () => {
           {matches.map((match) => (
             <div key={match.id} className="bg-[#111122] mb-2 rounded-lg border border-white/5">
               <button 
-                onClick={() => setActiveStream(match.link)}
+                onClick={() => setActiveStream(match.isYoutube ? `https://www.youtube.com/embed/${match.link.split('kGJEuoSsVsM')[0]}kGJEuoSsVsM?autoplay=1` : match.link)}
                 className="w-full p-4 flex items-center justify-between hover:bg-white/5 transition"
               >
                 <div className="flex items-center gap-3 flex-1">
