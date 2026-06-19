@@ -8,13 +8,13 @@ const SPORTS_CHANNELS = [
   { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", youtube: null },
   { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: null },
   { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: "2A_OLvCo_q8" },
-  // NEW 6 CHANNELS
-  { id: 5, title: "Highlights", bg: "from-yellow-600 to-orange-700", icon: "🎬", flag: "📺", youtube: "dQw4w9WgXcQ" },
+  // CHANNELS CUSUB - LINKS LAGU SHUBAY
+  { id: 5, title: "Wildlife Live", bg: "from-green-600 to-lime-800", icon: "🦁", flag: "🌿", youtube: "MiQe9ob9aDc" },
   { id: 6, title: "Al Jazeera", bg: "from-teal-600 to-cyan-800", icon: "📰", flag: "🇶🇦", youtube: "gCNeDWCI0vo" },
-  { id: 7, title: "Movie", bg: "from-pink-600 to-rose-800", icon: "🎥", flag: "🎞️", youtube: "oHg5SJYRHA0" },
-  { id: 8, title: "Animals", bg: "from-green-600 to-lime-800", icon: "🦁", flag: "🌿", youtube: "8r1CZTLk-Gk" },
-  { id: 9, title: "Kenya Citizens", bg: "from-red-600 to-black", icon: "🇰🇪", flag: "🇰🇪", youtube: "ZbZSe6N_BXs" },
-  { id: 10, title: "Somali TV", bg: "from-blue-500 to-cyan-600", icon: "🇸🇴", flag: "🇸🇴", youtube: "aqz-KE-bpKQ" },
+  { id: 7, title: "Movies Live", bg: "from-pink-600 to-rose-800", icon: "🎥", flag: "🎞️", youtube: "89c4owSHL2E" },
+  { id: 8, title: "Highlights", bg: "from-yellow-600 to-orange-700", icon: "🎬", flag: "📺", youtube: "dQw4w9WgXcQ" },
+  { id: 9, title: "Kenya Citizens TV", bg: "from-red-600 to-black", icon: "🇰🇪", flag: "🇰🇪", youtube: "1YzlFiqmHDY" },
+  { id: 10, title: "Somali TV", bg: "from-blue-500 to-cyan-600", icon: "🇸🇴", flag: "🇸🇴", youtube: "-qDzZEXIJdk" },
   { id: 11, title: "Sports Live Highlights", bg: "from-indigo-600 to-purple-800", icon: "⚡", flag: "🏅", youtube: "kJQP7kiw5Fk" },
 ];
 
@@ -32,12 +32,12 @@ const WATCH_BY_COUNTRY = [
 
 // LEAGUES DATA
 const FOOTBALL_LEAGUES = [
-  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "bg-gradient-to-r from-blue-600 to-blue-800" },
-  { id: 2, name: "International Friendly", logo: "⚽", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
-  { id: 3, name: "English Premier League", logo: "🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
-  { id: 4, name: "Serie A", logo: "🇮🇹", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
-  { id: 5, name: "La Liga", logo: "🇪🇸", bg: "bg-gradient-to-r from-red-600 to-yellow-500" },
-  { id: 6, name: "Ligue 1", logo: "🇫🇷", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
+  { id: 1, name: "FIFA World Cup", logo: "🏴󠁧󠁢󠁳󠁣󠁴󠁿🏆🇲🇦", bg: "bg-gradient-to-r from-blue-600 to-blue-800" },
+  { id: 2, name: "International Friendly", logo: "🇩🇪⚽🇨🇮", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
+  { id: 3, name: "English Premier League", logo: "🏟️🇸🇴🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
+  { id: 4, name: "Serie A", logo: "🇮🇹🇸🇴", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
+  { id: 5, name: "La Liga", logo: "🇸🇴🇪🇸", bg: "bg-gradient-to-r from-red-600 to-yellow-500" },
+  { id: 6, name: "Ligue 1", logo: "🇫🇷🇸🇴", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
 ];
 
 // MATCHES DATA
@@ -171,7 +171,7 @@ const HomePage = () => {
       </div>
 
       <section className="mb-8">
-        <h2 className="text-lg font-bold mb-4 text-white/90">Featured Channels - 11 Live Streams</h2>
+        <h2 className="text-lg font-bold mb-4 text-white/90">All Live Channels - 11 Streams</h2>
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
           {SPORTS_CHANNELS.map((ch) => (
             <button
