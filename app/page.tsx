@@ -11,7 +11,7 @@ const SPORTS_CHANNELS = [
 ];
 
 const FEATURED_TV = [
-  { title: "SIIR TV", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", bg: "from-blue-900 to-black" },
+  { title: "Ahmed Abdikani Live TV 🇸🇴🇬🇲", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", bg: "from-blue-900 to-black" },
   { title: "BeIN Sports", url: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", bg: "from-green-900 to-black" },
 ];
 
@@ -32,7 +32,7 @@ const FOOTBALL_LEAGUES = [
   { id: 6, name: "Ligue 1", logo: "🇫🇷", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
 ];
 
-// MATCHES DATA - ENGLAND LINK CUSUB
+// MATCHES DATA
 const MATCHES_DATA: Record<number, any[]> = {
   1: [
     { 
@@ -41,7 +41,7 @@ const MATCHES_DATA: Record<number, any[]> = {
       team2: "Croatia", 
       flag1: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", 
       flag2: "🇭🇷", 
-      time: "Finished Fulltime 4:2..", 
+      time: "Starting Soon...", 
       quality: "HD", 
       link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865" 
     },
@@ -141,7 +141,7 @@ const HomePage = () => {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800')] bg-cover bg-center opacity-20"></div>
         <div className="relative z-10 text-center">
           <div className="text-6xl mb-4">📺</div>
-          <h2 className="text-3xl font-black text-white mb-2">SIIR TV</h2>
+          <h2 className="text-3xl font-black text-white mb-2">Ahmed Abdikani Live TV 🇸🇴</h2>
           <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
           <a
             href="https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865"
@@ -155,7 +155,7 @@ const HomePage = () => {
 
       <div className="flex items-center mb-8 px-2">
         <span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-2 animate-pulse">LIVE</span>
-        <p className="text-sm font-bold text-white">SIIR TV - Live Streaming</p>
+        <p className="text-sm font-bold text-white">Ahmed Abdikani Live TV 🇸🇴 - Live Streaming</p>
       </div>
 
       <section className="mb-8">
@@ -182,7 +182,7 @@ const HomePage = () => {
         <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
         <div className="grid grid-cols-2 gap-4">
           {FEATURED_TV.map((tv, i) => (
-            <a key={i} href={tv.url} target="_blank" className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}>
+            <a key={i} href={tv.url} target="_blank" className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}>
               <p className="font-black text-white text-lg">{tv.title}</p>
             </a>
           ))}
