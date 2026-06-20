@@ -153,7 +153,7 @@ const HomePage = () => {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800')] bg-cover bg-center opacity-20"></div>
         <div className="relative z-10 text-center">
           <div className="text-6xl mb-4">📺</div>
-          <h2 className="text-3xl font-black text-white mb-2">SIIR TV - Live 🇸🇴</h2>
+          <h2 className="text-3xl font-black text-white mb-2">Ahmed Abdikani Live TV 🇸🇴</h2>
           <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
           <a
             href="https://www.siiiiir.tv/"
@@ -167,7 +167,7 @@ const HomePage = () => {
 
       <div className="flex items-center mb-8 px-2">
         <span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-2 animate-pulse">LIVE</span>
-        <p className="text-sm font-bold text-white">SIIR TV - Live Streaming</p>
+        <p className="text-sm font-bold text-white">Ahmed Abdikani Live Streaming</p>
       </div>
 
       <section className="mb-8">
