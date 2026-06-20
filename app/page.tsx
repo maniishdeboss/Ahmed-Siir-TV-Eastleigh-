@@ -31,8 +31,8 @@ const WATCH_BY_COUNTRY = [
 
 // LEAGUES DATA
 const FOOTBALL_LEAGUES = [
-  { id: 1, name: "FIFA World Cup", logo: "🇩🇪🏆🇨🇮", bg: "bg-gradient-to-r from-blue-600 to-blue-800" },
-  { id: 2, name: "International Friendly", logo: "🇦🇺⚽", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
+  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "bg-gradient-to-r from-blue-600 to-blue-800" },
+  { id: 2, name: "International Friendly", logo: "⚽", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
   { id: 3, name: "English Premier League", logo: "🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
   { id: 4, name: "Serie A", logo: "🇮🇹", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
   { id: 5, name: "La Liga", logo: "🇪🇸", bg: "bg-gradient-to-r from-red-600 to-yellow-500" },
@@ -44,10 +44,10 @@ const MATCHES_DATA: Record<number, any[]> = {
   1: [
     { 
       id: 1, 
-      team1: "Germany", 
-      team2: "Ivory coast", 
-      flag1: "🇩🇪", 
-      flag2: "🇨🇮", 
+      team1: "Spain", 
+      team2: "Saudi Arabia", 
+      flag1: "🇪🇸", 
+      flag2: "🇸🇦", 
       time: "LIVE NOW", 
       quality: "HD", 
       link: "https://www.youtube.com/embed/sXaPOBDZ3YM?autoplay=1",
@@ -55,21 +55,21 @@ const MATCHES_DATA: Record<number, any[]> = {
     },
     { 
       id: 2, 
-      team1: "England", 
-      team2: "Croatia", 
-      flag1: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", 
-      flag2: "🇭🇷", 
-      time: "Finished 4:2", 
+      team1: "Germany", 
+      team2: "ivory coast", 
+      flag1: "🇩🇪", 
+      flag2: "🇨🇮", 
+      time: "Finished 2:1", 
       quality: "HD", 
       link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865",
       isYoutube: false
     },
     { 
       id: 3, 
-      team1: "Germany", 
-      team2: "Ivory Coast", 
-      flag1: "🇩🇪", 
-      flag2: "🇨🇮", 
+      team1: "Spain", 
+      team2: "Saudi Arabia", 
+      flag1: "🇪🇸", 
+      flag2: "🇸🇦", 
       time: "LIVE NOW", 
       quality: "HD", 
       link: "https://www.youtube.com/embed/sXaPOBDZ3YM?autoplay=1",
