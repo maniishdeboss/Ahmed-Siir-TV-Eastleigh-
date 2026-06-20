@@ -39,19 +39,19 @@ const FOOTBALL_LEAGUES = [
   { id: 6, name: "Ligue 1", logo: "🇫🇷", bg: "bg-gradient-to-r from-slate-600 to-slate-800" },
 ];
 
-// MATCHES DATA
+// MATCHES DATA - UPDATED
 const MATCHES_DATA: Record<number, any[]> = {
   1: [
     { 
       id: 1, 
-      team1: "Ahmed Abdikani TV", 
-      team2: "World cup ", 
-      flag1: "📺💥🇸🇴", 
-      flag2: "🇸🇴🇦🇺", 
+      team1: "Germany", 
+      team2: "Ivory coast", 
+      flag1: "🇩🇪", 
+      flag2: "🇨🇮", 
       time: "LIVE NOW", 
       quality: "HD", 
-      link: "https://www.siiiiir.tv/",
-      isYoutube: false
+      link: "https://www.youtube.com/embed/sXaPOBDZ3YM?autoplay=1",
+      isYoutube: true
     },
     { 
       id: 2, 
@@ -59,7 +59,7 @@ const MATCHES_DATA: Record<number, any[]> = {
       team2: "Croatia", 
       flag1: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", 
       flag2: "🇭🇷", 
-      time: "Finished 4:2...", 
+      time: "Finished 4:2", 
       quality: "HD", 
       link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865",
       isYoutube: false
@@ -67,13 +67,13 @@ const MATCHES_DATA: Record<number, any[]> = {
     { 
       id: 3, 
       team1: "Germany", 
-      team2: "ivory coast", 
-      flag1: "🇩🇪 ", 
+      team2: "Ivory Coast", 
+      flag1: "🇩🇪", 
       flag2: "🇨🇮", 
-      time: "Ongoing 0-1", 
+      time: "LIVE NOW", 
       quality: "HD", 
-      link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865",
-      isYoutube: false
+      link: "https://www.youtube.com/embed/sXaPOBDZ3YM?autoplay=1",
+      isYoutube: true
     },
   ],
   3: [
