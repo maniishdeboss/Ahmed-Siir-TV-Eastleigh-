@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 
 // --- DATA SECTION ---
@@ -98,9 +98,28 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [scoreResults, setScoreResults] = useState<any[]>([]);
+  const [liveMatches, setLiveMatches] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [searchTab, setSearchTab] = useState<'videos' | 'scores'>('videos');
+
+  // Load LIVE matches marka app-ka furmo
+  useEffect(() => {
+    fetchLiveMatches();
+  }, []);
+
+  const fetchLiveMatches = async () => {
+    try {
+      // Free API - Live Soccer
+      const response = await fetch('https://www.thesportsdb.com/api/v1/json/3/eventsday.php?d=' + new Date().toISOString().split('T')[0] + '&s=Soccer');
+      const data = await response.json();
+      if (data.events) {
+        setLiveMatches(data.events.slice(0, 5));
+      }
+    } catch (error) {
+      console.error("Live matches error:", error);
+    }
+  };
 
   const handlePlayVideo = (url: string, title: string, isYoutube: boolean = true) => {
     setActiveVideo(url);
@@ -134,29 +153,59 @@ const HomePage = () => {
         setSearchResults(results);
       }
 
-      // 2. LiveScore Search - TheSportsDB Free API
-      const scoreResponse = await fetch(
+      // 2. LiveScore Search - TheSportsDB Free API - 3 endpoints
+      let allScores: any[] = [];
+
+      // Method 1: Search events by name
+      const eventResponse = await fetch(
         `https://www.thesportsdb.com/api/v1/json/3/searchevents.php?e=${encodeURIComponent(searchQuery)}`
       );
-      const scoreData = await scoreResponse.json();
-
-      if (scoreData.event) {
-        const scores = scoreData.event.slice(0, 8).map((item: any) => ({
-          title: `${item.strEvent} - ${item.strLeague}`,
-          homeTeam: item.strHomeTeam,
-          awayTeam: item.strAwayTeam,
-          homeScore: item.intHomeScore,
-          awayScore: item.intAwayScore,
-          date: item.dateEvent,
-          time: item.strTime,
-          status: item.strStatus,
-          league: item.strLeague,
-          type: 'score'
-        }));
-        setScoreResults(scores);
-      } else {
-        setScoreResults([]);
+      const eventData = await eventResponse.json();
+      if (eventData.event) {
+        allScores = [...allScores,...eventData.event];
       }
+
+      // Method 2: Search teams then get their last events
+      const teamResponse = await fetch(
+        `https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=${encodeURIComponent(searchQuery)}`
+      );
+      const teamData = await teamResponse.json();
+
+      if (teamData.teams) {
+        for (const team of teamData.teams.slice(0, 2)) {
+          const eventsRes = await fetch(
+            `https://www.thesportsdb.com/api/v1/json/3/eventslast.php?id=${team.idTeam}`
+          );
+          const eventsData = await eventsRes.json();
+          if (eventsData.results) {
+            allScores = [...allScores,...eventsData.results];
+          }
+          // Also get next events
+          const nextRes = await fetch(
+            `https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=${team.idTeam}`
+          );
+          const nextData = await nextRes.json();
+          if (nextData.events) {
+            allScores = [...allScores,...nextData.events];
+          }
+        }
+      }
+
+      // Format scores
+      const formattedScores = allScores.slice(0, 10).map((item: any) => ({
+        title: item.strEvent || `${item.strHomeTeam} vs ${item.strAwayTeam}`,
+        homeTeam: item.strHomeTeam,
+        awayTeam: item.strAwayTeam,
+        homeScore: item.intHomeScore,
+        awayScore: item.intAwayScore,
+        date: item.dateEvent,
+        time: item.strTime,
+        status: item.strStatus || (item.intHomeScore!== null? 'Finished' : 'Scheduled'),
+        league: item.strLeague,
+        type: 'score'
+      }));
+
+      setScoreResults(formattedScores);
 
     } catch (error) {
       console.error("Search error:", error);
@@ -174,7 +223,7 @@ const HomePage = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            placeholder="Raadi: Arsenal vs Chelsea, FIFA World Cup..."
+            placeholder="Raadi: Arsenal, Barcelona, Premier League..."
             className="flex-1 bg-[#0a0a1a] text-white px-4 py-3 rounded-xl border border-white/10 focus:outline-none focus:border-blue-500 text-sm"
           />
           <button
@@ -186,6 +235,24 @@ const HomePage = () => {
           </button>
         </div>
       </div>
+
+      {/* LIVE MATCHES - Tus isla markiiba */}
+      {liveMatches.length > 0 &&!showResults && (
+        <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-green-500/30 shadow-2xl">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse">LIVE TODAY</span>
+            <h3 className="text-lg font-bold text-white">Ciyaaraha Maanta</h3>
+          </div>
+          <div className="grid grid-cols-1 gap-2">
+            {liveMatches.map((match: any, i: number) => (
+              <div key={i} className="bg-[#0a0a1a] p-3 rounded-xl border border-green-500/20">
+                <p className="text-white font-bold text-sm">{match.strEvent}</p>
+                <p className="text-white/60 text-xs">{match.strLeague} - {match.strTime}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {showResults && (
         <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-red-500/30 shadow-2xl">
@@ -210,7 +277,7 @@ const HomePage = () => {
               onClick={() => setSearchTab('scores')}
               className={`px-4 py-2 font-bold text-sm ${searchTab === 'scores'? 'text-green-500 border-b-2 border-green-500' : 'text-white/60'}`}
             >
-              ⚽ Live Scores ({scoreResults.length})
+              ⚽ Scores ({scoreResults.length})
             </button>
           </div>
 
@@ -223,7 +290,7 @@ const HomePage = () => {
                 <button
                   key={video.id}
                   onClick={() => handlePlayVideo(video.id, video.title, true)}
-                  className="flex gap-3 bg-[#0a0a1a] p-3 rounded-xl border border-white/5 hover:bg-[#1a1a2a] transition text-left"
+                  className="flex gap-3 bg-[#0a0a1a] p-3 rounded-xl border border-white/5 hover:bg-[#1a2a] transition text-left"
                 >
                   <img src={video.thumbnail} alt={video.title} className="w-32 h-20 object-cover rounded-lg" />
                   <div className="flex-1">
@@ -238,7 +305,7 @@ const HomePage = () => {
           {searchTab === 'scores' && (
             <div className="grid grid-cols-1 gap-3 max-h-[500px] overflow-y-auto">
               {scoreResults.length === 0 &&!isSearching && (
-                <p className="text-white/60 text-center py-8">Live score lama helin. Isku day "Arsenal", "Barcelona", "Premier League"</p>
+                <p className="text-white/60 text-center py-8">Score lama helin. Isku day: "Arsenal", "Barcelona", "Real Madrid"</p>
               )}
               {scoreResults.map((match, i) => (
                 <div
@@ -254,14 +321,14 @@ const HomePage = () => {
                       <p className="text-white font-bold text-sm">{match.homeTeam}</p>
                     </div>
                     <div className="mx-4 text-center">
-                      {match.homeScore!== null? (
+                      {match.homeScore!== null && match.homeScore!== undefined? (
                         <div className="bg-green-600 px-4 py-2 rounded-lg">
                           <p className="text-white font-black text-xl">{match.homeScore} - {match.awayScore}</p>
                           <p className="text-xs text-white/80">{match.status}</p>
                         </div>
                       ) : (
                         <div className="bg-blue-600 px-4 py-2 rounded-lg">
-                          <p className="text-white font-bold text-sm">{match.time}</p>
+                          <p className="text-white font-bold text-sm">{match.time || 'TBD'}</p>
                           <p className="text-xs text-white/80">Upcoming</p>
                         </div>
                       )}
@@ -446,7 +513,6 @@ const LivePage = () => {
                     <p className="font-bold text-white text-sm">{match.team1} VS {match.team2}</p>
                     <p className="text-xs text-white/50">{match.time}</p>
                   </div>
-                </div>
                 <div className="text-right">
                   <p className="text-xs text-red-500 font-bold">{match.quality}</p>
                   <p className="text-xs text-blue-400">{match.id}</p>
@@ -518,27 +584,4 @@ export default function App() {
       case 'Live': return <LivePage />;
       case 'Browse': return <BrowsePage />;
       case 'Profile': return <ProfilePage />;
-      default: return <HomePage />;
-    }
-  };
-
-  return (
-    <div className="bg-[#06060f] min-h-screen text-white font-sans">
-      <Head>
-        <title>Ahmed Abdikani Live TV</title>
-      </Head>
-      <Header />
-      {renderPage()}
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-      <style jsx global>{`
-.scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-.scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
-    </div>
-  );
-}
+      default: return
