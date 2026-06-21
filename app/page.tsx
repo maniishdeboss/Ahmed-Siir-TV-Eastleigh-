@@ -22,24 +22,108 @@ const FEATURED_TV = [
   { title: "BeIN Sports", url: "https://www.siiiiir.tv/", bg: "from-green-900 to-black", isYoutube: false },
 ];
 
-const HINDI_FILMS = [
-  { 
-    id: 1, 
-    title: "Jawan", 
-    year: "2023", 
-    rating: "8.1", 
-    bg: "from-orange-600 to-red-800", 
+const ALL_FILMS = [
+  // HINDI FILMS - 8 total
+  {
+    id: 1,
+    title: "Jawan",
+    year: "2023",
+    rating: "8.1",
+    type: "Hindi",
+    bg: "from-orange-600 to-red-800",
     youtube: "y7tv1y_Q_Q0",
     image: "/mnt/data/photo8213703842848463668.webp"
   },
-  { 
-    id: 2, 
-    title: "Pathaan", 
-    year: "2023", 
-    rating: "7.2", 
-    bg: "from-yellow-600 to-orange-700", 
+  {
+    id: 2,
+    title: "Pathaan",
+    year: "2023",
+    rating: "7.2",
+    type: "Hindi",
+    bg: "from-yellow-600 to-orange-700",
     youtube: "vqu4z34wENw",
     image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400"
+  },
+  {
+    id: 3,
+    title: "Dangal",
+    year: "2016",
+    rating: "8.3",
+    type: "Hindi",
+    bg: "from-blue-600 to-indigo-800",
+    youtube: "x_7YlGv9u1g",
+    image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400"
+  },
+  {
+    id: 4,
+    title: "3 Idiots",
+    year: "2009",
+    rating: "8.4",
+    type: "Hindi",
+    bg: "from-green-600 to-teal-800",
+    youtube: "K0eDlFX9GMc",
+    image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400"
+  },
+  {
+    id: 5,
+    title: "PK",
+    year: "2014",
+    rating: "8.1",
+    type: "Hindi",
+    bg: "from-purple-600 to-pink-800",
+    youtube: "82ZEDGPCkT8",
+    image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400"
+  },
+  {
+    id: 6,
+    title: "Bajrangi Bhaijaan",
+    year: "2015",
+    rating: "8.0",
+    type: "Hindi",
+    bg: "from-red-600 to-rose-800",
+    youtube: "vyX4toD395U",
+    image: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=400"
+  },
+  {
+    id: 7,
+    title: "KGF Chapter 2",
+    year: "2022",
+    rating: "8.4",
+    type: "Hindi",
+    bg: "from-amber-600 to-yellow-800",
+    youtube: "Qah9sSIXJqk",
+    image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400"
+  },
+  {
+    id: 8,
+    title: "RRR",
+    year: "2022",
+    rating: "7.8",
+    type: "Hindi",
+    bg: "from-cyan-600 to-blue-800",
+    youtube: "NgBoMJy386M",
+    image: "https://images.unsplash.com/photo-1594909122845-11baa9b7703b?w=400"
+  },
+  // AMERICAN FILMS - 2 total
+  {
+    id: 9,
+    title: "Avengers: Endgame",
+    year: "2019",
+    rating: "8.4",
+    type: "Hollywood",
+    bg: "from-indigo-600 to-purple-900",
+    youtube: "TcMBFSGVi1c",
+    image: "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=400"
+  },
+  {
+    id: 10,
+    title: "Avatar",
+    year: "2009",
+    rating: "7.9",
+    type: "Hollywood",
+    bg: "from-sky-600 to-blue-900",
+    youtube: "5PSNL1qE6VY",
+    image: "https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=400"
   },
 ];
 
@@ -63,36 +147,36 @@ const FOOTBALL_LEAGUES = [
 // MATCHES DATA - UPDATED
 const MATCHES_DATA: Record<number, any[]> = {
   1: [
-    { 
-      id: 1, 
-      team1: "Spain", 
-      team2: "Saudi Arabia", 
-      flag1: "🇪🇸", 
-      flag2: "🇸🇦", 
-      time: "LIVE NOW", 
-      quality: "HD", 
+    {
+      id: 1,
+      team1: "Spain",
+      team2: "Saudi Arabia",
+      flag1: "🇪🇸",
+      flag2: "🇸🇦",
+      time: "LIVE NOW",
+      quality: "HD",
       link: "https://www.youtube.com/embed/sXaPOBDZ3YM?autoplay=1",
       isYoutube: true
     },
-    { 
-      id: 2, 
-      team1: "Germany", 
-      team2: "ivory coast", 
-      flag1: "🇩🇪", 
-      flag2: "🇨🇮", 
-      time: "Finished 2:1", 
-      quality: "HD", 
+    {
+      id: 2,
+      team1: "Germany",
+      team2: "ivory coast",
+      flag1: "🇩🇪",
+      flag2: "🇨🇮",
+      time: "Finished 2:1",
+      quality: "HD",
       link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865",
       isYoutube: false
     },
-    { 
-      id: 3, 
-      team1: "Spain", 
-      team2: "Saudi Arabia", 
-      flag1: "🇪🇸", 
-      flag2: "🇸🇦", 
-      time: "LIVE NOW", 
-      quality: "HD", 
+    {
+      id: 3,
+      team1: "Spain",
+      team2: "Saudi Arabia",
+      flag1: "🇪🇸",
+      flag2: "🇸🇦",
+      time: "LIVE NOW",
+      quality: "HD",
       link: "https://www.youtube.com/embed/sXaPOBDZ3YM?autoplay=1",
       isYoutube: true
     },
@@ -121,7 +205,7 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`text-sm font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
+          className={`text-sm font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
         >
           {tab}
         </button>
@@ -161,7 +245,7 @@ const HomePage = () => {
           </div>
           <div className="aspect-video bg-black rounded-xl overflow-hidden">
             <iframe
-              src={isYoutubeVideo ? `https://www.youtube.com/embed/${activeVideo}?autoplay=1` : activeVideo}
+              src={isYoutubeVideo? `https://www.youtube.com/embed/${activeVideo}?autoplay=1` : activeVideo}
               className="w-full h-full"
               allow="autoplay; encrypted-media; fullscreen"
               allowFullScreen
@@ -199,7 +283,7 @@ const HomePage = () => {
               key={ch.id}
               onClick={() => ch.youtube && handlePlayVideo(ch.youtube, ch.title)}
               disabled={!ch.youtube}
-              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
+              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
             >
               <div className="flex justify-between items-start w-full">
                 <span className="text-2xl">{ch.icon}</span>
@@ -215,9 +299,9 @@ const HomePage = () => {
         <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
         <div className="grid grid-cols-2 gap-4">
           {FEATURED_TV.map((tv, i) => (
-            <button 
-              key={i} 
-              onClick={() => tv.isYoutube ? handlePlayVideo("kGJEuoSsVsM", tv.title, true) : window.open(tv.url, '_blank')}
+            <button
+              key={i}
+              onClick={() => tv.isYoutube? handlePlayVideo("kGJEuoSsVsM", tv.title, true) : window.open(tv.url, '_blank')}
               className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}
             >
               <p className="font-black text-white text-lg">{tv.title}</p>
@@ -226,42 +310,47 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* HINDI FILMS SECTION */}
+      {/* HINDI & HOLLYWOOD FILMS SECTION */}
       <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-orange-500/30">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-orange-400">Hindi Films</h2>
-          <span className="text-xs bg-orange-600 px-3 py-1 rounded-full font-bold">NEW</span>
+          <h2 className="text-lg font-bold text-orange-400">Hindi & Hollywood Films</h2>
+          <span className="text-xs bg-orange-600 px-3 py-1 rounded-full font-bold">12 FILMS</span>
         </div>
-        
+
         <div className="grid grid-cols-2 gap-4">
-          {HINDI_FILMS.map((film) => (
-            <button 
+          {ALL_FILMS.map((film) => (
+            <button
               key={film.id}
               onClick={() => handlePlayVideo(film.youtube, film.title, true)}
               className="relative h-48 rounded-2xl border border-white/10 overflow-hidden hover:scale-105 transition-transform shadow-lg group"
             >
               {/* Background Image */}
-              <div 
+              <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{backgroundImage: `url(${film.image})`}}
               />
-              
+
               {/* Gradient Overlay */}
               <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-80 group-hover:opacity-70 transition-opacity`} />
-              
+
               {/* Content */}
               <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
                 <div className="flex justify-between items-start">
                   <span className="text-2xl">🎬</span>
-                  <span className="text-xs bg-black/60 px-2 py-1 rounded-full font-bold">⭐ {film.rating}</span>
+                  <div className="flex flex-col gap-1 items-end">
+                    <span className="text-xs bg-black/60 px-2 py-1 rounded-full font-bold">⭐ {film.rating}</span>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${film.type === 'Hindi'? 'bg-orange-600' : 'bg-blue-600'}`}>
+                      {film.type}
+                    </span>
+                  </div>
                 </div>
-                
+
                 <div>
                   <p className="font-black text-white text-lg">{film.title}</p>
-                  <p className="text-xs text-white/80">{film.year} • Hindi</p>
+                  <p className="text-xs text-white/80">{film.year}</p>
                 </div>
               </div>
-              
+
               {/* Play Icon on Hover */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30">
                 <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
@@ -284,7 +373,7 @@ const LivePage = () => {
   if (selectedLeague) {
     const matches = MATCHES_DATA[selectedLeague] || [];
     const leagueName = FOOTBALL_LEAGUES.find(l => l.id === selectedLeague)?.name || "";
-    
+
     return (
       <section className="bg-[#0a0a1f] min-h-screen pb-24">
         <div className="bg-[#0a0a1f] p-4 flex items-center gap-4 border-b border-white/10 sticky top-0 z-40">
@@ -294,11 +383,11 @@ const LivePage = () => {
 
         {activeStream && (
           <div className="bg-black aspect-video">
-            <iframe 
-              src={activeStream} 
-              className="w-full h-full" 
-              allow="autoplay; encrypted-media; fullscreen" 
-              allowFullScreen 
+            <iframe
+              src={activeStream}
+              className="w-full h-full"
+              allow="autoplay; encrypted-media; fullscreen"
+              allowFullScreen
             />
           </div>
         )}
@@ -306,7 +395,7 @@ const LivePage = () => {
         <div className="p-2">
           {matches.map((match) => (
             <div key={match.id} className="bg-[#111122] mb-2 rounded-lg border border-white/5">
-              <button 
+              <button
                 onClick={() => setActiveStream(match.link)}
                 className="w-full p-4 flex items-center justify-between hover:bg-white/5 transition"
               >
@@ -319,7 +408,6 @@ const LivePage = () => {
                     <p className="font-bold text-white text-sm">{match.team1} VS {match.team2}</p>
                     <p className="text-xs text-white/50">{match.time}</p>
                   </div>
-                </div>
                 <div className="text-right">
                   <p className="text-xs text-red-500 font-bold">{match.quality}</p>
                   <p className="text-xs text-blue-400">{match.id}</p>
@@ -405,10 +493,10 @@ export default function App() {
       {renderPage()}
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       <style jsx global>{`
-       .scrollbar-hide::-webkit-scrollbar {
+      .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
-       .scrollbar-hide {
+      .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
