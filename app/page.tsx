@@ -114,11 +114,9 @@ const HomePage = () => {
     setShowResults(true);
 
     try {
-      // Waxaad u baahan tahay YouTube API Key halkan
-      // Ka samee: https://console.cloud.google.com/
-      const API_KEY = "YOUR_YOUTUBE_API_KEY"; // KU BEDDEL KEY-GAAGA
+      const API_KEY = "AIzaSyAUIkNgNCG9LVJnyG1ohnTxNYwWMpoaiK0"; // KEY-GAAGA OO DHAN
       const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${encodeURIComponent(searchQuery)}&type=video&key=${API_KEY}`
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(searchQuery)}&type=video&key=${API_KEY}`
       );
       const data = await response.json();
 
@@ -130,10 +128,13 @@ const HomePage = () => {
           channel: item.snippet.channelTitle,
         }));
         setSearchResults(results);
+      } else if (data.error) {
+        console.error("YouTube API Error:", data.error);
+        alert(`Error: ${data.error.message}. Hubi restrictions-ka Google Cloud.`);
       }
     } catch (error) {
       console.error("Search error:", error);
-      alert("Search ma shaqeynin. Hubi API Key-ga YouTube");
+      alert("Search ma shaqeynin. Hubi internet-ka iyo API Key-ga");
     } finally {
       setIsSearching(false);
     }
@@ -149,7 +150,7 @@ const HomePage = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleYouTubeSearch()}
-            placeholder="Ka raadi YouTube..."
+            placeholder="Ka raadi YouTube - film, music, live..."
             className="flex-1 bg-[#0a0a1a] text-white px-4 py-3 rounded-xl border border-white/10 focus:outline-none focus:border-blue-500 text-sm"
           />
           <button
@@ -175,7 +176,7 @@ const HomePage = () => {
             </button>
           </div>
           {searchResults.length === 0 &&!isSearching && (
-            <p className="text-white/60 text-center py-8">Waxba lama helin</p>
+            <p className="text-white/60 text-center py-8">Waxba lama helin. Isku day erey kale.</p>
           )}
           <div className="grid grid-cols-1 gap-3 max-h-[500px] overflow-y-auto">
             {searchResults.map((video) => (
@@ -200,7 +201,7 @@ const HomePage = () => {
           <div className="flex justify-between items-center mb-3">
             <div className="flex items-center gap-2">
               <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse">LIVE</span>
-              <p className="text-sm font-bold text-white">{activeTitle}</p>
+              <p className="text-sm font-bold text-white line-clamp-1">{activeTitle}</p>
             </div>
             <button
               onClick={() => setActiveVideo(null)}
@@ -449,10 +450,10 @@ export default function App() {
       {renderPage()}
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       <style jsx global>{`
-    .scrollbar-hide::-webkit-scrollbar {
+   .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
-    .scrollbar-hide {
+   .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
