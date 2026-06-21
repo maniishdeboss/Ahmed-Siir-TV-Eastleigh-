@@ -152,42 +152,46 @@ const HomePage = () => {
         setSearchResults(results);
       }
 
-      // 2. LiveScore Search - Multiple methods
+      // 2. LiveScore Search - Multiple endpoints for better results
       let allScores: any[] = [];
 
       // Method 1: Search events by name
-      const eventResponse = await fetch(
-        `https://www.thesportsdb.com/api/v1/json/3/searchevents.php?e=${encodeURIComponent(searchQuery)}`
-      );
-      const eventData = await eventResponse.json();
-      if (eventData.event) {
-        allScores = [...allScores,...eventData.event];
-      }
+      try {
+        const eventResponse = await fetch(
+          `https://www.thesportsdb.com/api/v1/json/3/searchevents.php?e=${encodeURIComponent(searchQuery)}`
+        );
+        const eventData = await eventResponse.json();
+        if (eventData.event) {
+          allScores = [...allScores,...eventData.event];
+        }
+      } catch (e) {}
 
       // Method 2: Search teams
-      const teamResponse = await fetch(
-        `https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=${encodeURIComponent(searchQuery)}`
-      );
-      const teamData = await teamResponse.json();
+      try {
+        const teamResponse = await fetch(
+          `https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=${encodeURIComponent(searchQuery)}`
+        );
+        const teamData = await teamResponse.json();
 
-      if (teamData.teams) {
-        for (const team of teamData.teams.slice(0, 2)) {
-          const eventsRes = await fetch(
-            `https://www.thesportsdb.com/api/v1/json/3/eventslast.php?id=${team.idTeam}`
-          );
-          const eventsData = await eventsRes.json();
-          if (eventsData.results) {
-            allScores = [...allScores,...eventsData.results];
-          }
-          const nextRes = await fetch(
-            `https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=${team.idTeam}`
-          );
-          const nextData = await nextRes.json();
-          if (nextData.events) {
-            allScores = [...allScores,...nextData.events];
+        if (teamData.teams) {
+          for (const team of teamData.teams.slice(0, 2)) {
+            const eventsRes = await fetch(
+              `https://www.thesportsdb.com/api/v1/json/3/eventslast.php?id=${team.idTeam}`
+            );
+            const eventsData = await eventsRes.json();
+            if (eventsData.results) {
+              allScores = [...allScores,...eventsData.results];
+            }
+            const nextRes = await fetch(
+              `https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=${team.idTeam}`
+            );
+            const nextData = await nextRes.json();
+            if (nextData.events) {
+              allScores = [...allScores,...nextData.events];
+            }
           }
         }
-      }
+      } catch (e) {}
 
       const formattedScores = allScores.slice(0, 10).map((item: any) => ({
         title: item.strEvent || `${item.strHomeTeam} vs ${item.strAwayTeam}`,
@@ -341,7 +345,7 @@ const HomePage = () => {
       )}
 
       {activeVideo && (
-        <div className="mb-6 bg-[#111122] rounded-3xl p-4 border-blue-500/30 shadow-2xl">
+        <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-blue-500/30 shadow-2xl">
           <div className="flex justify-between items-center mb-3">
             <div className="flex items-center gap-2">
               <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse">LIVE</span>
@@ -581,4 +585,4 @@ export default function App() {
       case 'Live': return <LivePage />;
       case 'Browse': return <BrowsePage />;
       case 'Profile': return <ProfilePage />;
-      default: return <HomePage />;
+      default: return <Home
