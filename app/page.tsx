@@ -29,7 +29,7 @@ const HINDI_FILMS = [
     year: "2023", 
     rating: "8.1", 
     bg: "from-orange-600 to-red-800", 
-    youtube: "COv52Qyctms",
+    youtube: "y7tv1y_Q_Q0",
     image: "/mnt/data/photo8213703842848463668.webp"
   },
   { 
