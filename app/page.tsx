@@ -4,7 +4,7 @@ import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: "GDieIfkT1FQ" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: null, siirUrl: "https://www.siiiiir.tv/" },
   { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", youtube: null },
   { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: null },
   { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: "2A_OLvCo_q8" },
@@ -23,7 +23,7 @@ const FEATURED_TV = [
 ];
 
 const ALL_FILMS = [
-  { id: 1, title: "Hindi afsomali", year: "2023", rating: "8.1", type: "Hindi", bg: "from-orange-600 to-red-800", youtube: "y7tv1y_Q_Q0", image: "/mnt/data/photo8213703842848463668.webp" },
+  { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-orange-600 to-red-800", youtube: "y7tv1y_Q_Q0", image: "/mnt/data/photo8213703842848463668.webp" },
   { id: 2, title: "Pathaan", year: "2023", rating: "7.2", type: "Hindi", bg: "from-yellow-600 to-orange-700", youtube: "vqu4z34wENw", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400" },
   { id: 3, title: "Dangal", year: "2016", rating: "8.3", type: "Hindi", bg: "from-blue-600 to-indigo-800", youtube: "x_7YlGv9u1g", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" },
   { id: 4, title: "3 Idiots", year: "2009", rating: "8.4", type: "Hindi", bg: "from-green-600 to-teal-800", youtube: "K0eDlFX9GMc", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400" },
@@ -53,9 +53,9 @@ const FOOTBALL_LEAGUES = [
 
 const MATCHES_DATA: Record<number, any[]> = {
   1: [
-    { id: 1, team1: "Spain", team2: "Saudi Arabia", flag1: "🇪🇸", flag2: "🇸🇦", time: "LIVE NOW", quality: "HD", link: "https://www.youtube.com/embed/sXaPOBDZ3YM?autoplay=1", isYoutube: true },
+    { id: 1, team1: "Spain", team2: "Saudi Arabia", flag1: "🇪🇸", flag2: "🇸🇦", time: "LIVE NOW", quality: "HD", link: "https://www.siiiiir.tv/", isYoutube: false },
     { id: 2, team1: "Germany", team2: "ivory coast", flag1: "🇩🇪", flag2: "🇨🇮", time: "Finished 2:1", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", isYoutube: false },
-    { id: 3, team1: "Spain", team2: "Saudi Arabia", flag1: "🇪🇸", flag2: "🇸🇦", time: "LIVE NOW", quality: "HD", link: "https://www.youtube.com/embed/sXaPOBDZ3YM?autoplay=1", isYoutube: true },
+    { id: 3, team1: "Spain", team2: "Saudi Arabia", flag1: "🇪🇸", flag2: "🇸🇦", time: "LIVE NOW", quality: "HD", link: "https://www.siiiiir.tv/", isYoutube: false },
   ],
   3: [
     { id: 1, team1: "Arsenal", team2: "Chelsea", flag1: "🔴", flag2: "🔵", time: "Today 22:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", isYoutube: false },
@@ -101,6 +101,10 @@ const HomePage = () => {
   const [showResults, setShowResults] = useState(false);
 
   const handlePlayVideo = (url: string, title: string, isYoutube: boolean = true) => {
+    if (!isYoutube && url.includes('siiiiir.tv')) {
+      window.open(url, '_blank');
+      return;
+    }
     setActiveVideo(url);
     setActiveTitle(title);
     setIsYoutubeVideo(isYoutube);
@@ -248,13 +252,19 @@ const HomePage = () => {
           {SPORTS_CHANNELS.map((ch) => (
             <button
               key={ch.id}
-              onClick={() => ch.youtube && handlePlayVideo(ch.youtube, ch.title)}
-              disabled={!ch.youtube}
-              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${ch.youtube? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
+              onClick={() => {
+                if (ch.youtube) {
+                  handlePlayVideo(ch.youtube, ch.title, true)
+                } else if (ch.siirUrl) {
+                  window.open(ch.siirUrl, '_blank')
+                }
+              }}
+              disabled={!ch.youtube &&!ch.siirUrl}
+              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${(ch.youtube || ch.siirUrl)? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
             >
               <div className="flex justify-between items-start w-full">
                 <span className="text-2xl">{ch.icon}</span>
-                {ch.youtube && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
+                {(ch.youtube || ch.siirUrl) && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
               </div>
               <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
             </button>
@@ -353,7 +363,13 @@ const LivePage = () => {
           {matches.map((match) => (
             <div key={match.id} className="bg-[#111122] mb-2 rounded-lg border border-white/5">
               <button
-                onClick={() => setActiveStream(match.link)}
+                onClick={() => {
+                  if (!match.isYoutube && match.link.includes('siiiiir.tv')) {
+                    window.open(match.link, '_blank')
+                  } else {
+                    setActiveStream(match.link)
+                  }
+                }}
                 className="w-full p-4 flex items-center justify-between hover:bg-white/5 transition"
               >
                 <div className="flex items-center gap-3 flex-1">
@@ -450,10 +466,10 @@ export default function App() {
       {renderPage()}
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       <style jsx global>{`
-   .scrollbar-hide::-webkit-scrollbar {
+ .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
-   .scrollbar-hide {
+ .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
