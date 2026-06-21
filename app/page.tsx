@@ -22,6 +22,27 @@ const FEATURED_TV = [
   { title: "BeIN Sports", url: "https://www.siiiiir.tv/", bg: "from-green-900 to-black", isYoutube: false },
 ];
 
+const HINDI_FILMS = [
+  { 
+    id: 1, 
+    title: "Jawan", 
+    year: "2023", 
+    rating: "8.1", 
+    bg: "from-orange-600 to-red-800", 
+    youtube: "COv52Qyctms",
+    image: "/mnt/data/photo8213703842848463668.webp"
+  },
+  { 
+    id: 2, 
+    title: "Pathaan", 
+    year: "2023", 
+    rating: "7.2", 
+    bg: "from-yellow-600 to-orange-700", 
+    youtube: "vqu4z34wENw",
+    image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400"
+  },
+];
+
 const WATCH_BY_COUNTRY = [
   { country: "Somalia", flag: "🇸🇴", status: "Live", bg: "from-blue-500 to-blue-700" },
   { country: "Ogadenia", flag: "🇬🇲", status: "Live", bg: "from-red-500 to-green-700" },
@@ -200,6 +221,53 @@ const HomePage = () => {
               className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}
             >
               <p className="font-black text-white text-lg">{tv.title}</p>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* HINDI FILMS SECTION */}
+      <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-orange-500/30">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-bold text-orange-400">Hindi Films</h2>
+          <span className="text-xs bg-orange-600 px-3 py-1 rounded-full font-bold">NEW</span>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-4">
+          {HINDI_FILMS.map((film) => (
+            <button 
+              key={film.id}
+              onClick={() => handlePlayVideo(film.youtube, film.title, true)}
+              className="relative h-48 rounded-2xl border border-white/10 overflow-hidden hover:scale-105 transition-transform shadow-lg group"
+            >
+              {/* Background Image */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center"
+                style={{backgroundImage: `url(${film.image})`}}
+              />
+              
+              {/* Gradient Overlay */}
+              <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-80 group-hover:opacity-70 transition-opacity`} />
+              
+              {/* Content */}
+              <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
+                <div className="flex justify-between items-start">
+                  <span className="text-2xl">🎬</span>
+                  <span className="text-xs bg-black/60 px-2 py-1 rounded-full font-bold">⭐ {film.rating}</span>
+                </div>
+                
+                <div>
+                  <p className="font-black text-white text-lg">{film.title}</p>
+                  <p className="text-xs text-white/80">{film.year} • Hindi</p>
+                </div>
+              </div>
+              
+              {/* Play Icon on Hover */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30">
+                <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xl">▶</span>
+                </div>
+              </div>
             </button>
           ))}
         </div>
