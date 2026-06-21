@@ -95,16 +95,106 @@ const HomePage = () => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [activeTitle, setActiveTitle] = useState<string>("");
   const [isYoutubeVideo, setIsYoutubeVideo] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
   const handlePlayVideo = (url: string, title: string, isYoutube: boolean = true) => {
     setActiveVideo(url);
     setActiveTitle(title);
     setIsYoutubeVideo(isYoutube);
+    setShowResults(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleYouTubeSearch = async () => {
+    if (!searchQuery.trim()) return;
+    setIsSearching(true);
+    setShowResults(true);
+
+    try {
+      // Waxaad u baahan tahay YouTube API Key halkan
+      // Ka samee: https://console.cloud.google.com/
+      const API_KEY = "YOUR_YOUTUBE_API_KEY"; // KU BEDDEL KEY-GAAGA
+      const response = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${encodeURIComponent(searchQuery)}&type=video&key=${API_KEY}`
+      );
+      const data = await response.json();
+
+      if (data.items) {
+        const results = data.items.map((item: any) => ({
+          id: item.id.videoId,
+          title: item.snippet.title,
+          thumbnail: item.snippet.thumbnails.medium.url,
+          channel: item.snippet.channelTitle,
+        }));
+        setSearchResults(results);
+      }
+    } catch (error) {
+      console.error("Search error:", error);
+      alert("Search ma shaqeynin. Hubi API Key-ga YouTube");
+    } finally {
+      setIsSearching(false);
+    }
   };
 
   return (
     <main className="p-4 pb-24">
+      {/* SEARCH BAR */}
+      <div className="mb-6 bg-[#111122] rounded-2xl p-3 border border-blue-500/30 shadow-xl">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleYouTubeSearch()}
+            placeholder="Ka raadi YouTube..."
+            className="flex-1 bg-[#0a0a1a] text-white px-4 py-3 rounded-xl border border-white/10 focus:outline-none focus:border-blue-500 text-sm"
+          />
+          <button
+            onClick={handleYouTubeSearch}
+            disabled={isSearching}
+            className="bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white px-6 py-3 rounded-xl font-bold transition-all"
+          >
+            {isSearching? "⏳" : "🔍"}
+          </button>
+        </div>
+      </div>
+
+      {/* SEARCH RESULTS */}
+      {showResults && (
+        <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-red-500/30 shadow-2xl">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-bold text-white">Natiijooyinka: {searchQuery}</h3>
+            <button
+              onClick={() => setShowResults(false)}
+              className="text-white/60 hover:text-white text-2xl"
+            >
+              ×
+            </button>
+          </div>
+          {searchResults.length === 0 &&!isSearching && (
+            <p className="text-white/60 text-center py-8">Waxba lama helin</p>
+          )}
+          <div className="grid grid-cols-1 gap-3 max-h-[500px] overflow-y-auto">
+            {searchResults.map((video) => (
+              <button
+                key={video.id}
+                onClick={() => handlePlayVideo(video.id, video.title, true)}
+                className="flex gap-3 bg-[#0a0a1a] p-3 rounded-xl border border-white/5 hover:bg-[#1a1a2a] transition text-left"
+              >
+                <img src={video.thumbnail} alt={video.title} className="w-32 h-20 object-cover rounded-lg" />
+                <div className="flex-1">
+                  <p className="text-white font-bold text-sm line-clamp-2">{video.title}</p>
+                  <p className="text-white/50 text-xs mt-1">{video.channel}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {activeVideo && (
         <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-blue-500/30 shadow-2xl">
           <div className="flex justify-between items-center mb-3">
@@ -359,10 +449,10 @@ export default function App() {
       {renderPage()}
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       <style jsx global>{`
-      .scrollbar-hide::-webkit-scrollbar {
+    .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
-      .scrollbar-hide {
+    .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
