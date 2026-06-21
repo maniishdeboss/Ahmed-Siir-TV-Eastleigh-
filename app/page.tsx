@@ -152,10 +152,9 @@ const HomePage = () => {
         setSearchResults(results);
       }
 
-      // 2. LiveScore Search - Multiple endpoints for better results
+      // 2. LiveScore Search
       let allScores: any[] = [];
 
-      // Method 1: Search events by name
       try {
         const eventResponse = await fetch(
           `https://www.thesportsdb.com/api/v1/json/3/searchevents.php?e=${encodeURIComponent(searchQuery)}`
@@ -166,7 +165,6 @@ const HomePage = () => {
         }
       } catch (e) {}
 
-      // Method 2: Search teams
       try {
         const teamResponse = await fetch(
           `https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=${encodeURIComponent(searchQuery)}`
@@ -417,7 +415,7 @@ const HomePage = () => {
             <button
               key={i}
               onClick={() => tv.isYoutube? handlePlayVideo("kGJEuoSsVsM", tv.title, true) : window.open(tv.url, '_blank')}
-              className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}
+              className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}
             >
               <p className="font-black text-white text-lg">{tv.title}</p>
             </button>
@@ -585,4 +583,6 @@ export default function App() {
       case 'Live': return <LivePage />;
       case 'Browse': return <BrowsePage />;
       case 'Profile': return <ProfilePage />;
-      default: return <Home
+      default: return <HomePage />;
+    }
+  };
