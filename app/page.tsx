@@ -97,8 +97,10 @@ const HomePage = () => {
   const [isYoutubeVideo, setIsYoutubeVideo] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [scoreResults, setScoreResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [searchTab, setSearchTab] = useState<'videos' | 'scores'>('videos');
 
   const handlePlayVideo = (url: string, title: string, isYoutube: boolean = true) => {
     setActiveVideo(url);
@@ -108,33 +110,53 @@ const HomePage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleYouTubeSearch = async () => {
+  const handleSearch = async () => {
     if (!searchQuery.trim()) return;
     setIsSearching(true);
     setShowResults(true);
 
     try {
-      const API_KEY = "AIzaSyAUIkNgNCG9LVJnyG1ohnTxNYwWMpoaiK0"; // KEY-GAAGA OO DHAN
-      const response = await fetch(
+      // 1. YouTube Search
+      const API_KEY = "AIzaSyAUIkNgNCG9LVJnyG1ohnTxNYwWMpoaiK0";
+      const ytResponse = await fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(searchQuery)}&type=video&key=${API_KEY}`
       );
-      const data = await response.json();
+      const ytData = await ytResponse.json();
 
-      if (data.items) {
-        const results = data.items.map((item: any) => ({
+      if (ytData.items) {
+        const results = ytData.items.map((item: any) => ({
           id: item.id.videoId,
           title: item.snippet.title,
           thumbnail: item.snippet.thumbnails.medium.url,
           channel: item.snippet.channelTitle,
+          type: 'video'
         }));
         setSearchResults(results);
-      } else if (data.error) {
-        console.error("YouTube API Error:", data.error);
-        alert(`Error: ${data.error.message}. Hubi restrictions-ka Google Cloud.`);
       }
+
+      // 2. LiveScore Search - Google Custom Search API (Free)
+      const SCORE_API_KEY = "AIzaSyAUIkNgNCG9LVJnyG1ohnTxNYwWMpoaiK0";
+      const CX = "017576662512468239146:omuauf_lfve"; // Public Google CSE ID
+      const scoreResponse = await fetch(
+        `https://www.googleapis.com/customsearch/v1?key=${SCORE_API_KEY}&cx=${CX}&q=${encodeURIComponent(searchQuery + " live score result")}&num=5`
+      );
+      const scoreData = await scoreResponse.json();
+
+      if (scoreData.items) {
+        const scores = scoreData.items.map((item: any) => ({
+          title: item.title,
+          snippet: item.snippet,
+          link: item.link,
+          type: 'score'
+        }));
+        setScoreResults(scores);
+      } else {
+        setScoreResults([]);
+      }
+
     } catch (error) {
       console.error("Search error:", error);
-      alert("Search ma shaqeynin. Hubi internet-ka iyo API Key-ga");
+      alert("Search error. Hubi internet-ka");
     } finally {
       setIsSearching(false);
     }
@@ -149,12 +171,12 @@ const HomePage = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleYouTubeSearch()}
-            placeholder="Ka raadi YouTube - film, music, live..."
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+            placeholder="Raadi: FIFA, Arsenal vs Chelsea, Jawan..."
             className="flex-1 bg-[#0a0a1a] text-white px-4 py-3 rounded-xl border border-white/10 focus:outline-none focus:border-blue-500 text-sm"
           />
           <button
-            onClick={handleYouTubeSearch}
+            onClick={handleSearch}
             disabled={isSearching}
             className="bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white px-6 py-3 rounded-xl font-bold transition-all"
           >
@@ -163,7 +185,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* SEARCH RESULTS */}
+      {/* SEARCH RESULTS WITH TABS */}
       {showResults && (
         <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-red-500/30 shadow-2xl">
           <div className="flex justify-between items-center mb-4">
@@ -175,24 +197,70 @@ const HomePage = () => {
               ×
             </button>
           </div>
-          {searchResults.length === 0 &&!isSearching && (
-            <p className="text-white/60 text-center py-8">Waxba lama helin. Isku day erey kale.</p>
-          )}
-          <div className="grid grid-cols-1 gap-3 max-h-[500px] overflow-y-auto">
-            {searchResults.map((video) => (
-              <button
-                key={video.id}
-                onClick={() => handlePlayVideo(video.id, video.title, true)}
-                className="flex gap-3 bg-[#0a0a1a] p-3 rounded-xl border border-white/5 hover:bg-[#1a1a2a] transition text-left"
-              >
-                <img src={video.thumbnail} alt={video.title} className="w-32 h-20 object-cover rounded-lg" />
-                <div className="flex-1">
-                  <p className="text-white font-bold text-sm line-clamp-2">{video.title}</p>
-                  <p className="text-white/50 text-xs mt-1">{video.channel}</p>
-                </div>
-              </button>
-            ))}
+
+          {/* TABS */}
+          <div className="flex gap-2 mb-4 border-b border-white/10">
+            <button
+              onClick={() => setSearchTab('videos')}
+              className={`px-4 py-2 font-bold text-sm ${searchTab === 'videos'? 'text-blue-500 border-b-2 border-blue-500' : 'text-white/60'}`}
+            >
+              📺 Videos ({searchResults.length})
+            </button>
+            <button
+              onClick={() => setSearchTab('scores')}
+              className={`px-4 py-2 font-bold text-sm ${searchTab === 'scores'? 'text-green-500 border-b-2 border-green-500' : 'text-white/60'}`}
+            >
+              ⚽ Live Scores ({scoreResults.length})
+            </button>
           </div>
+
+          {/* VIDEOS TAB */}
+          {searchTab === 'videos' && (
+            <div className="grid grid-cols-1 gap-3 max-h-[500px] overflow-y-auto">
+              {searchResults.length === 0 &&!isSearching && (
+                <p className="text-white/60 text-center py-8">Video lama helin</p>
+              )}
+              {searchResults.map((video) => (
+                <button
+                  key={video.id}
+                  onClick={() => handlePlayVideo(video.id, video.title, true)}
+                  className="flex gap-3 bg-[#0a0a1a] p-3 rounded-xl border border-white/5 hover:bg-[#1a1a2a] transition text-left"
+                >
+                  <img src={video.thumbnail} alt={video.title} className="w-32 h-20 object-cover rounded-lg" />
+                  <div className="flex-1">
+                    <p className="text-white font-bold text-sm line-clamp-2">{video.title}</p>
+                    <p className="text-white/50 text-xs mt-1">{video.channel}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* SCORES TAB */}
+          {searchTab === 'scores' && (
+            <div className="grid grid-cols-1 gap-3 max-h-[500px] overflow-y-auto">
+              {scoreResults.length === 0 &&!isSearching && (
+                <p className="text-white/60 text-center py-8">Live score lama helin. Isku day "Arsenal vs Chelsea"</p>
+              )}
+              {scoreResults.map((score, i) => (
+                <a
+                  key={i}
+                  href={score.link}
+                  target="_blank"
+                  className="block bg-[#0a0a1a] p-4 rounded-xl border border-green-500/20 hover:bg-[#1a1a2a] transition"
+                >
+                  <div className="flex items-start gap-2">
+                    <span className="text-2xl">⚽</span>
+                    <div className="flex-1">
+                      <p className="text-white font-bold text-sm">{score.title}</p>
+                      <p className="text-white/60 text-xs mt-1 line-clamp-2">{score.snippet}</p>
+                      <p className="text-green-400 text-xs mt-2">Riix si aad u aragto →</p>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
@@ -226,7 +294,7 @@ const HomePage = () => {
         <div className="relative z-10 text-center">
           <div className="text-6xl mb-4">📺</div>
           <h2 className="text-3xl font-black text-white mb-2">Ahmed Abdikani Live TV 🇸🇴</h2>
-          <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
+          <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD + Live Scores</p>
           <a
             href="https://www.siiiiir.tv/"
             target="_blank"
@@ -365,7 +433,6 @@ const LivePage = () => {
                     <p className="font-bold text-white text-sm">{match.team1} VS {match.team2}</p>
                     <p className="text-xs text-white/50">{match.time}</p>
                   </div>
-                </div>
                 <div className="text-right">
                   <p className="text-xs text-red-500 font-bold">{match.quality}</p>
                   <p className="text-xs text-blue-400">{match.id}</p>
@@ -450,10 +517,10 @@ export default function App() {
       {renderPage()}
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       <style jsx global>{`
-   .scrollbar-hide::-webkit-scrollbar {
+.scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
-   .scrollbar-hide {
+.scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
