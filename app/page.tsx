@@ -103,15 +103,14 @@ const HomePage = () => {
   const [showResults, setShowResults] = useState(false);
   const [searchTab, setSearchTab] = useState<'videos' | 'scores'>('videos');
 
-  // Load LIVE matches marka app-ka furmo
   useEffect(() => {
     fetchLiveMatches();
   }, []);
 
   const fetchLiveMatches = async () => {
     try {
-      // Free API - Live Soccer
-      const response = await fetch('https://www.thesportsdb.com/api/v1/json/3/eventsday.php?d=' + new Date().toISOString().split('T')[0] + '&s=Soccer');
+      const today = new Date().toISOString().split('T')[0];
+      const response = await fetch(`https://www.thesportsdb.com/api/v1/json/3/eventsday.php?d=${today}&s=Soccer`);
       const data = await response.json();
       if (data.events) {
         setLiveMatches(data.events.slice(0, 5));
@@ -153,7 +152,7 @@ const HomePage = () => {
         setSearchResults(results);
       }
 
-      // 2. LiveScore Search - TheSportsDB Free API - 3 endpoints
+      // 2. LiveScore Search - Multiple methods
       let allScores: any[] = [];
 
       // Method 1: Search events by name
@@ -165,7 +164,7 @@ const HomePage = () => {
         allScores = [...allScores,...eventData.event];
       }
 
-      // Method 2: Search teams then get their last events
+      // Method 2: Search teams
       const teamResponse = await fetch(
         `https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=${encodeURIComponent(searchQuery)}`
       );
@@ -180,7 +179,6 @@ const HomePage = () => {
           if (eventsData.results) {
             allScores = [...allScores,...eventsData.results];
           }
-          // Also get next events
           const nextRes = await fetch(
             `https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=${team.idTeam}`
           );
@@ -191,7 +189,6 @@ const HomePage = () => {
         }
       }
 
-      // Format scores
       const formattedScores = allScores.slice(0, 10).map((item: any) => ({
         title: item.strEvent || `${item.strHomeTeam} vs ${item.strAwayTeam}`,
         homeTeam: item.strHomeTeam,
@@ -236,7 +233,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* LIVE MATCHES - Tus isla markiiba */}
       {liveMatches.length > 0 &&!showResults && (
         <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-green-500/30 shadow-2xl">
           <div className="flex items-center gap-2 mb-3">
@@ -290,7 +286,7 @@ const HomePage = () => {
                 <button
                   key={video.id}
                   onClick={() => handlePlayVideo(video.id, video.title, true)}
-                  className="flex gap-3 bg-[#0a0a1a] p-3 rounded-xl border border-white/5 hover:bg-[#1a2a] transition text-left"
+                  className="flex gap-3 bg-[#0a0a1a] p-3 rounded-xl border border-white/5 hover:bg-[#1a1a2a] transition text-left"
                 >
                   <img src={video.thumbnail} alt={video.title} className="w-32 h-20 object-cover rounded-lg" />
                   <div className="flex-1">
@@ -345,7 +341,7 @@ const HomePage = () => {
       )}
 
       {activeVideo && (
-        <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-blue-500/30 shadow-2xl">
+        <div className="mb-6 bg-[#111122] rounded-3xl p-4 border-blue-500/30 shadow-2xl">
           <div className="flex justify-between items-center mb-3">
             <div className="flex items-center gap-2">
               <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse">LIVE</span>
@@ -513,6 +509,7 @@ const LivePage = () => {
                     <p className="font-bold text-white text-sm">{match.team1} VS {match.team2}</p>
                     <p className="text-xs text-white/50">{match.time}</p>
                   </div>
+                </div>
                 <div className="text-right">
                   <p className="text-xs text-red-500 font-bold">{match.quality}</p>
                   <p className="text-xs text-blue-400">{match.id}</p>
@@ -584,4 +581,4 @@ export default function App() {
       case 'Live': return <LivePage />;
       case 'Browse': return <BrowsePage />;
       case 'Profile': return <ProfilePage />;
-      default: return
+      default: return <HomePage />;
