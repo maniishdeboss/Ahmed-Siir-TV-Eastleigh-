@@ -116,6 +116,7 @@ const HomePage = () => {
     setShowResults(true);
 
     try {
+      // 1. YouTube Search
       const API_KEY = "AIzaSyAUIkNgNCG9LVJnyG1ohnTxNYwWMpoaiK0";
       const ytResponse = await fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(searchQuery)}&type=video&key=${API_KEY}`
@@ -133,18 +134,23 @@ const HomePage = () => {
         setSearchResults(results);
       }
 
-      const SCORE_API_KEY = "AIzaSyAUIkNgNCG9LVJnyG1ohnTxNYwWMpoaiK0";
-      const CX = "017576662512468239146:omuauf_lfve";
+      // 2. LiveScore Search - TheSportsDB Free API
       const scoreResponse = await fetch(
-        `https://www.googleapis.com/customsearch/v1?key=${SCORE_API_KEY}&cx=${CX}&q=${encodeURIComponent(searchQuery + " live score result")}&num=5`
+        `https://www.thesportsdb.com/api/v1/json/3/searchevents.php?e=${encodeURIComponent(searchQuery)}`
       );
       const scoreData = await scoreResponse.json();
 
-      if (scoreData.items) {
-        const scores = scoreData.items.map((item: any) => ({
-          title: item.title,
-          snippet: item.snippet,
-          link: item.link,
+      if (scoreData.event) {
+        const scores = scoreData.event.slice(0, 8).map((item: any) => ({
+          title: `${item.strEvent} - ${item.strLeague}`,
+          homeTeam: item.strHomeTeam,
+          awayTeam: item.strAwayTeam,
+          homeScore: item.intHomeScore,
+          awayScore: item.intAwayScore,
+          date: item.dateEvent,
+          time: item.strTime,
+          status: item.strStatus,
+          league: item.strLeague,
           type: 'score'
         }));
         setScoreResults(scores);
@@ -154,7 +160,6 @@ const HomePage = () => {
 
     } catch (error) {
       console.error("Search error:", error);
-      alert("Search error. Hubi internet-ka");
     } finally {
       setIsSearching(false);
     }
@@ -169,7 +174,7 @@ const HomePage = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            placeholder="Raadi: FIFA, Arsenal vs Chelsea, Jawan..."
+            placeholder="Raadi: Arsenal vs Chelsea, FIFA World Cup..."
             className="flex-1 bg-[#0a0a1a] text-white px-4 py-3 rounded-xl border border-white/10 focus:outline-none focus:border-blue-500 text-sm"
           />
           <button
@@ -233,24 +238,39 @@ const HomePage = () => {
           {searchTab === 'scores' && (
             <div className="grid grid-cols-1 gap-3 max-h-[500px] overflow-y-auto">
               {scoreResults.length === 0 &&!isSearching && (
-                <p className="text-white/60 text-center py-8">Live score lama helin. Isku day "Arsenal vs Chelsea"</p>
+                <p className="text-white/60 text-center py-8">Live score lama helin. Isku day "Arsenal", "Barcelona", "Premier League"</p>
               )}
-              {scoreResults.map((score, i) => (
-                <a
+              {scoreResults.map((match, i) => (
+                <div
                   key={i}
-                  href={score.link}
-                  target="_blank"
-                  className="block bg-[#0a0a1a] p-4 rounded-xl border border-green-500/20 hover:bg-[#1a1a2a] transition"
+                  className="bg-[#0a0a1a] p-4 rounded-xl border border-green-500/20"
                 >
-                  <div className="flex items-start gap-2">
-                    <span className="text-2xl">⚽</span>
-                    <div className="flex-1">
-                      <p className="text-white font-bold text-sm">{score.title}</p>
-                      <p className="text-white/60 text-xs mt-1 line-clamp-2">{score.snippet}</p>
-                      <p className="text-green-400 text-xs mt-2">Riix si aad u aragto →</p>
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-xs text-green-400 font-bold">{match.league}</span>
+                    <span className="text-xs text-white/50">{match.date}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-center flex-1">
+                      <p className="text-white font-bold text-sm">{match.homeTeam}</p>
+                    </div>
+                    <div className="mx-4 text-center">
+                      {match.homeScore!== null? (
+                        <div className="bg-green-600 px-4 py-2 rounded-lg">
+                          <p className="text-white font-black text-xl">{match.homeScore} - {match.awayScore}</p>
+                          <p className="text-xs text-white/80">{match.status}</p>
+                        </div>
+                      ) : (
+                        <div className="bg-blue-600 px-4 py-2 rounded-lg">
+                          <p className="text-white font-bold text-sm">{match.time}</p>
+                          <p className="text-xs text-white/80">Upcoming</p>
+                        </div>
+                      )}
+                    </div>
+                    <div className="text-center flex-1">
+                      <p className="text-white font-bold text-sm">{match.awayTeam}</p>
                     </div>
                   </div>
-                </a>
+                </div>
               ))}
             </div>
           )}
