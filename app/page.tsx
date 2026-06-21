@@ -116,7 +116,6 @@ const HomePage = () => {
     setShowResults(true);
 
     try {
-      // 1. YouTube Search
       const API_KEY = "AIzaSyAUIkNgNCG9LVJnyG1ohnTxNYwWMpoaiK0";
       const ytResponse = await fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(searchQuery)}&type=video&key=${API_KEY}`
@@ -134,9 +133,8 @@ const HomePage = () => {
         setSearchResults(results);
       }
 
-      // 2. LiveScore Search - Google Custom Search API (Free)
       const SCORE_API_KEY = "AIzaSyAUIkNgNCG9LVJnyG1ohnTxNYwWMpoaiK0";
-      const CX = "017576662512468239146:omuauf_lfve"; // Public Google CSE ID
+      const CX = "017576662512468239146:omuauf_lfve";
       const scoreResponse = await fetch(
         `https://www.googleapis.com/customsearch/v1?key=${SCORE_API_KEY}&cx=${CX}&q=${encodeURIComponent(searchQuery + " live score result")}&num=5`
       );
@@ -164,7 +162,6 @@ const HomePage = () => {
 
   return (
     <main className="p-4 pb-24">
-      {/* SEARCH BAR */}
       <div className="mb-6 bg-[#111122] rounded-2xl p-3 border border-blue-500/30 shadow-xl">
         <div className="flex gap-2">
           <input
@@ -185,7 +182,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* SEARCH RESULTS WITH TABS */}
       {showResults && (
         <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-red-500/30 shadow-2xl">
           <div className="flex justify-between items-center mb-4">
@@ -198,7 +194,6 @@ const HomePage = () => {
             </button>
           </div>
 
-          {/* TABS */}
           <div className="flex gap-2 mb-4 border-b border-white/10">
             <button
               onClick={() => setSearchTab('videos')}
@@ -214,7 +209,6 @@ const HomePage = () => {
             </button>
           </div>
 
-          {/* VIDEOS TAB */}
           {searchTab === 'videos' && (
             <div className="grid grid-cols-1 gap-3 max-h-[500px] overflow-y-auto">
               {searchResults.length === 0 &&!isSearching && (
@@ -236,7 +230,6 @@ const HomePage = () => {
             </div>
           )}
 
-          {/* SCORES TAB */}
           {searchTab === 'scores' && (
             <div className="grid grid-cols-1 gap-3 max-h-[500px] overflow-y-auto">
               {scoreResults.length === 0 &&!isSearching && (
@@ -433,6 +426,7 @@ const LivePage = () => {
                     <p className="font-bold text-white text-sm">{match.team1} VS {match.team2}</p>
                     <p className="text-xs text-white/50">{match.time}</p>
                   </div>
+                </div>
                 <div className="text-right">
                   <p className="text-xs text-red-500 font-bold">{match.quality}</p>
                   <p className="text-xs text-blue-400">{match.id}</p>
