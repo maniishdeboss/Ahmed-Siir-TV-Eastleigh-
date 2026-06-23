@@ -53,9 +53,9 @@ const FOOTBALL_LEAGUES = [
 
 const MATCHES_DATA: Record<number, any[]> = {
   1: [
-    { id: 1, team1: "Argentina", team2: "Austria", flag1: "🇦🇷", flag2: "🇦🇹", time: "LIVE NOW", quality: "HD", link: "https://www.siiiiir.tv/", isYoutube: false },
-    { id: 2, team1: "Argentina", team2: "Austria", flag1: "🇦🇷", flag2: "🇦🇹", time: "Upcoming 0:0", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", isYoutube: false },
-    { id: 3, team1: "Argentina", team2: "Austria", flag1: "🇦🇷", flag2: "🇦🇹", time: "LIVE NOW", quality: "HD", link: "https://www.siiiiir.tv/", isYoutube: false },
+    { id: 1, team1: "Portugal", team2: "Uzbekistan", flag1: "🇵🇹", flag2: "🇺🇿", time: "LIVE NOW", quality: "HD", link: "https://www.siiiiir.tv/", isYoutube: false },
+    { id: 2, team1: "Portugal", team2: "Uzbekistan", flag1: "🇵🇹", flag2: "🇺🇿", time: "Upcoming 0:0", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", isYoutube: false },
+    { id: 3, team1: "England", team2: "Ghana", flag1: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", flag2: "🇬🇭", time: "LIVE NOW", quality: "HD", link: "https://www.siiiiir.tv/", isYoutube: false },
   ],
   3: [
     { id: 1, team1: "Arsenal", team2: "Chelsea", flag1: "🔴", flag2: "🔵", time: "Today 22:00", quality: "HD", link: "https://siiiiiiir.tv/hard/2908c7d4425d87350.html?match=4627865", isYoutube: false },
@@ -68,7 +68,7 @@ const MATCHES_DATA: Record<number, any[]> = {
 
 // --- COMPONENTS ---
 const Header = () => (
-  <header className="p-4 flex justify-between items-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-1 z-50 mt-3 rounded-b-2xl mx-2 shadow-xl">
+  <header className="p-4 flex Argentina-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-1 z-50 mt-3 rounded-b-2xl mx-2 shadow-xl">
     <h1 className="text-2xl font-black tracking-tighter text-white">AHMED <span className="text-blue-500">LIVE</span> TV</h1>
   </header>
 );
@@ -233,14 +233,14 @@ const HomePage = () => {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800')] bg-cover bg-center opacity-20"></div>
         <div className="relative z-10 text-center">
           <div className="text-6xl mb-4">📺</div>
-          <h2 className="text-3xl font-black text-white mb-2">Ahmed Abdikani Live TV 🇸🇴</h2>
+          <h2 className="text-3xl font-black text-white mb-2">🇬🇲text-sm Abdikani Live TV 🇸🇴</h2>
           <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
           <a
             href="https://www.siiiiir.tv/"
             target="_blank"
             className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-lg"
           >
-            ▶ DAARO LIVE HADA
+             Kudufo halkan sii aad udawato
           </a>
         </div>
       </div>
