@@ -23,6 +23,7 @@ const ALL_FILMS = [
   { id: 3, title: "Dangal", year: "2016", rating: "8.3", type: "Hindi", bg: "from-blue-600 to-indigo-800", youtube: "x_7YlGv9u1g", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" },
   { id: 4, title: "3 Idiots", year: "2009", rating: "8.4", type: "Hindi", bg: "from-green-600 to-teal-800", youtube: "K0eDlFX9GMc", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400" },
   { id: 5, title: "PK", year: "2014", rating: "8.1", type: "Hindi", bg: "from-purple-600 to-pink-800", youtube: "82ZEDGPCkT8", image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400" },
+  { id: 22, title: "BeIN Sports", year: "2026", rating: "9.0", type: "Live Sports", bg: "from-slate-800 to-slate-950", youtube: null, siirUrl: "https://www.siiiiir.tv/", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400" },
   { id: 6, title: "Bajrangi Bhaijaan", year: "2015", rating: "8.0", type: "Hindi", bg: "from-red-600 to-rose-800", youtube: "vyX4toD395U", image: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=400" },
   { id: 7, title: "KGF Chapter 2", year: "2022", rating: "8.4", type: "Hindi", bg: "from-amber-600 to-yellow-800", youtube: "Qah9sSIXJqk", image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400" },
   { id: 8, title: "RRR", year: "2022", rating: "7.8", type: "Hindi", bg: "from-cyan-600 to-blue-800", youtube: "NgBoMJy386M", image: "https://images.unsplash.com/photo-1594909122845-11baa9b7703b?w=400" },
@@ -61,6 +62,12 @@ const MATCHES_DATA: Record<number, any[]> = {
   ],
 };
 
+const DATA_PACKAGES = [
+  { id: 1, name: "1.25GB (1 Hour)", price: 20, desc: "Hourly Super Flash" },
+  { id: 2, name: "1.50GB (Till Midnight)", price: 50, desc: "Daily Heavy Browsing" },
+  { id: 3, name: "2GB (24 Hours)", price: 99, desc: "Full Day Non-Stop Data" }
+];
+
 // --- COMPONENTS ---
 const Header = () => (
   <header className="p-4 flex items-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-1 z-50 mt-3 rounded-b-2xl mx-2 shadow-xl">
@@ -95,15 +102,16 @@ const HomePage = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
-  // States for Data Bundles Form
+  // States for Data Bundles
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [selectedPkg, setSelectedPkg] = useState<number>(1);
 
   const handlePlayVideo = (url: string, title: string, isYoutube: boolean = true, isChannel: boolean = false) => {
-    if (!isYoutube && url.includes('siiiiir.tv')) {
+    if (!isYoutube && url && url.includes('siiiiir.tv')) {
       window.open(url, '_blank');
       return;
     }
-    if (isChannel || url.includes('youtube.com/@')) {
+    if (isChannel || (url && url.includes('youtube.com/@'))) {
       window.open(url, '_blank');
       return;
     }
@@ -134,19 +142,14 @@ const HomePage = () => {
           channel: item.snippet.channelTitle,
         }));
         setSearchResults(results);
-      } else if (data.error) {
-        console.error("YouTube API Error:", data.error);
-        alert(`Error: ${data.error.message}. Hubi restrictions-ka Google Cloud.`);
       }
     } catch (error) {
       console.error("Search error:", error);
-      alert("Search ma shaqeynin. Hubi internet-ka iyo API Key-ga");
-    } finally {
+    } finaly {
       setIsSearching(false);
     }
   };
 
-  // TinyPesa Portal Redirect Handler
   const handleBuyData = (e: React.FormEvent) => {
     e.preventDefault();
     if (!phoneNumber.trim()) {
@@ -154,8 +157,11 @@ const HomePage = () => {
       return;
     }
 
-    // Waxaa toos macaamilka loogu wareejinayaa TinyPesa link-gaaga rasmiga ah
-    const targetUrl = `https://tinypesa.com/ahmeddatadealskenya?amount=1&phone=${encodeURIComponent(phoneNumber)}`;
+    const currentPackage = DATA_PACKAGES.find(p => p.id === selectedPkg);
+    const price = currentPackage ? currentPackage.price : 20;
+
+    // Toos ugu wareeji TinyPesa Portal-kaaga rasmiga ah oo ay la socoto lacagtu
+    const targetUrl = `https://tinypesa.com/ahmeddatadealskenya?amount=${price}&phone=${encodeURIComponent(phoneNumber)}`;
     window.open(targetUrl, '_blank');
   };
 
@@ -187,16 +193,8 @@ const HomePage = () => {
         <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-red-500/30 shadow-2xl">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-bold text-white">Natiijooyinka: {searchQuery}</h3>
-            <button
-              onClick={() => setShowResults(false)}
-              className="text-white/60 hover:text-white text-2xl"
-            >
-              ×
-            </button>
+            <button onClick={() => setShowResults(false)} className="text-white/60 hover:text-white text-2xl">×</button>
           </div>
-          {searchResults.length === 0 && !isSearching && (
-            <p className="text-white/60 text-center py-8">Waxba lama helin. Isku day erey kale.</p>
-          )}
           <div className="grid grid-cols-1 gap-3 max-h-[500px] overflow-y-auto">
             {searchResults.map((video) => (
               <button
@@ -222,12 +220,7 @@ const HomePage = () => {
               <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse">LIVE</span>
               <p className="text-sm font-bold text-white line-clamp-1">{activeTitle}</p>
             </div>
-            <button
-              onClick={() => setActiveVideo(null)}
-              className="text-white/60 hover:text-white text-3xl leading-none"
-            >
-              ×
-            </button>
+            <button onClick={() => setActiveVideo(null)} className="text-white/60 hover:text-white text-3xl leading-none">×</button>
           </div>
           <div className="aspect-video bg-black rounded-xl overflow-hidden">
             <iframe
@@ -287,63 +280,99 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* DATA BUNDLES REDIRECT SECTION */}
-      <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
-        <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV & Data Deals</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <button
-            onClick={() => handlePlayVideo("https://www.siiiiir.tv/", "World cup - Live", false)}
-            className="bg-gradient-to-br from-blue-900 to-black p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg w-full"
-          >
-            <p className="font-black text-white text-lg">World cup - Live</p>
-          </button>
+      {/* NEW UPDATED AHMED DATA DEALS BOX (Full-Width Responsive Section) */}
+      <section className="mb-8 p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border border-green-500/40 shadow-2xl">
+        <div className="flex justify-between items-center mb-4">
+          <div>
+            <h2 className="text-xl font-black text-green-400 tracking-tight">Ahmed Data Deals Kenya</h2>
+            <p className="text-xs text-white/60 mt-0.5">Xiriirka rasmiga ah ee Internet-ka jaban</p>
+          </div>
+          <span className="text-xs bg-green-500 text-black font-black px-3 py-1 rounded-full uppercase tracking-wider animate-pulse">
+            Active
+          </span>
+        </div>
 
-          {/* Integrated TinyPesa Link Box */}
-          <div className="bg-gradient-to-br from-green-950 via-black to-emerald-950 p-5 rounded-2xl border border-green-500/40 shadow-lg text-left flex flex-col justify-between">
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <p className="font-black text-green-400 text-lg">Ahmed Data Deals Kenya</p>
-                <span className="text-xs bg-green-600 text-white font-bold px-2 py-0.5 rounded-full animate-pulse">Jaban</span>
+        <form onSubmit={handleBuyData} className="space-y-5">
+          {/* Package Selection Cards */}
+          <div className="grid grid-cols-1 gap-3">
+            {DATA_PACKAGES.map((pkg) => (
+              <div
+                key={pkg.id}
+                onClick={() => setSelectedPkg(pkg.id)}
+                className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer flex justify-between items-center ${
+                  selectedPkg === pkg.id
+                    ? 'bg-green-900/30 border-green-400 shadow-md scale-[1.01]'
+                    : 'bg-[#0a110e]/80 border-white/10 hover:border-green-500/30'
+                }`}
+              >
+                <div className="text-left">
+                  <p className="font-bold text-white text-sm">{pkg.name}</p>
+                  <p className="text-xs text-white/50">{pkg.desc}</p>
+                </div>
+                <div className="text-right">
+                  <span className="text-base font-black text-green-400">KES {pkg.price}</span>
+                </div>
               </div>
-              <p className="text-xs text-white/70 mb-4">Geli Safaricom nambarkaaga si lagugu xiriiriyo bogga lacag bixinta ee TinyPesa Portal.</p>
-            </div>
-            
-            <form onSubmit={handleBuyData} className="space-y-3">
+            ))}
+          </div>
+
+          {/* Phone Input Box and Submit Button */}
+          <div className="pt-2 border-t border-white/5 space-y-3">
+            <div>
+              <label className="block text-xs font-bold text-white/70 mb-1.5 pl-1">Safaricom Phone Number</label>
               <input
                 type="text"
                 placeholder="Tusaale: 0712345678"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
-                className="w-full bg-[#0a0a1a] text-white px-3 py-2.5 rounded-xl border border-white/10 text-xs focus:outline-none focus:border-green-500"
+                className="w-full bg-[#050a07] text-white px-4 py-3 rounded-xl border border-white/10 text-sm focus:outline-none focus:border-green-400 transition-colors"
               />
-              <button
-                type="submit"
-                className="w-full bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2.5 rounded-xl transition-all shadow-md uppercase tracking-wider flex items-center justify-center gap-2"
-              >
-                <span>Go to TinyPesa Portal</span>
-              </button>
-            </form>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-sm py-3.5 rounded-xl transition-all shadow-lg uppercase tracking-widest flex items-center justify-center gap-2"
+            >
+              <span>Buy Selected Bundle</span>
+            </button>
           </div>
+        </form>
+      </section>
+
+      {/* PREMIUM LIVE TV SECTION */}
+      <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-blue-500/30">
+        <h2 className="text-lg font-bold mb-4 text-blue-400">Premium Live TV</h2>
+        <div className="grid grid-cols-1 gap-3">
+          <button
+            onClick={() => handlePlayVideo("https://www.siiiiir.tv/", "World cup - Live", false)}
+            className="bg-gradient-to-br from-blue-900 to-black p-6 rounded-2xl border border-white/10 text-center hover:scale-[1.02] transition-transform shadow-lg w-full"
+          >
+            <p className="font-black text-white text-base">World cup - Live</p>
+          </button>
         </div>
       </section>
 
+      {/* FILMS SECTION (Unchanged) */}
       <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-orange-500/30">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold text-orange-400">Hindi & Hollywood Films</h2>
-          <span className="text-xs bg-orange-600 px-3 py-1 rounded-full font-bold">10 FILMS</span>
+          <span className="text-xs bg-orange-600 px-3 py-1 rounded-full font-bold">11 FILMS</span>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           {ALL_FILMS.map((film) => (
             <button
               key={film.id}
-              onClick={() => handlePlayVideo(film.youtube, film.title, true)}
+              onClick={() => {
+                if (film.youtube) {
+                  handlePlayVideo(film.youtube, film.title, true);
+                } else if (film.siirUrl) {
+                  window.open(film.siirUrl, '_blank');
+                }
+              }}
               className="relative h-48 rounded-2xl border border-white/10 overflow-hidden hover:scale-105 transition-transform shadow-lg group"
             >
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{backgroundImage: `url(${film.image})`}}
-              />
+              <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${film.image})`}} />
               <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-80 group-hover:opacity-70 transition-opacity`} />
               <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
                 <div className="flex justify-between items-start">
@@ -356,7 +385,7 @@ const HomePage = () => {
                   </div>
                 </div>
                 <div>
-                  <p className="font-black text-white text-lg">{film.title}</p>
+                  <p className="font-black text-white text-sm line-clamp-2">{film.title}</p>
                   <p className="text-xs text-white/80">{film.year}</p>
                 </div>
               </div>
@@ -390,12 +419,7 @@ const LivePage = () => {
 
         {activeStream && (
           <div className="bg-black aspect-video">
-            <iframe
-              src={activeStream}
-              className="w-full h-full"
-              allow="autoplay; encrypted-media; fullscreen"
-              allowFullScreen
-            />
+            <iframe src={activeStream} className="w-full h-full" allow="autoplay; encrypted-media; fullscreen" allowFullScreen />
           </div>
         )}
 
@@ -424,7 +448,6 @@ const LivePage = () => {
                 </div>
                 <div className="text-right">
                   <p className="text-xs text-red-500 font-bold">{match.quality}</p>
-                  <p className="text-xs text-blue-400">{match.id}</p>
                 </div>
               </button>
             </div>
@@ -438,13 +461,7 @@ const LivePage = () => {
     <section className="bg-[#0a0a1f] min-h-screen pb-24">
       <div className="bg-[#0a0a1f] p-4 flex justify-between items-center border-b border-white/10 sticky top-0 z-40">
         <h1 className="text-2xl font-bold text-white">Football Live HD</h1>
-        <div className="flex gap-4 text-white/60">
-          <button>⟲</button>
-          <button>⭐</button>
-          <button>⤴</button>
-        </div>
       </div>
-
       <div className="p-2">
         {FOOTBALL_LEAGUES.map((league) => (
           <button
@@ -487,32 +504,20 @@ const ProfilePage = () => (
 export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
 
-  const renderPage = () => {
-    switch (activeTab) {
-      case 'Home': return <HomePage />;
-      case 'Live': return <LivePage />;
-      case 'Browse': return <BrowsePage />;
-      case 'Profile': return <ProfilePage />;
-      default: return <HomePage />;
-    }
-  };
-
   return (
     <div className="bg-[#06060f] min-h-screen text-white font-sans">
       <Head>
         <title>🇬🇲Ahmed Abdikani Live TV🇸🇴</title>
       </Head>
       <Header />
-      {renderPage()}
+      {activeTab === 'Home' && <HomePage />}
+      {activeTab === 'Live' && <LivePage />}
+      {activeTab === 'Browse' && <BrowsePage />}
+      {activeTab === 'Profile' && <ProfilePage />}
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       <style jsx global>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
     </div>
   );
