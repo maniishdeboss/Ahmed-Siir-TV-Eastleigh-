@@ -63,7 +63,7 @@ const MATCHES_DATA: Record<number, any[]> = {
 
 // --- COMPONENTS ---
 const Header = () => (
-  <header className="p-4 flex Argentina-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-1 z-50 mt-3 rounded-b-2xl mx-2 shadow-xl">
+  <header className="p-4 flex items-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-1 z-50 mt-3 rounded-b-2xl mx-2 shadow-xl">
     <h1 className="text-2xl font-black tracking-tighter text-white">AHMED <span className="text-blue-500">LIVE</span> TV</h1>
   </header>
 );
@@ -97,7 +97,6 @@ const HomePage = () => {
 
   // States for Data Bundles Form
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [isSubmittingData, setIsSubmittingData] = useState(false);
 
   const handlePlayVideo = (url: string, title: string, isYoutube: boolean = true, isChannel: boolean = false) => {
     if (!isYoutube && url.includes('siiiiir.tv')) {
@@ -147,36 +146,17 @@ const HomePage = () => {
     }
   };
 
-  // TinyPesa STK Push Handler
-  const handleBuyData = async (e: React.FormEvent) => {
+  // TinyPesa Portal Redirect Handler
+  const handleBuyData = (e: React.FormEvent) => {
     e.preventDefault();
     if (!phoneNumber.trim()) {
       alert("Fadlan qor nambarka taleefanka!");
       return;
     }
 
-    setIsSubmittingData(true);
-    try {
-      // Halkan wuxuu toos u wacayaa API-gaaga kale ee Vercel ku jira
-      const res = await fetch("https://ahmed-data-deals-kenya.vercel.app/api/tinypesa", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: 1, phone: phoneNumber }), 
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        alert("STK Push ayaa lagu soo diray taleefankaaga! Fadlan geli PIN-kaaga.");
-        setPhoneNumber("");
-      } else {
-        alert(`Codsigu ma guulaysan: ${data.message || 'Error occurred'}`);
-      }
-    } catch (error) {
-      console.error("Payment error:", error);
-      alert("Cilad ayaa dhacday intii lacag bixinta la weydiinayay.");
-    } finally {
-      setIsSubmittingData(false);
-    }
+    // Waxaa toos macaamilka loogu wareejinayaa TinyPesa link-gaaga rasmiga ah
+    const targetUrl = `https://tinypesa.com/ahmeddatadealskenya?amount=1&phone=${encodeURIComponent(phoneNumber)}`;
+    window.open(targetUrl, '_blank');
   };
 
   return (
@@ -307,7 +287,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* REPLACED WITH INTEGRATED DATA BUNDLES SECTION */}
+      {/* DATA BUNDLES REDIRECT SECTION */}
       <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
         <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV & Data Deals</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -318,14 +298,14 @@ const HomePage = () => {
             <p className="font-black text-white text-lg">World cup - Live</p>
           </button>
 
-          {/* New Live In-App Data Bundles Box */}
+          {/* Integrated TinyPesa Link Box */}
           <div className="bg-gradient-to-br from-green-950 via-black to-emerald-950 p-5 rounded-2xl border border-green-500/40 shadow-lg text-left flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-center mb-2">
                 <p className="font-black text-green-400 text-lg">Ahmed Data Deals Kenya</p>
                 <span className="text-xs bg-green-600 text-white font-bold px-2 py-0.5 rounded-full animate-pulse">Jaban</span>
               </div>
-              <p className="text-xs text-white/70 mb-4">Geli Safaricom nambarkaaga si aad ugu shubato data jaban adigoo daawanaya ciyaarta.</p>
+              <p className="text-xs text-white/70 mb-4">Geli Safaricom nambarkaaga si lagugu xiriiriyo bogga lacag bixinta ee TinyPesa Portal.</p>
             </div>
             
             <form onSubmit={handleBuyData} className="space-y-3">
@@ -338,10 +318,9 @@ const HomePage = () => {
               />
               <button
                 type="submit"
-                disabled={isSubmittingData}
-                className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-700 text-white text-xs font-bold py-2.5 rounded-xl transition-all shadow-md uppercase tracking-wider"
+                className="w-full bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2.5 rounded-xl transition-all shadow-md uppercase tracking-wider flex items-center justify-center gap-2"
               >
-                {isSubmittingData ? "⏳ Processing..." : "🚀 Buy Data (1 KSH)"}
+                <span>Go to TinyPesa Portal</span>
               </button>
             </form>
           </div>
