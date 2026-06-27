@@ -145,7 +145,7 @@ const HomePage = () => {
       }
     } catch (error) {
       console.error("Search error:", error);
-    } finaly {
+    } finally {
       setIsSearching(false);
     }
   };
@@ -352,7 +352,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* FILMS SECTION (Unchanged) */}
+      {/* FILMS SECTION */}
       <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-orange-500/30">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold text-orange-400">Hindi & Hollywood Films</h2>
