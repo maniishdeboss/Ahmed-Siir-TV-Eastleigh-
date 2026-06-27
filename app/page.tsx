@@ -17,11 +17,6 @@ const SPORTS_CHANNELS = [
   { id: 10, title: "Somali TV", bg: "from-blue-500 to-cyan-600", icon: "🇸🇴", flag: "🇸🇴", youtube: "-qDzZEXIJdk" },
 ];
 
-const FEATURED_TV = [
-  { title: "World cup - Live", url: "https://www.siiiiir.tv/", bg: "from-blue-900 to-black", isYoutube: false },
-  { title: "BeIN Sports", url: "https://www.siiiiir.tv/", bg: "from-green-900 to-black", isYoutube: false },
-];
-
 const ALL_FILMS = [
   { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-orange-600 to-red-800", youtube: "y7tv1y_Q_Q0", image: "/mnt/data/photo8213703842848463668.webp" },
   { id: 2, title: "Pathaan", year: "2023", rating: "7.2", type: "Hindi", bg: "from-yellow-600 to-orange-700", youtube: "vqu4z34wENw", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400" },
@@ -81,7 +76,7 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`text-sm font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
+          className={`text-sm font-bold uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
         >
           {tab}
         </button>
@@ -99,6 +94,10 @@ const HomePage = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
+
+  // States for Data Bundles Form
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [isSubmittingData, setIsSubmittingData] = useState(false);
 
   const handlePlayVideo = (url: string, title: string, isYoutube: boolean = true, isChannel: boolean = false) => {
     if (!isYoutube && url.includes('siiiiir.tv')) {
@@ -122,7 +121,7 @@ const HomePage = () => {
     setShowResults(true);
 
     try {
-      const API_KEY = "AIzaSyAUIkNgNCG9LVJnyG1ohnTxNYwWMpoaiK0"; // KEY-GAAGA OO DHAN
+      const API_KEY = "AIzaSyAUIkNgNCG9LVJnyG1ohnTxNYwWMpoaiK0";
       const response = await fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(searchQuery)}&type=video&key=${API_KEY}`
       );
@@ -148,6 +147,38 @@ const HomePage = () => {
     }
   };
 
+  // TinyPesa STK Push Handler
+  const handleBuyData = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!phoneNumber.trim()) {
+      alert("Fadlan qor nambarka taleefanka!");
+      return;
+    }
+
+    setIsSubmittingData(true);
+    try {
+      // Halkan wuxuu toos u wacayaa API-gaaga kale ee Vercel ku jira
+      const res = await fetch("https://ahmed-data-deals-kenya.vercel.app/api/tinypesa", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: 1, phone: phoneNumber }), 
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert("STK Push ayaa lagu soo diray taleefankaaga! Fadlan geli PIN-kaaga.");
+        setPhoneNumber("");
+      } else {
+        alert(`Codsigu ma guulaysan: ${data.message || 'Error occurred'}`);
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Cilad ayaa dhacday intii lacag bixinta la weydiinayay.");
+    } finally {
+      setIsSubmittingData(false);
+    }
+  };
+
   return (
     <main className="p-4 pb-24">
       {/* SEARCH BAR */}
@@ -166,7 +197,7 @@ const HomePage = () => {
             disabled={isSearching}
             className="bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white px-6 py-3 rounded-xl font-bold transition-all"
           >
-            {isSearching? "⏳" : "🔍"}
+            {isSearching ? "⏳" : "🔍"}
           </button>
         </div>
       </div>
@@ -183,7 +214,7 @@ const HomePage = () => {
               ×
             </button>
           </div>
-          {searchResults.length === 0 &&!isSearching && (
+          {searchResults.length === 0 && !isSearching && (
             <p className="text-white/60 text-center py-8">Waxba lama helin. Isku day erey kale.</p>
           )}
           <div className="grid grid-cols-1 gap-3 max-h-[500px] overflow-y-auto">
@@ -220,7 +251,7 @@ const HomePage = () => {
           </div>
           <div className="aspect-video bg-black rounded-xl overflow-hidden">
             <iframe
-              src={isYoutubeVideo? `https://www.youtube.com/embed/${activeVideo}?autoplay=1` : activeVideo}
+              src={isYoutubeVideo ? `https://www.youtube.com/embed/${activeVideo}?autoplay=1` : activeVideo}
               className="w-full h-full"
               allow="autoplay; encrypted-media; fullscreen"
               allowFullScreen
@@ -263,8 +294,8 @@ const HomePage = () => {
                   window.open(ch.siirUrl, '_blank')
                 }
               }}
-              disabled={!ch.youtube &&!ch.siirUrl}
-              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${(ch.youtube || ch.siirUrl)? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
+              disabled={!ch.youtube && !ch.siirUrl}
+              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${(ch.youtube || ch.siirUrl) ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
             >
               <div className="flex justify-between items-start w-full">
                 <span className="text-2xl">{ch.icon}</span>
@@ -276,18 +307,44 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* REPLACED WITH INTEGRATED DATA BUNDLES SECTION */}
       <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-green-500/30">
-        <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV</h2>
-        <div className="grid grid-cols-2 gap-4">
-          {FEATURED_TV.map((tv, i) => (
-            <button
-              key={i}
-              onClick={() => tv.isYoutube? handlePlayVideo("kGJEuoSsVsM", tv.title, true) : window.open(tv.url, '_blank')}
-              className={`bg-gradient-to-br ${tv.bg} p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg`}
-            >
-              <p className="font-black text-white text-lg">{tv.title}</p>
-            </button>
-          ))}
+        <h2 className="text-lg font-bold mb-4 text-green-400">Premium Live TV & Data Deals</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <button
+            onClick={() => handlePlayVideo("https://www.siiiiir.tv/", "World cup - Live", false)}
+            className="bg-gradient-to-br from-blue-900 to-black p-8 rounded-2xl border border-white/10 text-center hover:scale-105 transition-transform shadow-lg w-full"
+          >
+            <p className="font-black text-white text-lg">World cup - Live</p>
+          </button>
+
+          {/* New Live In-App Data Bundles Box */}
+          <div className="bg-gradient-to-br from-green-950 via-black to-emerald-950 p-5 rounded-2xl border border-green-500/40 shadow-lg text-left flex flex-col justify-between">
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <p className="font-black text-green-400 text-lg">Ahmed Data Deals Kenya</p>
+                <span className="text-xs bg-green-600 text-white font-bold px-2 py-0.5 rounded-full animate-pulse">Jaban</span>
+              </div>
+              <p className="text-xs text-white/70 mb-4">Geli Safaricom nambarkaaga si aad ugu shubato data jaban adigoo daawanaya ciyaarta.</p>
+            </div>
+            
+            <form onSubmit={handleBuyData} className="space-y-3">
+              <input
+                type="text"
+                placeholder="Tusaale: 0712345678"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="w-full bg-[#0a0a1a] text-white px-3 py-2.5 rounded-xl border border-white/10 text-xs focus:outline-none focus:border-green-500"
+              />
+              <button
+                type="submit"
+                disabled={isSubmittingData}
+                className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-700 text-white text-xs font-bold py-2.5 rounded-xl transition-all shadow-md uppercase tracking-wider"
+              >
+                {isSubmittingData ? "⏳ Processing..." : "🚀 Buy Data (1 KSH)"}
+              </button>
+            </form>
+          </div>
         </div>
       </section>
 
@@ -314,7 +371,7 @@ const HomePage = () => {
                   <span className="text-2xl">🎬</span>
                   <div className="flex flex-col gap-1 items-end">
                     <span className="text-xs bg-black/60 px-2 py-1 rounded-full font-bold">⭐ {film.rating}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${film.type === 'Hindi'? 'bg-orange-600' : 'bg-blue-600'}`}>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${film.type === 'Hindi' ? 'bg-orange-600' : 'bg-blue-600'}`}>
                       {film.type}
                     </span>
                   </div>
@@ -470,10 +527,10 @@ export default function App() {
       {renderPage()}
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       <style jsx global>{`
-.scrollbar-hide::-webkit-scrollbar {
+        .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
-.scrollbar-hide {
+        .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
