@@ -62,7 +62,6 @@ const MATCHES_DATA: Record<number, any[]> = {
   ],
 };
 
-// MULTIPLE COMPREHENSIVE PACKAGES AS REFLECTED IN REFERENCE IMAGES
 const DATA_PACKAGES = [
   { id: 1, name: "250MB Daily", price: 18, desc: "24 HOURS", badge: "Best Deal" },
   { id: 2, name: "250MB Daily", price: 20, desc: "24 HOURS", badge: null },
@@ -173,10 +172,10 @@ const HomePage = () => {
   };
 
   return (
-    <main className="p-6 pb-28 w-full px-4 sm:px-8 relative">
+    <main className="p-6 pb-28 w-full px-4 sm:px-8 relative space-y-8">
       
       {/* SEARCH BAR */}
-      <div className="mb-8 bg-[#111122] rounded-2xl p-4 border border-blue-500/30 shadow-xl w-full">
+      <div className="bg-[#111122] rounded-2xl p-4 border border-blue-500/30 shadow-xl w-full">
         <div className="flex gap-3">
           <input
             type="text"
@@ -198,7 +197,7 @@ const HomePage = () => {
 
       {/* SEARCH RESULTS */}
       {showResults && (
-        <div className="mb-8 bg-[#111122] rounded-3xl p-5 border border-red-500/30 shadow-2xl w-full">
+        <div className="bg-[#111122] rounded-3xl p-5 border border-red-500/30 shadow-2xl w-full">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-bold text-white">Results: {searchQuery}</h3>
             <button onClick={() => setShowResults(false)} className="text-white/60 hover:text-white text-3xl">×</button>
@@ -222,7 +221,7 @@ const HomePage = () => {
       )}
 
       {activeVideo && (
-        <div className="mb-8 bg-[#111122] rounded-3xl p-5 border border-blue-500/30 shadow-2xl w-full">
+        <div className="bg-[#111122] rounded-3xl p-5 border border-blue-500/30 shadow-2xl w-full">
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center gap-2">
               <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse font-bold">LIVE</span>
@@ -242,7 +241,7 @@ const HomePage = () => {
       )}
 
       {/* HERO BANNER CONTAINER WITH NOTIFICATION ALERT OVERLAY */}
-      <div className="relative w-full mb-8">
+      <div className="relative w-full">
         <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl p-10 md:p-16 relative">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200')] bg-cover bg-center opacity-20"></div>
           <div className="relative z-10 text-center py-6">
@@ -284,179 +283,170 @@ const HomePage = () => {
         )}
       </div>
 
-      <div className="flex items-center mb-6 px-2">
+      <div className="flex items-center px-2">
         <span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-3 animate-pulse font-bold">LIVE</span>
         <p className="text-base font-black text-white uppercase tracking-wider">Ahmed Abdikani Live Streaming</p>
       </div>
 
-      {/* MAIN CONTAINER LAYOUT */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch w-full">
+      {/* MAIN CHANNELS & MEDIA CONTENT SECTIONS */}
+      <div className="w-full space-y-8">
         
-        {/* LEFT TWO COLUMNS (Channels, Premium, Films) */}
-        <div className="lg:col-span-2 space-y-8 w-full">
-          
-          {/* LIVE CHANNELS */}
-          <section className="w-full">
-            <h2 className="text-xl font-black mb-4 text-white/90 tracking-wide uppercase">All Live Channels - 11 Streams</h2>
-            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide w-full">
-              {SPORTS_CHANNELS.map((ch) => (
-                <button
-                  key={ch.id}
-                  onClick={() => {
-                    if (ch.youtube) {
-                      handlePlayVideo(ch.youtube, ch.title, true, ch.isYoutubeChannel)
-                    } else if (ch.siirUrl) {
-                      window.open(ch.siirUrl, '_blank')
-                    }
-                  }}
-                  disabled={!ch.youtube && !ch.siirUrl}
-                  className={`shrink-0 w-48 h-32 bg-gradient-to-br ${ch.bg} rounded-2xl p-5 flex flex-col justify-between border border-white/5 shadow-xl transition-all transform hover:scale-105 active:scale-95 ${(ch.youtube || ch.siirUrl) ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
-                >
-                  <div className="flex justify-between items-start w-full">
-                    <span className="text-3xl">{ch.icon}</span>
-                    {(ch.youtube || ch.siirUrl) && <span className="text-xs bg-red-600 px-2.5 py-1 rounded-full font-black">LIVE</span>}
-                  </div>
-                  <h3 className="font-bold text-sm text-white text-left line-clamp-2">{ch.title}</h3>
-                </button>
-              ))}
-            </div>
-          </section>
-
-          {/* PREMIUM LIVE TV SECTION */}
-          <section className="p-6 rounded-3xl bg-[#111122] border border-blue-500/30 shadow-xl w-full">
-            <h2 className="text-xl font-black mb-4 text-blue-400 uppercase tracking-wide">Premium Live TV</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* LIVE CHANNELS */}
+        <section className="w-full">
+          <h2 className="text-xl font-black mb-4 text-white/90 tracking-wide uppercase">All Live Channels - 11 Streams</h2>
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide w-full">
+            {SPORTS_CHANNELS.map((ch) => (
               <button
-                onClick={() => handlePlayVideo("https://www.siiiiir.tv/", "World cup - Live", false)}
-                className="bg-gradient-to-br from-blue-900 to-black p-8 rounded-2xl border border-white/10 text-center transform hover:scale-[1.03] transition-transform shadow-xl"
+                key={ch.id}
+                onClick={() => {
+                  if (ch.youtube) {
+                    handlePlayVideo(ch.youtube, ch.title, true, ch.isYoutubeChannel)
+                  } else if (ch.siirUrl) {
+                    window.open(ch.siirUrl, '_blank')
+                  }
+                }}
+                disabled={!ch.youtube && !ch.siirUrl}
+                className={`shrink-0 w-48 h-32 bg-gradient-to-br ${ch.bg} rounded-2xl p-5 flex flex-col justify-between border border-white/5 shadow-xl transition-all transform hover:scale-105 active:scale-95 ${(ch.youtube || ch.siirUrl) ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
               >
-                <p className="font-black text-white text-lg">World cup - Live</p>
+                <div className="flex justify-between items-start w-full">
+                  <span className="text-3xl">{ch.icon}</span>
+                  {(ch.youtube || ch.siirUrl) && <span className="text-xs bg-red-600 px-2.5 py-1 rounded-full font-black">LIVE</span>}
+                </div>
+                <h3 className="font-bold text-sm text-white text-left line-clamp-2">{ch.title}</h3>
               </button>
-            </div>
-          </section>
+            ))}
+          </div>
+        </section>
 
-          {/* FILMS SECTION - ZOOMED BOXES */}
-          <section className="p-6 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl w-full">
-            <div className="flex items-center justify-between mb-5">
-              <h2 className="text-xl font-black text-orange-400 uppercase tracking-wide">Hindi & Hollywood Films</h2>
-              <span className="text-xs bg-orange-600 px-4 py-1.5 rounded-full font-black">11 FILMS</span>
-            </div>
+        {/* PREMIUM LIVE TV SECTION */}
+        <section className="p-6 rounded-3xl bg-[#111122] border border-blue-500/30 shadow-xl w-full">
+          <h2 className="text-xl font-black mb-4 text-blue-400 uppercase tracking-wide">Premium Live TV</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <button
+              onClick={() => handlePlayVideo("https://www.siiiiir.tv/", "World cup - Live", false)}
+              className="bg-gradient-to-br from-blue-900 to-black p-8 rounded-2xl border border-white/10 text-center transform hover:scale-[1.03] transition-transform shadow-xl w-full"
+            >
+              <p className="font-black text-white text-lg">World cup - Live</p>
+            </button>
+          </div>
+        </section>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-5">
-              {ALL_FILMS.map((film) => (
-                <button
-                  key={film.id}
-                  onClick={() => {
-                    if (film.youtube) {
-                      handlePlayVideo(film.youtube, film.title, true);
-                    } else if (film.siirUrl) {
-                      window.open(film.siirUrl, '_blank');
-                    }
-                  }}
-                  className="relative h-56 rounded-2xl border border-white/10 overflow-hidden transform hover:scale-105 transition-transform shadow-xl group w-full"
+        {/* FILMS SECTION - REMAINING INTACT AS REQUESTED */}
+        <section className="p-6 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl w-full">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-xl font-black text-orange-400 uppercase tracking-wide">Hindi & Hollywood Films</h2>
+            <span className="text-xs bg-orange-600 px-4 py-1.5 rounded-full font-black">11 FILMS</span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
+            {ALL_FILMS.map((film) => (
+              <button
+                key={film.id}
+                onClick={() => {
+                  if (film.youtube) {
+                    handlePlayVideo(film.youtube, film.title, true);
+                  } else if (film.siirUrl) {
+                    window.open(film.siirUrl, '_blank');
+                  }
+                }}
+                className="relative h-56 rounded-2xl border border-white/10 overflow-hidden transform hover:scale-105 transition-transform shadow-xl group w-full"
+              >
+                <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${film.image})`}} />
+                <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-85 group-hover:opacity-75 transition-opacity`} />
+                <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
+                  <div className="flex justify-between items-start">
+                    <span className="text-3xl">🎬</span>
+                    <div className="flex flex-col gap-1 items-end">
+                      <span className="text-xs bg-black/60 px-2.5 py-1 rounded-full font-black">⭐ {film.rating}</span>
+                      <span className={`text-[11px] px-2 py-0.5 rounded-full font-black ${film.type === 'Hindi' ? 'bg-orange-600' : 'bg-blue-600'}`}>
+                        {film.type}
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="font-black text-white text-sm sm:text-base line-clamp-2 leading-tight">{film.title}</p>
+                    <p className="text-xs text-white/80 mt-0.5">{film.year}</p>
+                  </div>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
+                  <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center shadow-lg">
+                    <span className="text-white text-base">▶</span>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* AHMED DATA DEALS KENYA - PLACED AT THE BOTTOM ("HOOS") */}
+        <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border-2 border-green-500/40 shadow-2xl w-full">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-white/10 pb-4">
+            <div>
+              <h2 className="text-2xl font-black text-green-400 tracking-tight uppercase">Ahmed Data Deals Kenya</h2>
+              <p className="text-sm text-white/60 mt-0.5">Official link for affordable internet packages</p>
+            </div>
+            <span className="text-xs bg-green-500 text-black font-black px-3 py-1.5 rounded-full uppercase tracking-wider animate-pulse">
+              Active
+            </span>
+          </div>
+
+          <form onSubmit={handleBuyData} className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            
+            {/* SCROLLABLE DATA LIST AREA TAKING 2 COLUMNS FOR SCANNING BREATHING SPACE */}
+            <div className="lg:col-span-2 max-h-[420px] overflow-y-auto pr-2 space-y-3 custom-scrollbar grid grid-cols-1 sm:grid-cols-2 gap-3 !space-y-0">
+              {DATA_PACKAGES.map((pkg) => (
+                <div
+                  key={pkg.id}
+                  onClick={() => setSelectedPkg(pkg.id)}
+                  className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer flex justify-between items-center h-20 ${
+                    selectedPkg === pkg.id
+                      ? 'bg-green-900/40 border-green-400 shadow-xl scale-[1.01]'
+                      : 'bg-[#0a110e]/80 border-white/10 hover:border-green-500/30'
+                  }`}
                 >
-                  <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${film.image})`}} />
-                  <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-85 group-hover:opacity-75 transition-opacity`} />
-                  <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
-                    <div className="flex justify-between items-start">
-                      <span className="text-3xl">🎬</span>
-                      <div className="flex flex-col gap-1 items-end">
-                        <span className="text-xs bg-black/60 px-2.5 py-1 rounded-full font-black">⭐ {film.rating}</span>
-                        <span className={`text-[11px] px-2 py-0.5 rounded-full font-black ${film.type === 'Hindi' ? 'bg-orange-600' : 'bg-blue-600'}`}>
-                          {film.type}
+                  <div className="text-left space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[9px] font-black tracking-wider text-green-400 uppercase bg-green-950/80 px-1.5 py-0.5 rounded border border-green-500/20">
+                        {pkg.desc}
+                      </span>
+                      {pkg.badge && (
+                        <span className="text-[8px] font-black tracking-tighter text-white uppercase bg-red-600 px-1 py-0.5 rounded">
+                          {pkg.badge}
                         </span>
-                      </div>
+                      )}
                     </div>
-                    <div>
-                      <p className="font-black text-white text-sm sm:text-base line-clamp-2 leading-tight">{film.title}</p>
-                      <p className="text-xs text-white/80 mt-0.5">{film.year}</p>
-                    </div>
+                    <p className="font-black text-white text-base tracking-wide">{pkg.name}</p>
                   </div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
-                    <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center shadow-lg">
-                      <span className="text-white text-base">▶</span>
-                    </div>
+                  <div className="text-right flex items-center gap-3">
+                    <span className="text-base font-black text-white">KSh {pkg.price}</span>
+                    <div className={`w-5 h-5 rounded-full flex items-center justify-center border text-[10px] ${selectedPkg === pkg.id ? 'bg-green-400 border-green-400 text-black' : 'border-white/20 text-transparent'}`}>✓</div>
                   </div>
-                </button>
+                </div>
               ))}
             </div>
-          </section>
 
-        </div>
-
-        {/* RIGHT SIDEBAR COLUMN - CLEAN EXTENDED DATA MODULE */}
-        <div className="lg:col-span-1 w-full h-full flex flex-col">
-          <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border border-green-500/40 shadow-2xl w-full h-full flex flex-col justify-between">
-            <div>
-              <div className="flex justify-between items-center mb-6">
-                <div>
-                  <h2 className="text-xl font-black text-green-400 tracking-tight uppercase">Ahmed Data Deals Kenya</h2>
-                  <p className="text-xs text-white/60 mt-0.5">Official link for affordable internet packages</p>
-                </div>
-                <span className="text-[10px] bg-green-500 text-black font-black px-2.5 py-1 rounded-full uppercase tracking-wider animate-pulse">
-                  Active
-                </span>
+            {/* TRANSACTION INPUT AREA */}
+            <div className="lg:col-span-1 bg-black/30 p-5 rounded-2xl border border-white/5 space-y-5 h-full flex flex-col justify-between">
+              <div>
+                <label className="block text-xs font-black text-white/70 uppercase tracking-wider mb-2 pl-1">Safaricom Phone Number</label>
+                <input
+                  type="text"
+                  placeholder="Example: 0712345678"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="w-full bg-[#050a07] text-white px-5 py-4 rounded-xl border border-white/10 text-base focus:outline-none focus:border-green-400 transition-colors placeholder:text-white/20"
+                />
               </div>
 
-              <form onSubmit={handleBuyData} className="space-y-6">
-                
-                {/* INTERACTIVE SCROLLABLE PACKAGES BOX WITH SPACED ITEM BADGES */}
-                <div className="max-h-[520px] overflow-y-auto pr-1 space-y-4 custom-scrollbar">
-                  {DATA_PACKAGES.map((pkg) => (
-                    <div
-                      key={pkg.id}
-                      onClick={() => setSelectedPkg(pkg.id)}
-                      className={`p-4.5 rounded-xl border transition-all duration-200 cursor-pointer flex justify-between items-center ${
-                        selectedPkg === pkg.id
-                          ? 'bg-green-900/40 border-green-400 shadow-xl scale-[1.01]'
-                          : 'bg-[#0a110e]/80 border-white/10 hover:border-green-500/30'
-                      }`}
-                    >
-                      <div className="text-left space-y-1.5">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-black tracking-wider text-green-400 uppercase bg-green-950/80 px-2 py-0.5 rounded border border-green-500/20">
-                            {pkg.desc}
-                          </span>
-                          {pkg.badge && (
-                            <span className="text-[9px] font-black tracking-tighter text-white uppercase bg-red-600 px-1.5 py-0.5 rounded">
-                              {pkg.badge}
-                            </span>
-                          )}
-                        </div>
-                        <p className="font-black text-white text-base tracking-wide">{pkg.name}</p>
-                      </div>
-                      <div className="text-right flex items-center gap-2">
-                        <span className="text-base font-black text-white">KSh {pkg.price}</span>
-                        <div className={`w-5 h-5 rounded-full flex items-center justify-center border text-[10px] ${selectedPkg === pkg.id ? 'bg-green-400 border-green-400 text-black' : 'border-white/20 text-transparent'}`}>✓</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Phone Input Box and Submit Button */}
-                <div className="pt-5 border-t border-white/10 space-y-4">
-                  <div>
-                    <label className="block text-xs font-black text-white/70 uppercase tracking-wider mb-2 pl-1">Safaricom Phone Number</label>
-                    <input
-                      type="text"
-                      placeholder="Example: 0712345678"
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                      className="w-full bg-[#050a07] text-white px-5 py-4 rounded-xl border border-white/10 text-base focus:outline-none focus:border-green-400 transition-colors placeholder:text-white/20"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-base py-4 rounded-xl transition-all shadow-xl uppercase tracking-widest flex items-center justify-center gap-2 mt-2"
-                  >
-                    <span>Buy Selected Bundle</span>
-                  </button>
-                </div>
-              </form>
+              <button
+                type="submit"
+                className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-base py-4 rounded-xl transition-all shadow-xl uppercase tracking-widest flex items-center justify-center gap-2"
+              >
+                <span>Buy Selected Bundle</span>
+              </button>
             </div>
-          </section>
-        </div>
+          </form>
+        </section>
 
       </div>
     </main>
