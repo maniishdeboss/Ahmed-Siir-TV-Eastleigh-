@@ -76,20 +76,20 @@ const DATA_PACKAGES = [
 
 // --- COMPONENTS ---
 const Header = () => (
-  <header className="p-5 flex items-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-0 z-50 shadow-xl w-full px-6">
-    <h1 className="text-3xl font-black tracking-tighter text-white">AHMED <span className="text-blue-500">LIVE</span> TV</h1>
+  <header className="p-4 flex items-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-0 z-50 shadow-xl w-full px-4">
+    <h1 className="text-2xl font-black tracking-tighter text-white">AHMED <span className="text-blue-500">LIVE</span> TV</h1>
   </header>
 );
 
 const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
   const tabs = ['Home', 'Live', 'Browse', 'Profile'];
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-[#0a0a1a]/95 border-t border-white/10 p-5 flex justify-around backdrop-blur-xl z-50 shadow-2xl">
+    <nav className="fixed bottom-0 left-0 right-0 bg-[#0a0a1a]/95 border-t border-white/10 p-4 flex justify-around backdrop-blur-xl z-50 shadow-2xl">
       {tabs.map((tab) => (
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`text-sm font-black uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
+          className={`text-xs font-black uppercase tracking-widest text-white transition-all duration-200 ${activeTab === tab ? 'opacity-100 scale-105 text-blue-500' : 'opacity-60'}`}
         >
           {tab}
         </button>
@@ -172,47 +172,47 @@ const HomePage = () => {
   };
 
   return (
-    <main className="p-6 pb-28 w-full px-4 sm:px-8 relative space-y-8">
+    <main className="p-4 pb-24 w-full relative space-y-6">
       
-      {/* SEARCH BAR */}
-      <div className="bg-[#111122] rounded-2xl p-4 border border-blue-500/30 shadow-xl w-full">
-        <div className="flex gap-3">
+      {/* SEARCH BAR - FULL WIDTH MOBILE */}
+      <div className="bg-[#111122] rounded-xl p-3 border border-blue-500/20 shadow-lg w-full">
+        <div className="flex gap-2">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleYouTubeSearch()}
-            placeholder="Search YouTube - movies, music, live..."
-            className="flex-1 bg-[#0a0a1a] text-white px-5 py-4 rounded-xl border border-white/10 focus:outline-none focus:border-blue-500 text-base"
+            placeholder="Search YouTube..."
+            className="flex-1 bg-[#0a0a1a] text-white px-3.5 py-3 rounded-lg border border-white/10 focus:outline-none focus:border-blue-500 text-sm"
           />
           <button
             onClick={handleYouTubeSearch}
             disabled={isSearching}
-            className="bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all"
+            className="bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white px-5 py-3 rounded-lg font-bold text-base transition-all"
           >
             {isSearching ? "⏳" : "🔍"}
           </button>
         </div>
       </div>
 
-      {/* SEARCH RESULTS */}
+      {/* SEARCH RESULTS - MOBILE COMPACT */}
       {showResults && (
-        <div className="bg-[#111122] rounded-3xl p-5 border border-red-500/30 shadow-2xl w-full">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold text-white">Results: {searchQuery}</h3>
-            <button onClick={() => setShowResults(false)} className="text-white/60 hover:text-white text-3xl">×</button>
+        <div className="bg-[#111122] rounded-2xl p-4 border border-red-500/20 shadow-xl w-full">
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="text-sm font-bold text-white truncate max-w-[80%]">Results: {searchQuery}</h3>
+            <button onClick={() => setShowResults(false)} className="text-white/60 hover:text-white text-2xl leading-none">×</button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[600px] overflow-y-auto">
+          <div className="flex flex-col gap-3 max-h-[350px] overflow-y-auto pr-1">
             {searchResults.map((video) => (
               <button
                 key={video.id}
                 onClick={() => handlePlayVideo(video.id, video.title, true)}
-                className="flex gap-4 bg-[#0a0a1a] p-4 rounded-xl border border-white/5 hover:bg-[#1a1a2a] transition text-left transform hover:scale-[1.02]"
+                className="flex gap-3 bg-[#0a0a1a] p-2.5 rounded-xl border border-white/5 text-left items-center"
               >
-                <img src={video.thumbnail} alt={video.title} className="w-36 h-24 object-cover rounded-lg" />
-                <div className="flex-1">
-                  <p className="text-white font-bold text-sm sm:text-base line-clamp-2">{video.title}</p>
-                  <p className="text-white/50 text-xs mt-1.5">{video.channel}</p>
+                <img src={video.thumbnail} alt={video.title} className="w-24 h-16 object-cover rounded-md shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-white font-bold text-xs line-clamp-2 leading-tight">{video.title}</p>
+                  <p className="text-white/50 text-[10px] mt-1 truncate">{video.channel}</p>
                 </div>
               </button>
             ))}
@@ -220,16 +220,17 @@ const HomePage = () => {
         </div>
       )}
 
+      {/* VIDEO PLAYER PREVIEW - MOBILE SCALED */}
       {activeVideo && (
-        <div className="bg-[#111122] rounded-3xl p-5 border border-blue-500/30 shadow-2xl w-full">
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center gap-2">
-              <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse font-bold">LIVE</span>
-              <p className="text-base font-bold text-white line-clamp-1">{activeTitle}</p>
+        <div className="bg-[#111122] rounded-2xl p-3 border border-blue-500/20 shadow-xl w-full">
+          <div className="flex justify-between items-center mb-2.5">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="bg-red-600 text-[9px] px-2 py-0.5 rounded-full animate-pulse font-bold shrink-0">LIVE</span>
+              <p className="text-xs font-bold text-white truncate">{activeTitle}</p>
             </div>
-            <button onClick={() => setActiveVideo(null)} className="text-white/60 hover:text-white text-4xl leading-none">×</button>
+            <button onClick={() => setActiveVideo(null)} className="text-white/60 text-2xl leading-none pl-1">×</button>
           </div>
-          <div className="aspect-video bg-black rounded-xl overflow-hidden w-full max-w-6xl mx-auto">
+          <div className="aspect-video bg-black rounded-lg overflow-hidden w-full">
             <iframe
               src={isYoutubeVideo ? `https://www.youtube.com/embed/${activeVideo}?autoplay=1` : activeVideo}
               className="w-full h-full"
@@ -240,42 +241,42 @@ const HomePage = () => {
         </div>
       )}
 
-      {/* HERO BANNER CONTAINER WITH NOTIFICATION ALERT OVERLAY */}
+      {/* HERO BANNER - MOBILE ADAPTED PADDING */}
       <div className="relative w-full">
-        <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl p-10 md:p-16 relative">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200')] bg-cover bg-center opacity-20"></div>
-          <div className="relative z-10 text-center py-6">
-            <div className="text-7xl mb-4">📺</div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇬🇲 Ahmed Abdikani Live TV 🇸🇴</h2>
-            <p className="text-white/80 text-base sm:text-lg mb-8 max-w-2xl mx-auto">Watch Live Sports HD Content Flawlessly</p>
+        <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-2xl overflow-hidden border border-blue-500/20 shadow-xl p-6 relative text-center">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=600')] bg-cover bg-center opacity-15"></div>
+          <div className="relative z-10 py-2">
+            <div className="text-4xl mb-2">📺</div>
+            <h2 className="text-xl font-black text-white mb-1 tracking-tight">🇬🇲 Ahmed Abdikani Live TV 🇸🇴</h2>
+            <p className="text-white/70 text-xs mb-5">Watch Live Sports HD Content Flawlessly</p>
             <a
               href="https://www.siiiiir.tv/"
               target="_blank"
-              className="inline-block bg-red-600 hover:bg-red-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider"
+              className="inline-block bg-red-600 hover:bg-red-700 text-white font-black text-xs py-3 px-8 rounded-lg transition-all shadow-md uppercase tracking-wider w-full sm:w-auto"
             >
                Click Here to Watch Live
             </a>
           </div>
         </div>
 
-        {/* TOP-RIGHT SITE NOTIFICATION ALERT BANNER */}
+        {/* SITE NOTIFICATION OVERLAY ALERT - CLEAN FOR PHONES */}
         {showNotification && (
-          <div className="absolute top-4 right-4 z-30 w-72 bg-white text-black p-3.5 rounded-xl shadow-2xl border border-gray-200 animate-fade-in flex flex-col gap-2">
-            <div className="flex justify-between items-start">
-              <h4 className="text-xs font-bold text-gray-900 tracking-tight">Manage Site Notifications</h4>
-              <button onClick={() => setShowNotification(false)} className="text-gray-400 hover:text-black text-base font-bold leading-none">×</button>
+          <div className="absolute top-2 right-2 left-2 z-30 bg-white text-black p-3 rounded-xl shadow-xl border border-gray-200 flex flex-col gap-2">
+            <div className="flex justify-between items-center">
+              <h4 className="text-[11px] font-black text-gray-900 tracking-tight">Manage Site Notifications</h4>
+              <button onClick={() => setShowNotification(false)} className="text-gray-400 hover:text-black text-xl font-bold leading-none">×</button>
             </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-12 h-8 bg-blue-900 rounded overflow-hidden shrink-0">
-                <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=100" className="w-full h-full object-cover" alt="Thumb" />
+            <div className="flex gap-2.5 items-center">
+              <div className="w-10 h-7 bg-blue-900 rounded overflow-hidden shrink-0">
+                <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=80" className="w-full h-full object-cover" alt="Thumb" />
               </div>
-              <p className="text-[10px] text-gray-600 leading-tight">
-                Allow notifications to receive instantaneous dynamic updates on current match streams.
+              <p className="text-[10px] text-gray-600 leading-tight flex-1">
+                Allow notifications to receive dynamic updates on stream matches.
               </p>
             </div>
             <button 
               onClick={() => setShowNotification(false)}
-              className="w-full bg-[#ef4444] text-white font-bold text-[11px] py-1.5 rounded uppercase tracking-wider text-center hover:bg-red-700 transition-colors"
+              className="w-full bg-[#ef4444] text-white font-bold text-[10px] py-1.5 rounded uppercase tracking-wider text-center"
             >
               Unsubscribe
             </button>
@@ -283,18 +284,18 @@ const HomePage = () => {
         )}
       </div>
 
-      <div className="flex items-center px-2">
-        <span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-3 animate-pulse font-bold">LIVE</span>
-        <p className="text-base font-black text-white uppercase tracking-wider">Ahmed Abdikani Live Streaming</p>
+      <div className="flex items-center px-1">
+        <span className="bg-red-600 text-[10px] px-2 py-0.5 rounded-full mr-2 animate-pulse font-bold">LIVE</span>
+        <p className="text-xs font-black text-white uppercase tracking-wider">Ahmed Abdikani Live Streaming</p>
       </div>
 
-      {/* MAIN CHANNELS & MEDIA CONTENT SECTIONS */}
-      <div className="w-full space-y-8">
+      {/* MAIN CONTAINER VERTICAL ON PHONES */}
+      <div className="w-full space-y-6">
         
         {/* LIVE CHANNELS */}
         <section className="w-full">
-          <h2 className="text-xl font-black mb-4 text-white/90 tracking-wide uppercase">All Live Channels - 11 Streams</h2>
-          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide w-full">
+          <h2 className="text-sm font-black mb-2.5 text-white/90 tracking-wide uppercase px-1">All Live Channels - 11 Streams</h2>
+          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide w-full snap-x">
             {SPORTS_CHANNELS.map((ch) => (
               <button
                 key={ch.id}
@@ -306,109 +307,108 @@ const HomePage = () => {
                   }
                 }}
                 disabled={!ch.youtube && !ch.siirUrl}
-                className={`shrink-0 w-48 h-32 bg-gradient-to-br ${ch.bg} rounded-2xl p-5 flex flex-col justify-between border border-white/5 shadow-xl transition-all transform hover:scale-105 active:scale-95 ${(ch.youtube || ch.siirUrl) ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
+                className={`shrink-0 w-36 h-24 bg-gradient-to-br ${ch.bg} rounded-xl p-3.5 flex flex-col justify-between border border-white/5 shadow-md snap-item ${(ch.youtube || ch.siirUrl) ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
               >
                 <div className="flex justify-between items-start w-full">
-                  <span className="text-3xl">{ch.icon}</span>
-                  {(ch.youtube || ch.siirUrl) && <span className="text-xs bg-red-600 px-2.5 py-1 rounded-full font-black">LIVE</span>}
+                  <span className="text-xl">{ch.icon}</span>
+                  {(ch.youtube || ch.siirUrl) && <span className="text-[9px] bg-red-600 px-1.5 py-0.5 rounded-full font-black">LIVE</span>}
                 </div>
-                <h3 className="font-bold text-sm text-white text-left line-clamp-2">{ch.title}</h3>
+                <h3 className="font-bold text-xs text-white text-left line-clamp-1 truncate w-full">{ch.title}</h3>
               </button>
             ))}
           </div>
         </section>
 
         {/* PREMIUM LIVE TV SECTION */}
-        <section className="p-6 rounded-3xl bg-[#111122] border border-blue-500/30 shadow-xl w-full">
-          <h2 className="text-xl font-black mb-4 text-blue-400 uppercase tracking-wide">Premium Live TV</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button
-              onClick={() => handlePlayVideo("https://www.siiiiir.tv/", "World cup - Live", false)}
-              className="bg-gradient-to-br from-blue-900 to-black p-8 rounded-2xl border border-white/10 text-center transform hover:scale-[1.03] transition-transform shadow-xl w-full"
-            >
-              <p className="font-black text-white text-lg">World cup - Live</p>
-            </button>
-          </div>
+        <section className="p-4 rounded-2xl bg-[#111122] border border-blue-500/20 shadow-md w-full">
+          <h2 className="text-sm font-black mb-2.5 text-blue-400 uppercase tracking-wide">Premium Live TV</h2>
+          <button
+            onClick={() => handlePlayVideo("https://www.siiiiir.tv/", "World cup - Live", false)}
+            className="bg-gradient-to-br from-blue-900 to-black p-5 rounded-xl border border-white/10 text-center shadow-md w-full"
+          >
+            <p className="font-black text-white text-sm">World cup - Live</p>
+          </button>
         </section>
 
-        {/* AHMED DATA DEALS KENYA - MOVED UP HERE ("KOOR KEEN") */}
-        <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border-2 border-green-500/40 shadow-2xl w-full">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-white/10 pb-4">
+        {/* AHMED DATA DEALS KENYA - FULLY RESPONSIVE MOBILE FLOW */}
+        <section className="p-4 rounded-2xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border border-green-500/30 shadow-xl w-full">
+          <div className="flex justify-between items-center gap-2 mb-4 border-b border-white/10 pb-2.5">
             <div>
-              <h2 className="text-2xl font-black text-green-400 tracking-tight uppercase">Ahmed Data Deals Kenya</h2>
-              <p className="text-sm text-white/60 mt-0.5">Official link for affordable internet packages</p>
+              <h2 className="text-base font-black text-green-400 tracking-tight uppercase">Ahmed Data Deals Kenya</h2>
+              <p className="text-[10px] text-white/50">Affordable internet packages</p>
             </div>
-            <span className="text-xs bg-green-500 text-black font-black px-3 py-1.5 rounded-full uppercase tracking-wider animate-pulse">
+            <span className="text-[9px] bg-green-500 text-black font-black px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">
               Active
             </span>
           </div>
 
-          <form onSubmit={handleBuyData} className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          {/* SINGLE COLUMN FOR FORM ON MOBILE */}
+          <form onSubmit={handleBuyData} className="flex flex-col gap-4 w-full">
             
-            {/* SCROLLABLE DATA LIST AREA */}
-            <div className="lg:col-span-2 max-h-[420px] overflow-y-auto pr-2 space-y-3 custom-scrollbar grid grid-cols-1 sm:grid-cols-2 gap-3 !space-y-0">
+            {/* DATA PACKAGES ADJUSTED LIST GRID FOR MOBILE TO ELIMINATE HORIZONTAL SQUEEZING */}
+            <div className="max-h-[320px] overflow-y-auto pr-1 flex flex-col gap-2 custom-scrollbar w-full">
               {DATA_PACKAGES.map((pkg) => (
                 <div
                   key={pkg.id}
                   onClick={() => setSelectedPkg(pkg.id)}
-                  className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer flex justify-between items-center h-20 ${
+                  className={`p-3 rounded-xl border transition-all duration-150 cursor-pointer flex justify-between items-center min-h-[56px] w-full ${
                     selectedPkg === pkg.id
-                      ? 'bg-green-900/40 border-green-400 shadow-xl scale-[1.01]'
-                      : 'bg-[#0a110e]/80 border-white/10 hover:border-green-500/30'
+                      ? 'bg-green-900/40 border-green-400 shadow-md'
+                      : 'bg-[#0a110e]/80 border-white/5'
                   }`}
                 >
-                  <div className="text-left space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[9px] font-black tracking-wider text-green-400 uppercase bg-green-950/80 px-1.5 py-0.5 rounded border border-green-500/20">
+                  <div className="text-left space-y-0.5 min-w-0 flex-1 pr-2">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-[8px] font-black tracking-wide text-green-400 uppercase bg-green-950/80 px-1 py-0.5 rounded border border-green-500/10">
                         {pkg.desc}
                       </span>
                       {pkg.badge && (
-                        <span className="text-[8px] font-black tracking-tighter text-white uppercase bg-red-600 px-1 py-0.5 rounded">
+                        <span className="text-[7px] font-black text-white uppercase bg-red-600 px-1 py-0.5 rounded tracking-tighter">
                           {pkg.badge}
                         </span>
                       )}
                     </div>
-                    <p className="font-black text-white text-base tracking-wide">{pkg.name}</p>
+                    <p className="font-black text-white text-xs truncate">{pkg.name}</p>
                   </div>
-                  <div className="text-right flex items-center gap-3">
-                    <span className="text-base font-black text-white">KSh {pkg.price}</span>
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center border text-[10px] ${selectedPkg === pkg.id ? 'bg-green-400 border-green-400 text-black' : 'border-white/20 text-transparent'}`}>✓</div>
+                  <div className="text-right flex items-center gap-2 shrink-0">
+                    <span className="text-xs font-black text-white">KSh {pkg.price}</span>
+                    <div className={`w-4 h-4 rounded-full flex items-center justify-center border text-[9px] ${selectedPkg === pkg.id ? 'bg-green-400 border-green-400 text-black' : 'border-white/20 text-transparent'}`}>✓</div>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* TRANSACTION INPUT AREA */}
-            <div className="lg:col-span-1 bg-black/30 p-5 rounded-2xl border border-white/5 space-y-5 h-full flex flex-col justify-between">
+            {/* TRANSACTION INPUT AREA FLUSH WITH MOBILE CONTAINER */}
+            <div className="bg-black/20 p-3.5 rounded-xl border border-white/5 space-y-3.5 w-full">
               <div>
-                <label className="block text-xs font-black text-white/70 uppercase tracking-wider mb-2 pl-1">Safaricom Phone Number</label>
+                <label className="block text-[10px] font-black text-white/60 uppercase tracking-wider mb-1.5 pl-0.5">Safaricom Phone Number</label>
                 <input
                   type="text"
                   placeholder="Example: 0712345678"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="w-full bg-[#050a07] text-white px-5 py-4 rounded-xl border border-white/10 text-base focus:outline-none focus:border-green-400 transition-colors placeholder:text-white/20"
+                  className="w-full bg-[#050a07] text-white px-3.5 py-3 rounded-lg border border-white/10 text-sm focus:outline-none focus:border-green-400 placeholder:text-white/20"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-base py-4 rounded-xl transition-all shadow-xl uppercase tracking-widest flex items-center justify-center gap-2"
+                className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-sm py-3.5 rounded-lg transition-all shadow-md uppercase tracking-wider flex items-center justify-center"
               >
-                <span>Buy Selected Bundle</span>
+                Buy Selected Bundle
               </button>
             </div>
           </form>
         </section>
 
-        {/* FILMS SECTION - MOVED DOWN HERE ("HOOS GEE") */}
-        <section className="p-6 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl w-full">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-xl font-black text-orange-400 uppercase tracking-wide">Hindi & Hollywood Films</h2>
-            <span className="text-xs bg-orange-600 px-4 py-1.5 rounded-full font-black">11 FILMS</span>
+        {/* FILMS SECTION - COMPACT MOBILE 2-COLUMN GRID */}
+        <section className="p-4 rounded-2xl bg-[#111122] border border-orange-500/20 shadow-md w-full">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-black text-orange-400 uppercase tracking-wide">Hindi & Hollywood Films</h2>
+            <span className="text-[10px] bg-orange-600 px-3 py-1 rounded-full font-black">11 FILMS</span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
+          <div className="grid grid-cols-2 gap-3.5 w-full">
             {ALL_FILMS.map((film) => (
               <button
                 key={film.id}
@@ -419,28 +419,23 @@ const HomePage = () => {
                     window.open(film.siirUrl, '_blank');
                   }
                 }}
-                className="relative h-56 rounded-2xl border border-white/10 overflow-hidden transform hover:scale-105 transition-transform shadow-xl group w-full"
+                className="relative h-44 rounded-xl border border-white/5 overflow-hidden shadow-md group w-full"
               >
                 <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${film.image})`}} />
-                <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-85 group-hover:opacity-75 transition-opacity`} />
-                <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
-                  <div className="flex justify-between items-start">
-                    <span className="text-3xl">🎬</span>
-                    <div className="flex flex-col gap-1 items-end">
-                      <span className="text-xs bg-black/60 px-2.5 py-1 rounded-full font-black">⭐ {film.rating}</span>
-                      <span className={`text-[11px] px-2 py-0.5 rounded-full font-black ${film.type === 'Hindi' ? 'bg-orange-600' : 'bg-blue-600'}`}>
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
+                <div className="relative z-10 h-full flex flex-col justify-between p-3 text-left">
+                  <div className="flex justify-between items-start w-full">
+                    <span className="text-xl">🎬</span>
+                    <div className="flex flex-col gap-1 items-end shrink-0">
+                      <span className="text-[9px] bg-black/60 px-1.5 py-0.5 rounded-full font-black">⭐ {film.rating}</span>
+                      <span className={`text-[8px] px-1.5 py-0.5 rounded-full font-black ${film.type === 'Hindi' ? 'bg-orange-600' : 'bg-blue-600'}`}>
                         {film.type}
                       </span>
                     </div>
                   </div>
-                  <div>
-                    <p className="font-black text-white text-sm sm:text-base line-clamp-2 leading-tight">{film.title}</p>
-                    <p className="text-xs text-white/80 mt-0.5">{film.year}</p>
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
-                  <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center shadow-lg">
-                    <span className="text-white text-base">▶</span>
+                  <div className="min-w-0 w-full">
+                    <p className="font-black text-white text-xs line-clamp-1 leading-tight truncate">{film.title}</p>
+                    <p className="text-[10px] text-white/60 mt-0.5">{film.year}</p>
                   </div>
                 </div>
               </button>
@@ -462,21 +457,21 @@ const LivePage = () => {
     const leagueName = FOOTBALL_LEAGUES.find(l => l.id === selectedLeague)?.name || "";
 
     return (
-      <section className="bg-[#0a0a1f] min-h-screen pb-28 w-full">
-        <div className="bg-[#0a0a1f] p-5 flex items-center gap-4 border-b border-white/10 sticky top-0 z-40 px-6">
-          <button onClick={() => {setSelectedLeague(null); setActiveStream(null);}} className="text-white text-3xl">←</button>
-          <h2 className="text-2xl font-black text-white uppercase">{leagueName}</h2>
+      <section className="bg-[#0a0a1f] min-h-screen pb-24 w-full">
+        <div className="bg-[#0a0a1f] p-4 flex items-center gap-3 border-b border-white/10 sticky top-0 z-40 px-4">
+          <button onClick={() => {setSelectedLeague(null); setActiveStream(null);}} className="text-white text-2xl">←</button>
+          <h2 className="text-lg font-black text-white uppercase truncate">{leagueName}</h2>
         </div>
 
         {activeStream && (
-          <div className="bg-black aspect-video max-w-6xl mx-auto rounded-xl overflow-hidden my-6 shadow-2xl">
+          <div className="bg-black aspect-video w-full rounded-none my-4 shadow-lg">
             <iframe src={activeStream} className="w-full h-full" allow="autoplay; encrypted-media; fullscreen" allowFullScreen />
           </div>
         )}
 
-        <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="p-3 flex flex-col gap-3">
           {matches.map((match) => (
-            <div key={match.id} className="bg-[#111122] rounded-xl border border-white/5 shadow-lg">
+            <div key={match.id} className="bg-[#111122] rounded-xl border border-white/5 shadow-md">
               <button
                 onClick={() => {
                   if (!match.isYoutube && match.link.includes('siiiiir.tv')) {
@@ -485,20 +480,20 @@ const LivePage = () => {
                     setActiveStream(match.link)
                   }
                 }}
-                className="w-full p-5 flex items-center justify-between hover:bg-white/5 transition transform hover:scale-[1.01]"
+                className="w-full p-4 flex items-center justify-between"
               >
-                <div className="flex items-center gap-4 flex-1">
-                  <div className="text-center w-24">
-                    <div className="text-3xl">{match.flag1}</div>
-                    <div className="text-3xl">{match.flag2}</div>
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  <div className="text-center shrink-0">
+                    <div className="text-xl leading-none">{match.flag1}</div>
+                    <div className="text-xl leading-none mt-1">{match.flag2}</div>
                   </div>
-                  <div className="text-left">
-                    <p className="font-black text-white text-base sm:text-lg">{match.team1} VS {match.team2}</p>
-                    <p className="text-sm text-white/50 mt-0.5">{match.time}</p>
+                  <div className="text-left min-w-0 flex-1">
+                    <p className="font-black text-white text-sm truncate">{match.team1} VS {match.team2}</p>
+                    <p className="text-[11px] text-white/50 mt-0.5">{match.time}</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm text-red-500 font-black tracking-wider">{match.quality}</p>
+                <div className="text-right shrink-0 pl-2">
+                  <p className="text-xs text-red-500 font-black tracking-wider">{match.quality}</p>
                 </div>
               </button>
             </div>
@@ -509,21 +504,21 @@ const LivePage = () => {
   }
 
   return (
-    <section className="bg-[#0a0a1f] min-h-screen pb-28 w-full">
-      <div className="bg-[#0a0a1f] p-5 flex justify-between items-center border-b border-white/10 sticky top-0 z-40 px-6">
-        <h1 className="text-2xl font-black text-white uppercase tracking-wide">Football Live HD</h1>
+    <section className="bg-[#0a0a1f] min-h-screen pb-24 w-full">
+      <div className="bg-[#0a0a1f] p-4 flex justify-between items-center border-b border-white/10 sticky top-0 z-40 px-4">
+        <h1 className="text-lg font-black text-white uppercase tracking-wide">Football Live HD</h1>
       </div>
-      <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div className="p-4 grid grid-cols-2 gap-3.5">
         {FOOTBALL_LEAGUES.map((league) => (
           <button
             key={league.id}
             onClick={() => setSelectedLeague(league.id)}
-            className={`${league.bg} w-full p-8 rounded-2xl border border-white/10 flex flex-col items-center justify-center hover:opacity-95 transition-all transform hover:scale-105 shadow-xl`}
+            className={`${league.bg} w-full p-4 h-36 rounded-xl border border-white/5 flex flex-col items-center justify-center shadow-md`}
           >
-            <div className="bg-white p-5 rounded-xl mb-4 w-36 h-24 flex items-center justify-center shadow-inner">
-              <span className="text-5xl">{league.logo}</span>
+            <div className="bg-white p-2 rounded-lg mb-2.5 w-16 h-12 flex items-center justify-center shadow-inner">
+              <span className="text-2xl">{league.logo}</span>
             </div>
-            <p className="font-black text-white text-lg sm:text-xl tracking-wide">{league.name}</p>
+            <p className="font-black text-white text-xs text-center line-clamp-2 px-1 tracking-wide">{league.name}</p>
           </button>
         ))}
       </div>
@@ -532,13 +527,13 @@ const LivePage = () => {
 };
 
 const BrowsePage = () => (
-  <section className="p-6 pb-28 text-center w-full">
-    <h2 className="text-2xl font-black mb-6 uppercase tracking-wide">Browse Categories</h2>
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
+  <section className="p-4 pb-24 text-center w-full">
+    <h2 className="text-lg font-black mb-4 uppercase tracking-wide">Browse Categories</h2>
+    <div className="grid grid-cols-2 gap-3.5">
         {WATCH_BY_COUNTRY.map((c, i) => (
-            <div key={i} className={`bg-gradient-to-br ${c.bg} p-8 rounded-2xl border border-white/10 shadow-xl transform hover:scale-105 transition-transform`}>
-                <span className="text-5xl">{c.flag}</span>
-                <p className="font-black text-base text-white mt-3 uppercase tracking-wide">{c.country}</p>
+            <div key={i} className={`bg-gradient-to-br ${c.bg} p-5 rounded-xl border border-white/5 shadow-md`}>
+                <span className="text-3xl">{c.flag}</span>
+                <p className="font-black text-xs text-white mt-2 uppercase tracking-wide">{c.country}</p>
             </div>
         ))}
     </div>
@@ -546,13 +541,13 @@ const BrowsePage = () => (
 );
 
 const ProfilePage = () => (
-  <section className="p-6 pb-28 text-center w-full">
-    <div className="bg-[#111122] p-10 rounded-3xl border border-white/10 max-w-lg mx-auto mt-12 shadow-2xl">
-      <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl font-black text-white shadow-lg">
+  <section className="p-4 pb-24 text-center w-full px-4">
+    <div className="bg-[#111122] p-6 rounded-2xl border border-white/10 max-w-sm mx-auto mt-8 shadow-xl">
+      <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-black text-white shadow-md">
         A
       </div>
-      <h2 className="text-2xl font-black uppercase tracking-wide">Profile</h2>
-      <p className="text-gray-400 text-lg mt-1">Ahmed Abdikani Mohamed</p>
+      <h2 className="text-lg font-black uppercase tracking-wide">Profile</h2>
+      <p className="text-gray-400 text-sm mt-0.5">Ahmed Abdikani Mohamed</p>
     </div>
   </section>
 );
@@ -561,9 +556,10 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
 
   return (
-    <div className="bg-[#06060f] min-h-screen text-white font-sans flex flex-col items-center w-full overflow-x-hidden">
+    <div className="bg-[#06060f] min-h-screen text-white font-sans flex flex-col items-center w-full overflow-x-hidden select-none">
       <Head>
         <title>Ahmed Abdikani Live TV</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Head>
       <Header />
       <div className="w-full flex-1">
@@ -574,12 +570,12 @@ export default function App() {
       </div>
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       <style jsx global>{`
+        body { background-color: #06060f; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { bg: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(34, 197, 94, 0.2); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(34, 197, 94, 0.4); }
       `}</style>
     </div>
   );
