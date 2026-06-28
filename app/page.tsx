@@ -101,6 +101,7 @@ const HomePage = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [showNotification, setShowNotification] = useState(true);
 
   // States for Data Bundles
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -165,7 +166,8 @@ const HomePage = () => {
   };
 
   return (
-    <main className="p-6 pb-28 w-full px-4 sm:px-8">
+    <main className="p-6 pb-28 w-full px-4 sm:px-8 relative">
+      
       {/* SEARCH BAR */}
       <div className="mb-8 bg-[#111122] rounded-2xl p-4 border border-blue-500/30 shadow-xl w-full">
         <div className="flex gap-3">
@@ -232,21 +234,47 @@ const HomePage = () => {
         </div>
       )}
 
-      {/* HERO BANNER - FULL SCREEN SIZE */}
-      <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-8 p-10 md:p-16 relative">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200')] bg-cover bg-center opacity-20"></div>
-        <div className="relative z-10 text-center py-6">
-          <div className="text-7xl mb-4">📺</div>
-          <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇬🇲 Ahmed Abdikani Live TV 🇸🇴</h2>
-          <p className="text-white/80 text-base sm:text-lg mb-8 max-w-2xl mx-auto">Watch Live Sports HD Content Flawlessly</p>
-          <a
-            href="https://www.siiiiir.tv/"
-            target="_blank"
-            className="inline-block bg-red-600 hover:bg-red-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider"
-          >
-             Click Here to Watch Live
-          </a>
+      {/* HERO BANNER CONTAINER WITH NOTIFICATION ALERT OVERLAY */}
+      <div className="relative w-full mb-8">
+        <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl p-10 md:p-16 relative">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200')] bg-cover bg-center opacity-20"></div>
+          <div className="relative z-10 text-center py-6">
+            <div className="text-7xl mb-4">📺</div>
+            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇬🇲 Ahmed Abdikani Live TV 🇸🇴</h2>
+            <p className="text-white/80 text-base sm:text-lg mb-8 max-w-2xl mx-auto">Watch Live Sports HD Content Flawlessly</p>
+            <a
+              href="https://www.siiiiir.tv/"
+              target="_blank"
+              className="inline-block bg-red-600 hover:bg-red-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider"
+            >
+               Click Here to Watch Live
+            </a>
+          </div>
         </div>
+
+        {/* TOP-RIGHT SITE NOTIFICATION ALERT BANNER */}
+        {showNotification && (
+          <div className="absolute top-4 right-4 z-30 w-72 bg-white text-black p-3.5 rounded-xl shadow-2xl border border-gray-200 animate-fade-in flex flex-col gap-2">
+            <div className="flex justify-between items-start">
+              <h4 className="text-xs font-bold text-gray-900 tracking-tight">Manage Site Notifications</h4>
+              <button onClick={() => setShowNotification(false)} className="text-gray-400 hover:text-black text-base font-bold leading-none">×</button>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="w-12 h-8 bg-blue-900 rounded overflow-hidden shrink-0">
+                <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=100" className="w-full h-full object-cover" alt="Thumb" />
+              </div>
+              <p className="text-[10px] text-gray-600 leading-tight">
+                Allow notifications to receive instantaneous dynamic updates on current match streams.
+              </p>
+            </div>
+            <button 
+              onClick={() => setShowNotification(false)}
+              className="w-full bg-[#ef4444] text-white font-bold text-[11px] py-1.5 rounded uppercase tracking-wider text-center hover:bg-red-700 transition-colors"
+            >
+              Unsubscribe
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="flex items-center mb-6 px-2">
@@ -349,64 +377,66 @@ const HomePage = () => {
 
         </div>
 
-        {/* RIGHT SIDEBAR COLUMN (Ahmed Data Deals - Expanded Full Width on Desktop Grid) */}
-        <div className="lg:col-span-1 lg:sticky lg:top-24 w-full">
-          <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border border-green-500/40 shadow-2xl w-full">
-            <div className="flex justify-between items-center mb-5">
-              <div>
-                <h2 className="text-xl font-black text-green-400 tracking-tight uppercase">Ahmed Data Deals Kenya</h2>
-                <p className="text-xs text-white/60 mt-0.5">Official link for affordable internet packages</p>
-              </div>
-              <span className="text-xs bg-green-500 text-black font-black px-3 py-1 rounded-full uppercase tracking-wider animate-pulse">
-                Active
-              </span>
-            </div>
-
-            <form onSubmit={handleBuyData} className="space-y-5">
-              {/* Package Selection Cards */}
-              <div className="grid grid-cols-1 gap-4">
-                {DATA_PACKAGES.map((pkg) => (
-                  <div
-                    key={pkg.id}
-                    onClick={() => setSelectedPkg(pkg.id)}
-                    className={`p-5 rounded-xl border transition-all duration-200 cursor-pointer flex justify-between items-center ${
-                      selectedPkg === pkg.id
-                        ? 'bg-green-900/40 border-green-400 shadow-xl scale-[1.02]'
-                        : 'bg-[#0a110e]/80 border-white/10 hover:border-green-500/40'
-                    }`}
-                  >
-                    <div className="text-left">
-                      <p className="font-black text-white text-base">{pkg.name}</p>
-                      <p className="text-xs text-white/50 mt-0.5">{pkg.desc}</p>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-lg font-black text-green-400">KES {pkg.price}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Phone Input Box and Submit Button */}
-              <div className="pt-3 border-t border-white/10 space-y-4">
+        {/* RIGHT SIDEBAR COLUMN - EXPANDED HEIGHT TO MATCH GREEN MARGINS IN 1000300511.JPG */}
+        <div className="lg:col-span-1 w-full min-h-[600px] flex flex-col">
+          <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border border-green-500/40 shadow-2xl w-full flex-1 flex flex-col justify-between">
+            <div>
+              <div className="flex justify-between items-center mb-6">
                 <div>
-                  <label className="block text-xs font-black text-white/70 uppercase tracking-wider mb-2 pl-1">Safaricom Phone Number</label>
-                  <input
-                    type="text"
-                    placeholder="Example: 0712345678"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    className="w-full bg-[#050a07] text-white px-5 py-4 rounded-xl border border-white/10 text-base focus:outline-none focus:border-green-400 transition-colors placeholder:text-white/20"
-                  />
+                  <h2 className="text-xl font-black text-green-400 tracking-tight uppercase">Ahmed Data Deals Kenya</h2>
+                  <p className="text-xs text-white/60 mt-0.5">Official link for affordable internet packages</p>
+                </div>
+                <span className="text-xs bg-green-500 text-black font-black px-3 py-1 rounded-full uppercase tracking-wider animate-pulse">
+                  Active
+                </span>
+              </div>
+
+              <form onSubmit={handleBuyData} className="space-y-6">
+                {/* Package Selection Cards */}
+                <div className="grid grid-cols-1 gap-4">
+                  {DATA_PACKAGES.map((pkg) => (
+                    <div
+                      key={pkg.id}
+                      onClick={() => setSelectedPkg(pkg.id)}
+                      className={`p-6 rounded-xl border transition-all duration-200 cursor-pointer flex justify-between items-center ${
+                        selectedPkg === pkg.id
+                          ? 'bg-green-900/40 border-green-400 shadow-xl scale-[1.02]'
+                          : 'bg-[#0a110e]/80 border-white/10 hover:border-green-500/40'
+                      }`}
+                    >
+                      <div className="text-left">
+                        <p className="font-black text-white text-base">{pkg.name}</p>
+                        <p className="text-xs text-white/50 mt-0.5">{pkg.desc}</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-lg font-black text-green-400">KES {pkg.price}</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-base py-4 rounded-xl transition-all shadow-xl uppercase tracking-widest flex items-center justify-center gap-2"
-                >
-                  <span>Buy Selected Bundle</span>
-                </button>
-              </div>
-            </form>
+                {/* Phone Input Box and Submit Button */}
+                <div className="pt-6 border-t border-white/10 space-y-4">
+                  <div>
+                    <label className="block text-xs font-black text-white/70 uppercase tracking-wider mb-2 pl-1">Safaricom Phone Number</label>
+                    <input
+                      type="text"
+                      placeholder="Example: 0712345678"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      className="w-full bg-[#050a07] text-white px-5 py-4 rounded-xl border border-white/10 text-base focus:outline-none focus:border-green-400 transition-colors placeholder:text-white/20"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-base py-4 rounded-xl transition-all shadow-xl uppercase tracking-widest flex items-center justify-center gap-2 mt-4"
+                  >
+                    <span>Buy Selected Bundle</span>
+                  </button>
+                </div>
+              </form>
+            </div>
           </section>
         </div>
 
