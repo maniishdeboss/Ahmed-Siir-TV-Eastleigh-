@@ -18,7 +18,7 @@ const SPORTS_CHANNELS = [
 ];
 
 const ALL_FILMS = [
-  { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-orange-600 to-red-800", youtube: "y7tv1y_Q_Q0", image: "/mnt/data/photo8213703842848463668.webp" },
+  { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-orange-600 to-red-800", youtube: "y7tv1y_Q_Q0", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400" },
   { id: 2, title: "Pathaan", year: "2023", rating: "7.2", type: "Hindi", bg: "from-yellow-600 to-orange-700", youtube: "vqu4z34wENw", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400" },
   { id: 3, title: "Dangal", year: "2016", rating: "8.3", type: "Hindi", bg: "from-blue-600 to-indigo-800", youtube: "x_7YlGv9u1g", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" },
   { id: 4, title: "3 Idiots", year: "2009", rating: "8.4", type: "Hindi", bg: "from-green-600 to-teal-800", youtube: "K0eDlFX9GMc", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400" },
@@ -70,7 +70,7 @@ const DATA_PACKAGES = [
 
 // --- COMPONENTS ---
 const Header = () => (
-  <header className="p-4 flex items-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-1 z-50 mt-3 rounded-b-2xl mx-2 shadow-xl">
+  <header className="p-4 flex items-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-1 z-50 mt-3 rounded-b-2xl mx-2 shadow-xl max-w-7xl lg:mx-auto w-full">
     <h1 className="text-2xl font-black tracking-tighter text-white">AHMED <span className="text-blue-500">LIVE</span> TV</h1>
   </header>
 );
@@ -153,20 +153,19 @@ const HomePage = () => {
   const handleBuyData = (e: React.FormEvent) => {
     e.preventDefault();
     if (!phoneNumber.trim()) {
-      alert("Fadlan qor nambarka taleefanka!");
+      alert("Please enter your phone number!");
       return;
     }
 
     const currentPackage = DATA_PACKAGES.find(p => p.id === selectedPkg);
     const price = currentPackage ? currentPackage.price : 20;
 
-    // Toos ugu wareeji TinyPesa Portal-kaaga rasmiga ah oo ay la socoto lacagtu
     const targetUrl = `https://tinypesa.com/ahmeddatadealskenya?amount=${price}&phone=${encodeURIComponent(phoneNumber)}`;
     window.open(targetUrl, '_blank');
   };
 
   return (
-    <main className="p-4 pb-24">
+    <main className="p-4 pb-24 max-w-7xl mx-auto w-full">
       {/* SEARCH BAR */}
       <div className="mb-6 bg-[#111122] rounded-2xl p-3 border border-blue-500/30 shadow-xl">
         <div className="flex gap-2">
@@ -175,7 +174,7 @@ const HomePage = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleYouTubeSearch()}
-            placeholder="Ka raadi YouTube - film, music, live..."
+            placeholder="Search YouTube - movies, music, live..."
             className="flex-1 bg-[#0a0a1a] text-white px-4 py-3 rounded-xl border border-white/10 focus:outline-none focus:border-blue-500 text-sm"
           />
           <button
@@ -192,10 +191,10 @@ const HomePage = () => {
       {showResults && (
         <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-red-500/30 shadow-2xl">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-bold text-white">Natiijooyinka: {searchQuery}</h3>
+            <h3 className="text-lg font-bold text-white">Results: {searchQuery}</h3>
             <button onClick={() => setShowResults(false)} className="text-white/60 hover:text-white text-2xl">×</button>
           </div>
-          <div className="grid grid-cols-1 gap-3 max-h-[500px] overflow-y-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[500px] overflow-y-auto">
             {searchResults.map((video) => (
               <button
                 key={video.id}
@@ -214,7 +213,7 @@ const HomePage = () => {
       )}
 
       {activeVideo && (
-        <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-blue-500/30 shadow-2xl">
+        <div className="mb-6 bg-[#111122] rounded-3xl p-4 border border-blue-500/30 shadow-2xl mx-auto w-full">
           <div className="flex justify-between items-center mb-3">
             <div className="flex items-center gap-2">
               <span className="bg-red-600 text-xs px-3 py-1 rounded-full animate-pulse">LIVE</span>
@@ -222,7 +221,7 @@ const HomePage = () => {
             </div>
             <button onClick={() => setActiveVideo(null)} className="text-white/60 hover:text-white text-3xl leading-none">×</button>
           </div>
-          <div className="aspect-video bg-black rounded-xl overflow-hidden">
+          <div className="aspect-video bg-black rounded-xl overflow-hidden max-w-4xl mx-auto w-full">
             <iframe
               src={isYoutubeVideo ? `https://www.youtube.com/embed/${activeVideo}?autoplay=1` : activeVideo}
               className="w-full h-full"
@@ -233,171 +232,185 @@ const HomePage = () => {
         </div>
       )}
 
-      <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-6 p-8 relative">
+      {/* HERO HERO BANNER */}
+      <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl mb-8 p-8 relative">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800')] bg-cover bg-center opacity-20"></div>
-        <div className="relative z-10 text-center">
+        <div className="relative z-10 text-center py-4">
           <div className="text-6xl mb-4">📺</div>
-          <h2 className="text-3xl font-black text-white mb-2">🇬🇲 Ahmed Abdikani Live TV 🇸🇴</h2>
-          <p className="text-white/70 text-sm mb-6">Daawo ciyaaraha tooska ah HD</p>
+          <h2 className="text-3xl md:text-4xl font-black text-white mb-2">🇬🇲 Ahmed Abdikani Live TV 🇸🇴</h2>
+          <p className="text-white/70 text-sm md:text-base mb-6">Watch Live Sports HD Content</p>
           <a
             href="https://www.siiiiir.tv/"
             target="_blank"
-            className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-xl transition-all hover:scale-105 shadow-lg"
+            className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-10 rounded-xl transition-all hover:scale-105 shadow-lg"
           >
-             Kudufo halkan sii aad udawato
+             Click Here to Watch Live
           </a>
         </div>
       </div>
 
-      <div className="flex items-center mb-8 px-2">
+      <div className="flex items-center mb-6 px-2">
         <span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-2 animate-pulse">LIVE</span>
         <p className="text-sm font-bold text-white">Ahmed Abdikani Live Streaming</p>
       </div>
 
-      <section className="mb-8">
-        <h2 className="text-lg font-bold mb-4 text-white/90">All Live Channels - 11 Streams</h2>
-        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-          {SPORTS_CHANNELS.map((ch) => (
-            <button
-              key={ch.id}
-              onClick={() => {
-                if (ch.youtube) {
-                  handlePlayVideo(ch.youtube, ch.title, true, ch.isYoutubeChannel)
-                } else if (ch.siirUrl) {
-                  window.open(ch.siirUrl, '_blank')
-                }
-              }}
-              disabled={!ch.youtube && !ch.siirUrl}
-              className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${(ch.youtube || ch.siirUrl) ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
-            >
-              <div className="flex justify-between items-start w-full">
-                <span className="text-2xl">{ch.icon}</span>
-                {(ch.youtube || ch.siirUrl) && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
-              </div>
-              <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
-            </button>
-          ))}
-        </div>
-      </section>
+      {/* TWO-COLUMN LAYOUT GRID FOR DESKTOP / MEDIUM SCREENS */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        
+        {/* LEFT TWO COLUMNS (Channels, Premium, Films) */}
+        <div className="lg:col-span-2 space-y-8">
+          
+          {/* LIVE CHANNELS */}
+          <section>
+            <h2 className="text-lg font-bold mb-4 text-white/90">All Live Channels - 11 Streams</h2>
+            <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+              {SPORTS_CHANNELS.map((ch) => (
+                <button
+                  key={ch.id}
+                  onClick={() => {
+                    if (ch.youtube) {
+                      handlePlayVideo(ch.youtube, ch.title, true, ch.isYoutubeChannel)
+                    } else if (ch.siirUrl) {
+                      window.open(ch.siirUrl, '_blank')
+                    }
+                  }}
+                  disabled={!ch.youtube && !ch.siirUrl}
+                  className={`shrink-0 w-40 h-28 bg-gradient-to-br ${ch.bg} rounded-2xl p-4 flex flex-col justify-between border border-white/5 shadow-lg transition-all hover:scale-105 active:scale-95 ${(ch.youtube || ch.siirUrl) ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
+                >
+                  <div className="flex justify-between items-start w-full">
+                    <span className="text-2xl">{ch.icon}</span>
+                    {(ch.youtube || ch.siirUrl) && <span className="text-xs bg-red-600 px-2 py-0.5 rounded-full font-bold">LIVE</span>}
+                  </div>
+                  <h3 className="font-bold text-xs text-white text-left">{ch.title}</h3>
+                </button>
+              ))}
+            </div>
+          </section>
 
-      {/* NEW UPDATED AHMED DATA DEALS BOX (Full-Width Responsive Section) */}
-      <section className="mb-8 p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border border-green-500/40 shadow-2xl">
-        <div className="flex justify-between items-center mb-4">
-          <div>
-            <h2 className="text-xl font-black text-green-400 tracking-tight">Ahmed Data Deals Kenya</h2>
-            <p className="text-xs text-white/60 mt-0.5">Xiriirka rasmiga ah ee Internet-ka jaban</p>
-          </div>
-          <span className="text-xs bg-green-500 text-black font-black px-3 py-1 rounded-full uppercase tracking-wider animate-pulse">
-            Active
-          </span>
-        </div>
-
-        <form onSubmit={handleBuyData} className="space-y-5">
-          {/* Package Selection Cards */}
-          <div className="grid grid-cols-1 gap-3">
-            {DATA_PACKAGES.map((pkg) => (
-              <div
-                key={pkg.id}
-                onClick={() => setSelectedPkg(pkg.id)}
-                className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer flex justify-between items-center ${
-                  selectedPkg === pkg.id
-                    ? 'bg-green-900/30 border-green-400 shadow-md scale-[1.01]'
-                    : 'bg-[#0a110e]/80 border-white/10 hover:border-green-500/30'
-                }`}
+          {/* PREMIUM LIVE TV SECTION */}
+          <section className="p-5 rounded-3xl bg-[#111122] border border-blue-500/30 shadow-xl">
+            <h2 className="text-lg font-bold mb-4 text-blue-400">Premium Live TV</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <button
+                onClick={() => handlePlayVideo("https://www.siiiiir.tv/", "World cup - Live", false)}
+                className="bg-gradient-to-br from-blue-900 to-black p-6 rounded-2xl border border-white/10 text-center hover:scale-[1.02] transition-transform shadow-lg"
               >
-                <div className="text-left">
-                  <p className="font-bold text-white text-sm">{pkg.name}</p>
-                  <p className="text-xs text-white/50">{pkg.desc}</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-base font-black text-green-400">KES {pkg.price}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+                <p className="font-black text-white text-base">World cup - Live</p>
+              </button>
+            </div>
+          </section>
 
-          {/* Phone Input Box and Submit Button */}
-          <div className="pt-2 border-t border-white/5 space-y-3">
-            <div>
-              <label className="block text-xs font-bold text-white/70 mb-1.5 pl-1">Safaricom Phone Number</label>
-              <input
-                type="text"
-                placeholder="Tusaale: 0712345678"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="w-full bg-[#050a07] text-white px-4 py-3 rounded-xl border border-white/10 text-sm focus:outline-none focus:border-green-400 transition-colors"
-              />
+          {/* FILMS SECTION */}
+          <section className="p-5 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-bold text-orange-400">Hindi & Hollywood Films</h2>
+              <span className="text-xs bg-orange-600 px-3 py-1 rounded-full font-bold">11 FILMS</span>
             </div>
 
-            <button
-              type="submit"
-              className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-sm py-3.5 rounded-xl transition-all shadow-lg uppercase tracking-widest flex items-center justify-center gap-2"
-            >
-              <span>Buy Selected Bundle</span>
-            </button>
-          </div>
-        </form>
-      </section>
-
-      {/* PREMIUM LIVE TV SECTION */}
-      <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-blue-500/30">
-        <h2 className="text-lg font-bold mb-4 text-blue-400">Premium Live TV</h2>
-        <div className="grid grid-cols-1 gap-3">
-          <button
-            onClick={() => handlePlayVideo("https://www.siiiiir.tv/", "World cup - Live", false)}
-            className="bg-gradient-to-br from-blue-900 to-black p-6 rounded-2xl border border-white/10 text-center hover:scale-[1.02] transition-transform shadow-lg w-full"
-          >
-            <p className="font-black text-white text-base">World cup - Live</p>
-          </button>
-        </div>
-      </section>
-
-      {/* FILMS SECTION */}
-      <section className="mb-8 p-4 rounded-3xl bg-[#111122] border border-orange-500/30">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-orange-400">Hindi & Hollywood Films</h2>
-          <span className="text-xs bg-orange-600 px-3 py-1 rounded-full font-bold">11 FILMS</span>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          {ALL_FILMS.map((film) => (
-            <button
-              key={film.id}
-              onClick={() => {
-                if (film.youtube) {
-                  handlePlayVideo(film.youtube, film.title, true);
-                } else if (film.siirUrl) {
-                  window.open(film.siirUrl, '_blank');
-                }
-              }}
-              className="relative h-48 rounded-2xl border border-white/10 overflow-hidden hover:scale-105 transition-transform shadow-lg group"
-            >
-              <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${film.image})`}} />
-              <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-80 group-hover:opacity-70 transition-opacity`} />
-              <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
-                <div className="flex justify-between items-start">
-                  <span className="text-2xl">🎬</span>
-                  <div className="flex flex-col gap-1 items-end">
-                    <span className="text-xs bg-black/60 px-2 py-1 rounded-full font-bold">⭐ {film.rating}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${film.type === 'Hindi' ? 'bg-orange-600' : 'bg-blue-600'}`}>
-                      {film.type}
-                    </span>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              {ALL_FILMS.map((film) => (
+                <button
+                  key={film.id}
+                  onClick={() => {
+                    if (film.youtube) {
+                      handlePlayVideo(film.youtube, film.title, true);
+                    } else if (film.siirUrl) {
+                      window.open(film.siirUrl, '_blank');
+                    }
+                  }}
+                  className="relative h-44 rounded-2xl border border-white/10 overflow-hidden hover:scale-105 transition-transform shadow-lg group"
+                >
+                  <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${film.image})`}} />
+                  <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-80 group-hover:opacity-70 transition-opacity`} />
+                  <div className="relative z-10 h-full flex flex-col justify-between p-3 text-left">
+                    <div className="flex justify-between items-start">
+                      <span className="text-2xl">🎬</span>
+                      <div className="flex flex-col gap-1 items-end">
+                        <span className="text-xs bg-black/60 px-2 py-0.5 rounded-full font-bold">⭐ {film.rating}</span>
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${film.type === 'Hindi' ? 'bg-orange-600' : 'bg-blue-600'}`}>
+                          {film.type}
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="font-black text-white text-xs line-clamp-2">{film.title}</p>
+                      <p className="text-[10px] text-white/80">{film.year}</p>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <p className="font-black text-white text-sm line-clamp-2">{film.title}</p>
-                  <p className="text-xs text-white/80">{film.year}</p>
-                </div>
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30">
-                <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xl">▶</span>
-                </div>
-              </div>
-            </button>
-          ))}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30">
+                    <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+                      <span className="text-white text-sm">▶</span>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </section>
+
         </div>
-      </section>
+
+        {/* RIGHT SIDEBAR COLUMN (Ahmed Data Deals - Highly Visible on Desktop) */}
+        <div className="lg:col-span-1 lg:sticky lg:top-24">
+          <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border border-green-500/40 shadow-2xl">
+            <div className="flex justify-between items-center mb-4">
+              <div>
+                <h2 className="text-xl font-black text-green-400 tracking-tight">Ahmed Data Deals Kenya</h2>
+                <p className="text-xs text-white/60 mt-0.5">Official link for affordable internet packages</p>
+              </div>
+              <span className="text-xs bg-green-500 text-black font-black px-3 py-1 rounded-full uppercase tracking-wider animate-pulse">
+                Active
+              </span>
+            </div>
+
+            <form onSubmit={handleBuyData} className="space-y-5">
+              {/* Package Selection Cards */}
+              <div className="grid grid-cols-1 gap-3">
+                {DATA_PACKAGES.map((pkg) => (
+                  <div
+                    key={pkg.id}
+                    onClick={() => setSelectedPkg(pkg.id)}
+                    className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer flex justify-between items-center ${
+                      selectedPkg === pkg.id
+                        ? 'bg-green-900/30 border-green-400 shadow-md scale-[1.01]'
+                        : 'bg-[#0a110e]/80 border-white/10 hover:border-green-500/30'
+                    }`}
+                  >
+                    <div className="text-left">
+                      <p className="font-bold text-white text-sm">{pkg.name}</p>
+                      <p className="text-xs text-white/50">{pkg.desc}</p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-base font-black text-green-400">KES {pkg.price}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Phone Input Box and Submit Button */}
+              <div className="pt-2 border-t border-white/5 space-y-3">
+                <div>
+                  <label className="block text-xs font-bold text-white/70 mb-1.5 pl-1">Safaricom Phone Number</label>
+                  <input
+                    type="text"
+                    placeholder="Example: 0712345678"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    className="w-full bg-[#050a07] text-white px-4 py-3 rounded-xl border border-white/10 text-sm focus:outline-none focus:border-green-400 transition-colors"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-sm py-3.5 rounded-xl transition-all shadow-lg uppercase tracking-widest flex items-center justify-center gap-2"
+                >
+                  <span>Buy Selected Bundle</span>
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+
+      </div>
     </main>
   );
 };
@@ -411,21 +424,21 @@ const LivePage = () => {
     const leagueName = FOOTBALL_LEAGUES.find(l => l.id === selectedLeague)?.name || "";
 
     return (
-      <section className="bg-[#0a0a1f] min-h-screen pb-24">
+      <section className="bg-[#0a0a1f] min-h-screen pb-24 max-w-7xl mx-auto w-full">
         <div className="bg-[#0a0a1f] p-4 flex items-center gap-4 border-b border-white/10 sticky top-0 z-40">
           <button onClick={() => {setSelectedLeague(null); setActiveStream(null);}} className="text-white text-2xl">←</button>
           <h2 className="text-xl font-bold text-white">{leagueName}</h2>
         </div>
 
         {activeStream && (
-          <div className="bg-black aspect-video">
+          <div className="bg-black aspect-video max-w-4xl mx-auto rounded-xl overflow-hidden mb-4 shadow-xl">
             <iframe src={activeStream} className="w-full h-full" allow="autoplay; encrypted-media; fullscreen" allowFullScreen />
           </div>
         )}
 
-        <div className="p-2">
+        <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-3">
           {matches.map((match) => (
-            <div key={match.id} className="bg-[#111122] mb-2 rounded-lg border border-white/5">
+            <div key={match.id} className="bg-[#111122] rounded-lg border border-white/5 shadow-md">
               <button
                 onClick={() => {
                   if (!match.isYoutube && match.link.includes('siiiiir.tv')) {
@@ -434,7 +447,7 @@ const LivePage = () => {
                     setActiveStream(match.link)
                   }
                 }}
-                className="w-full p-4 flex items-center justify-between hover:bg-white/5 transition"
+                className="w-full p-4 flex items-center justify-between hover:bg-white/5 transition animate-fade-in"
               >
                 <div className="flex items-center gap-3 flex-1">
                   <div className="text-center w-20">
@@ -458,18 +471,18 @@ const LivePage = () => {
   }
 
   return (
-    <section className="bg-[#0a0a1f] min-h-screen pb-24">
+    <section className="bg-[#0a0a1f] min-h-screen pb-24 max-w-7xl mx-auto w-full">
       <div className="bg-[#0a0a1f] p-4 flex justify-between items-center border-b border-white/10 sticky top-0 z-40">
         <h1 className="text-2xl font-bold text-white">Football Live HD</h1>
       </div>
-      <div className="p-2">
+      <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {FOOTBALL_LEAGUES.map((league) => (
           <button
             key={league.id}
             onClick={() => setSelectedLeague(league.id)}
-            className={`${league.bg} w-full mb-2 p-6 rounded-lg border border-white/10 flex flex-col items-center justify-center hover:opacity-80 transition`}
+            className={`${league.bg} w-full p-6 rounded-xl border border-white/10 flex flex-col items-center justify-center hover:opacity-90 transition-opacity shadow-lg`}
           >
-            <div className="bg-white p-4 rounded mb-3 w-32 h-20 flex items-center justify-center">
+            <div className="bg-white p-4 rounded mb-3 w-32 h-20 flex items-center justify-center shadow-inner">
               <span className="text-4xl">{league.logo}</span>
             </div>
             <p className="font-bold text-white text-lg">{league.name}</p>
@@ -481,13 +494,13 @@ const LivePage = () => {
 };
 
 const BrowsePage = () => (
-  <section className="p-4 pb-24 text-center">
+  <section className="p-4 pb-24 text-center max-w-7xl mx-auto w-full">
     <h2 className="text-xl font-bold mb-4">Browse Categories</h2>
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {WATCH_BY_COUNTRY.map((c, i) => (
-            <div key={i} className={`bg-gradient-to-br ${c.bg} p-4 rounded-2xl border border-white/10`}>
-                <span className="text-3xl">{c.flag}</span>
-                <p className="font-bold text-sm text-white">{c.country}</p>
+            <div key={i} className={`bg-gradient-to-br ${c.bg} p-6 rounded-2xl border border-white/10 shadow-lg`}>
+                <span className="text-4xl">{c.flag}</span>
+                <p className="font-bold text-sm text-white mt-2">{c.country}</p>
             </div>
         ))}
     </div>
@@ -495,9 +508,14 @@ const BrowsePage = () => (
 );
 
 const ProfilePage = () => (
-  <section className="p-4 pb-24 text-center">
-    <h2 className="text-xl font-bold">Profile</h2>
-    <p className="text-gray-400">Ahmed Abdikani Mohamed</p>
+  <section className="p-4 pb-24 text-center max-w-7xl mx-auto w-full">
+    <div className="bg-[#111122] p-8 rounded-3xl border border-white/10 max-w-md mx-auto mt-10 shadow-xl">
+      <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl font-bold text-white">
+        A
+      </div>
+      <h2 className="text-xl font-bold">Profile</h2>
+      <p className="text-gray-400 mt-1">Ahmed Abdikani Mohamed</p>
+    </div>
   </section>
 );
 
@@ -505,9 +523,9 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
 
   return (
-    <div className="bg-[#06060f] min-h-screen text-white font-sans">
+    <div className="bg-[#06060f] min-h-screen text-white font-sans flex flex-col items-center">
       <Head>
-        <title>🇬🇲Ahmed Abdikani Live TV🇸🇴</title>
+        <title>Ahmed Abdikani Live TV</title>
       </Head>
       <Header />
       {activeTab === 'Home' && <HomePage />}
