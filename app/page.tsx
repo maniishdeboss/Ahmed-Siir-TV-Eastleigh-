@@ -282,8 +282,8 @@ const HomePage = () => {
         <p className="text-base font-black text-white uppercase tracking-wider">Ahmed Abdikani Live Streaming</p>
       </div>
 
-      {/* TWO-COLUMN FULL SCREEN LAYOUT */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start w-full">
+      {/* CHANGED TO items-stretch SO SIDES MATCH EQUAL HEIGHT */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch w-full">
         
         {/* LEFT TWO COLUMNS (Channels, Premium, Films) */}
         <div className="lg:col-span-2 space-y-8 w-full">
@@ -377,9 +377,9 @@ const HomePage = () => {
 
         </div>
 
-        {/* RIGHT SIDEBAR COLUMN - EXPANDED HEIGHT TO MATCH GREEN MARGINS IN 1000300511.JPG */}
-        <div className="lg:col-span-1 w-full min-h-[600px] flex flex-col">
-          <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border border-green-500/40 shadow-2xl w-full flex-1 flex flex-col justify-between">
+        {/* RIGHT SIDEBAR COLUMN - NOW ACCEPTS h-full TO MATCH FILMS COLUMN HEIGHT */}
+        <div className="lg:col-span-1 w-full h-full flex flex-col">
+          <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border border-green-500/40 shadow-2xl w-full h-full flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-center mb-6">
                 <div>
