@@ -62,10 +62,17 @@ const MATCHES_DATA: Record<number, any[]> = {
   ],
 };
 
+// MULTIPLE COMPREHENSIVE PACKAGES AS REFLECTED IN REFERENCE IMAGES
 const DATA_PACKAGES = [
-  { id: 1, name: "1.25GB (1 Hour)", price: 20, desc: "Hourly Super Flash" },
-  { id: 2, name: "1.50GB (Till Midnight)", price: 50, desc: "Daily Heavy Browsing" },
-  { id: 3, name: "2GB (24 Hours)", price: 99, desc: "Full Day Non-Stop Data" }
+  { id: 1, name: "250MB Daily", price: 18, desc: "24 HOURS", badge: "Best Deal" },
+  { id: 2, name: "250MB Daily", price: 20, desc: "24 HOURS", badge: null },
+  { id: 3, name: "1GB Flash Data", price: 19, desc: "1 HOUR - TUNUKIWA", badge: "Tunukiwa" },
+  { id: 4, name: "1.25GB Midnight", price: 50, desc: "TILL MIDNIGHT", badge: "Best Deal" },
+  { id: 5, name: "1.25GB Midnight", price: 55, desc: "TILL MIDNIGHT", badge: null },
+  { id: 6, name: "1.5GB Heavy Bundle", price: 49, desc: "3 HOURS - TUNUKIWA", badge: "Tunukiwa" },
+  { id: 7, name: "2GB Super Deal", price: 99, desc: "TILL MIDNIGHT - TUNUKIWA", badge: "Bingwa" },
+  { id: 8, name: "350MB Weekly", price: 49, desc: "7 DAYS", badge: null },
+  { id: 9, name: "350MB Weekly", price: 52, desc: "7 DAYS", badge: null }
 ];
 
 // --- COMPONENTS ---
@@ -282,7 +289,7 @@ const HomePage = () => {
         <p className="text-base font-black text-white uppercase tracking-wider">Ahmed Abdikani Live Streaming</p>
       </div>
 
-      {/* CHANGED TO items-stretch SO SIDES MATCH EQUAL HEIGHT */}
+      {/* MAIN CONTAINER LAYOUT */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch w-full">
         
         {/* LEFT TWO COLUMNS (Channels, Premium, Films) */}
@@ -377,7 +384,7 @@ const HomePage = () => {
 
         </div>
 
-        {/* RIGHT SIDEBAR COLUMN - NOW ACCEPTS h-full TO MATCH FILMS COLUMN HEIGHT */}
+        {/* RIGHT SIDEBAR COLUMN - CLEAN EXTENDED DATA MODULE */}
         <div className="lg:col-span-1 w-full h-full flex flex-col">
           <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border border-green-500/40 shadow-2xl w-full h-full flex flex-col justify-between">
             <div>
@@ -386,37 +393,48 @@ const HomePage = () => {
                   <h2 className="text-xl font-black text-green-400 tracking-tight uppercase">Ahmed Data Deals Kenya</h2>
                   <p className="text-xs text-white/60 mt-0.5">Official link for affordable internet packages</p>
                 </div>
-                <span className="text-xs bg-green-500 text-black font-black px-3 py-1 rounded-full uppercase tracking-wider animate-pulse">
+                <span className="text-[10px] bg-green-500 text-black font-black px-2.5 py-1 rounded-full uppercase tracking-wider animate-pulse">
                   Active
                 </span>
               </div>
 
               <form onSubmit={handleBuyData} className="space-y-6">
-                {/* Package Selection Cards */}
-                <div className="grid grid-cols-1 gap-4">
+                
+                {/* INTERACTIVE SCROLLABLE PACKAGES BOX WITH SPACED ITEM BADGES */}
+                <div className="max-h-[520px] overflow-y-auto pr-1 space-y-4 custom-scrollbar">
                   {DATA_PACKAGES.map((pkg) => (
                     <div
                       key={pkg.id}
                       onClick={() => setSelectedPkg(pkg.id)}
-                      className={`p-6 rounded-xl border transition-all duration-200 cursor-pointer flex justify-between items-center ${
+                      className={`p-4.5 rounded-xl border transition-all duration-200 cursor-pointer flex justify-between items-center ${
                         selectedPkg === pkg.id
-                          ? 'bg-green-900/40 border-green-400 shadow-xl scale-[1.02]'
-                          : 'bg-[#0a110e]/80 border-white/10 hover:border-green-500/40'
+                          ? 'bg-green-900/40 border-green-400 shadow-xl scale-[1.01]'
+                          : 'bg-[#0a110e]/80 border-white/10 hover:border-green-500/30'
                       }`}
                     >
-                      <div className="text-left">
-                        <p className="font-black text-white text-base">{pkg.name}</p>
-                        <p className="text-xs text-white/50 mt-0.5">{pkg.desc}</p>
+                      <div className="text-left space-y-1.5">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-black tracking-wider text-green-400 uppercase bg-green-950/80 px-2 py-0.5 rounded border border-green-500/20">
+                            {pkg.desc}
+                          </span>
+                          {pkg.badge && (
+                            <span className="text-[9px] font-black tracking-tighter text-white uppercase bg-red-600 px-1.5 py-0.5 rounded">
+                              {pkg.badge}
+                            </span>
+                          )}
+                        </div>
+                        <p className="font-black text-white text-base tracking-wide">{pkg.name}</p>
                       </div>
-                      <div className="text-right">
-                        <span className="text-lg font-black text-green-400">KES {pkg.price}</span>
+                      <div className="text-right flex items-center gap-2">
+                        <span className="text-base font-black text-white">KSh {pkg.price}</span>
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center border text-[10px] ${selectedPkg === pkg.id ? 'bg-green-400 border-green-400 text-black' : 'border-white/20 text-transparent'}`}>✓</div>
                       </div>
                     </div>
                   ))}
                 </div>
 
                 {/* Phone Input Box and Submit Button */}
-                <div className="pt-6 border-t border-white/10 space-y-4">
+                <div className="pt-5 border-t border-white/10 space-y-4">
                   <div>
                     <label className="block text-xs font-black text-white/70 uppercase tracking-wider mb-2 pl-1">Safaricom Phone Number</label>
                     <input
@@ -430,7 +448,7 @@ const HomePage = () => {
 
                   <button
                     type="submit"
-                    className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-base py-4 rounded-xl transition-all shadow-xl uppercase tracking-widest flex items-center justify-center gap-2 mt-4"
+                    className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-base py-4 rounded-xl transition-all shadow-xl uppercase tracking-widest flex items-center justify-center gap-2 mt-2"
                   >
                     <span>Buy Selected Bundle</span>
                   </button>
@@ -568,6 +586,10 @@ export default function App() {
       <style jsx global>{`
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { bg: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(34, 197, 94, 0.2); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(34, 197, 94, 0.4); }
       `}</style>
     </div>
   );
