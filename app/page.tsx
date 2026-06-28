@@ -331,54 +331,7 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* FILMS SECTION - REMAINING INTACT AS REQUESTED */}
-        <section className="p-6 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl w-full">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-xl font-black text-orange-400 uppercase tracking-wide">Hindi & Hollywood Films</h2>
-            <span className="text-xs bg-orange-600 px-4 py-1.5 rounded-full font-black">11 FILMS</span>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
-            {ALL_FILMS.map((film) => (
-              <button
-                key={film.id}
-                onClick={() => {
-                  if (film.youtube) {
-                    handlePlayVideo(film.youtube, film.title, true);
-                  } else if (film.siirUrl) {
-                    window.open(film.siirUrl, '_blank');
-                  }
-                }}
-                className="relative h-56 rounded-2xl border border-white/10 overflow-hidden transform hover:scale-105 transition-transform shadow-xl group w-full"
-              >
-                <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${film.image})`}} />
-                <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-85 group-hover:opacity-75 transition-opacity`} />
-                <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
-                  <div className="flex justify-between items-start">
-                    <span className="text-3xl">🎬</span>
-                    <div className="flex flex-col gap-1 items-end">
-                      <span className="text-xs bg-black/60 px-2.5 py-1 rounded-full font-black">⭐ {film.rating}</span>
-                      <span className={`text-[11px] px-2 py-0.5 rounded-full font-black ${film.type === 'Hindi' ? 'bg-orange-600' : 'bg-blue-600'}`}>
-                        {film.type}
-                      </span>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="font-black text-white text-sm sm:text-base line-clamp-2 leading-tight">{film.title}</p>
-                    <p className="text-xs text-white/80 mt-0.5">{film.year}</p>
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
-                  <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center shadow-lg">
-                    <span className="text-white text-base">▶</span>
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* AHMED DATA DEALS KENYA - PLACED AT THE BOTTOM ("HOOS") */}
+        {/* AHMED DATA DEALS KENYA - MOVED UP HERE ("KOOR KEEN") */}
         <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border-2 border-green-500/40 shadow-2xl w-full">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-white/10 pb-4">
             <div>
@@ -392,7 +345,7 @@ const HomePage = () => {
 
           <form onSubmit={handleBuyData} className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             
-            {/* SCROLLABLE DATA LIST AREA TAKING 2 COLUMNS FOR SCANNING BREATHING SPACE */}
+            {/* SCROLLABLE DATA LIST AREA */}
             <div className="lg:col-span-2 max-h-[420px] overflow-y-auto pr-2 space-y-3 custom-scrollbar grid grid-cols-1 sm:grid-cols-2 gap-3 !space-y-0">
               {DATA_PACKAGES.map((pkg) => (
                 <div
@@ -446,6 +399,53 @@ const HomePage = () => {
               </button>
             </div>
           </form>
+        </section>
+
+        {/* FILMS SECTION - MOVED DOWN HERE ("HOOS GEE") */}
+        <section className="p-6 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl w-full">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-xl font-black text-orange-400 uppercase tracking-wide">Hindi & Hollywood Films</h2>
+            <span className="text-xs bg-orange-600 px-4 py-1.5 rounded-full font-black">11 FILMS</span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
+            {ALL_FILMS.map((film) => (
+              <button
+                key={film.id}
+                onClick={() => {
+                  if (film.youtube) {
+                    handlePlayVideo(film.youtube, film.title, true);
+                  } else if (film.siirUrl) {
+                    window.open(film.siirUrl, '_blank');
+                  }
+                }}
+                className="relative h-56 rounded-2xl border border-white/10 overflow-hidden transform hover:scale-105 transition-transform shadow-xl group w-full"
+              >
+                <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${film.image})`}} />
+                <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-85 group-hover:opacity-75 transition-opacity`} />
+                <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
+                  <div className="flex justify-between items-start">
+                    <span className="text-3xl">🎬</span>
+                    <div className="flex flex-col gap-1 items-end">
+                      <span className="text-xs bg-black/60 px-2.5 py-1 rounded-full font-black">⭐ {film.rating}</span>
+                      <span className={`text-[11px] px-2 py-0.5 rounded-full font-black ${film.type === 'Hindi' ? 'bg-orange-600' : 'bg-blue-600'}`}>
+                        {film.type}
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="font-black text-white text-sm sm:text-base line-clamp-2 leading-tight">{film.title}</p>
+                    <p className="text-xs text-white/80 mt-0.5">{film.year}</p>
+                  </div>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
+                  <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center shadow-lg">
+                    <span className="text-white text-base">▶</span>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
         </section>
 
       </div>
