@@ -39,7 +39,7 @@ const WATCH_BY_COUNTRY = [
 ];
 
 const FOOTBALL_LEAGUES = [
-  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "bg-gradient-to-r from-blue-600 to-blue-800" },
+  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "https://www.youtube.com/live/jPGGsWgmlOM?si=HMFTt37vu3JVa60G" },
   { id: 2, name: "International Friendly", logo: "⚽", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
   { id: 3, name: "English Premier League", logo: "🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
   { id: 4, name: "Serie A", logo: "🇮🇹", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
@@ -114,7 +114,7 @@ const HomePage = () => {
   const [selectedPkg, setSelectedPkg] = useState<number>(1);
 
   const handlePlayVideo = (url: string, title: string, isYoutube: boolean = true, isChannel: boolean = false) => {
-    if (!isYoutube && url && url.includes('siiiiir.tv')) {
+    if (!isYoutube && url && url.includes('https://www.youtube.com/live/jPGGsWgmlOM?si=HMFTt37vu3JVa60G')) {
       window.open(url, '_blank');
       return;
     }
