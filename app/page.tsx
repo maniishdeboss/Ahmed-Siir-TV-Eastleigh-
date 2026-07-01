@@ -249,7 +249,7 @@ const HomePage = () => {
             <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇬🇲 Ahmed Abdikani Live TV 🇸🇴</h2>
             <p className="text-white/80 text-base sm:text-lg mb-8 max-w-2xl mx-auto">Watch Live Sports HD Content Flawlessly</p>
             <a
-              href="https://www.siiiiir.tv/"
+              href="https://www.youtube.com/live/jPGGsWgmlOM?si=HMFTt37vu3JVa60G"
               target="_blank"
               className="inline-block bg-red-600 hover:bg-red-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider"
             >
