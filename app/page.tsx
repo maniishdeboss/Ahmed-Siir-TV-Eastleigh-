@@ -57,7 +57,7 @@ const WATCH_BY_COUNTRY = [
 ];
 
 const FOOTBALL_LEAGUES = [
-  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
+  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "https://new.siiiir.tv/" },
   { id: 2, name: "International Friendly", logo: "⚽", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
   { id: 3, name: "English Premier League", logo: "🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
   { id: 4, name: "Serie A", logo: "🇮🇹", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
