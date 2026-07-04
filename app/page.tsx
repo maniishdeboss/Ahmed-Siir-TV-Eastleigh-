@@ -390,3 +390,4 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
     </main>
   );
 };
+)
