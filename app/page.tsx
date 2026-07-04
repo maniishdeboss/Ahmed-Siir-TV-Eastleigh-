@@ -2,7 +2,6 @@
 import { useState } from 'react'
 import Head from 'next/head'
 
-// --- Helper ---
 const HERO_SIIIIR_ID = "https://new.siiiir.tv/"
 
 const getYouTubeId = (input: string | null): string | null => {
@@ -20,7 +19,6 @@ const getYouTubeId = (input: string | null): string | null => {
   }
 }
 
-// --- DATA SECTION ---
 const SPORTS_CHANNELS = [
   { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", siiiir: HERO_SIIIIR_ID },
   { id: 11, title: "Sports Live Highlights", bg: "from-indigo-600 to-purple-800", icon: "⚡", flag: "🏅", youtube: "anFb5YF3nZk" },
@@ -92,7 +90,6 @@ const DATA_PACKAGES = [
   { id: 9, name: "350MB Weekly", price: 52, desc: "7 DAYS", badge: null }
 ];
 
-// --- COMPONENTS ---
 const TopBanner = () => (
   <div className="w-full bg-[#65d800] text-white py-5 px-6 flex items-center justify-between">
     <h1 className="text-3xl sm:text-4xl font-black tracking-tight">Ahmed sports live TV</h1>
@@ -125,7 +122,6 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
   );
 };
 
-// --- PAGES ---
 const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle }: any) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -159,18 +155,15 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
     if (!searchQuery.trim()) return;
     setIsSearching(true);
     if (!loadMore) setShowResults(true);
-
     try {
       const url = `/api/youtube?q=${encodeURIComponent(searchQuery)}${loadMore && nextPageToken? `&pageToken=${nextPageToken}` : ''}`
       const response = await fetch(url);
       const data = await response.json();
-
       if (data.error) {
         alert(data.error);
         setIsSearching(false);
         return;
       }
-
       if (data.items) {
         const results = data.items.map((item: any) => ({
           id: item.id.videoId || item.id.channelId || item.id.playlistId,
@@ -179,7 +172,6 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
           channel: item.snippet.channelTitle,
           type: item.id.kind.replace('youtube#', '')
         }));
-
         setSearchResults(loadMore? [...searchResults,...results] : results);
         setNextPageToken(data.nextPageToken || null);
       }
@@ -201,7 +193,6 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
 
   return (
     <main className="p-6 pb-28 w-full px-4 sm:px-8 relative space-y-8">
-      {/* SEARCH */}
       <div className="bg-[#111122] rounded-2xl p-4 border border-blue-500/30 shadow-xl w-full">
         <div className="flex gap-3">
           <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleYouTubeSearch()} placeholder="Search YouTube - movies, music, live, channels..." className="flex-1 bg-[#0a0a1a] text-white px-5 py-4 rounded-xl border border-white/10 focus:outline-none focus:border-blue-500 text-base" />
@@ -209,7 +200,6 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
         </div>
       </div>
 
-      {/* SEARCH RESULTS */}
       {showResults && (
         <div className="bg-[#111122] rounded-3xl p-5 border border-red-500/30 shadow-2xl w-full">
           <div className="flex justify-between items-center mb-4">
@@ -236,7 +226,6 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
         </div>
       )}
 
-      {/* ACTIVE YOUTUBE PLAYER */}
       {activeVideoId && (
         <div className="bg-[#111122] rounded-3xl p-5 border border-blue-500/30 shadow-2xl w-full">
           <div className="flex justify-between items-center mb-4">
@@ -259,7 +248,6 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
         </div>
       )}
 
-      {/* ACTIVE SIIIIR TV PLAYER */}
       {activeSiiiirUrl && (
         <div className="bg-[#111122] rounded-3xl p-5 border border-green-500/30 shadow-2xl w-full">
           <div className="flex justify-between items-center mb-4">
@@ -282,7 +270,6 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
         </div>
       )}
 
-      {/* HERO BANNER */}
       <div className="relative w-full">
         <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl p-10 md:p-16 relative">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200')] bg-cover bg-center opacity-20"></div>
@@ -315,7 +302,6 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
         <p className="text-base font-black text-white uppercase tracking-wider">Ahmed Abdikani Live Streaming</p>
       </div>
 
-      {/* CHANNELS */}
       <section className="w-full">
         <h2 className="text-xl font-black mb-4 text-white/90 uppercase">All Live Channels</h2>
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide w-full">
@@ -344,7 +330,6 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
         </div>
       </section>
 
-      {/* PREMIUM LIVE TV */}
       <section className="p-6 rounded-3xl bg-[#111122] border border-blue-500/30 shadow-xl w-full">
         <h2 className="text-xl font-black mb-4 text-blue-400 uppercase">Premium Live TV</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -355,7 +340,6 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
         </div>
       </section>
 
-      {/* DATA DEALS */}
       <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border-2 border-green-500/40 shadow-2xl w-full">
         <div className="flex justify-between items-center gap-4 mb-6 border-b border-white/10 pb-4">
           <div><h2 className="text-2xl font-black text-green-400 uppercase">Ahmed Data Deals Kenya</h2><p className="text-sm text-white/60">Official link for affordable internet packages</p></div>
@@ -377,7 +361,6 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
         </form>
       </section>
 
-      {/* FILMS */}
       <section className="p-6 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl w-full">
         <div className="flex items-center justify-between mb-5"><h2 className="text-xl font-black text-orange-400 uppercase">Hindi & Hollywood Films</h2><span className="text-xs bg-orange-600 px-4 py-1.5 rounded-full font-black">11 FILMS</span></div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
@@ -413,7 +396,7 @@ const LivePage = () => {
   if (selectedLeague) {
     const matches = MATCHES_DATA[selectedLeague] || [];
     const leagueName = FOOTBALL_LEAGUES.find(l => l.id === selectedLeague)?.name || "";
-    return (<section className="bg-[#0a0a1f] min-h-screen pb-28 w-full"><div className="p-5 flex items-center gap-4 border-b border-white/10 px-6"><button onClick={() => setSelectedLeague(null)} className="text-white text-3xl">←</button><h2 className="text-2xl font-black uppercase">{leagueName}</h2></div><div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">{matches.map((m:any) => (<div key={m.id} className="bg-[#111122] rounded-xl p-5 flex justify-between"><div><p className="font-black">{m.team1} VS {m.team2}</p><p className="text-sm text-white/50">{m.time}</p></div><p className="text-red-500 font-black">{m.quality}</p></div>))}</div></section>)
+    return (<section className="bg-[#0a0a1f] min-h-screen pb-28 w-full"><div className="p-5 flex items-center gap-4 border-b border-white/10 px-6"><button onClick={() => setSelectedLeague(null)} className="text-white text-3xl">←</button><h2 className="text-2xl font-black uppercase">{leagueName}</h2></div><div className="p-4 grid-cols-1 md:grid-cols-2 gap-4">{matches.map((m:any) => (<div key={m.id} className="bg-[#111122] rounded-xl p-5 flex justify-between"><div><p className="font-black">{m.team1} VS {m.team2}</p><p className="text-sm text-white/50">{m.time}</p></div><p className="text-red-500 font-black">{m.quality}</p></div>))}</div></section>)
   }
   return (<section className="bg-[#0a0a1f] min-h-screen pb-28 w-full"><div className="p-5 border-b border-white/10 px-6"><h1 className="text-2xl font-black uppercase">Football Live HD</h1></div><div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">{FOOTBALL_LEAGUES.map((league) => (<button key={league.id} onClick={() => setSelectedLeague(league.id)} className={`${league.bg} p-8 rounded-2xl border border-white/10 flex flex-col items-center hover:scale-105 transition-all`}><div className="bg-white p-5 rounded-xl mb-4"><span className="text-5xl">{league.logo}</span></div><p className="font-black text-xl">{league.name}</p></button>))}</div></section>)
 };
@@ -424,68 +407,5 @@ const BrowsePage = () => (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
       {WATCH_BY_COUNTRY.map((c,i) => (
         <div key={i} className={`bg-gradient-to-br ${c.bg} p-8 rounded-2xl`}>
-          <span className="text
-          // ... koodhka kore isku mid ha ahaado, halkan ka sii wad ...
-
-const BrowsePage = () => (
-  <section className="p-6 pb-28 text-center">
-    <h2 className="text-2xl font-black mb-6 uppercase">Browse Categories</h2>
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
-      {WATCH_BY_COUNTRY.map((c,i) => (
-        <div key={i} className={`bg-gradient-to-br ${c.bg} p-8 rounded-2xl`}>
           <span className="text-5xl">{c.flag}</span>
-          <p className="font-black mt-3 uppercase">{c.country}</p>
-          <p className="text-xs text-white/70 mt-1">{c.status}</p>
-        </div>
-      ))}
-    </div>
-  </section>
-);
-
-const ProfilePage = () => (
-  <section className="p-6 pb-28 text-center">
-    <div className="bg-[#111122] p-10 rounded-3xl border border-white/10 max-w-lg mx-auto mt-12">
-      <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl font-black">A</div>
-      <h2 className="text-2xl font-black uppercase">Profile</h2>
-      <p className="text-gray-400 text-lg mt-1">Ahmed Abdikani Mohamed</p>
-      <div className="mt-6 space-y-3 text-left">
-        <div className="bg-black/30 p-4 rounded-xl">
-          <p className="text-xs text-white/50 uppercase">Subscription</p>
-          <p className="font-bold text-green-400">Premium Active</p>
-        </div>
-        <div className="bg-black/30 p-4 rounded-xl">
-          <p className="text-xs text-white/50 uppercase">Watch Time</p>
-          <p className="font-bold text-white">142 Hours</p>
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
-export default function App() {
-  const [activeTab, setActiveTab] = useState('Home');
-  const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
-  const [activeTitle, setActiveTitle] = useState<string>("");
-  
-  return (
-    <div className="bg-[#06060f] min-h-screen text-white font-sans flex flex-col items-center w-full overflow-x-hidden">
-      <Head><title>Ahmed Abdikani Live TV</title></Head>
-      <TopBanner />
-      <Header />
-      <div className="w-full flex-1">
-        {activeTab === 'Home' && <HomePage activeVideoId={activeVideoId} setActiveVideoId={setActiveVideoId} activeTitle={activeTitle} setActiveTitle={setActiveTitle} />}
-        {activeTab === 'Live' && <LivePage />}
-        {activeTab === 'Browse' && <BrowsePage />}
-        {activeTab === 'Profile' && <ProfilePage />}
-      </div>
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-      <style jsx global>{`
-        .scrollbar-hide::-webkit-scrollbar{display:none}
-        .scrollbar-hide{-ms-overflow-style:none;scrollbar-width:none}
-        .custom-scrollbar::-webkit-scrollbar{width:5px}
-        .custom-scrollbar::-webkit-scrollbar-thumb{background:rgba(34,197,94,.2);border-radius:10px}
-      `}</style>
-    </div>
-   );
-  }
-)
+          <p className="font-black mt
