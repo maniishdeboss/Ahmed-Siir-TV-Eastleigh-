@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Head from 'next/head'
 
 // --- YouTube Helper ---
-const HERO_YOUTUBE_ID = "zihlM_xTntU"
+const HERO_YOUTUBE_ID = "iGv8jTsZkao" // ✅ Link-gaaga cusub
 
 const getYouTubeId = (input: string | null): string | null => {
   if (!input) return null
@@ -131,6 +131,7 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [nextPageToken, setNextPageToken] = useState<string | null>(null);
   const [showNotification, setShowNotification] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedPkg, setSelectedPkg] = useState<number>(1);
@@ -144,28 +145,40 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
     window.scrollTo({ top: 0, behavior: 'smooth' })
   };
 
-  const handleYouTubeSearch = async () => {
+  const handleYouTubeSearch = async (loadMore = false) => {
     if (!searchQuery.trim()) return;
     setIsSearching(true);
-    setShowResults(true);
+    if (!loadMore) setShowResults(true);
+
     try {
-      const API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY || "";
-      if (!API_KEY) { 
-        alert("YouTube API Key ma jiro, fadlan ku dar faylka .env.local"); 
-        setIsSearching(false); 
-        return; 
-      }
-      const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(searchQuery)}&type=video&key=${API_KEY}`);
+      const url = `/api/youtube?q=${encodeURIComponent(searchQuery)}${loadMore && nextPageToken? `&pageToken=${nextPageToken}` : ''}`
+      const response = await fetch(url);
       const data = await response.json();
+
+      if (data.error) {
+        alert(data.error);
+        setIsSearching(false);
+        return;
+      }
+
       if (data.items) {
-        setSearchResults(data.items.map((item: any) => ({
-          id: item.id.videoId,
+        const results = data.items.map((item: any) => ({
+          id: item.id.videoId || item.id.channelId || item.id.playlistId,
           title: item.snippet.title,
           thumbnail: item.snippet.thumbnails.medium.url,
           channel: item.snippet.channelTitle,
-        })));
+          type: item.id.kind.replace('youtube#', '')
+        }));
+
+        setSearchResults(loadMore? [...searchResults,...results] : results);
+        setNextPageToken(data.nextPageToken || null);
       }
-    } catch (error) { console.error(error) } finally { setIsSearching(false) }
+    } catch (error) {
+      console.error(error);
+      alert("Search failed. Check your API key in.env.local");
+    } finally {
+      setIsSearching(false)
+    }
   };
 
   const handleBuyData = (e: React.FormEvent) => {
@@ -181,8 +194,8 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
       {/* SEARCH */}
       <div className="bg-[#111122] rounded-2xl p-4 border border-blue-500/30 shadow-xl w-full">
         <div className="flex gap-3">
-          <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleYouTubeSearch()} placeholder="Search YouTube - movies, music, live..." className="flex-1 bg-[#0a0a1a] text-white px-5 py-4 rounded-xl border border-white/10 focus:outline-none focus:border-blue-500 text-base" />
-          <button onClick={handleYouTubeSearch} disabled={isSearching} className="bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all">{isSearching? "⏳" : "🔍"}</button>
+          <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleYouTubeSearch()} placeholder="Search YouTube - movies, music, live, channels..." className="flex-1 bg-[#0a0a1a] text-white px-5 py-4 rounded-xl border border-white/10 focus:outline-none focus:border-blue-500 text-base" />
+          <button onClick={() => handleYouTubeSearch()} disabled={isSearching} className="bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all">{isSearching? "⏳" : "🔍"}</button>
         </div>
       </div>
 
@@ -195,15 +208,21 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[600px] overflow-y-auto">
             {searchResults.map((video) => (
-              <button key={video.id} onClick={() => handlePlayVideo(video.id, video.title)} className="flex gap-4 bg-[#0a0a1a] p-4 rounded-xl border border-white/5 hover:bg-[#1a1a2a] transition text-left">
+              <button key={video.id} onClick={() => video.type === 'video' && handlePlayVideo(video.id, video.title)} className="flex gap-4 bg-[#0a0a1a] p-4 rounded-xl border border-white/5 hover:bg-[#1a1a2a] transition text-left">
                 <img src={video.thumbnail} alt={video.title} className="w-36 h-24 object-cover rounded-lg" />
                 <div className="flex-1">
                   <p className="text-white font-bold text-sm line-clamp-2">{video.title}</p>
                   <p className="text-white/50 text-xs mt-1.5">{video.channel}</p>
+                  <span className="text-xs bg-blue-600 px-2 py-0.5 rounded-full mt-1 inline-block">{video.type}</span>
                 </div>
               </button>
             ))}
           </div>
+          {nextPageToken && (
+            <button onClick={() => handleYouTubeSearch(true)} disabled={isSearching} className="w-full mt-4 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white py-3 rounded-xl font-bold">
+              {isSearching? "Loading..." : "Load More"}
+            </button>
+          )}
         </div>
       )}
 
@@ -252,8 +271,8 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
               <h4 className="text-xs font-bold text-gray-900">Manage Site Notifications</h4>
               <button onClick={() => setShowNotification(false)} className="text-gray-400 hover:text-black text-base font-bold">×</button>
             </div>
-            <p className="text-[11px] text-gray-600">Allow notifications to receive instantaneous dynamic updates on current match streams.</p>
-            <button onClick={() => setShowNotification(false)} className="w-full bg-[#ef4444] text-white font-bold text-[11px] py-1.5 rounded uppercase">Unsubscribe</button>
+            <p className="text-xs text-gray-600">Allow notifications to receive instantaneous dynamic updates on current match streams.</p>
+            <button onClick={() => setShowNotification(false)} className="w-full bg-[#ef4444] text-white font-bold text-xs py-1.5 rounded uppercase">Unsubscribe</button>
           </div>
         )}
       </div>
