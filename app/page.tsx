@@ -486,5 +486,6 @@ export default function App() {
         .custom-scrollbar::-webkit-scrollbar-thumb{background:rgba(34,197,94,.2);border-radius:10px}
       `}</style>
     </div>
-  );
-    }
+   );
+  }
+)
