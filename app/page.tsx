@@ -149,8 +149,12 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
     setIsSearching(true);
     setShowResults(true);
     try {
-      const API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY || ""
-      if (!API_KEY) { alert("YouTube API Key ma jiro."); setIsSearching(false); return }
+      const API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY || "";
+      if (!API_KEY) { 
+        alert("YouTube API Key ma jiro, fadlan ku dar faylka .env.local"); 
+        setIsSearching(false); 
+        return; 
+      }
       const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(searchQuery)}&type=video&key=${API_KEY}`);
       const data = await response.json();
       if (data.items) {
@@ -289,9 +293,7 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
         </div>
       </section>
 
-      {/* DATA DEALS - same as before, omitted for brevity in this preview, full file includes it */}
-      {/* FILMS - same as before, full file includes it */}
-
+      {/* DATA DEALS */}
       <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border-2 border-green-500/40 shadow-2xl w-full">
         <div className="flex justify-between items-center gap-4 mb-6 border-b border-white/10 pb-4">
           <div><h2 className="text-2xl font-black text-green-400 uppercase">Ahmed Data Deals Kenya</h2><p className="text-sm text-white/60">Official link for affordable internet packages</p></div>
@@ -313,6 +315,7 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
         </form>
       </section>
 
+      {/* FILMS */}
       <section className="p-6 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl w-full">
         <div className="flex items-center justify-between mb-5"><h2 className="text-xl font-black text-orange-400 uppercase">Hindi & Hollywood Films</h2><span className="text-xs bg-orange-600 px-4 py-1.5 rounded-full font-black">11 FILMS</span></div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
@@ -332,7 +335,7 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
   );
 };
 
-const LivePage = () => { /*... same as before, unchanged... */
+const LivePage = () => {
   const [selectedLeague, setSelectedLeague] = useState<number | null>(null);
   if (selectedLeague) {
     const matches = MATCHES_DATA[selectedLeague] || [];
@@ -341,6 +344,7 @@ const LivePage = () => { /*... same as before, unchanged... */
   }
   return (<section className="bg-[#0a0a1f] min-h-screen pb-28 w-full"><div className="p-5 border-b border-white/10 px-6"><h1 className="text-2xl font-black uppercase">Football Live HD</h1></div><div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">{FOOTBALL_LEAGUES.map((league) => (<button key={league.id} onClick={() => setSelectedLeague(league.id)} className={`${league.bg} p-8 rounded-2xl border border-white/10 flex flex-col items-center hover:scale-105 transition-all`}><div className="bg-white p-5 rounded-xl mb-4"><span className="text-5xl">{league.logo}</span></div><p className="font-black text-xl">{league.name}</p></button>))}</div></section>)
 };
+
 const BrowsePage = () => (<section className="p-6 pb-28 text-center"><h2 className="text-2xl font-black mb-6 uppercase">Browse Categories</h2><div className="grid grid-cols-2 sm:grid-cols-4 gap-5">{WATCH_BY_COUNTRY.map((c,i) => (<div key={i} className={`bg-gradient-to-br ${c.bg} p-8 rounded-2xl`}><span className="text-5xl">{c.flag}</span><p className="font-black mt-3 uppercase">{c.country}</p></div>))}</div></section>);
 const ProfilePage = () => (<section className="p-6 pb-28 text-center"><div className="bg-[#111122] p-10 rounded-3xl border border-white/10 max-w-lg mx-auto mt-12"><div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl font-black">A</div><h2 className="text-2xl font-black uppercase">Profile</h2><p className="text-gray-400 text-lg mt-1">Ahmed Abdikani Mohamed</p></div></section>);
 
