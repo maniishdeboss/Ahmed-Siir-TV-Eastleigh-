@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Head from 'next/head'
 
 // --- YouTube Helper ---
-const HERO_YOUTUBE_ID = "iGv8jTsZkao" // ✅ Link-gaaga cusub
+const HERO_YOUTUBE_ID = "https://new.siiiir.tv/" // ✅ Link-gaaga cusub
 
 const getYouTubeId = (input: string | null): string | null => {
   if (!input) return null
