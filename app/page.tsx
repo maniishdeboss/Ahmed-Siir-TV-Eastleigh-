@@ -284,7 +284,6 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
               CLICK HERE TO WATCH LIVE
             </button>
           </div>
-        </div>
         {showNotification && (
           <div className="absolute top-4 right-4 z-30 w-72 bg-white text-black p-3.5 rounded-xl shadow-2xl border border-gray-200 flex flex-col gap-2">
             <div className="flex justify-between items-start">
@@ -390,4 +389,59 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
     </main>
   );
 };
-)
+
+const LivePage = () => {
+  const [selectedLeague, setSelectedLeague] = useState<number | null>(null);
+  if (selectedLeague) {
+    const matches = MATCHES_DATA[selectedLeague] || [];
+    const leagueName = FOOTBALL_LEAGUES.find(l => l.id === selectedLeague)?.name || "";
+    return (
+      <section className="bg-[#0a0a1f] min-h-screen pb-28 w-full">
+        <div className="p-5 flex items-center gap-4 border-b border-white/10 px-6">
+          <button onClick={() => setSelectedLeague(null)} className="text-white text-3xl">←</button>
+          <h2 className="text-2xl font-black uppercase">{leagueName}</h2>
+        </div>
+        <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {matches.map((m:any) => (
+            <div key={m.id} className="bg-[#111122] rounded-xl p-5 flex justify-between">
+              <div>
+                <p className="font-black">{m.team1} VS {m.team2}</p>
+                <p className="text-sm text-white/50">{m.time}</p>
+              </div>
+              <p className="text-red-500 font-black">{m.quality}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+  return (
+    <section className="bg-[#0a0a1f] min-h-screen pb-28 w-full">
+      <div className="p-5 border-b border-white/10 px-6">
+        <h1 className="text-2xl font-black uppercase">Football Live HD</h1>
+      </div>
+      <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
+        {FOOTBALL_LEAGUES.map((league) => (
+          <button key={league.id} onClick={() => setSelectedLeague(league.id)} className={`${league.bg} p-8 rounded-2xl border border-white/10 flex flex-col items-center hover:scale-105 transition-all`}>
+            <div className="bg-white p-5 rounded-xl mb-4"><span className="text-5xl">{league.logo}</span></div>
+            <p className="font-black text-xl">{league.name}</p>
+          </button>
+        ))}
+      </div>
+    </section>
+  )
+};
+
+const BrowsePage = () => (
+  <section className="p-6 pb-28 text-center">
+    <h2 className="text-2xl font-black mb-6 uppercase">Browse Categories</h2>
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
+      {WATCH_BY_COUNTRY.map((c,i) => (
+        <div key={i} className={`bg-gradient-to-br ${c.bg} p-8 rounded-2xl`}>
+          <span className="text-5xl">{c.flag}</span>
+          <p className="font-black mt-3 uppercase">{c.country}</p>
+          <p className="text-xs text-white/70 mt-1">{c.status}</p>
+        </div>
+      ))}
+    </div>
+  </
