@@ -338,4 +338,249 @@ const HomePage = () => {
               <h2 className="text-2xl font-black text-green-400 tracking-tight uppercase">Ahmed Data Deals Kenya</h2>
               <p className="text-sm text-white/60 mt-0.5">Official link for affordable internet packages</p>
             </div>
-            <span className="text-xs b
+            <span className="text-xs bg-green-500 text-black font-black px-3 py-1.5 rounded-full uppercase tracking-wider animate-pulse">
+              Active
+            </span>
+          </div>
+
+          <form onSubmit={handleBuyData} className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            
+            {/* SCROLLABLE DATA LIST AREA */}
+            <div className="lg:col-span-2 max-h-[420px] overflow-y-auto pr-2 space-y-3 custom-scrollbar grid grid-cols-1 sm:grid-cols-2 gap-3 !space-y-0">
+              {DATA_PACKAGES.map((pkg) => (
+                <div
+                  key={pkg.id}
+                  onClick={() => setSelectedPkg(pkg.id)}
+                  className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer flex justify-between items-center h-20 ${
+                    selectedPkg === pkg.id
+                      ? 'bg-green-900/40 border-green-400 shadow-xl scale-[1.01]'
+                      : 'bg-[#0a110e]/80 border-white/10 hover:border-green-500/30'
+                  }`}
+                >
+                  <div className="text-left space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[9px] font-black tracking-wider text-green-400 uppercase bg-green-950/80 px-1.5 py-0.5 rounded border border-green-500/20">
+                        {pkg.desc}
+                      </span>
+                      {pkg.badge && (
+                        <span className="text-[8px] font-black tracking-tighter text-white uppercase bg-red-600 px-1 py-0.5 rounded">
+                          {pkg.badge}
+                        </span>
+                      )}
+                    </div>
+                    <p className="font-black text-white text-base tracking-wide">{pkg.name}</p>
+                  </div>
+                  <div className="text-right flex items-center gap-3">
+                    <span className="text-base font-black text-white">KSh {pkg.price}</span>
+                    <div className={`w-5 h-5 rounded-full flex items-center justify-center border text-[10px] ${selectedPkg === pkg.id ? 'bg-green-400 border-green-400 text-black' : 'border-white/20 text-transparent'}`}>✓</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* TRANSACTION INPUT AREA */}
+            <div className="lg:col-span-1 bg-black/30 p-5 rounded-2xl border border-white/5 space-y-5 h-full flex flex-col justify-between">
+              <div>
+                <label className="block text-xs font-black text-white/70 uppercase tracking-wider mb-2 pl-1">Safaricom Phone Number</label>
+                <input
+                  type="text"
+                  placeholder="Example: 0712345678"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="w-full bg-[#050a07] text-white px-5 py-4 rounded-xl border border-white/10 text-base focus:outline-none focus:border-green-400 transition-colors placeholder:text-white/20"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-base py-4 rounded-xl transition-all shadow-xl uppercase tracking-widest flex items-center justify-center gap-2"
+              >
+                <span>Buy Selected Bundle</span>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        {/* FILMS SECTION - MOVED DOWN HERE ("HOOS GEE") */}
+        <section className="p-6 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl w-full">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-xl font-black text-orange-400 uppercase tracking-wide">Hindi & Hollywood Films</h2>
+            <span className="text-xs bg-orange-600 px-4 py-1.5 rounded-full font-black">11 FILMS</span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
+            {ALL_FILMS.map((film) => (
+              <button
+                key={film.id}
+                onClick={() => {
+                  if (film.youtube) {
+                    handlePlayVideo(film.youtube, film.title, true);
+                  } else if (film.siirUrl) {
+                    window.open(film.siirUrl, '_blank');
+                  }
+                }}
+                className="relative h-56 rounded-2xl border border-white/10 overflow-hidden transform hover:scale-105 transition-transform shadow-xl group w-full"
+              >
+                <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${film.image})`}} />
+                <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-85 group-hover:opacity-75 transition-opacity`} />
+                <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
+                  <div className="flex justify-between items-start">
+                    <span className="text-3xl">🎬</span>
+                    <div className="flex flex-col gap-1 items-end">
+                      <span className="text-xs bg-black/60 px-2.5 py-1 rounded-full font-black">⭐ {film.rating}</span>
+                      <span className={`text-[11px] px-2 py-0.5 rounded-full font-black ${film.type === 'Hindi' ? 'bg-orange-600' : 'bg-blue-600'}`}>
+                        {film.type}
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="font-black text-white text-sm sm:text-base line-clamp-2 leading-tight">{film.title}</p>
+                    <p className="text-xs text-white/80 mt-0.5">{film.year}</p>
+                  </div>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
+                  <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center shadow-lg">
+                    <span className="text-white text-base">▶</span>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </section>
+
+      </div>
+    </main>
+  );
+};
+
+const LivePage = () => {
+  const [selectedLeague, setSelectedLeague] = useState<number | null>(null);
+  const [activeStream, setActiveStream] = useState<string | null>(null);
+
+  if (selectedLeague) {
+    const matches = MATCHES_DATA[selectedLeague] || [];
+    const leagueName = FOOTBALL_LEAGUES.find(l => l.id === selectedLeague)?.name || "";
+
+    return (
+      <section className="bg-[#0a0a1f] min-h-screen pb-28 w-full">
+        <div className="bg-[#0a0a1f] p-5 flex items-center gap-4 border-b border-white/10 sticky top-0 z-40 px-6">
+          <button onClick={() => {setSelectedLeague(null); setActiveStream(null);}} className="text-white text-3xl">←</button>
+          <h2 className="text-2xl font-black text-white uppercase">{leagueName}</h2>
+        </div>
+
+        {activeStream && (
+          <div className="bg-black aspect-video max-w-6xl mx-auto rounded-xl overflow-hidden my-6 shadow-2xl">
+            <iframe src={activeStream} className="w-full h-full" allow="autoplay; encrypted-media; fullscreen" allowFullScreen />
+          </div>
+        )}
+
+        <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {matches.map((match) => (
+            <div key={match.id} className="bg-[#111122] rounded-xl border border-white/5 shadow-lg">
+              <button
+                onClick={() => {
+                  if (!match.isYoutube && match.link.includes('siiiiir.tv')) {
+                    window.open(match.link, '_blank')
+                  } else {
+                    setActiveStream(match.link)
+                  }
+                }}
+                className="w-full p-5 flex items-center justify-between hover:bg-white/5 transition transform hover:scale-[1.01]"
+              >
+                <div className="flex items-center gap-4 flex-1">
+                  <div className="text-center w-24">
+                    <div className="text-3xl">{match.flag1}</div>
+                    <div className="text-3xl">{match.flag2}</div>
+                  </div>
+                  <div className="text-left">
+                    <p className="font-black text-white text-base sm:text-lg">{match.team1} VS {match.team2}</p>
+                    <p className="text-sm text-white/50 mt-0.5">{match.time}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm text-red-500 font-black tracking-wider">{match.quality}</p>
+                </div>
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="bg-[#0a0a1f] min-h-screen pb-28 w-full">
+      <div className="bg-[#0a0a1f] p-5 flex justify-between items-center border-b border-white/10 sticky top-0 z-40 px-6">
+        <h1 className="text-2xl font-black text-white uppercase tracking-wide">Football Live HD</h1>
+      </div>
+      <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
+        {FOOTBALL_LEAGUES.map((league) => (
+          <button
+            key={league.id}
+            onClick={() => setSelectedLeague(league.id)}
+            className={`${league.bg} w-full p-8 rounded-2xl border border-white/10 flex flex-col items-center justify-center hover:opacity-95 transition-all transform hover:scale-105 shadow-xl`}
+          >
+            <div className="bg-white p-5 rounded-xl mb-4 w-36 h-24 flex items-center justify-center shadow-inner">
+              <span className="text-5xl">{league.logo}</span>
+            </div>
+            <p className="font-black text-white text-lg sm:text-xl tracking-wide">{league.name}</p>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const BrowsePage = () => (
+  <section className="p-6 pb-28 text-center w-full">
+    <h2 className="text-2xl font-black mb-6 uppercase tracking-wide">Browse Categories</h2>
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
+        {WATCH_BY_COUNTRY.map((c, i) => (
+            <div key={i} className={`bg-gradient-to-br ${c.bg} p-8 rounded-2xl border border-white/10 shadow-xl transform hover:scale-105 transition-transform`}>
+                <span className="text-5xl">{c.flag}</span>
+                <p className="font-black text-base text-white mt-3 uppercase tracking-wide">{c.country}</p>
+            </div>
+        ))}
+    </div>
+  </section>
+);
+
+const ProfilePage = () => (
+  <section className="p-6 pb-28 text-center w-full">
+    <div className="bg-[#111122] p-10 rounded-3xl border border-white/10 max-w-lg mx-auto mt-12 shadow-2xl">
+      <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl font-black text-white shadow-lg">
+        A
+      </div>
+      <h2 className="text-2xl font-black uppercase tracking-wide">Profile</h2>
+      <p className="text-gray-400 text-lg mt-1">Ahmed Abdikani Mohamed</p>
+    </div>
+  </section>
+);
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState('Home');
+
+  return (
+    <div className="bg-[#06060f] min-h-screen text-white font-sans flex flex-col items-center w-full overflow-x-hidden">
+      <Head>
+        <title>Ahmed Abdikani Live TV</title>
+      </Head>
+      <Header />
+      <div className="w-full flex-1">
+        {activeTab === 'Home' && <HomePage />}
+        {activeTab === 'Live' && <LivePage />}
+        {activeTab === 'Browse' && <BrowsePage />}
+        {activeTab === 'Profile' && <ProfilePage />}
+      </div>
+      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { bg: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(34, 197, 94, 0.2); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(34, 197, 94, 0.4); }
+      `}</style>
+    </div>
+  );
+}
