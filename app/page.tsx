@@ -2,8 +2,9 @@
 import { useState } from 'react'
 import Head from 'next/head'
 
-// --- YouTube Helper ---
-const HERO_YOUTUBE_ID = "https://new.siiiir.tv/" // ✅ Link-gaaga cusub
+// --- Helper ---
+const HERO_SIIIIR_ID = "https://new.siiiir.tv/" // ✅ Link-ga Siiiir TV
+const HERO_YOUTUBE_ID = "https://new.siiiir.tv/" // Waxaad u badali kartaa YouTube ID hadhow
 
 const getYouTubeId = (input: string | null): string | null => {
   if (!input) return null
@@ -22,9 +23,9 @@ const getYouTubeId = (input: string | null): string | null => {
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", siiiir: HERO_SIIIIR_ID },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", siiiir: HERO_SIIIIR_ID }, // ✅ Hadda wuu shaqaynayaa
   { id: 11, title: "Sports Live Highlights", bg: "from-indigo-600 to-purple-800", icon: "⚡", flag: "🏅", youtube: "anFb5YF3nZk" },
-  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", Sports: "https://new.siiiir.tv/" },
+  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", siiiir: "https://new.siiiir.tv/" }, // ✅ Siiiir TV
   { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: "2A_OLvCo_q8" },
   { id: 5, title: "Wildlife Live", bg: "from-green-600 to-lime-800", icon: "🦁", flag: "🌿", youtube: "MiQe9ob9aDc" },
   { id: 6, title: "Al Jazeera", bg: "from-teal-600 to-cyan-800", icon: "📰", flag: "🇶🇦", youtube: "gCNeDWCI0vo" },
@@ -41,7 +42,7 @@ const ALL_FILMS = [
   { id: 3, title: "Dangal", year: "2016", rating: "8.3", type: "Hindi", bg: "from-blue-600 to-indigo-800", youtube: "x_7YlGv9u1g", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" },
   { id: 4, title: "3 Idiots", year: "2009", rating: "8.4", type: "Hindi", bg: "from-green-600 to-teal-800", youtube: "K0eDlFX9GMc", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400" },
   { id: 5, title: "PK", year: "2014", rating: "8.1", type: "Hindi", bg: "from-purple-600 to-pink-800", youtube: "82ZEDGPCkT8", image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400" },
-  { id: 22, title: "BeIN Sports", year: "2026", rating: "9.0", type: "Live Sports", bg: "from-slate-800 to-slate-950", youtube: HERO_YOUTUBE_ID, image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400" },
+  { id: 22, title: "BeIN Sports", year: "2026", rating: "9.0", type: "Live Sports", bg: "from-slate-800 to-slate-950", siiiir: HERO_SIIIIR_ID, image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400" }, // ✅ Siiiir TV
   { id: 6, title: "Bajrangi Bhaijaan", year: "2015", rating: "8.0", type: "Hindi", bg: "from-red-600 to-rose-800", youtube: "vyX4toD395U", image: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=400" },
   { id: 7, title: "KGF Chapter 2", year: "2022", rating: "8.4", type: "Hindi", bg: "from-amber-600 to-yellow-800", youtube: "Qah9sSIXJqk", image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400" },
   { id: 8, title: "RRR", year: "2022", rating: "7.8", type: "Hindi", bg: "from-cyan-600 to-blue-800", youtube: "NgBoMJy386M", image: "https://images.unsplash.com/photo-1594909122845-11baa9b7703b?w=400" },
@@ -57,7 +58,7 @@ const WATCH_BY_COUNTRY = [
 ];
 
 const FOOTBALL_LEAGUES = [
-  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "https://new.siiiir.tv/" },
+  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "bg-gradient-to-r from-blue-600 to-blue-800" },
   { id: 2, name: "International Friendly", logo: "⚽", bg: "bg-gradient-to-r from-slate-700 to-slate-900" },
   { id: 3, name: "English Premier League", logo: "🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
   { id: 4, name: "Serie A", logo: "🇮🇹", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
@@ -135,11 +136,21 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
   const [showNotification, setShowNotification] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedPkg, setSelectedPkg] = useState<number>(1);
+  const [activeSiiiirUrl, setActiveSiiiirUrl] = useState<string | null>(null); // ✅ Siiiir TV player
 
   const handlePlayVideo = (youtubeInput: string, title: string) => {
     const videoId = getYouTubeId(youtubeInput)
     if (!videoId) return
+    setActiveSiiiirUrl(null) // Close siiiir player
     setActiveVideoId(videoId)
+    setActiveTitle(title)
+    setShowResults(false)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  };
+
+  const handlePlaySiiiir = (url: string, title: string) => {
+    setActiveVideoId(null) // Close YouTube player
+    setActiveSiiiirUrl(url)
     setActiveTitle(title)
     setShowResults(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -226,7 +237,7 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
         </div>
       )}
 
-      {/* ACTIVE PLAYER */}
+      {/* ACTIVE YOUTUBE PLAYER */}
       {activeVideoId && (
         <div className="bg-[#111122] rounded-3xl p-5 border border-blue-500/30 shadow-2xl w-full">
           <div className="flex justify-between items-center mb-4">
@@ -249,6 +260,29 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
         </div>
       )}
 
+      {/* ✅ ACTIVE SIIIIR TV PLAYER */}
+      {activeSiiiirUrl && (
+        <div className="bg-[#111122] rounded-3xl p-5 border border-green-500/30 shadow-2xl w-full">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center gap-2">
+              <span className="bg-green-600 text-xs px-3 py-1 rounded-full animate-pulse font-bold">SIIIIR LIVE</span>
+              <p className="text-base font-bold text-white line-clamp-1">{activeTitle}</p>
+            </div>
+            <button onClick={() => setActiveSiiiirUrl(null)} className="text-white/60 hover:text-white text-4xl leading-none">×</button>
+          </div>
+          <div className="aspect-video bg-black rounded-xl overflow-hidden w-full max-w-6xl mx-auto">
+            <iframe
+              src={activeSiiiirUrl}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+              title={activeTitle}
+            />
+          </div>
+        </div>
+      )}
+
       {/* HERO BANNER */}
       <div className="relative w-full">
         <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl p-10 md:p-16 relative">
@@ -258,8 +292,8 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
             <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇬🇲 Ahmed Abdikani Live TV 🇸🇴</h2>
             <p className="text-white/80 text-base sm:text-lg mb-8 max-w-2xl mx-auto">Watch Live Sports HD Content Flawlessly</p>
             <button
-              onClick={() => handlePlayVideo(HERO_YOUTUBE_ID, "Ahmed Abdikani Live TV")}
-              className="inline-block bg-red-600 hover:bg-red-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider"
+              onClick={() => handlePlaySiiiir(HERO_SIIIIR_ID, "Ahmed Abdikani Live TV")}
+              className="inline-block bg-green-600 hover:bg-green-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider"
             >
               CLICK HERE TO WATCH LIVE
             </button>
@@ -287,9 +321,19 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
         <h2 className="text-xl font-black mb-4 text-white/90 uppercase">All Live Channels</h2>
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide w-full">
           {SPORTS_CHANNELS.map((ch) => {
-            const canPlay =!!ch.youtube
+            const canPlayYoutube =!!ch.youtube
+            const canPlaySiiiir =!!ch.siiiir
+            const canPlay = canPlayYoutube || canPlaySiiiir
             return (
-              <button key={ch.id} onClick={() => canPlay && handlePlayVideo(ch.youtube!, ch.title)} disabled={!canPlay} className={`shrink-0 w-48 h-32 bg-gradient-to-br ${ch.bg} rounded-2xl p-5 flex flex-col justify-between border border-white/5 shadow-xl transition-all hover:scale-105 ${canPlay? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}>
+              <button
+                key={ch.id}
+                onClick={() => {
+                  if (canPlayYoutube) handlePlayVideo(ch.youtube!, ch.title)
+                  else if (canPlaySiiiir) handlePlaySiiiir(ch.siiiir!, ch.title)
+                }}
+                disabled={!canPlay}
+                className={`shrink-0 w-48 h-32 bg-gradient-to-br ${ch.bg} rounded-2xl p-5 flex flex-col justify-between border border-white/5 shadow-xl transition-all hover:scale-105 ${canPlay? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
+              >
                 <div className="flex justify-between items-start w-full">
                   <span className="text-3xl">{ch.icon}</span>
                   {canPlay && <span className="text-xs bg-red-600 px-2.5 py-1 rounded-full font-black">LIVE</span>}
@@ -305,7 +349,7 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
       <section className="p-6 rounded-3xl bg-[#111122] border border-blue-500/30 shadow-xl w-full">
         <h2 className="text-xl font-black mb-4 text-blue-400 uppercase">Premium Live TV</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <button onClick={() => handlePlayVideo(HERO_YOUTUBE_ID, "World cup - Live")} className="bg-gradient-to-br from-blue-900 to-black p-8 rounded-2xl border border-white/10 text-center hover:scale-[1.03] transition-transform shadow-xl w-full">
+          <button onClick={() => handlePlaySiiiir(HERO_SIIIIR_ID, "World cup - Live")} className="bg-gradient-to-br from-blue-900 to-black p-8 rounded-2xl border border-white/10 text-center hover:scale-[1.03] transition-transform shadow-xl w-full">
             <p className="font-black text-white text-lg">World cup - Live</p>
             <p className="text-white/50 text-sm mt-1">Click to watch</p>
           </button>
@@ -338,16 +382,27 @@ const HomePage = ({ activeVideoId, setActiveVideoId, activeTitle, setActiveTitle
       <section className="p-6 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl w-full">
         <div className="flex items-center justify-between mb-5"><h2 className="text-xl font-black text-orange-400 uppercase">Hindi & Hollywood Films</h2><span className="text-xs bg-orange-600 px-4 py-1.5 rounded-full font-black">11 FILMS</span></div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
-          {ALL_FILMS.map((film) => (
-            <button key={film.id} onClick={() => film.youtube && handlePlayVideo(film.youtube, film.title)} className="relative h-56 rounded-2xl border border-white/10 overflow-hidden hover:scale-105 transition-transform shadow-xl group">
-              <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${film.image})`}} />
-              <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-85`} />
-              <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
-                <div className="flex justify-between"><span className="text-3xl">🎬</span><span className="text-xs bg-black/60 px-2 py-1 rounded-full font-black">⭐ {film.rating}</span></div>
-                <div><p className="font-black text-white">{film.title}</p><p className="text-xs text-white/80">{film.year}</p></div>
-              </div>
-            </button>
-          ))}
+          {ALL_FILMS.map((film) => {
+            const hasYoutube =!!film.youtube
+            const hasSiiiir =!!film.siiiir
+            return (
+              <button
+                key={film.id}
+                onClick={() => {
+                  if (hasYoutube) handlePlayVideo(film.youtube!, film.title)
+                  else if (hasSiiiir) handlePlaySiiiir(film.siiiir!, film.title)
+                }}
+                className="relative h-56 rounded-2xl border border-white/10 overflow-hidden hover:scale-105 transition-transform shadow-xl group"
+              >
+                <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${film.image})`}} />
+                <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-85`} />
+                <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
+                  <div className="flex justify-between"><span className="text-3xl">🎬</span><span className="text-xs bg-black/60 px-2 py-1 rounded-full font-black">⭐ {film.rating}</span></div>
+                  <div><p className="font-black text-white">{film.title}</p><p className="text-xs text-white/80">{film.year}</p></div>
+                </div>
+              </button>
+            )
+          })}
         </div>
       </section>
     </main>
@@ -364,26 +419,4 @@ const LivePage = () => {
   return (<section className="bg-[#0a0a1f] min-h-screen pb-28 w-full"><div className="p-5 border-b border-white/10 px-6"><h1 className="text-2xl font-black uppercase">Football Live HD</h1></div><div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">{FOOTBALL_LEAGUES.map((league) => (<button key={league.id} onClick={() => setSelectedLeague(league.id)} className={`${league.bg} p-8 rounded-2xl border border-white/10 flex flex-col items-center hover:scale-105 transition-all`}><div className="bg-white p-5 rounded-xl mb-4"><span className="text-5xl">{league.logo}</span></div><p className="font-black text-xl">{league.name}</p></button>))}</div></section>)
 };
 
-const BrowsePage = () => (<section className="p-6 pb-28 text-center"><h2 className="text-2xl font-black mb-6 uppercase">Browse Categories</h2><div className="grid grid-cols-2 sm:grid-cols-4 gap-5">{WATCH_BY_COUNTRY.map((c,i) => (<div key={i} className={`bg-gradient-to-br ${c.bg} p-8 rounded-2xl`}><span className="text-5xl">{c.flag}</span><p className="font-black mt-3 uppercase">{c.country}</p></div>))}</div></section>);
-const ProfilePage = () => (<section className="p-6 pb-28 text-center"><div className="bg-[#111122] p-10 rounded-3xl border border-white/10 max-w-lg mx-auto mt-12"><div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl font-black">A</div><h2 className="text-2xl font-black uppercase">Profile</h2><p className="text-gray-400 text-lg mt-1">Ahmed Abdikani Mohamed</p></div></section>);
-
-export default function App() {
-  const [activeTab, setActiveTab] = useState('Home');
-  const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
-  const [activeTitle, setActiveTitle] = useState<string>("");
-  return (
-    <div className="bg-[#06060f] min-h-screen text-white font-sans flex flex-col items-center w-full overflow-x-hidden">
-      <Head><title>Ahmed Abdikani Live TV</title></Head>
-      <TopBanner />
-      <Header />
-      <div className="w-full flex-1">
-        {activeTab === 'Home' && <HomePage activeVideoId={activeVideoId} setActiveVideoId={setActiveVideoId} activeTitle={activeTitle} setActiveTitle={setActiveTitle} />}
-        {activeTab === 'Live' && <LivePage />}
-        {activeTab === 'Browse' && <BrowsePage />}
-        {activeTab === 'Profile' && <ProfilePage />}
-      </div>
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-      <style jsx global>{`.scrollbar-hide::-webkit-scrollbar{display:none}.scrollbar-hide{-ms-overflow-style:none;scrollbar-width:none}.custom-scrollbar::-webkit-scrollbar{width:5px}.custom-scrollbar::-webkit-scrollbar-thumb{background:rgba(34,197,94,.2);border-radius:10px}`}</style>
-    </div>
-  );
-}
+const BrowsePage = () => (<section className="p-6 pb-28
