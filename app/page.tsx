@@ -151,6 +151,8 @@ export default function App() {
                   <span className="text-2xl">{channel.icon}</span>
                   <span className="bg-black/30 text-xs px-2 py-0.5 rounded-full">{channel.flag}</span>
                 </div>
+              </section>
+      );
 const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
   const tabs = ['Home', 'Live', 'Browse', 'Profile'];
   return (
