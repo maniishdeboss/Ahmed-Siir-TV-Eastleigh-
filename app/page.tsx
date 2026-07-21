@@ -141,7 +141,7 @@ const HomePage = () => {
   };
 
   return (
-    <main className="p-4 pb-24 space-y-6 bg-black text-white min-h-full">
+    <main className="p-4 pb-24 space-y-6 bg-black text-white min-h-full custom-scrollbar">
       {/* Search Bar */}
       <div className="bg-zinc-900 rounded-xl p-3 border border-zinc-800 space-y-2">
         <div className="flex gap-2">
@@ -191,7 +191,7 @@ const HomePage = () => {
             <h3 className="text-xs font-bold uppercase">Natiijada</h3>
             <button onClick={() => setShowResults(false)} className="text-zinc-400 text-lg">×</button>
           </div>
-          <div className="space-y-2 max-h-60 overflow-y-auto">
+          <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
             {searchResults.map((item, idx) => (
               <button
                 key={idx}
@@ -261,7 +261,7 @@ const HomePage = () => {
       {/* Data Bundles */}
       <div className="bg-zinc-900 rounded-2xl p-4 border border-zinc-800 space-y-3">
         <h3 className="text-xs font-black uppercase text-red-500">Ahmed Data Deals Kenya</h3>
-        <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+        <div className="space-y-2 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
           {DATA_PACKAGES.map((pkg) => (
             <div
               key={pkg.id}
@@ -325,7 +325,7 @@ const LivePage = () => {
   if (selectedLeague) {
     const matches = MATCHES_DATA[selectedLeague] || [];
     return (
-      <div className="space-y-4">
+      <div className="space-y-4 custom-scrollbar">
         <div className="flex items-center gap-3 p-3 bg-zinc-900 border-b border-zinc-800">
           <button onClick={() => setSelectedLeague(null)} className="text-white text-xl">←</button>
           <h3 className="text-xs font-black uppercase">Live Matches</h3>
@@ -355,7 +355,7 @@ const LivePage = () => {
   }
 
   return (
-    <div className="p-4 space-y-3 bg-black min-h-full">
+    <div className="p-4 space-y-3 bg-black min-h-full custom-scrollbar">
       <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Football Leagues</h3>
       <div className="grid grid-cols-2 gap-3">
         {FOOTBALL_LEAGUES.map((l) => (
@@ -374,7 +374,7 @@ const LivePage = () => {
 };
 
 const BrowsePage = () => (
-  <div className="p-4 space-y-3 bg-black min-h-full">
+  <div className="p-4 space-y-3 bg-black min-h-full custom-scrollbar">
     <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Browse By Country</h3>
     <div className="grid grid-cols-2 gap-3">
       {WATCH_BY_COUNTRY.map((c, i) => (
@@ -389,7 +389,7 @@ const BrowsePage = () => (
 );
 
 const ProfilePage = () => (
-  <div className="p-6 text-center space-y-4 bg-black min-h-full flex flex-col items-center justify-center">
+  <div className="p-6 text-center space-y-4 bg-black min-h-full flex flex-col items-center justify-center custom-scrollbar">
     <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg">
       A
     </div>
@@ -404,11 +404,11 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
 
   return (
-    <div className="bg-zinc-950 min-h-screen flex justify-center items-center p-0 sm:py-6 font-sans">
+    <div className="bg-black min-h-screen w-full flex justify-center items-center overflow-hidden font-sans">
       {/* PHONE CONTAINER */}
       <div className="w-full sm:max-w-sm h-screen sm:h-[844px] bg-black sm:rounded-[40px] sm:border-[8px] sm:border-zinc-800 flex flex-col relative overflow-hidden shadow-2xl">
         <Header />
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto custom-scrollbar">
           {activeTab === 'Home' && <HomePage />}
           {activeTab === 'Live' && <LivePage />}
           {activeTab === 'Browse' && <BrowsePage />}
@@ -416,6 +416,14 @@ export default function App() {
         </div>
         <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       </div>
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.4); }
+      `}</style>
     </div>
   );
 }
