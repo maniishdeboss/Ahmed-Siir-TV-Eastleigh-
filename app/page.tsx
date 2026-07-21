@@ -4,10 +4,10 @@ import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: null, siirUrl: "https://sporty.com/sporty-tv" },
-  { id: 11, title: "Sports Live Highlights", bg: "from-indigo-600 to-purple-800", icon: "⚡", flag: "🏅", youtube: "https://sporty.com/sporty-tv" },
-  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: "https://sporty.com/sporty-tv" },
-  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: "https://sporty.com/sporty-tv" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: "y7tv1y_Q_Q0" },
+  { id: 11, title: "Sports Live Highlights", bg: "from-indigo-600 to-purple-800", icon: "⚡", flag: "🏅", youtube: "vqu4z34wENw" },
+  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: "x_7YlGv9u1g" },
+  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: "K0eDlFX9GMc" },
   { id: 5, title: "Wildlife Live", bg: "from-green-600 to-lime-800", icon: "🦁", flag: "🌿", youtube: "MiQe9ob9aDc" },
   { id: 6, title: "Al Jazeera", bg: "from-teal-600 to-cyan-800", icon: "📰", flag: "🇶🇦", youtube: "gCNeDWCI0vo" },
   { id: 7, title: "Movies Live", bg: "from-pink-600 to-rose-800", icon: "🎥", flag: "🎞️", youtube: "89c4owSHL2E" },
@@ -18,12 +18,12 @@ const SPORTS_CHANNELS = [
 ];
 
 const ALL_FILMS = [
-  { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-orange-600 to-red-800", youtube: "y7tv1y_Q_Q0", image: "https://sporty.com/sporty-tv" },
+  { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-orange-600 to-red-800", youtube: "y7tv1y_Q_Q0", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" },
   { id: 2, title: "Pathaan", year: "2023", rating: "7.2", type: "Hindi", bg: "from-yellow-600 to-orange-700", youtube: "vqu4z34wENw", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400" },
   { id: 3, title: "Dangal", year: "2016", rating: "8.3", type: "Hindi", bg: "from-blue-600 to-indigo-800", youtube: "x_7YlGv9u1g", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" },
   { id: 4, title: "3 Idiots", year: "2009", rating: "8.4", type: "Hindi", bg: "from-green-600 to-teal-800", youtube: "K0eDlFX9GMc", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400" },
   { id: 5, title: "PK", year: "2014", rating: "8.1", type: "Hindi", bg: "from-purple-600 to-pink-800", youtube: "82ZEDGPCkT8", image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400" },
-  { id: 22, title: "BeIN Sports", year: "2026", rating: "9.0", type: "Live Sports", bg: "from-slate-800 to-slate-950", youtube: null, siirUrl: "https://sporty.com/sporty-tv", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400" },
+  { id: 22, title: "BeIN Sports", year: "2026", rating: "9.0", type: "Live Sports", bg: "from-slate-800 to-slate-950", youtube: "MiQe9ob9aDc", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400" },
   { id: 6, title: "Bajrangi Bhaijaan", year: "2015", rating: "8.0", type: "Hindi", bg: "from-red-600 to-rose-800", youtube: "vyX4toD395U", image: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=400" },
   { id: 7, title: "KGF Chapter 2", year: "2022", rating: "8.4", type: "Hindi", bg: "from-amber-600 to-yellow-800", youtube: "Qah9sSIXJqk", image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400" },
   { id: 8, title: "RRR", year: "2022", rating: "7.8", type: "Hindi", bg: "from-cyan-600 to-blue-800", youtube: "NgBoMJy386M", image: "https://images.unsplash.com/photo-1594909122845-11baa9b7703b?w=400" },
@@ -72,7 +72,7 @@ export default function HomePage() {
   const [activeTab, setActiveTab] = useState('Home');
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [activeTitle, setActiveTitle] = useState<string>("");
-  const [isYoutubeVideo, setIsYoutubeVideo] = useState(false);
+  const [isYoutubeVideo, setIsYoutubeVideo] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -85,10 +85,6 @@ export default function HomePage() {
   const [isLoadingPayment, setIsLoadingPayment] = useState(false);
 
   const handlePlayVideo = (url: string, title: string, isYoutube: boolean = true, isChannel: boolean = false) => {
-    if (!isYoutube && url && url.includes('siiiiir.tv')) {
-      window.open(url, '_blank');
-      return;
-    }
     if (isChannel || (url && url.includes('youtube.com/@'))) {
       window.open(url, '_blank');
       return;
@@ -137,7 +133,6 @@ export default function HomePage() {
 
     const currentPackage = DATA_PACKAGES.find(p => p.id === selectedPkg);
     const price = currentPackage ? currentPackage.price : 20;
-    const packageName = currentPackage ? currentPackage.name : "Data Bundle";
 
     let formattedPhone = phoneNumber.trim();
     if (formattedPhone.startsWith("0")) {
@@ -147,7 +142,6 @@ export default function HomePage() {
     setIsLoadingPayment(true);
 
     try {
-      // Halkan waxay hadda toos u wacaysaa endpoint-ka Pay Hero ee /api/stk
       const response = await fetch("/api/stk", {
         method: "POST",
         headers: {
@@ -156,7 +150,7 @@ export default function HomePage() {
         body: JSON.stringify({
           amount: price,
           msisdn: formattedPhone,
-          account_no: packageName
+          account_no: "11020"
         }),
       });
 
@@ -238,7 +232,7 @@ export default function HomePage() {
             </div>
             <div className="aspect-video bg-black rounded-xl overflow-hidden w-full max-w-6xl mx-auto">
               <iframe
-                src={isYoutubeVideo ? `https://www.youtube.com/embed/${activeVideo}?autoplay=1` : activeVideo}
+                src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1`}
                 className="w-full h-full"
                 allow="autoplay; encrypted-media; fullscreen"
                 allowFullScreen
@@ -255,13 +249,12 @@ export default function HomePage() {
               <div className="text-7xl mb-4">📺</div>
               <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇬🇲 Ahmed Abdikani Live TV 🇸🇴</h2>
               <p className="text-white/80 text-base sm:text-lg mb-8 max-w-2xl mx-auto">Watch Live Sports HD Content Flawlessly</p>
-              <a
-                href="https://sporty.com/sporty-tv"
-                target="_blank"
-                className="inline-block bg-red-600 hover:bg-red-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider"
+              <button
+                onClick={() => handlePlayVideo("y7tv1y_Q_Q0", "FIFA World Cup 2026", true)}
+                className="inline-block bg-red-600 hover:bg-red-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider cursor-pointer"
               >
                  Click Here to Watch Live
-              </a>
+              </button>
             </div>
           </div>
 
@@ -296,19 +289,12 @@ export default function HomePage() {
             {SPORTS_CHANNELS.map((ch) => (
               <button
                 key={ch.id}
-                onClick={() => {
-                  if (ch.youtube) {
-                    handlePlayVideo(ch.youtube, ch.title, true, ch.isYoutubeChannel)
-                  } else if (ch.siirUrl) {
-                    window.open(ch.siirUrl, '_blank')
-                  }
-                }}
-                disabled={!ch.youtube && !ch.siirUrl}
-                className={`shrink-0 w-48 h-32 bg-gradient-to-br ${ch.bg} rounded-2xl p-5 flex flex-col justify-between border border-white/5 shadow-xl transition-all transform hover:scale-105 active:scale-95 ${(ch.youtube || ch.siirUrl) ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
+                onClick={() => handlePlayVideo(ch.youtube, ch.title, true, ch.isYoutubeChannel)}
+                className={`shrink-0 w-48 h-32 bg-gradient-to-br ${ch.bg} rounded-2xl p-5 flex flex-col justify-between border border-white/5 shadow-xl transition-all transform hover:scale-105 active:scale-95 cursor-pointer`}
               >
                 <div className="flex justify-between items-start w-full">
                   <span className="text-3xl">{ch.icon}</span>
-                  {(ch.youtube || ch.siirUrl) && <span className="text-xs bg-red-600 px-2.5 py-1 rounded-full font-black">LIVE</span>}
+                  <span className="text-xs bg-red-600 px-2.5 py-1 rounded-full font-black">LIVE</span>
                 </div>
                 <h3 className="font-bold text-sm text-white text-left line-clamp-2">{ch.title}</h3>
               </button>
@@ -321,8 +307,8 @@ export default function HomePage() {
           <h2 className="text-xl font-black mb-4 text-blue-400 uppercase tracking-wide">Premium Live TV</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <button
-              onClick={() => handlePlayVideo("https://sporty.com/sporty-tv", "BeIN Sports HD", false)}
-              className="bg-gradient-to-r from-slate-800 to-slate-900 p-5 rounded-2xl border border-white/10 flex items-center justify-between hover:border-blue-500 transition"
+              onClick={() => handlePlayVideo("MiQe9ob9aDc", "BeIN Sports HD", true)}
+              className="bg-gradient-to-r from-slate-800 to-slate-900 p-5 rounded-2xl border border-white/10 flex items-center justify-between hover:border-blue-500 transition cursor-pointer"
             >
               <div className="flex items-center gap-4">
                 <span className="text-3xl">⚽</span>
@@ -334,8 +320,8 @@ export default function HomePage() {
               <span className="bg-red-600 text-xs px-3 py-1 rounded-full font-bold">WATCH</span>
             </button>
             <button
-              onClick={() => handlePlayVideo("https://sporty.com/sporty-tv", "SuperSport TV", false)}
-              className="bg-gradient-to-r from-slate-800 to-slate-900 p-5 rounded-2xl border border-white/10 flex items-center justify-between hover:border-blue-500 transition"
+              onClick={() => handlePlayVideo("y7tv1y_Q_Q0", "SuperSport TV", true)}
+              className="bg-gradient-to-r from-slate-800 to-slate-900 p-5 rounded-2xl border border-white/10 flex items-center justify-between hover:border-blue-500 transition cursor-pointer"
             >
               <div className="flex items-center gap-4">
                 <span className="text-3xl">🏆</span>
@@ -349,7 +335,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* DATA BUNDLES PAYMENT SECTION (PAY HERO) */}
+        {/* DATA BUNDLES PAYMENT SECTION */}
         <section className="p-6 rounded-3xl bg-[#111122] border border-blue-500/30 shadow-xl w-full">
           <h2 className="text-xl font-black mb-2 text-white uppercase tracking-wide">Buy Internet Data Packages</h2>
           <p className="text-white/60 text-sm mb-6">Select a bundle and enter your M-Pesa phone number to pay instantly via Pay Hero STK Push.</p>
@@ -382,7 +368,7 @@ export default function HomePage() {
               <button
                 type="submit"
                 disabled={isLoadingPayment}
-                className="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white font-black px-8 py-4 rounded-xl text-base transition shadow-lg uppercase tracking-wider"
+                className="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white font-black px-8 py-4 rounded-xl text-base transition shadow-lg uppercase tracking-wider cursor-pointer"
               >
                 {isLoadingPayment ? "Processing..." : "Pay via M-Pesa"}
               </button>
