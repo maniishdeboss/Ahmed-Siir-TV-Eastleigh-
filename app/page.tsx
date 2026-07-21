@@ -157,18 +157,47 @@ const HomePage = () => {
     }
   };
 
-  const handleBuyData = (e: React.FormEvent) => {
+  const handleBuyData = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!phoneNumber.trim()) {
-      alert("Please enter your phone number!");
+      alert("Fadlan geli lambarkaaga taleefanka!");
       return;
     }
 
     const currentPackage = DATA_PACKAGES.find(p => p.id === selectedPkg);
     const price = currentPackage ? currentPackage.price : 20;
+    const packageName = currentPackage ? currentPackage.name : "Data Bundle";
 
-    const targetUrl = `https://tinypesa.com/ahmeddatadealskenya?amount=${price}&phone=${encodeURIComponent(phoneNumber)}`;
-    window.open(targetUrl, '_blank');
+    let formattedPhone = phoneNumber.trim();
+    if (formattedPhone.startsWith("0")) {
+      formattedPhone = "254" + formattedPhone.substring(1);
+    }
+
+    try {
+      const response = await fetch("https://tinypesa.com/api/v1/express/initialize", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "ApiKey": process.env.NEXT_PUBLIC_TINYPESA_API_KEY || "", 
+        },
+        body: JSON.stringify({
+          amount: price,
+          msisdn: formattedPhone,
+          account_no: packageName,
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        alert("Fadlan eeg taleefankaaga oo geli PIN-kaaga si aad u bixiso lacagta!");
+      } else {
+        alert("Cillad ayaa dhacday: " + (data.message || "Fadlan dib u day!"));
+      }
+    } catch (error) {
+      console.error("STK Push Error:", error);
+      alert("Cillad xagga shabakadda ah ayaa dhacday.");
+    }
   };
 
   return (
@@ -246,7 +275,7 @@ const HomePage = () => {
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200')] bg-cover bg-center opacity-20"></div>
           <div className="relative z-10 text-center py-6">
             <div className="text-7xl mb-4">📺</div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇬🇲 Ahmed Abdikani Live TV 🇸🇴</h2>
+            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇸🇴🇰🇪 Ahmed Abdikani Live TV 🇸🇴</h2>
             <p className="text-white/80 text-base sm:text-lg mb-8 max-w-2xl mx-auto">Watch Live Sports HD Content Flawlessly</p>
             <a
               href="https://sporty.com/sporty-tv"
@@ -331,15 +360,15 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* AHMED DATA DEALS KENYA - MOVED UP HERE ("KOOR KEEN") */}
+        {/* AHMED DATA DEALS KENYA */}
         <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border-2 border-green-500/40 shadow-2xl w-full">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-white/10 pb-4">
             <div>
               <h2 className="text-2xl font-black text-green-400 tracking-tight uppercase">Ahmed Data Deals Kenya</h2>
-              <p className="text-sm text-white/60 mt-0.5">Official link for affordable internet packages</p>
+              <p className="text-sm text-white/60 mt-0.5">Official STK Push automated payment for packages</p>
             </div>
             <span className="text-xs bg-green-500 text-black font-black px-3 py-1.5 rounded-full uppercase tracking-wider animate-pulse">
-              Active
+              Active STK
             </span>
           </div>
 
@@ -401,7 +430,7 @@ const HomePage = () => {
           </form>
         </section>
 
-        {/* FILMS SECTION - MOVED DOWN HERE ("HOOS GEE") */}
+        {/* FILMS SECTION */}
         <section className="p-6 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl w-full">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-xl font-black text-orange-400 uppercase tracking-wide">Hindi & Hollywood Films</h2>
