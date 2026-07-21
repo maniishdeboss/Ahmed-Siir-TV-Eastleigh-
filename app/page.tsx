@@ -61,7 +61,7 @@ const DATA_PACKAGES = [
 
 const Header = () => (
   <header className="p-4 flex items-center justify-between border-b border-zinc-900 bg-black text-white sticky top-0 z-50">
-    <h1 className="text-lg font-black tracking-tighter text-white">AHMED <span className="text-red-500">LIVE</span> TV</h1>
+    <h1 className="text-base font-black tracking-tighter text-white">AHMED <span className="text-red-500">LIVE</span> TV</h1>
     <span className="text-[10px] bg-red-600 px-2 py-0.5 rounded-full font-bold animate-pulse">LIVE APP</span>
   </header>
 );
@@ -69,7 +69,7 @@ const Header = () => (
 const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
   const tabs = ['Home', 'Live', 'Browse', 'Profile'];
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-black border-t border-zinc-900 p-3 flex justify-around z-50 text-white max-w-xl mx-auto">
+    <nav className="fixed bottom-0 left-0 right-0 bg-black border-t border-zinc-900 p-3 flex justify-around z-50 text-white w-full">
       {tabs.map((tab) => (
         <button
           key={tab}
@@ -141,7 +141,7 @@ const HomePage = () => {
   };
 
   return (
-    <main className="p-4 pb-24 space-y-6 bg-black text-white min-h-full custom-scrollbar">
+    <main className="p-4 pb-28 space-y-6 bg-black text-white min-h-full">
       {/* Search Bar */}
       <div className="bg-zinc-900 rounded-xl p-3 border border-zinc-800 space-y-2">
         <div className="flex gap-2">
@@ -191,7 +191,7 @@ const HomePage = () => {
             <h3 className="text-xs font-bold uppercase">Natiijada</h3>
             <button onClick={() => setShowResults(false)} className="text-zinc-400 text-lg">×</button>
           </div>
-          <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
+          <div className="space-y-2 max-h-60 overflow-y-auto">
             {searchResults.map((item, idx) => (
               <button
                 key={idx}
@@ -223,7 +223,7 @@ const HomePage = () => {
       )}
 
       {/* Hero Banner */}
-      <div className="bg-gradient-to-r from-red-950 via-zinc-900 to-black rounded-2xl p-5 border border-red-900/30 text-center space-y-3">
+      <div className="bg-gradient-to-r from-red-950 via-zinc-900 to-black rounded-2xl p-6 border border-red-900/30 text-center space-y-3">
         <span className="text-3xl">📺</span>
         <h2 className="text-lg font-black tracking-tight">Ahmed Abdikani Live TV</h2>
         <a
@@ -261,7 +261,7 @@ const HomePage = () => {
       {/* Data Bundles */}
       <div className="bg-zinc-900 rounded-2xl p-4 border border-zinc-800 space-y-3">
         <h3 className="text-xs font-black uppercase text-red-500">Ahmed Data Deals Kenya</h3>
-        <div className="space-y-2 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
+        <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
           {DATA_PACKAGES.map((pkg) => (
             <div
               key={pkg.id}
@@ -325,7 +325,7 @@ const LivePage = () => {
   if (selectedLeague) {
     const matches = MATCHES_DATA[selectedLeague] || [];
     return (
-      <div className="space-y-4 custom-scrollbar pb-24">
+      <div className="space-y-4 pb-28">
         <div className="flex items-center gap-3 p-3 bg-zinc-900 border-b border-zinc-800">
           <button onClick={() => setSelectedLeague(null)} className="text-white text-xl">←</button>
           <h3 className="text-xs font-black uppercase">Live Matches</h3>
@@ -355,7 +355,7 @@ const LivePage = () => {
   }
 
   return (
-    <div className="p-4 space-y-3 bg-black min-h-full pb-24 custom-scrollbar">
+    <div className="p-4 space-y-3 bg-black min-h-full pb-28">
       <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Football Leagues</h3>
       <div className="grid grid-cols-2 gap-3">
         {FOOTBALL_LEAGUES.map((l) => (
@@ -374,7 +374,7 @@ const LivePage = () => {
 };
 
 const BrowsePage = () => (
-  <div className="p-4 space-y-3 bg-black min-h-full pb-24 custom-scrollbar">
+  <div className="p-4 space-y-3 bg-black min-h-full pb-28">
     <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Browse By Country</h3>
     <div className="grid grid-cols-2 gap-3">
       {WATCH_BY_COUNTRY.map((c, i) => (
@@ -389,7 +389,7 @@ const BrowsePage = () => (
 );
 
 const ProfilePage = () => (
-  <div className="p-6 text-center space-y-4 bg-black min-h-screen pb-24 flex flex-col items-center justify-center custom-scrollbar">
+  <div className="p-6 text-center space-y-4 bg-black min-h-screen pb-28 flex flex-col items-center justify-center">
     <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg">
       A
     </div>
@@ -404,23 +404,15 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
 
   return (
-    <div className="bg-black min-h-screen w-full flex flex-col justify-between font-sans text-white max-w-xl mx-auto relative shadow-2xl border-x border-zinc-900">
+    <div className="bg-black min-h-screen w-full flex flex-col justify-between font-sans text-white">
       <Header />
-      <div className="flex-1 overflow-y-auto custom-scrollbar">
+      <div className="flex-1 overflow-y-auto">
         {activeTab === 'Home' && <HomePage />}
         {activeTab === 'Live' && <LivePage />}
         {activeTab === 'Browse' && <BrowsePage />}
         {activeTab === 'Profile' && <ProfilePage />}
       </div>
       <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-      <style jsx global>{`
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.4); }
-      `}</style>
     </div>
   );
 }
