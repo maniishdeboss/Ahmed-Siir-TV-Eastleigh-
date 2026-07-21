@@ -4,13 +4,13 @@ import Head from 'next/head'
 
 // --- MULTI-COLORED CHANNELS ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-amber-600 to-black", icon: "🇦🇷🏆🇪🇸", siirUrl: "https://sporty.com/sporty-tv" },
-  { id: 11, title: "Sports Live Highlights", bg: "from-blue-600 to-black", icon: "🇫🇷🇦🇷⚡", youtube: "https://sporty.com/sporty-tv" },
-  { id: 3, title: "Premier League", bg: "from-purple-600 to-black", icon: "🏴󠁧󠁢󠁥󠁮󠁧󠁿🏆", youtube: "https://sporty.com/sporty-tv" },
-  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-black", icon: "🌟🔥💥", youtube: "https://sporty.com/sporty-tv" },
-  { id: 5, title: "Wildlife Live", bg: "from-emerald-600 to-black", icon: "😹🎬🦙🦁", youtube: "MiQe9ob9aDc" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-amber-600 to-black", icon: "🏆", siirUrl: "https://sporty.com/sporty-tv" },
+  { id: 11, title: "Sports Live Highlights", bg: "from-blue-600 to-black", icon: "⚡", youtube: "https://sporty.com/sporty-tv" },
+  { id: 3, title: "Premier League", bg: "from-purple-600 to-black", icon: "🏆", youtube: "https://sporty.com/sporty-tv" },
+  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-black", icon: "💥", youtube: "https://sporty.com/sporty-tv" },
+  { id: 5, title: "Wildlife Live", bg: "from-emerald-600 to-black", icon: "🦁", youtube: "MiQe9ob9aDc" },
   { id: 6, title: "Al Jazeera", bg: "from-sky-600 to-black", icon: "📰", youtube: "gCNeDWCI0vo" },
-  { id: 7, title: "Movies Live", bg: "from-pink-600 to-black", icon: "🎥📸", youtube: "89c4owSHL2E" },
+  { id: 7, title: "Movies Live", bg: "from-pink-600 to-black", icon: "🎥", youtube: "89c4owSHL2E" },
   { id: 8, title: "Highlights", bg: "from-orange-600 to-black", icon: "🎬", youtube: "dQw4w9WgXcQ" },
   { id: 9, title: "Kenya Citizens TV", bg: "from-yellow-600 to-black", icon: "🇰🇪", youtube: "1YzlFiqmHDY" },
   { id: 10, title: "Somali TV", bg: "from-cyan-600 to-black", icon: "🇸🇴", youtube: "-qDzZEXIJdk" },
@@ -69,7 +69,7 @@ const Header = () => (
 const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
   const tabs = ['Home', 'Live', 'Browse', 'Profile'];
   return (
-    <nav className="absolute bottom-0 left-0 right-0 bg-black border-t border-zinc-900 p-3 flex justify-around z-50 text-white w-full">
+    <nav className="fixed bottom-0 left-0 right-0 bg-black border-t border-zinc-900 p-3 flex justify-around z-50 text-white w-full">
       {tabs.map((tab) => (
         <button
           key={tab}
@@ -141,7 +141,7 @@ const HomePage = () => {
   };
 
   return (
-    <main className="p-4 pb-28 space-y-6 bg-black text-white min-h-full">
+    <main className="p-4 pb-28 space-y-6 bg-black text-white max-w-2xl mx-auto w-full">
       {/* Search Bar */}
       <div className="bg-zinc-900 rounded-xl p-3 border border-zinc-800 space-y-2">
         <div className="flex gap-2">
@@ -325,17 +325,17 @@ const LivePage = () => {
   if (selectedLeague) {
     const matches = MATCHES_DATA[selectedLeague] || [];
     return (
-      <div className="space-y-4 pb-28">
-        <div className="flex items-center gap-3 p-3 bg-zinc-900 border-b border-zinc-800">
+      <div className="space-y-4 pb-28 max-w-2xl mx-auto w-full p-4">
+        <div className="flex items-center gap-3 p-3 bg-zinc-900 border-b border-zinc-800 rounded-xl">
           <button onClick={() => setSelectedLeague(null)} className="text-white text-xl">←</button>
           <h3 className="text-xs font-black uppercase">Live Matches</h3>
         </div>
         {activeStream && (
-          <div className="aspect-video bg-black mx-3 rounded-xl overflow-hidden">
+          <div className="aspect-video bg-black rounded-xl overflow-hidden">
             <iframe src={activeStream} className="w-full h-full" allowFullScreen />
           </div>
         )}
-        <div className="p-3 space-y-2">
+        <div className="space-y-2">
           {matches.map((m) => (
             <button
               key={m.id}
@@ -355,7 +355,7 @@ const LivePage = () => {
   }
 
   return (
-    <div className="p-4 space-y-3 bg-black min-h-full pb-28">
+    <div className="p-4 space-y-3 bg-black min-h-full pb-28 max-w-2xl mx-auto w-full">
       <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Football Leagues</h3>
       <div className="grid grid-cols-2 gap-3">
         {FOOTBALL_LEAGUES.map((l) => (
@@ -374,7 +374,7 @@ const LivePage = () => {
 };
 
 const BrowsePage = () => (
-  <div className="p-4 space-y-3 bg-black min-h-full pb-28">
+  <div className="p-4 space-y-3 bg-black min-h-full pb-28 max-w-2xl mx-auto w-full">
     <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Browse By Country</h3>
     <div className="grid grid-cols-2 gap-3">
       {WATCH_BY_COUNTRY.map((c, i) => (
@@ -389,7 +389,7 @@ const BrowsePage = () => (
 );
 
 const ProfilePage = () => (
-  <div className="p-6 text-center space-y-4 bg-black min-h-screen pb-28 flex flex-col items-center justify-center">
+  <div className="p-6 text-center space-y-4 bg-black min-h-screen pb-28 flex flex-col items-center justify-center max-w-2xl mx-auto w-full">
     <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg">
       A
     </div>
@@ -404,24 +404,15 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
 
   return (
-    <div className="bg-[#050505] min-h-screen w-full flex items-center justify-center p-0 md:p-6">
-      {/* Mobile Frame Container: Wuxuu ka dhigayaa mid u eg Mobile App dhab ah xitaa haddii PC laga furo */}
-      <div className="bg-black w-full md:max-w-[420px] md:h-[880px] md:rounded-[40px] md:border-[10px] md:border-zinc-800 flex flex-col justify-between font-sans text-white shadow-2xl overflow-hidden relative">
-        
-        {/* App Header */}
-        <Header />
-
-        {/* Scrollable Body Content */}
-        <div className="flex-1 overflow-y-auto">
-          {activeTab === 'Home' && <HomePage />}
-          {activeTab === 'Live' && <LivePage />}
-          {activeTab === 'Browse' && <BrowsePage />}
-          {activeTab === 'Profile' && <ProfilePage />}
-        </div>
-
-        {/* Bottom Navigation */}
-        <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+    <div className="bg-black min-h-screen w-full flex flex-col justify-between font-sans text-white">
+      <Header />
+      <div className="flex-1 overflow-y-auto w-full">
+        {activeTab === 'Home' && <HomePage />}
+        {activeTab === 'Live' && <LivePage />}
+        {activeTab === 'Browse' && <BrowsePage />}
+        {activeTab === 'Profile' && <ProfilePage />}
       </div>
+      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );
 }
