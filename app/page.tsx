@@ -17,12 +17,12 @@ const SPORTS_CHANNELS = [
 ];
 
 const ALL_FILMS = [
-  { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-indigo-600 to-black", youtube: "y7tv1y_Q_Q0", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400" },
-  { id: 2, title: "Pathaan", year: "2023", rating: "7.2", type: "Hindi", bg: "from-rose-600 to-black", youtube: "vqu4z34wENw", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400" },
-  { id: 3, title: "Dangal", year: "2016", rating: "8.3", type: "Hindi", bg: "from-teal-600 to-black", youtube: "x_7YlGv9u1g", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" },
-  { id: 4, title: "3 Idiots", year: "2009", rating: "8.4", type: "Hindi", bg: "from-violet-600 to-black", youtube: "K0eDlFX9GMc", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400" },
-  { id: 5, title: "PK", year: "2014", rating: "8.1", type: "Hindi", bg: "from-amber-600 to-black", youtube: "82ZEDGPCkT8", image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400" },
-  { id: 6, title: "BeIN Sports", year: "2026", rating: "9.0", type: "Live", bg: "from-blue-600 to-black", youtube: null, siirUrl: "https://sporty.com/sporty-tv", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400" },
+  { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-indigo-600 to-black", youtube: "y7tv1y_Q_Q0", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=600" },
+  { id: 2, title: "Pathaan", year: "2023", rating: "7.2", type: "Hindi", bg: "from-rose-600 to-black", youtube: "vqu4z34wENw", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=600" },
+  { id: 3, title: "Dangal", year: "2016", rating: "8.3", type: "Hindi", bg: "from-teal-600 to-black", youtube: "x_7YlGv9u1g", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600" },
+  { id: 4, title: "3 Idiots", year: "2009", rating: "8.4", type: "Hindi", bg: "from-violet-600 to-black", youtube: "K0eDlFX9GMc", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600" },
+  { id: 5, title: "PK", year: "2014", rating: "8.1", type: "Hindi", bg: "from-amber-600 to-black", youtube: "82ZEDGPCkT8", image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=600" },
+  { id: 6, title: "BeIN Sports", year: "2026", rating: "9.0", type: "Live", bg: "from-blue-600 to-black", youtube: null, siirUrl: "https://sporty.com/sporty-tv", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600" },
 ];
 
 const WATCH_BY_COUNTRY = [
@@ -61,20 +61,20 @@ const DATA_PACKAGES = [
 
 const Header = () => (
   <header className="p-4 flex items-center justify-between border-b border-zinc-900 bg-black text-white sticky top-0 z-50 w-full">
-    <h1 className="text-base font-black tracking-tighter text-white">AHMED <span className="text-red-500">LIVE</span> TV</h1>
-    <span className="text-[10px] bg-red-600 px-2 py-0.5 rounded-full font-bold animate-pulse">LIVE APP</span>
+    <h1 className="text-lg font-black tracking-tight text-white">AHMED <span className="text-red-500">LIVE</span> TV</h1>
+    <span className="text-xs bg-red-600 px-3 py-1 rounded-full font-bold animate-pulse">LIVE APP</span>
   </header>
 );
 
 const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
   const tabs = ['Home', 'Live', 'Browse', 'Profile'];
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-black border-t border-zinc-900 p-3 flex justify-around z-50 text-white w-full">
+    <nav className="fixed bottom-0 left-0 right-0 bg-black border-t border-zinc-900 p-4 flex justify-around z-50 text-white w-full">
       {tabs.map((tab) => (
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === tab ? 'text-red-500 scale-105' : 'text-zinc-500 hover:text-zinc-300'}`}
+          className={`text-xs font-black uppercase tracking-widest transition-all ${activeTab === tab ? 'text-red-500 scale-110' : 'text-zinc-500 hover:text-zinc-300'}`}
         >
           {tab}
         </button>
@@ -141,19 +141,19 @@ const HomePage = () => {
   };
 
   return (
-    <main className="p-4 pb-28 space-y-6 bg-black text-white w-full">
+    <main className="p-4 pb-32 space-y-6 bg-black text-white w-full">
       {/* Search Bar */}
-      <div className="bg-zinc-900 rounded-xl p-3 border border-zinc-800 space-y-2">
+      <div className="bg-zinc-900 rounded-2xl p-4 border border-zinc-800 space-y-3">
         <div className="flex gap-2">
           <button
             onClick={() => setSearchType('youtube')}
-            className={`px-3 py-1 rounded text-[10px] font-black uppercase ${searchType === 'youtube' ? 'bg-red-600 text-white' : 'bg-zinc-800 text-zinc-400'}`}
+            className={`flex-1 py-2 rounded-xl text-xs font-black uppercase ${searchType === 'youtube' ? 'bg-red-600 text-white' : 'bg-zinc-800 text-zinc-400'}`}
           >
             ▶️ YouTube
           </button>
           <button
             onClick={() => setSearchType('social')}
-            className={`px-3 py-1 rounded text-[10px] font-black uppercase ${searchType === 'social' ? 'bg-red-600 text-white' : 'bg-zinc-800 text-zinc-400'}`}
+            className={`flex-1 py-2 rounded-xl text-xs font-black uppercase ${searchType === 'social' ? 'bg-red-600 text-white' : 'bg-zinc-800 text-zinc-400'}`}
           >
             🎵 TikTok
           </button>
@@ -161,7 +161,7 @@ const HomePage = () => {
             href="https://t.me"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-3 py-1 rounded text-[10px] font-black uppercase bg-zinc-800 text-zinc-400"
+            className="flex-1 py-2 rounded-xl text-xs font-black uppercase bg-zinc-800 text-zinc-400 text-center"
           >
             ✈️ Telegram
           </a>
@@ -173,11 +173,11 @@ const HomePage = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleUnifiedSearch()}
             placeholder="Raadi muuqaal..."
-            className="flex-1 bg-black text-white px-3 py-2 rounded-lg border border-zinc-800 text-xs focus:outline-none focus:border-red-500"
+            className="flex-1 bg-black text-white px-4 py-3 rounded-xl border border-zinc-800 text-sm focus:outline-none focus:border-red-500"
           />
           <button
             onClick={handleUnifiedSearch}
-            className="bg-red-600 px-4 py-2 rounded-lg font-bold text-xs"
+            className="bg-red-600 px-6 py-3 rounded-xl font-bold text-sm"
           >
             {isSearching ? "⏳" : "🔍"}
           </button>
@@ -186,22 +186,22 @@ const HomePage = () => {
 
       {/* Search Results */}
       {showResults && (
-        <div className="bg-zinc-900 rounded-xl p-3 border border-zinc-800 space-y-2">
+        <div className="bg-zinc-900 rounded-2xl p-4 border border-zinc-800 space-y-3">
           <div className="flex justify-between items-center">
-            <h3 className="text-xs font-bold uppercase">Natiijada</h3>
-            <button onClick={() => setShowResults(false)} className="text-zinc-400 text-lg">×</button>
+            <h3 className="text-sm font-bold uppercase">Natiijada</h3>
+            <button onClick={() => setShowResults(false)} className="text-zinc-400 text-xl font-bold">×</button>
           </div>
-          <div className="space-y-2 max-h-60 overflow-y-auto">
+          <div className="space-y-3 max-h-80 overflow-y-auto">
             {searchResults.map((item, idx) => (
               <button
                 key={idx}
                 onClick={() => handlePlayVideo(item.id, item.title)}
-                className="flex gap-2 bg-black p-2 rounded-lg border border-zinc-800 w-full text-left"
+                className="flex gap-3 bg-black p-3 rounded-xl border border-zinc-800 w-full text-left items-center"
               >
-                <img src={item.thumbnail} alt="" className="w-20 h-12 object-cover rounded" />
+                <img src={item.thumbnail} alt="" className="w-28 h-16 object-cover rounded-lg" />
                 <div>
-                  <p className="text-xs font-bold line-clamp-1">{item.title}</p>
-                  <p className="text-[10px] text-zinc-400">{item.channel}</p>
+                  <p className="text-sm font-bold line-clamp-1">{item.title}</p>
+                  <p className="text-xs text-zinc-400">{item.channel}</p>
                 </div>
               </button>
             ))}
@@ -211,34 +211,34 @@ const HomePage = () => {
 
       {/* Active Video Player */}
       {activeVideo && (
-        <div className="bg-zinc-900 rounded-xl p-3 border border-zinc-800">
-          <div className="flex justify-between items-center mb-2">
-            <p className="text-xs font-bold line-clamp-1">{activeTitle}</p>
-            <button onClick={() => setActiveVideo(null)} className="text-zinc-400 text-lg">×</button>
+        <div className="bg-zinc-900 rounded-2xl p-4 border border-zinc-800">
+          <div className="flex justify-between items-center mb-3">
+            <p className="text-sm font-bold line-clamp-1">{activeTitle}</p>
+            <button onClick={() => setActiveVideo(null)} className="text-zinc-400 text-xl font-bold">×</button>
           </div>
-          <div className="aspect-video bg-black rounded-lg overflow-hidden">
+          <div className="aspect-video bg-black rounded-xl overflow-hidden">
             <iframe src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1`} className="w-full h-full" allowFullScreen />
           </div>
         </div>
       )}
 
       {/* Hero Banner */}
-      <div className="bg-gradient-to-r from-red-950 via-zinc-900 to-black rounded-2xl p-6 border border-red-900/30 text-center space-y-3">
-        <span className="text-3xl">📺</span>
-        <h2 className="text-lg font-black tracking-tight">Ahmed Abdikani Live TV</h2>
+      <div className="bg-gradient-to-r from-red-950 via-zinc-900 to-black rounded-3xl p-8 border border-red-900/30 text-center space-y-4 shadow-xl">
+        <span className="text-4xl">📺</span>
+        <h2 className="text-xl font-black tracking-tight">Ahmed Abdikani Live TV</h2>
         <a
           href="https://sporty.com/sporty-tv"
           target="_blank"
-          className="inline-block bg-red-600 text-white font-black text-xs py-2.5 px-6 rounded-lg uppercase"
+          className="inline-block bg-red-600 text-white font-black text-sm py-3.5 px-8 rounded-xl uppercase tracking-wider shadow-lg"
         >
           Watch Live Now
         </a>
       </div>
 
-      {/* Multi-colored Channels */}
-      <div className="space-y-3">
+      {/* Multi-colored Channels (Full Width Large Boxes) */}
+      <div className="space-y-4">
         <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Live Channels (Multi-Color)</h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-3">
           {SPORTS_CHANNELS.map((ch) => (
             <button
               key={ch.id}
@@ -246,33 +246,33 @@ const HomePage = () => {
                 if (ch.youtube) handlePlayVideo(ch.youtube, ch.title);
                 else if (ch.siirUrl) window.open(ch.siirUrl, '_blank');
               }}
-              className={`bg-gradient-to-br ${ch.bg} p-4 rounded-xl border border-zinc-800 flex flex-col justify-between h-24 text-left shadow-lg transform active:scale-95 transition`}
+              className={`bg-gradient-to-r ${ch.bg} p-5 rounded-2xl border border-zinc-800 flex items-center justify-between w-full text-left shadow-xl transform active:scale-95 transition`}
             >
-              <div className="flex justify-between items-center">
-                <span className="text-2xl">{ch.icon}</span>
-                <span className="text-[9px] bg-black/60 px-2 py-0.5 rounded-full font-bold text-red-400">HD</span>
+              <div className="flex items-center gap-4">
+                <span className="text-3xl">{ch.icon}</span>
+                <p className="font-black text-base text-white">{ch.title}</p>
               </div>
-              <p className="font-bold text-xs line-clamp-1">{ch.title}</p>
+              <span className="text-xs bg-black/60 px-3 py-1 rounded-full font-bold text-red-400 border border-zinc-700">HD</span>
             </button>
           ))}
         </div>
       </div>
 
       {/* Data Bundles */}
-      <div className="bg-zinc-900 rounded-2xl p-4 border border-zinc-800 space-y-3">
-        <h3 className="text-xs font-black uppercase text-red-500">Ahmed Data Deals Kenya</h3>
-        <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+      <div className="bg-zinc-900 rounded-3xl p-6 border border-zinc-800 space-y-4 shadow-xl">
+        <h3 className="text-sm font-black uppercase text-red-500 tracking-wide">Ahmed Data Deals Kenya</h3>
+        <div className="space-y-3">
           {DATA_PACKAGES.map((pkg) => (
             <div
               key={pkg.id}
               onClick={() => setSelectedPkg(pkg.id)}
-              className={`p-3 rounded-xl border flex justify-between items-center cursor-pointer ${selectedPkg === pkg.id ? 'bg-black border-red-500' : 'bg-black/50 border-zinc-800'}`}
+              className={`p-4 rounded-2xl border flex justify-between items-center cursor-pointer transition ${selectedPkg === pkg.id ? 'bg-black border-red-500 shadow-md' : 'bg-black/50 border-zinc-800'}`}
             >
               <div>
-                <p className="text-[10px] text-red-400 font-bold">{pkg.desc}</p>
-                <p className="text-xs font-bold">{pkg.name}</p>
+                <p className="text-xs text-red-400 font-bold">{pkg.desc}</p>
+                <p className="text-sm font-black text-white">{pkg.name}</p>
               </div>
-              <span className="text-xs font-black">KSh {pkg.price}</span>
+              <span className="text-sm font-black text-white">KSh {pkg.price}</span>
             </div>
           ))}
         </div>
@@ -281,35 +281,35 @@ const HomePage = () => {
           placeholder="Lambarka Safaricom (07...)"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
-          className="w-full bg-black text-white px-3 py-2.5 rounded-xl border border-zinc-800 text-xs focus:outline-none focus:border-red-500"
+          className="w-full bg-black text-white px-4 py-3.5 rounded-2xl border border-zinc-800 text-sm focus:outline-none focus:border-red-500"
         />
         <button
           onClick={handleBuyData}
-          className="w-full bg-red-600 text-white font-black text-xs py-3 rounded-xl uppercase tracking-wider"
+          className="w-full bg-red-600 text-white font-black text-sm py-4 rounded-2xl uppercase tracking-wider shadow-lg"
         >
           Buy Bundle Now
         </button>
       </div>
 
-      {/* Films */}
-      <div className="space-y-3">
+      {/* Films (Full Width Large Boxes) */}
+      <div className="space-y-4">
         <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Hindi & Hollywood Films</h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-3">
           {ALL_FILMS.map((film) => (
             <button
               key={film.id}
               onClick={() => film.youtube && handlePlayVideo(film.youtube, film.title)}
-              className={`bg-gradient-to-t ${film.bg} p-3 rounded-xl border border-zinc-800 h-36 flex flex-col justify-between text-left relative overflow-hidden`}
+              className={`bg-gradient-to-r ${film.bg} p-5 rounded-2xl border border-zinc-800 h-28 flex items-center justify-between text-left relative overflow-hidden shadow-xl w-full`}
             >
-              <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: `url(${film.image})` }} />
-              <div className="relative z-10 flex justify-between items-center">
-                <span className="text-lg">🎬</span>
-                <span className="text-[9px] bg-black/80 px-2 py-0.5 rounded font-bold">⭐ {film.rating}</span>
+              <div className="absolute inset-0 bg-cover bg-center opacity-25" style={{ backgroundImage: `url(${film.image})` }} />
+              <div className="relative z-10 flex items-center gap-4">
+                <span className="text-3xl">🎬</span>
+                <div>
+                  <p className="text-base font-black text-white">{film.title}</p>
+                  <p className="text-xs text-zinc-300 font-semibold">{film.type} Film</p>
+                </div>
               </div>
-              <div className="relative z-10">
-                <p className="text-xs font-bold line-clamp-1">{film.title}</p>
-                <p className="text-[10px] text-zinc-400">{film.type}</p>
-              </div>
+              <span className="relative z-10 text-xs bg-black/80 px-3 py-1 rounded-lg font-bold border border-zinc-700">⭐ {film.rating}</span>
             </button>
           ))}
         </div>
@@ -325,28 +325,28 @@ const LivePage = () => {
   if (selectedLeague) {
     const matches = MATCHES_DATA[selectedLeague] || [];
     return (
-      <div className="space-y-4 pb-28 w-full p-4">
-        <div className="flex items-center gap-3 p-3 bg-zinc-900 border-b border-zinc-800 rounded-xl">
-          <button onClick={() => setSelectedLeague(null)} className="text-white text-xl">←</button>
-          <h3 className="text-xs font-black uppercase">Live Matches</h3>
+      <div className="space-y-4 pb-32 w-full p-4">
+        <div className="flex items-center gap-3 p-4 bg-zinc-900 border-b border-zinc-800 rounded-2xl">
+          <button onClick={() => setSelectedLeague(null)} className="text-white text-2xl font-bold">←</button>
+          <h3 className="text-sm font-black uppercase">Live Matches</h3>
         </div>
         {activeStream && (
-          <div className="aspect-video bg-black rounded-xl overflow-hidden">
+          <div className="aspect-video bg-black rounded-2xl overflow-hidden shadow-xl">
             <iframe src={activeStream} className="w-full h-full" allowFullScreen />
           </div>
         )}
-        <div className="space-y-2">
+        <div className="space-y-3">
           {matches.map((m) => (
             <button
               key={m.id}
               onClick={() => setActiveStream(m.link)}
-              className="w-full bg-zinc-900 p-3 rounded-xl border border-zinc-800 flex justify-between items-center text-left"
+              className="w-full bg-zinc-900 p-4 rounded-2xl border border-zinc-800 flex justify-between items-center text-left shadow-lg"
             >
-              <div className="flex items-center gap-2">
-                <span className="text-xl">{m.flag1} vs {m.flag2}</span>
-                <span className="text-xs font-bold">{m.team1} - {m.team2}</span>
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">{m.flag1} vs {m.flag2}</span>
+                <span className="text-sm font-bold">{m.team1} - {m.team2}</span>
               </div>
-              <span className="text-[10px] text-red-500 font-black">{m.time}</span>
+              <span className="text-xs text-red-500 font-black">{m.time}</span>
             </button>
           ))}
         </div>
@@ -355,17 +355,20 @@ const LivePage = () => {
   }
 
   return (
-    <div className="p-4 space-y-3 bg-black min-h-full pb-28 w-full">
+    <div className="p-4 space-y-4 bg-black min-h-full pb-32 w-full">
       <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Football Leagues</h3>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="space-y-3">
         {FOOTBALL_LEAGUES.map((l) => (
           <button
             key={l.id}
             onClick={() => setSelectedLeague(l.id)}
-            className={`${l.bg} p-4 rounded-xl border border-zinc-800 h-28 flex flex-col items-center justify-center text-white shadow-lg`}
+            className={`${l.bg} p-6 rounded-2xl border border-zinc-800 flex items-center justify-between text-white shadow-xl w-full`}
           >
-            <span className="text-3xl mb-1">{l.logo}</span>
-            <p className="font-black text-xs text-center">{l.name}</p>
+            <div className="flex items-center gap-4">
+              <span className="text-3xl">{l.logo}</span>
+              <p className="font-black text-base">{l.name}</p>
+            </div>
+            <span className="text-xs bg-black/60 px-3 py-1 rounded-full font-bold text-red-400">Select</span>
           </button>
         ))}
       </div>
@@ -374,14 +377,16 @@ const LivePage = () => {
 };
 
 const BrowsePage = () => (
-  <div className="p-4 space-y-3 bg-black min-h-full pb-28 w-full">
+  <div className="p-4 space-y-4 bg-black min-h-full pb-32 w-full">
     <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Browse By Country</h3>
-    <div className="grid grid-cols-2 gap-3">
+    <div className="space-y-3">
       {WATCH_BY_COUNTRY.map((c, i) => (
-        <div key={i} className={`bg-gradient-to-br ${c.bg} p-5 rounded-xl border border-zinc-800 text-white shadow-lg`}>
-          <span className="text-3xl">{c.flag}</span>
-          <p className="font-black text-xs mt-2 uppercase">{c.country}</p>
-          <span className="text-[9px] bg-black/60 px-2 py-0.5 rounded font-bold text-red-400">{c.status}</span>
+        <div key={i} className={`bg-gradient-to-r ${c.bg} p-6 rounded-2xl border border-zinc-800 text-white shadow-xl flex items-center justify-between w-full`}>
+          <div className="flex items-center gap-4">
+            <span className="text-4xl">{c.flag}</span>
+            <p className="font-black text-base uppercase">{c.country}</p>
+          </div>
+          <span className="text-xs bg-black/60 px-3 py-1 rounded-full font-bold text-red-400 border border-zinc-700">{c.status}</span>
         </div>
       ))}
     </div>
@@ -389,13 +394,13 @@ const BrowsePage = () => (
 );
 
 const ProfilePage = () => (
-  <div className="p-6 text-center space-y-4 bg-black min-h-screen pb-28 flex flex-col items-center justify-center w-full">
-    <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg">
+  <div className="p-8 text-center space-y-5 bg-black min-h-screen pb-32 flex flex-col items-center justify-center w-full">
+    <div className="w-24 h-24 bg-red-600 rounded-full flex items-center justify-center text-3xl font-black text-white shadow-2xl">
       A
     </div>
     <div>
-      <h3 className="text-sm font-bold text-white">Ahmed Abdikani Mohamed</h3>
-      <p className="text-[10px] text-zinc-500 uppercase mt-1">Software Developer • Nairobi, Kenya</p>
+      <h3 className="text-base font-bold text-white">Ahmed Abdikani Mohamed</h3>
+      <p className="text-xs text-zinc-500 uppercase mt-1 tracking-wider">Software Developer • Nairobi, Kenya</p>
     </div>
   </div>
 );
