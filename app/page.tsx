@@ -2,94 +2,79 @@
 import { useState } from 'react'
 import Head from 'next/head'
 
-// --- DATA SECTION ---
+// --- MULTI-COLORED CHANNELS ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-red-700 to-slate-950", icon: "🏆", flag: "🇸🇴", youtube: null, siirUrl: "https://sporty.com/sporty-tv" },
-  { id: 11, title: "Sports Live Highlights", bg: "from-slate-900 to-red-900", icon: "⚡", flag: "🏅", youtube: "https://sporty.com/sporty-tv" },
-  { id: 3, title: "Premier League", bg: "from-red-800 to-slate-900", icon: "🏆", flag: "🇬🇧", youtube: "https://sporty.com/sporty-tv" },
-  { id: 4, title: "Wrestling WWE", bg: "from-slate-950 to-red-700", icon: "💥", flag: "⚡", youtube: "https://sporty.com/sporty-tv" },
-  { id: 5, title: "Wildlife Live", bg: "from-red-700 to-slate-900", icon: "🦁", flag: "🌿", youtube: "MiQe9ob9aDc" },
-  { id: 6, title: "Al Jazeera", bg: "from-slate-900 to-slate-950", icon: "📰", flag: "🇶🇦", youtube: "gCNeDWCI0vo" },
-  { id: 7, title: "Movies Live", bg: "from-red-900 to-slate-900", icon: "🎥", flag: "🎞️", youtube: "89c4owSHL2E" },
-  { id: 8, title: "Highlights", bg: "from-slate-950 to-red-800", icon: "🎬", flag: "📺", youtube: "dQw4w9WgXcQ" },
-  { id: 2, title: "Champions League", bg: "from-slate-900 to-red-950", icon: "⚽", flag: "🌍", youtube: "https://youtube.com/@supersport?si=Bq3DEZJtL0RLyoD2", isYoutubeChannel: true },
-  { id: 9, title: "Kenya Citizens TV", bg: "from-red-800 to-slate-900", icon: "🇰🇪", flag: "🇰🇪", youtube: "1YzlFiqmHDY" },
-  { id: 10, title: "Somali TV", bg: "from-slate-950 to-red-700", icon: "🇸🇴", flag: "🇸🇴", youtube: "-qDzZEXIJdk" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-amber-600 to-black", icon: "🏆", siirUrl: "https://sporty.com/sporty-tv" },
+  { id: 11, title: "Sports Live Highlights", bg: "from-blue-600 to-black", icon: "⚡", youtube: "https://sporty.com/sporty-tv" },
+  { id: 3, title: "Premier League", bg: "from-purple-600 to-black", icon: "🏆", youtube: "https://sporty.com/sporty-tv" },
+  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-black", icon: "💥", youtube: "https://sporty.com/sporty-tv" },
+  { id: 5, title: "Wildlife Live", bg: "from-emerald-600 to-black", icon: "🦁", youtube: "MiQe9ob9aDc" },
+  { id: 6, title: "Al Jazeera", bg: "from-sky-600 to-black", icon: "📰", youtube: "gCNeDWCI0vo" },
+  { id: 7, title: "Movies Live", bg: "from-pink-600 to-black", icon: "🎥", youtube: "89c4owSHL2E" },
+  { id: 8, title: "Highlights", bg: "from-orange-600 to-black", icon: "🎬", youtube: "dQw4w9WgXcQ" },
+  { id: 9, title: "Kenya Citizens TV", bg: "from-yellow-600 to-black", icon: "🇰🇪", youtube: "1YzlFiqmHDY" },
+  { id: 10, title: "Somali TV", bg: "from-cyan-600 to-black", icon: "🇸🇴", youtube: "-qDzZEXIJdk" },
 ];
 
 const ALL_FILMS = [
-  { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-red-700 to-slate-900", youtube: "y7tv1y_Q_Q0", image: "https://sporty.com/sporty-tv" },
-  { id: 2, title: "Pathaan", year: "2023", rating: "7.2", type: "Hindi", bg: "from-slate-900 to-red-800", youtube: "vqu4z34wENw", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400" },
-  { id: 3, title: "Dangal", year: "2016", rating: "8.3", type: "Hindi", bg: "from-red-800 to-slate-900", youtube: "x_7YlGv9u1g", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" },
-  { id: 4, title: "3 Idiots", year: "2009", rating: "8.4", type: "Hindi", bg: "from-slate-950 to-red-700", youtube: "K0eDlFX9GMc", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400" },
-  { id: 5, title: "PK", year: "2014", rating: "8.1", type: "Hindi", bg: "from-red-900 to-slate-950", youtube: "82ZEDGPCkT8", image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400" },
-  { id: 22, title: "BeIN Sports", year: "2026", rating: "9.0", type: "Live Sports", bg: "from-slate-900 to-red-800", youtube: null, siirUrl: "https://sporty.com/sporty-tv", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400" },
-  { id: 6, title: "Bajrangi Bhaijaan", year: "2015", rating: "8.0", type: "Hindi", bg: "from-red-700 to-slate-900", youtube: "vyX4toD395U", image: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=400" },
-  { id: 7, title: "KGF Chapter 2", year: "2022", rating: "8.4", type: "Hindi", bg: "from-slate-950 to-red-900", youtube: "Qah9sSIXJqk", image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400" },
-  { id: 8, title: "RRR", year: "2022", rating: "7.8", type: "Hindi", bg: "from-red-800 to-slate-950", youtube: "NgBoMJy386M", image: "https://images.unsplash.com/photo-1594909122845-11baa9b7703b?w=400" },
-  { id: 9, title: "Avengers: Endgame", year: "2019", rating: "8.4", type: "Hollywood", bg: "from-slate-900 to-red-800", youtube: "TcMBFSGVi1c", image: "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=400" },
-  { id: 10, title: "Avatar", year: "2009", rating: "7.9", type: "Hollywood", bg: "from-red-950 to-slate-900", youtube: "5PSNL1qE6VY", image: "https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=400" },
+  { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-indigo-600 to-black", youtube: "y7tv1y_Q_Q0", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400" },
+  { id: 2, title: "Pathaan", year: "2023", rating: "7.2", type: "Hindi", bg: "from-rose-600 to-black", youtube: "vqu4z34wENw", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400" },
+  { id: 3, title: "Dangal", year: "2016", rating: "8.3", type: "Hindi", bg: "from-teal-600 to-black", youtube: "x_7YlGv9u1g", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" },
+  { id: 4, title: "3 Idiots", year: "2009", rating: "8.4", type: "Hindi", bg: "from-violet-600 to-black", youtube: "K0eDlFX9GMc", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400" },
+  { id: 5, title: "PK", year: "2014", rating: "8.1", type: "Hindi", bg: "from-amber-600 to-black", youtube: "82ZEDGPCkT8", image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400" },
+  { id: 6, title: "BeIN Sports", year: "2026", rating: "9.0", type: "Live", bg: "from-blue-600 to-black", youtube: null, siirUrl: "https://sporty.com/sporty-tv", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400" },
 ];
 
 const WATCH_BY_COUNTRY = [
-  { country: "Somalia", flag: "🇸🇴", status: "Live", bg: "from-red-700 to-slate-900" },
-  { country: "Ogadenia", flag: "🇬🇲", status: "Live", bg: "from-slate-900 to-red-800" },
-  { country: "Kenya", flag: "🇰🇪", status: "Available", bg: "from-red-800 to-slate-950" },
-  { country: "Global", flag: "🌍🏟️", status: "Live", bg: "from-slate-950 to-red-900" },
+  { country: "Somalia", flag: "🇸🇴", status: "Live", bg: "from-cyan-600 to-black" },
+  { country: "Ogadenia", flag: "🇬🇲", status: "Live", bg: "from-emerald-600 to-black" },
+  { country: "Kenya", flag: "🇰🇪", status: "Available", bg: "from-yellow-600 to-black" },
+  { country: "Global", flag: "🌍🏟️", status: "Live", bg: "from-purple-600 to-black" },
 ];
 
 const FOOTBALL_LEAGUES = [
-  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "bg-gradient-to-br from-red-700 to-slate-950" },
-  { id: 2, name: "International Friendly", logo: "⚽", bg: "bg-gradient-to-br from-slate-900 to-red-800" },
-  { id: 3, name: "English Premier League", logo: "🦁", bg: "bg-gradient-to-br from-red-800 to-slate-950" },
-  { id: 4, name: "Serie A", logo: "🇮🇹", bg: "bg-gradient-to-br from-slate-950 to-red-900" },
-  { id: 5, name: "La Liga", logo: "🇪🇸", bg: "bg-gradient-to-br from-red-900 to-slate-900" },
-  { id: 6, name: "Ligue 1", logo: "🇫🇷", bg: "bg-gradient-to-br from-slate-900 to-red-800" },
+  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "bg-gradient-to-br from-amber-600 to-black" },
+  { id: 2, name: "International Friendly", logo: "⚽", bg: "bg-gradient-to-br from-blue-600 to-black" },
+  { id: 3, name: "English Premier League", logo: "🦁", bg: "bg-gradient-to-br from-purple-600 to-black" },
+  { id: 4, name: "Serie A", logo: "🇮🇹", bg: "bg-gradient-to-br from-red-600 to-black" },
+  { id: 5, name: "La Liga", logo: "🇪🇸", bg: "bg-gradient-to-br from-emerald-600 to-black" },
+  { id: 6, name: "Ligue 1", logo: "🇫🇷", bg: "bg-gradient-to-br from-sky-600 to-black" },
 ];
 
 const MATCHES_DATA: Record<number, any[]> = {
   1: [
-    { id: 1, team1: "Portugal", team2: "Uzbekistan", flag1: "🇵🇹", flag2: "🇺🇿", time: "LIVE NOW", quality: "HD", link: "https://sporty.com/sporty-tv", isYoutube: false },
-    { id: 2, team1: "Portugal", team2: "Uzbekistan", flag1: "🇵🇹", flag2: "🇺🇿", time: "Upcoming 0:0", quality: "HD", link: "https://sporty.com/sporty-tv", isYoutube: false },
-    { id: 3, team1: "England", team2: "Ghana", flag1: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", flag2: "🇬🇭", time: "LIVE NOW", quality: "HD", link: "https://sporty.com/sporty-tv", isYoutube: false },
+    { id: 1, team1: "Portugal", team2: "Uzbekistan", flag1: "🇵🇹", flag2: "🇺🇿", time: "LIVE NOW", link: "https://sporty.com/sporty-tv" },
+    { id: 2, team1: "England", team2: "Ghana", flag1: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", flag2: "🇬🇭", time: "LIVE NOW", link: "https://sporty.com/sporty-tv" },
   ],
   3: [
-    { id: 1, team1: "Arsenal", team2: "Chelsea", flag1: "🔴", flag2: "🔵", time: "Today 22:00", quality: "HD", link: "https://sporty.com/sporty-tv", isYoutube: false },
-    { id: 2, team1: "Man City", team2: "Liverpool", flag1: "🔵", flag2: "🔴", time: "Tomorrow 19:30", quality: "HD", link: "https://sporty.com/sporty-tv", isYoutube: false },
-  ],
-  5: [
-    { id: 1, team1: "Barcelona", team2: "Real Madrid", flag1: "🔵", flag2: "⚪", time: "Sunday 22:00", quality: "HD", link: "https://sporty.com/sporty-tv", isYoutube: false },
+    { id: 1, team1: "Arsenal", team2: "Chelsea", flag1: "🔴", flag2: "🔵", time: "Today 22:00", link: "https://sporty.com/sporty-tv" },
   ],
 };
 
 const DATA_PACKAGES = [
   { id: 1, name: "250MB Daily", price: 18, desc: "24 HOURS", badge: "Best Deal" },
-  { id: 2, name: "250MB Daily", price: 20, desc: "24 HOURS", badge: null },
-  { id: 3, name: "1GB Flash Data", price: 19, desc: "1 HOUR - TUNUKIWA", badge: "Tunukiwa" },
-  { id: 4, name: "1.25GB Midnight", price: 50, desc: "TILL MIDNIGHT", badge: "Best Deal" },
-  { id: 5, name: "1.25GB Midnight", price: 55, desc: "TILL MIDNIGHT", badge: null },
-  { id: 6, name: "1.5GB Heavy Bundle", price: 49, desc: "3 HOURS - TUNUKIWA", badge: "Tunukiwa" },
-  { id: 7, name: "2GB Super Deal", price: 99, desc: "TILL MIDNIGHT - TUNUKIWA", badge: "Bingwa" },
-  { id: 8, name: "350MB Weekly", price: 49, desc: "7 DAYS", badge: null },
-  { id: 9, name: "350MB Weekly", price: 52, desc: "7 DAYS", badge: null }
+  { id: 2, name: "1GB Flash Data", price: 19, desc: "1 HOUR", badge: "Tunukiwa" },
+  { id: 3, name: "1.25GB Midnight", price: 50, desc: "MIDNIGHT", badge: "Best Deal" },
+  { id: 4, name: "1.5GB Heavy Bundle", price: 49, desc: "3 HOURS", badge: "Tunukiwa" },
+  { id: 5, name: "2GB Super Deal", price: 99, desc: "BINGWA", badge: "Bingwa" },
 ];
 
-// --- COMPONENTS ---
 const Header = () => (
-  <header className="p-5 flex items-center border-b border-red-900/20 bg-slate-950/95 text-white backdrop-blur-md sticky top-0 z-50 shadow-md w-full px-6">
-    <h1 className="text-3xl font-black tracking-tighter text-white">AHMED <span className="text-red-500">LIVE</span> TV</h1>
+  <header className="p-4 flex items-center justify-between border-b border-zinc-900 bg-black text-white sticky top-0 z-50">
+    <h1 className="text-lg font-black tracking-tighter text-white">AHMED <span className="text-red-500">LIVE</span> TV</h1>
+    <span className="text-[10px] bg-red-600 px-2 py-0.5 rounded-full font-bold animate-pulse">LIVE APP</span>
   </header>
 );
 
 const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
   const tabs = ['Home', 'Live', 'Browse', 'Profile'];
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-slate-950/95 border-t border-red-900/30 p-4 flex justify-around backdrop-blur-xl z-50 shadow-2xl text-white">
+    <nav className="absolute bottom-0 left-0 right-0 bg-black border-t border-zinc-900 p-3 flex justify-around z-50 text-white">
       {tabs.map((tab) => (
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`text-xs font-black uppercase tracking-widest transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110 text-red-500' : 'text-slate-400 hover:text-white'}`}
+          className={`text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === tab ? 'text-red-500 scale-105' : 'text-zinc-500 hover:text-zinc-300'}`}
         >
           {tab}
         </button>
@@ -98,72 +83,47 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
   );
 };
 
-// --- PAGES ---
 const HomePage = () => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [activeTitle, setActiveTitle] = useState<string>("");
-  const [isYoutubeVideo, setIsYoutubeVideo] = useState(true);
-  
-  // Search state updated for YouTube & TikTok/Telegram shortcuts
   const [searchQuery, setSearchQuery] = useState("");
   const [searchType, setSearchType] = useState<'youtube' | 'social'>('youtube');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const [showNotification, setShowNotification] = useState(true);
-
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedPkg, setSelectedPkg] = useState<number>(1);
 
-  const handlePlayVideo = (url: string, title: string, isYoutube: boolean = true, isChannel: boolean = false) => {
-    if (!isYoutube && url && url.includes('siiiiir.tv')) {
-      window.open(url, '_blank');
-      return;
-    }
-    if (isChannel || (url && url.includes('youtube.com/@'))) {
-      window.open(url, '_blank');
-      return;
-    }
+  const handlePlayVideo = (url: string, title: string) => {
     setActiveVideo(url);
     setActiveTitle(title);
-    setIsYoutubeVideo(isYoutube);
     setShowResults(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleUnifiedSearch = async () => {
     if (!searchQuery.trim()) return;
-
     if (searchType === 'social') {
-      // Direct redirect to TikTok or Telegram search based on query
       window.open(`https://www.tiktok.com/search?q=${encodeURIComponent(searchQuery)}`, '_blank');
       return;
     }
-
     setIsSearching(true);
     setShowResults(true);
-
     try {
       const YOUTUBE_API_KEY = "AIzaSyAUIkNgNCG9LVJnyG1ohnTxNYwWMpoaiK0";
       const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(searchQuery)}&type=video&key=${YOUTUBE_API_KEY}`
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&q=${encodeURIComponent(searchQuery)}&type=video&key=${YOUTUBE_API_KEY}`
       );
       const data = await response.json();
       if (data.items) {
-        const results = data.items.map((item: any) => ({
+        setSearchResults(data.items.map((item: any) => ({
           id: item.id.videoId,
           title: item.snippet.title,
           thumbnail: item.snippet.thumbnails.medium.url,
-          channel: item.snippet.channelTitle,
-          isWeb: false
-        }));
-        setSearchResults(results);
-      } else {
-        setSearchResults([]);
+          channel: item.snippet.channelTitle
+        })));
       }
     } catch (error) {
-      console.error("Search error:", error);
-      setSearchResults([]);
+      console.error(error);
     } finally {
       setIsSearching(false);
     }
@@ -172,295 +132,187 @@ const HomePage = () => {
   const handleBuyData = (e: React.FormEvent) => {
     e.preventDefault();
     if (!phoneNumber.trim()) {
-      alert("Please enter your phone number!");
+      alert("Fadlan geli lambarkaaga teleefanka!");
       return;
     }
-
     const currentPackage = DATA_PACKAGES.find(p => p.id === selectedPkg);
     const price = currentPackage ? currentPackage.price : 20;
-
-    const targetUrl = `https://tinypesa.com/ahmeddatadealskenya?amount=${price}&phone=${encodeURIComponent(phoneNumber)}`;
-    window.open(targetUrl, '_blank');
+    window.open(`https://tinypesa.com/ahmeddatadealskenya?amount=${price}&phone=${encodeURIComponent(phoneNumber)}`, '_blank');
   };
 
   return (
-    <main className="p-6 pb-28 w-full px-4 sm:px-8 relative space-y-8 bg-slate-950 text-slate-100 min-h-screen">
-      
-      {/* SOCIAL MEDIA & YOUTUBE SEARCH SYSTEM BAR */}
-      <div className="bg-slate-900 rounded-2xl p-4 border border-red-900/30 shadow-md w-full space-y-3">
-        <div className="flex gap-2 justify-start flex-wrap">
+    <main className="p-4 pb-24 space-y-6 bg-black text-white min-h-full">
+      {/* Search Bar */}
+      <div className="bg-zinc-900 rounded-xl p-3 border border-zinc-800 space-y-2">
+        <div className="flex gap-2">
           <button
             onClick={() => setSearchType('youtube')}
-            className={`px-4 py-1.5 rounded-lg text-xs font-black uppercase transition-all ${searchType === 'youtube' ? 'bg-red-600 text-white shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`}
+            className={`px-3 py-1 rounded text-[10px] font-black uppercase ${searchType === 'youtube' ? 'bg-red-600 text-white' : 'bg-zinc-800 text-zinc-400'}`}
           >
-            ▶️ YouTube Search
+            ▶️ YouTube
           </button>
           <button
             onClick={() => setSearchType('social')}
-            className={`px-4 py-1.5 rounded-lg text-xs font-black uppercase transition-all ${searchType === 'social' ? 'bg-red-600 text-white shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}`}
+            className={`px-3 py-1 rounded text-[10px] font-black uppercase ${searchType === 'social' ? 'bg-red-600 text-white' : 'bg-zinc-800 text-zinc-400'}`}
           >
-            🎵 TikTok Search
+            🎵 TikTok
           </button>
           <a
             href="https://t.me"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-1.5 rounded-lg text-xs font-black uppercase bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all flex items-center gap-1"
+            className="px-3 py-1 rounded text-[10px] font-black uppercase bg-zinc-800 text-zinc-400"
           >
-            ✈️ Telegram Channel ↗
+            ✈️ Telegram
           </a>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-2">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleUnifiedSearch()}
-            placeholder={searchType === 'youtube' ? "Search YouTube videos..." : "Search TikTok trends and videos..."}
-            className="flex-1 bg-slate-950 text-white px-5 py-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-red-500 text-base placeholder:text-slate-500"
+            placeholder="Raadi muuqaal..."
+            className="flex-1 bg-black text-white px-3 py-2 rounded-lg border border-zinc-800 text-xs focus:outline-none focus:border-red-500"
           />
           <button
             onClick={handleUnifiedSearch}
-            disabled={isSearching}
-            className="bg-red-600 hover:bg-red-700 disabled:bg-slate-800 text-white px-7 py-3.5 rounded-xl font-bold text-lg transition-all shadow"
+            className="bg-red-600 px-4 py-2 rounded-lg font-bold text-xs"
           >
             {isSearching ? "⏳" : "🔍"}
           </button>
         </div>
       </div>
 
-      {/* SEARCH RESULTS VIEW */}
+      {/* Search Results */}
       {showResults && (
-        <div className="bg-slate-900 rounded-3xl p-5 border border-red-900/30 shadow-2xl w-full">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold text-white uppercase tracking-tight">Results for: {searchQuery}</h3>
-            <button onClick={() => setShowResults(false)} className="text-slate-400 hover:text-white text-3xl">×</button>
+        <div className="bg-zinc-900 rounded-xl p-3 border border-zinc-800 space-y-2">
+          <div className="flex justify-between items-center">
+            <h3 className="text-xs font-bold uppercase">Natiijada</h3>
+            <button onClick={() => setShowResults(false)} className="text-zinc-400 text-lg">×</button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[600px] overflow-y-auto">
-            {searchResults.length > 0 ? (
-              searchResults.map((item, idx) => (
-                <button
-                  key={item.id || idx}
-                  onClick={() => handlePlayVideo(item.id, item.title, true)}
-                  className="flex gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800 hover:bg-slate-800 transition text-left transform hover:scale-[1.01]"
-                >
-                  <img src={item.thumbnail} alt={item.title} className="w-36 h-24 object-cover rounded-lg" />
-                  <div className="flex-1">
-                    <p className="text-white font-bold text-sm sm:text-base line-clamp-2">{item.title}</p>
-                    <p className="text-slate-400 text-xs mt-1.5">{item.channel}</p>
-                  </div>
-                </button>
-              ))
-            ) : (
-              <p className="text-slate-400 text-center py-6 col-span-full">Ma helin wax natiijo ah.</p>
-            )}
+          <div className="space-y-2 max-h-60 overflow-y-auto">
+            {searchResults.map((item, idx) => (
+              <button
+                key={idx}
+                onClick={() => handlePlayVideo(item.id, item.title)}
+                className="flex gap-2 bg-black p-2 rounded-lg border border-zinc-800 w-full text-left"
+              >
+                <img src={item.thumbnail} alt="" className="w-20 h-12 object-cover rounded" />
+                <div>
+                  <p className="text-xs font-bold line-clamp-1">{item.title}</p>
+                  <p className="text-[10px] text-zinc-400">{item.channel}</p>
+                </div>
+              </button>
+            ))}
           </div>
         </div>
       )}
 
+      {/* Active Video Player */}
       {activeVideo && (
-        <div className="bg-slate-900 rounded-3xl p-5 border border-red-900/30 shadow-2xl w-full">
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center gap-2">
-              <span className="bg-red-600 text-xs px-3 py-1 text-white rounded-full animate-pulse font-bold">LIVE</span>
-              <p className="text-base font-bold text-white line-clamp-1">{activeTitle}</p>
-            </div>
-            <button onClick={() => setActiveVideo(null)} className="text-slate-400 hover:text-white text-4xl leading-none">×</button>
+        <div className="bg-zinc-900 rounded-xl p-3 border border-zinc-800">
+          <div className="flex justify-between items-center mb-2">
+            <p className="text-xs font-bold line-clamp-1">{activeTitle}</p>
+            <button onClick={() => setActiveVideo(null)} className="text-zinc-400 text-lg">×</button>
           </div>
-          <div className="aspect-video bg-black rounded-xl overflow-hidden w-full max-w-6xl mx-auto shadow-inner">
-            <iframe
-              src={isYoutubeVideo ? `https://www.youtube.com/embed/${activeVideo}?autoplay=1` : activeVideo}
-              className="w-full h-full"
-              allow="autoplay; encrypted-media; fullscreen"
-              allowFullScreen
-            />
+          <div className="aspect-video bg-black rounded-lg overflow-hidden">
+            <iframe src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1`} className="w-full h-full" allowFullScreen />
           </div>
         </div>
       )}
 
-      {/* HERO BANNER CONTAINER */}
-      <div className="relative w-full">
-        <div className="w-full bg-gradient-to-br from-slate-900 via-red-950 to-slate-950 rounded-3xl overflow-hidden border border-red-500/20 shadow-2xl p-10 md:p-16 relative">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200')] bg-cover bg-center opacity-10"></div>
-          <div className="relative z-10 text-center py-6">
-            <div className="text-7xl mb-4">📺</div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇰🇪🇸🇴 Ahmed Abdikani Live TV 🇸🇴</h2>
-            <p className="text-slate-300 text-base sm:text-lg mb-8 max-w-2xl mx-auto">Watch Live Sports HD Content Flawlessly</p>
-            <a
-              href="https://sporty.com/sporty-tv"
-              target="_blank"
-              className="inline-block bg-red-600 hover:bg-red-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider"
-            >
-               Click Here to Watch Live
-            </a>
-          </div>
-        </div>
+      {/* Hero Banner */}
+      <div className="bg-gradient-to-r from-red-950 via-zinc-900 to-black rounded-2xl p-5 border border-red-900/30 text-center space-y-3">
+        <span className="text-3xl">📺</span>
+        <h2 className="text-lg font-black tracking-tight">Ahmed Abdikani Live TV</h2>
+        <a
+          href="https://sporty.com/sporty-tv"
+          target="_blank"
+          className="inline-block bg-red-600 text-white font-black text-xs py-2.5 px-6 rounded-lg uppercase"
+        >
+          Watch Live Now
+        </a>
+      </div>
 
-        {showNotification && (
-          <div className="absolute top-4 right-4 z-35 w-72 bg-slate-900 text-slate-100 p-3.5 rounded-xl shadow-2xl border border-red-900/30 flex flex-col gap-2">
-            <div className="flex justify-between items-start">
-              <h4 className="text-xs font-bold text-white tracking-tight">Manage Site Notifications</h4>
-              <button onClick={() => setShowNotification(false)} className="text-slate-400 hover:text-white text-base font-bold leading-none">×</button>
-            </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-12 h-8 bg-slate-950 rounded overflow-hidden shrink-0 border border-slate-800">
-                <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=100" className="w-full h-full object-cover" alt="Thumb" />
-              </div>
-              <p className="text-[10px] text-slate-300 leading-tight">
-                Allow notifications to receive instantaneous dynamic updates on current match streams.
-              </p>
-            </div>
-            <button 
-              onClick={() => setShowNotification(false)}
-              className="w-full bg-red-600 text-white font-bold text-[11px] py-1.5 rounded uppercase tracking-wider text-center hover:bg-red-700 transition-colors shadow"
+      {/* Multi-colored Channels */}
+      <div className="space-y-3">
+        <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Live Channels (Multi-Color)</h3>
+        <div className="grid grid-cols-2 gap-3">
+          {SPORTS_CHANNELS.map((ch) => (
+            <button
+              key={ch.id}
+              onClick={() => {
+                if (ch.youtube) handlePlayVideo(ch.youtube, ch.title);
+                else if (ch.siirUrl) window.open(ch.siirUrl, '_blank');
+              }}
+              className={`bg-gradient-to-br ${ch.bg} p-4 rounded-xl border border-zinc-800 flex flex-col justify-between h-24 text-left shadow-lg transform active:scale-95 transition`}
             >
-              Unsubscribe
+              <div className="flex justify-between items-center">
+                <span className="text-2xl">{ch.icon}</span>
+                <span className="text-[9px] bg-black/60 px-2 py-0.5 rounded-full font-bold text-red-400">HD</span>
+              </div>
+              <p className="font-bold text-xs line-clamp-1">{ch.title}</p>
             </button>
-          </div>
-        )}
+          ))}
+        </div>
       </div>
 
-      <div className="flex items-center px-2">
-        <span className="bg-red-600 text-xs px-3 py-1 text-white rounded-full mr-3 animate-pulse font-bold">LIVE</span>
-        <p className="text-base font-black text-white uppercase tracking-wider">Ahmed Abdikani Live Streaming</p>
-      </div>
-
-      {/* CHANNELS SECTION */}
-      <div className="w-full space-y-8">
-        <section className="w-full">
-          <h2 className="text-xl font-black mb-4 text-white tracking-wide uppercase">All Live Channels - 11 Streams</h2>
-          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide w-full">
-            {SPORTS_CHANNELS.map((ch) => (
-              <button
-                key={ch.id}
-                onClick={() => {
-                  if (ch.youtube) {
-                    handlePlayVideo(ch.youtube, ch.title, true, ch.isYoutubeChannel)
-                  } else if (ch.siirUrl) {
-                    window.open(ch.siirUrl, '_blank')
-                  }
-                }}
-                disabled={!ch.youtube && !ch.siirUrl}
-                className={`shrink-0 w-48 h-32 bg-gradient-to-br ${ch.bg} rounded-2xl p-5 flex flex-col justify-between border border-red-900/30 shadow-xl transition-all transform hover:scale-105 active:scale-95 ${(ch.youtube || ch.siirUrl) ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'}`}
-              >
-                <div className="flex justify-between items-start w-full">
-                  <span className="text-3xl">{ch.icon}</span>
-                  {(ch.youtube || ch.siirUrl) && <span className="text-xs bg-red-600 text-white px-2.5 py-1 rounded-full font-black shadow">LIVE</span>}
-                </div>
-                <h3 className="font-bold text-sm text-white text-left line-clamp-2">{ch.title}</h3>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* DATA DEALS KENYA SECTION */}
-        <section className="p-6 rounded-3xl bg-slate-900 border border-red-900/30 shadow-2xl w-full">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-slate-800 pb-4">
-            <div>
-              <h2 className="text-2xl font-black text-red-500 tracking-tight uppercase">Ahmed Data Deals Kenya</h2>
-              <p className="text-sm text-slate-400 mt-0.5">Official link for affordable internet packages</p>
-            </div>
-            <span className="text-xs bg-red-950 text-red-400 font-black px-3 py-1.5 rounded-full uppercase tracking-wider animate-pulse border border-red-900/50">
-              Active
-            </span>
-          </div>
-
-          <form onSubmit={handleBuyData} className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            <div className="lg:col-span-2 max-h-[420px] overflow-y-auto pr-2 space-y-3 custom-scrollbar grid grid-cols-1 sm:grid-cols-2 gap-3 !space-y-0">
-              {DATA_PACKAGES.map((pkg) => (
-                <div
-                  key={pkg.id}
-                  onClick={() => setSelectedPkg(pkg.id)}
-                  className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer flex justify-between items-center h-20 ${
-                    selectedPkg === pkg.id
-                      ? 'bg-slate-950 border-red-500 shadow-lg scale-[1.01]'
-                      : 'bg-slate-950/60 border-slate-800 hover:border-red-800'
-                  }`}
-                >
-                  <div className="text-left space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[9px] font-black tracking-wider text-red-400 uppercase bg-red-950 px-1.5 py-0.5 rounded border border-red-900">
-                        {pkg.desc}
-                      </span>
-                      {pkg.badge && (
-                        <span className="text-[8px] font-black tracking-tighter text-white uppercase bg-slate-800 px-1.5 py-0.5 rounded shadow border border-slate-700">
-                          {pkg.badge}
-                        </span>
-                      )}
-                    </div>
-                    <p className="font-black text-white text-base tracking-wide">{pkg.name}</p>
-                  </div>
-                  <div className="text-right flex items-center gap-3">
-                    <span className="text-base font-black text-white">KSh {pkg.price}</span>
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center border text-[10px] ${selectedPkg === pkg.id ? 'bg-red-600 border-red-600 text-white font-bold' : 'border-slate-700 text-transparent'}`}>✓</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="lg:col-span-1 bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-5 h-full flex flex-col justify-between">
+      {/* Data Bundles */}
+      <div className="bg-zinc-900 rounded-2xl p-4 border border-zinc-800 space-y-3">
+        <h3 className="text-xs font-black uppercase text-red-500">Ahmed Data Deals Kenya</h3>
+        <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+          {DATA_PACKAGES.map((pkg) => (
+            <div
+              key={pkg.id}
+              onClick={() => setSelectedPkg(pkg.id)}
+              className={`p-3 rounded-xl border flex justify-between items-center cursor-pointer ${selectedPkg === pkg.id ? 'bg-black border-red-500' : 'bg-black/50 border-zinc-800'}`}
+            >
               <div>
-                <label className="block text-xs font-black text-slate-300 uppercase tracking-wider mb-2 pl-1">Safaricom Phone Number</label>
-                <input
-                  type="text"
-                  placeholder="Example: 0712345678"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="w-full bg-slate-900 text-white px-5 py-4 rounded-xl border border-slate-800 text-base focus:outline-none focus:border-red-500 transition-colors placeholder:text-slate-500 shadow-sm"
-                />
+                <p className="text-[10px] text-red-400 font-bold">{pkg.desc}</p>
+                <p className="text-xs font-bold">{pkg.name}</p>
               </div>
-
-              <button
-                type="submit"
-                className="w-full bg-red-600 hover:bg-red-700 text-white font-black text-base py-4 rounded-xl transition-all shadow-lg uppercase tracking-widest flex items-center justify-center gap-2"
-              >
-                <span>Buy Selected Bundle</span>
-              </button>
+              <span className="text-xs font-black">KSh {pkg.price}</span>
             </div>
-          </form>
-        </section>
+          ))}
+        </div>
+        <input
+          type="text"
+          placeholder="Lambarka Safaricom (07...)"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          className="w-full bg-black text-white px-3 py-2.5 rounded-xl border border-zinc-800 text-xs focus:outline-none focus:border-red-500"
+        />
+        <button
+          onClick={handleBuyData}
+          className="w-full bg-red-600 text-white font-black text-xs py-3 rounded-xl uppercase tracking-wider"
+        >
+          Buy Bundle Now
+        </button>
+      </div>
 
-        {/* FILMS SECTION */}
-        <section className="p-6 rounded-3xl bg-slate-900 border border-red-900/30 shadow-2xl w-full">
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-xl font-black text-red-500 uppercase tracking-wide">Hindi & Hollywood Films</h2>
-            <span className="text-xs bg-red-950 text-red-400 border border-red-900 px-4 py-1.5 rounded-full font-black">11 FILMS</span>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
-            {ALL_FILMS.map((film) => (
-              <button
-                key={film.id}
-                onClick={() => {
-                  if (film.youtube) {
-                    handlePlayVideo(film.youtube, film.title, true);
-                  } else if (film.siirUrl) {
-                    window.open(film.siirUrl, '_blank');
-                  }
-                }}
-                className="relative h-56 rounded-2xl border border-red-900/20 overflow-hidden transform hover:scale-105 transition-transform shadow-xl group w-full"
-              >
-                <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${film.image})`}} />
-                <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-90 group-hover:opacity-80 transition-opacity`} />
-                <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
-                  <div className="flex justify-between items-start">
-                    <span className="text-3xl">🎬</span>
-                    <div className="flex flex-col gap-1 items-end">
-                      <span className="text-xs bg-slate-950/80 text-white px-2.5 py-1 rounded-full font-black shadow">⭐ {film.rating}</span>
-                      <span className="text-[11px] text-white bg-red-600 px-2 py-0.5 rounded-full font-black shadow">
-                        {film.type}
-                      </span>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="font-black text-white text-sm sm:text-base line-clamp-2 leading-tight drop-shadow">{film.title}</p>
-                    <p className="text-xs text-slate-300 mt-0.5 drop-shadow">{film.year}</p>
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
-        </section>
+      {/* Films */}
+      <div className="space-y-3">
+        <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Hindi & Hollywood Films</h3>
+        <div className="grid grid-cols-2 gap-3">
+          {ALL_FILMS.map((film) => (
+            <button
+              key={film.id}
+              onClick={() => film.youtube && handlePlayVideo(film.youtube, film.title)}
+              className={`bg-gradient-to-t ${film.bg} p-3 rounded-xl border border-zinc-800 h-36 flex flex-col justify-between text-left relative overflow-hidden`}
+            >
+              <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: `url(${film.image})` }} />
+              <div className="relative z-10 flex justify-between items-center">
+                <span className="text-lg">🎬</span>
+                <span className="text-[9px] bg-black/80 px-2 py-0.5 rounded font-bold">⭐ {film.rating}</span>
+              </div>
+              <div className="relative z-10">
+                <p className="text-xs font-bold line-clamp-1">{film.title}</p>
+                <p className="text-[10px] text-zinc-400">{film.type}</p>
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
     </main>
   );
@@ -472,128 +324,98 @@ const LivePage = () => {
 
   if (selectedLeague) {
     const matches = MATCHES_DATA[selectedLeague] || [];
-    const leagueName = FOOTBALL_LEAGUES.find(l => l.id === selectedLeague)?.name || "";
-
     return (
-      <section className="bg-slate-950 text-slate-100 min-h-screen pb-28 w-full">
-        <div className="bg-slate-900 p-5 flex items-center gap-4 border-b border-slate-800 sticky top-0 z-40 px-6 shadow-md">
-          <button onClick={() => {setSelectedLeague(null); setActiveStream(null);}} className="text-white text-3xl font-bold">←</button>
-          <h2 className="text-2xl font-black text-white uppercase">{leagueName}</h2>
+      <div className="space-y-4">
+        <div className="flex items-center gap-3 p-3 bg-zinc-900 border-b border-zinc-800">
+          <button onClick={() => setSelectedLeague(null)} className="text-white text-xl">←</button>
+          <h3 className="text-xs font-black uppercase">Live Matches</h3>
         </div>
-
         {activeStream && (
-          <div className="bg-black aspect-video max-w-6xl mx-auto rounded-xl overflow-hidden my-6 shadow-2xl">
-            <iframe src={activeStream} className="w-full h-full" allow="autoplay; encrypted-media; fullscreen" allowFullScreen />
+          <div className="aspect-video bg-black mx-3 rounded-xl overflow-hidden">
+            <iframe src={activeStream} className="w-full h-full" allowFullScreen />
           </div>
         )}
-
-        <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-6xl mx-auto">
-          {matches.map((match) => (
-            <div key={match.id} className="bg-slate-900 rounded-xl border border-slate-800 shadow-xl">
-              <button
-                onClick={() => {
-                  if (!match.isYoutube && match.link.includes('siiiiir.tv')) {
-                    window.open(match.link, '_blank')
-                  } else {
-                    setActiveStream(match.link)
-                  }
-                }}
-                className="w-full p-5 flex items-center justify-between hover:bg-slate-800 transition transform hover:scale-[1.01]"
-              >
-                <div className="flex items-center gap-4 flex-1">
-                  <div className="text-center w-24">
-                    <div className="text-3xl">{match.flag1}</div>
-                    <div className="text-3xl">{match.flag2}</div>
-                  </div>
-                  <div className="text-left">
-                    <p className="font-black text-white text-base sm:text-lg">{match.team1} VS {match.team2}</p>
-                    <p className="text-sm text-slate-400 mt-0.5">{match.time}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm text-red-500 font-black tracking-wider">HD</p>
-                </div>
-              </button>
-            </div>
+        <div className="p-3 space-y-2">
+          {matches.map((m) => (
+            <button
+              key={m.id}
+              onClick={() => setActiveStream(m.link)}
+              className="w-full bg-zinc-900 p-3 rounded-xl border border-zinc-800 flex justify-between items-center text-left"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-xl">{m.flag1} vs {m.flag2}</span>
+                <span className="text-xs font-bold">{m.team1} - {m.team2}</span>
+              </div>
+              <span className="text-[10px] text-red-500 font-black">{m.time}</span>
+            </button>
           ))}
         </div>
-      </section>
+      </div>
     );
   }
 
   return (
-    <section className="bg-slate-950 text-slate-100 min-h-screen pb-28 w-full">
-      <div className="bg-slate-900 p-5 flex justify-between items-center border-b border-slate-800 sticky top-0 z-40 px-6 shadow-md">
-        <h1 className="text-2xl font-black text-white uppercase tracking-wide">Football Live HD</h1>
-      </div>
-      <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 max-w-7xl mx-auto">
-        {FOOTBALL_LEAGUES.map((league) => (
+    <div className="p-4 space-y-3 bg-black min-h-full">
+      <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Football Leagues</h3>
+      <div className="grid grid-cols-2 gap-3">
+        {FOOTBALL_LEAGUES.map((l) => (
           <button
-            key={league.id}
-            onClick={() => setSelectedLeague(league.id)}
-            className={`${league.bg} w-full p-8 rounded-2xl border border-red-900/30 flex flex-col items-center justify-center hover:opacity-95 transition-all transform hover:scale-105 shadow-2xl text-white`}
+            key={l.id}
+            onClick={() => setSelectedLeague(l.id)}
+            className={`${l.bg} p-4 rounded-xl border border-zinc-800 h-28 flex flex-col items-center justify-center text-white shadow-lg`}
           >
-            <div className="bg-slate-950/70 backdrop-blur-md p-5 rounded-xl mb-4 w-36 h-24 flex items-center justify-center border border-slate-800 shadow-inner">
-              <span className="text-5xl">{league.logo}</span>
-            </div>
-            <p className="font-black text-lg sm:text-xl tracking-wide">{league.name}</p>
+            <span className="text-3xl mb-1">{l.logo}</span>
+            <p className="font-black text-xs text-center">{l.name}</p>
           </button>
         ))}
       </div>
-    </section>
+    </div>
   );
 };
 
 const BrowsePage = () => (
-  <section className="p-6 pb-28 text-center w-full bg-slate-950 text-slate-100 min-h-screen">
-    <h2 className="text-2xl font-black mb-6 uppercase tracking-wide text-white">Browse Categories</h2>
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 max-w-5xl mx-auto">
-        {WATCH_BY_COUNTRY.map((c, i) => (
-            <div key={i} className={`bg-gradient-to-br ${c.bg} p-8 rounded-2xl border border-red-900/30 shadow-2xl transform hover:scale-105 transition-transform text-white`}>
-                <span className="text-5xl">{c.flag}</span>
-                <p className="font-black text-base mt-3 uppercase tracking-wide">{c.country}</p>
-            </div>
-        ))}
+  <div className="p-4 space-y-3 bg-black min-h-full">
+    <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Browse By Country</h3>
+    <div className="grid grid-cols-2 gap-3">
+      {WATCH_BY_COUNTRY.map((c, i) => (
+        <div key={i} className={`bg-gradient-to-br ${c.bg} p-5 rounded-xl border border-zinc-800 text-white shadow-lg`}>
+          <span className="text-3xl">{c.flag}</span>
+          <p className="font-black text-xs mt-2 uppercase">{c.country}</p>
+          <span className="text-[9px] bg-black/60 px-2 py-0.5 rounded font-bold text-red-400">{c.status}</span>
+        </div>
+      ))}
     </div>
-  </section>
+  </div>
 );
 
 const ProfilePage = () => (
-  <section className="p-6 pb-28 text-center w-full bg-slate-950 text-slate-100 min-h-screen">
-    <div className="bg-slate-900 p-10 rounded-3xl border border-red-900/30 max-w-lg mx-auto mt-12 shadow-2xl">
-      <div className="w-24 h-24 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl font-black text-white shadow-md">
-        A
-      </div>
-      <h2 className="text-2xl font-black uppercase tracking-wide text-white">Profile</h2>
-      <p className="text-slate-300 text-lg mt-1">Ahmed Abdikani Mohamed</p>
+  <div className="p-6 text-center space-y-4 bg-black min-h-full flex flex-col items-center justify-center">
+    <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg">
+      A
     </div>
-  </section>
+    <div>
+      <h3 className="text-sm font-bold text-white">Ahmed Abdikani Mohamed</h3>
+      <p className="text-[10px] text-zinc-500 uppercase mt-1">Software Developer • Nairobi, Kenya</p>
+    </div>
+  </div>
 );
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
 
   return (
-    <div className="bg-slate-950 min-h-screen text-slate-100 font-sans flex flex-col items-center w-full overflow-x-hidden">
-      <Head>
-        <title>Ahmed Abdikani Live TV</title>
-      </Head>
-      <Header />
-      <div className="w-full flex-1">
-        {activeTab === 'Home' && <HomePage />}
-        {activeTab === 'Live' && <LivePage />}
-        {activeTab === 'Browse' && <BrowsePage />}
-        {activeTab === 'Profile' && <ProfilePage />}
+    <div className="bg-zinc-950 min-h-screen flex justify-center items-center p-0 sm:py-6 font-sans">
+      {/* PHONE CONTAINER */}
+      <div className="w-full sm:max-w-sm h-screen sm:h-[844px] bg-black sm:rounded-[40px] sm:border-[8px] sm:border-zinc-800 flex flex-col relative overflow-hidden shadow-2xl">
+        <Header />
+        <div className="flex-1 overflow-y-auto">
+          {activeTab === 'Home' && <HomePage />}
+          {activeTab === 'Live' && <LivePage />}
+          {activeTab === 'Browse' && <BrowsePage />}
+          {activeTab === 'Profile' && <ProfilePage />}
+        </div>
+        <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       </div>
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-      <style jsx global>{`
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.4); }
-      `}</style>
     </div>
   );
 }
