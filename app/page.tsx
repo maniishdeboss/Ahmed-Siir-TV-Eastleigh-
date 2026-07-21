@@ -4,7 +4,7 @@ import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: null, siirUrl: "https://sporty.com/sporty-tv " },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: null, siirUrl: "https://sporty.com/sporty-tv" },
   { id: 11, title: "Sports Live Highlights", bg: "from-indigo-600 to-purple-800", icon: "⚡", flag: "🏅", youtube: "https://sporty.com/sporty-tv" },
   { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: "https://sporty.com/sporty-tv" },
   { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: "https://sporty.com/sporty-tv" },
@@ -177,33 +177,31 @@ const HomePage = () => {
     setIsLoadingPayment(true);
 
     try {
-      // Isticmaal Proxy ama Next.js API Route / Server Action si looga fogaado CORS Error-ka
+      // Direct STK Push call to TinyPesa Express API
       const response = await fetch("https://tinypesa.com/api/v1/express/initialize", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "ApiKey": "Geli_API_Key-gaaga_Halkan", 
+          "ApiKey": "Geli_API_Key-gaaga_Halkan", // Ku bedel API Key-gaaga saxda ah ee TinyPesa
+          "Accept": "application/json"
         },
         body: JSON.stringify({
           amount: price,
           msisdn: formattedPhone,
-          account_no: packageName,
+          account_no: packageName
         }),
       });
 
       const data = await response.json();
       
-      if (response.ok) {
-        alert("Fadlan eeg taleefankaaga oo geli PIN-kaaga si aad u bixiso lacagta!");
+      if (response.ok && (data.success || data.status === 200 || data.ResponseCode === "0")) {
+        alert("Success! Fadlan eeg taleefankaaga oo geli PIN-kaaga M-Pesa si aad u xaqiijiso lacagta.");
       } else {
-        alert("Cillad: " + (data.message || "Fadlan dib u day!"));
+        alert("Cillad: " + (data.message || data.errorMessage || "Fadlan hubi lambarkaaga ama API Key-ga!"));
       }
     } catch (error) {
-      // Hordhaca badbaadada: Haddii TinyPesa ay diido CORS, waxaa la isticmaali karaa Link-gii hore ee tooska ahaa ama Server route.
-      // Halkan waxaan ku siineynaa si aysan u dhicin Network Error marnaba:
-      console.warn("CORS Error detected, redirecting to fallback payment gateway...");
-      const fallbackUrl = `https://tinypesa.com/ahmeddatadealskenya?amount=${price}&phone=${encodeURIComponent(formattedPhone)}`;
-      window.open(fallbackUrl, '_blank');
+      console.error("STK Error:", error);
+      alert("Cillad xagga shabakadda ah ayaa dhacday intii lagu guda jiray dirista STK Push.");
     } finally {
       setIsLoadingPayment(false);
     }
