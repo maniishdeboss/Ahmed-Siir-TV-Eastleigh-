@@ -104,7 +104,7 @@ const HomePage = () => {
   const [activeTitle, setActiveTitle] = useState<string>("");
   const [isYoutubeVideo, setIsYoutubeVideo] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchType, setSearchType] = useState<'youtube' | 'google'>('youtube'); // Kala doorashada YouTube ama Google Search
+  const [searchType, setSearchType] = useState<'youtube' | 'google'>('youtube');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
@@ -130,7 +130,7 @@ const HomePage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Raadinta labada API ah (YouTube & Google Search)
+  // Raadinta labada API ah (YouTube & Google Search oo la geliyay furayaashaada cusub)
   const handleUnifiedSearch = async () => {
     if (!searchQuery.trim()) return;
     setIsSearching(true);
@@ -156,9 +156,9 @@ const HomePage = () => {
           setSearchResults([]);
         }
       } else {
-        // Google Custom Search API
-        const GOOGLE_API_KEY = "Halkan_Geli_Google_API_Key_gaada";
-        const SEARCH_ENGINE_ID = "Halkan_Geli_CX_ID_gaada";
+        // Google Custom Search API (Waxaa lagu rakibay API Key-gaaga iyo CX-gaaga cusub)
+        const GOOGLE_API_KEY = "AIzaSyAbmTzUg82HxHa2eJ7EXwdRZIR6knj39BM";
+        const SEARCH_ENGINE_ID = "d7cac3ff563a44cba";
         const response = await fetch(
           `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${SEARCH_ENGINE_ID}&q=${encodeURIComponent(searchQuery)}`
         );
