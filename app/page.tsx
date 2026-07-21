@@ -130,7 +130,6 @@ const HomePage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Raadinta labada API ah (YouTube & Google Search oo la geliyay furayaashaada cusub)
   const handleUnifiedSearch = async () => {
     if (!searchQuery.trim()) return;
     setIsSearching(true);
@@ -156,14 +155,14 @@ const HomePage = () => {
           setSearchResults([]);
         }
       } else {
-        // Google Custom Search API (Waxaa lagu rakibay API Key-gaaga iyo CX-gaaga cusub)
+        // Direct redirection fallback or query Google search safely if API fails
         const GOOGLE_API_KEY = "AIzaSyAbmTzUg82HxHa2eJ7EXwdRZIR6knj39BM";
         const SEARCH_ENGINE_ID = "d7cac3ff563a44cba";
         const response = await fetch(
           `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${SEARCH_ENGINE_ID}&q=${encodeURIComponent(searchQuery)}`
         );
         const data = await response.json();
-        if (data.items) {
+        if (data && data.items) {
           const results = data.items.map((item: any) => ({
             title: item.title,
             link: item.link,
@@ -173,11 +172,23 @@ const HomePage = () => {
           }));
           setSearchResults(results);
         } else {
-          setSearchResults([]);
+          // Fallback direct open if API returns empty/error restriction
+          setSearchResults([{
+            title: `Open Google Search for: ${searchQuery}`,
+            link: `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`,
+            snippet: "Click here to view direct results on Google search page.",
+            isWeb: true
+          }]);
         }
       }
     } catch (error) {
       console.error("Search error:", error);
+      setSearchResults([{
+        title: `Search on Google: ${searchQuery}`,
+        link: `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`,
+        snippet: "Click to search directly on Google web.",
+        isWeb: true
+      }]);
     } finally {
       setIsSearching(false);
     }
@@ -304,7 +315,7 @@ const HomePage = () => {
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200')] bg-cover bg-center opacity-20"></div>
           <div className="relative z-10 text-center py-6">
             <div className="text-7xl mb-4">📺</div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇬🇲 Ahmed Abdikani Live TV 🇸🇴</h2>
+            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇰🇪🇸🇴 Ahmed Abdikani Live TV 🇸🇴</h2>
             <p className="text-white/80 text-base sm:text-lg mb-8 max-w-2xl mx-auto">Watch Live Sports HD Content Flawlessly</p>
             <a
               href="https://sporty.com/sporty-tv"
