@@ -60,7 +60,7 @@ const DATA_PACKAGES = [
 ];
 
 const Header = () => (
-  <header className="p-4 flex items-center justify-between border-b border-zinc-900 bg-black text-white sticky top-0 z-50">
+  <header className="p-4 flex items-center justify-between border-b border-zinc-900 bg-black text-white sticky top-0 z-50 w-full">
     <h1 className="text-base font-black tracking-tighter text-white">AHMED <span className="text-red-500">LIVE</span> TV</h1>
     <span className="text-[10px] bg-red-600 px-2 py-0.5 rounded-full font-bold animate-pulse">LIVE APP</span>
   </header>
@@ -141,7 +141,7 @@ const HomePage = () => {
   };
 
   return (
-    <main className="p-4 pb-28 space-y-6 bg-black text-white max-w-2xl mx-auto w-full">
+    <main className="p-4 pb-28 space-y-6 bg-black text-white w-full">
       {/* Search Bar */}
       <div className="bg-zinc-900 rounded-xl p-3 border border-zinc-800 space-y-2">
         <div className="flex gap-2">
@@ -325,7 +325,7 @@ const LivePage = () => {
   if (selectedLeague) {
     const matches = MATCHES_DATA[selectedLeague] || [];
     return (
-      <div className="space-y-4 pb-28 max-w-2xl mx-auto w-full p-4">
+      <div className="space-y-4 pb-28 w-full p-4">
         <div className="flex items-center gap-3 p-3 bg-zinc-900 border-b border-zinc-800 rounded-xl">
           <button onClick={() => setSelectedLeague(null)} className="text-white text-xl">←</button>
           <h3 className="text-xs font-black uppercase">Live Matches</h3>
@@ -355,7 +355,7 @@ const LivePage = () => {
   }
 
   return (
-    <div className="p-4 space-y-3 bg-black min-h-full pb-28 max-w-2xl mx-auto w-full">
+    <div className="p-4 space-y-3 bg-black min-h-full pb-28 w-full">
       <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Football Leagues</h3>
       <div className="grid grid-cols-2 gap-3">
         {FOOTBALL_LEAGUES.map((l) => (
@@ -374,7 +374,7 @@ const LivePage = () => {
 };
 
 const BrowsePage = () => (
-  <div className="p-4 space-y-3 bg-black min-h-full pb-28 max-w-2xl mx-auto w-full">
+  <div className="p-4 space-y-3 bg-black min-h-full pb-28 w-full">
     <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Browse By Country</h3>
     <div className="grid grid-cols-2 gap-3">
       {WATCH_BY_COUNTRY.map((c, i) => (
@@ -389,7 +389,7 @@ const BrowsePage = () => (
 );
 
 const ProfilePage = () => (
-  <div className="p-6 text-center space-y-4 bg-black min-h-screen pb-28 flex flex-col items-center justify-center max-w-2xl mx-auto w-full">
+  <div className="p-6 text-center space-y-4 bg-black min-h-screen pb-28 flex flex-col items-center justify-center w-full">
     <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg">
       A
     </div>
