@@ -4,7 +4,7 @@ import Head from 'next/head'
 
 // --- DATA SECTION ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: null, siirUrl: "https://sporty.com/sporty-tv " },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", youtube: null, siirUrl: "https://sporty.com/sporty-tv" },
   { id: 11, title: "Sports Live Highlights", bg: "from-indigo-600 to-purple-800", icon: "⚡", flag: "🏅", youtube: "https://sporty.com/sporty-tv" },
   { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", youtube: "https://sporty.com/sporty-tv" },
   { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", youtube: "https://sporty.com/sporty-tv" },
@@ -102,8 +102,9 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
 const HomePage = () => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [activeTitle, setActiveTitle] = useState<string>("");
-  const [isYoutubeVideo, setIsYoutubeVideo] = useState(false);
+  const [isYoutubeVideo, setIsYoutubeVideo] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchType, setSearchType] = useState<'youtube' | 'google'>('youtube'); // Kala doorashada YouTube ama Google Search
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
@@ -129,26 +130,51 @@ const HomePage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleYouTubeSearch = async () => {
+  // Raadinta labada API ah (YouTube & Google Search)
+  const handleUnifiedSearch = async () => {
     if (!searchQuery.trim()) return;
     setIsSearching(true);
     setShowResults(true);
 
     try {
-      const API_KEY = "AIzaSyAUIkNgNCG9LVJnyG1ohnTxNYwWMpoaiK0";
-      const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(searchQuery)}&type=video&key=${API_KEY}`
-      );
-      const data = await response.json();
-
-      if (data.items) {
-        const results = data.items.map((item: any) => ({
-          id: item.id.videoId,
-          title: item.snippet.title,
-          thumbnail: item.snippet.thumbnails.medium.url,
-          channel: item.snippet.channelTitle,
-        }));
-        setSearchResults(results);
+      if (searchType === 'youtube') {
+        const YOUTUBE_API_KEY = "AIzaSyAUIkNgNCG9LVJnyG1ohnTxNYwWMpoaiK0";
+        const response = await fetch(
+          `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(searchQuery)}&type=video&key=${YOUTUBE_API_KEY}`
+        );
+        const data = await response.json();
+        if (data.items) {
+          const results = data.items.map((item: any) => ({
+            id: item.id.videoId,
+            title: item.snippet.title,
+            thumbnail: item.snippet.thumbnails.medium.url,
+            channel: item.snippet.channelTitle,
+            isWeb: false
+          }));
+          setSearchResults(results);
+        } else {
+          setSearchResults([]);
+        }
+      } else {
+        // Google Custom Search API
+        const GOOGLE_API_KEY = "Halkan_Geli_Google_API_Key_gaada";
+        const SEARCH_ENGINE_ID = "Halkan_Geli_CX_ID_gaada";
+        const response = await fetch(
+          `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${SEARCH_ENGINE_ID}&q=${encodeURIComponent(searchQuery)}`
+        );
+        const data = await response.json();
+        if (data.items) {
+          const results = data.items.map((item: any) => ({
+            title: item.title,
+            link: item.link,
+            snippet: item.snippet,
+            image: item.pagemap?.cse_image?.[0]?.src || null,
+            isWeb: true
+          }));
+          setSearchResults(results);
+        } else {
+          setSearchResults([]);
+        }
       }
     } catch (error) {
       console.error("Search error:", error);
@@ -174,19 +200,33 @@ const HomePage = () => {
   return (
     <main className="p-6 pb-28 w-full px-4 sm:px-8 relative space-y-8">
       
-      {/* SEARCH BAR */}
-      <div className="bg-[#111122] rounded-2xl p-4 border border-blue-500/30 shadow-xl w-full">
+      {/* SEARCH SYSTEM BAR */}
+      <div className="bg-[#111122] rounded-2xl p-4 border border-blue-500/30 shadow-xl w-full space-y-3">
+        <div className="flex gap-2 justify-start">
+          <button
+            onClick={() => setSearchType('youtube')}
+            className={`px-4 py-1.5 rounded-lg text-xs font-black uppercase transition-all ${searchType === 'youtube' ? 'bg-red-600 text-white' : 'bg-black/40 text-white/60'}`}
+          >
+            YouTube Search
+          </button>
+          <button
+            onClick={() => setSearchType('google')}
+            className={`px-4 py-1.5 rounded-lg text-xs font-black uppercase transition-all ${searchType === 'google' ? 'bg-blue-600 text-white' : 'bg-black/40 text-white/60'}`}
+          >
+            Google Web Search
+          </button>
+        </div>
         <div className="flex gap-3">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleYouTubeSearch()}
-            placeholder="Search YouTube - movies, music, live..."
+            onKeyDown={(e) => e.key === 'Enter' && handleUnifiedSearch()}
+            placeholder={searchType === 'youtube' ? "Search YouTube videos..." : "Search Google web results..."}
             className="flex-1 bg-[#0a0a1a] text-white px-5 py-4 rounded-xl border border-white/10 focus:outline-none focus:border-blue-500 text-base"
           />
           <button
-            onClick={handleYouTubeSearch}
+            onClick={handleUnifiedSearch}
             disabled={isSearching}
             className="bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all"
           >
@@ -195,27 +235,45 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* SEARCH RESULTS */}
+      {/* SEARCH RESULTS VIEW */}
       {showResults && (
         <div className="bg-[#111122] rounded-3xl p-5 border border-red-500/30 shadow-2xl w-full">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold text-white">Results: {searchQuery}</h3>
+            <h3 className="text-xl font-bold text-white uppercase tracking-tight">Results for: {searchQuery}</h3>
             <button onClick={() => setShowResults(false)} className="text-white/60 hover:text-white text-3xl">×</button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[600px] overflow-y-auto">
-            {searchResults.map((video) => (
-              <button
-                key={video.id}
-                onClick={() => handlePlayVideo(video.id, video.title, true)}
-                className="flex gap-4 bg-[#0a0a1a] p-4 rounded-xl border border-white/5 hover:bg-[#1a1a2a] transition text-left transform hover:scale-[1.02]"
-              >
-                <img src={video.thumbnail} alt={video.title} className="w-36 h-24 object-cover rounded-lg" />
-                <div className="flex-1">
-                  <p className="text-white font-bold text-sm sm:text-base line-clamp-2">{video.title}</p>
-                  <p className="text-white/50 text-xs mt-1.5">{video.channel}</p>
-                </div>
-              </button>
-            ))}
+            {searchResults.length > 0 ? (
+              searchResults.map((item, idx) => (
+                !item.isWeb ? (
+                  <button
+                    key={item.id || idx}
+                    onClick={() => handlePlayVideo(item.id, item.title, true)}
+                    className="flex gap-4 bg-[#0a0a1a] p-4 rounded-xl border border-white/5 hover:bg-[#1a1a2a] transition text-left transform hover:scale-[1.02]"
+                  >
+                    <img src={item.thumbnail} alt={item.title} className="w-36 h-24 object-cover rounded-lg" />
+                    <div className="flex-1">
+                      <p className="text-white font-bold text-sm sm:text-base line-clamp-2">{item.title}</p>
+                      <p className="text-white/50 text-xs mt-1.5">{item.channel}</p>
+                    </div>
+                  </button>
+                ) : (
+                  <a
+                    key={idx}
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#0a0a1a] p-4 rounded-xl border border-white/5 hover:bg-[#1a1a2a] transition block"
+                  >
+                    <p className="text-blue-400 text-xs truncate">{item.link}</p>
+                    <p className="text-white font-bold text-sm mt-1 line-clamp-1">{item.title}</p>
+                    <p className="text-white/70 text-xs mt-1 line-clamp-2">{item.snippet}</p>
+                  </a>
+                )
+              ))
+            ) : (
+              <p className="text-white/50 text-center py-6 col-span-full">Ma helin wax natiijo ah.</p>
+            )}
           </div>
         </div>
       )}
@@ -240,7 +298,7 @@ const HomePage = () => {
         </div>
       )}
 
-      {/* HERO BANNER CONTAINER WITH NOTIFICATION ALERT OVERLAY */}
+      {/* HERO BANNER CONTAINER */}
       <div className="relative w-full">
         <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-blue-500/30 shadow-2xl p-10 md:p-16 relative">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200')] bg-cover bg-center opacity-20"></div>
@@ -258,7 +316,6 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* TOP-RIGHT SITE NOTIFICATION ALERT BANNER */}
         {showNotification && (
           <div className="absolute top-4 right-4 z-30 w-72 bg-white text-black p-3.5 rounded-xl shadow-2xl border border-gray-200 animate-fade-in flex flex-col gap-2">
             <div className="flex justify-between items-start">
@@ -288,10 +345,8 @@ const HomePage = () => {
         <p className="text-base font-black text-white uppercase tracking-wider">Ahmed Abdikani Live Streaming</p>
       </div>
 
-      {/* MAIN CHANNELS & MEDIA CONTENT SECTIONS */}
+      {/* CHANNELS SECTION */}
       <div className="w-full space-y-8">
-        
-        {/* LIVE CHANNELS */}
         <section className="w-full">
           <h2 className="text-xl font-black mb-4 text-white/90 tracking-wide uppercase">All Live Channels - 11 Streams</h2>
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide w-full">
@@ -318,20 +373,7 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* PREMIUM LIVE TV SECTION */}
-        <section className="p-6 rounded-3xl bg-[#111122] border border-blue-500/30 shadow-xl w-full">
-          <h2 className="text-xl font-black mb-4 text-blue-400 uppercase tracking-wide">Premium Live TV</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button
-              onClick={() => handlePlayVideo("https://sporty.com/football/world-cup/match/norway-vs-england/sr:match:53452529", "World cup - Live", false)}
-              className="bg-gradient-to-br from-blue-900 to-black p-8 rounded-2xl border border-white/10 text-center transform hover:scale-[1.03] transition-transform shadow-xl w-full"
-            >
-              <p className="font-black text-white text-lg">World cup - Live</p>
-            </button>
-          </div>
-        </section>
-
-        {/* AHMED DATA DEALS KENYA SECTION */}
+        {/* DATA DEALS KENYA SECTION */}
         <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border-2 border-green-500/40 shadow-2xl w-full">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-white/10 pb-4">
             <div>
@@ -344,8 +386,6 @@ const HomePage = () => {
           </div>
 
           <form onSubmit={handleBuyData} className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            
-            {/* SCROLLABLE DATA LIST AREA */}
             <div className="lg:col-span-2 max-h-[420px] overflow-y-auto pr-2 space-y-3 custom-scrollbar grid grid-cols-1 sm:grid-cols-2 gap-3 !space-y-0">
               {DATA_PACKAGES.map((pkg) => (
                 <div
@@ -378,7 +418,6 @@ const HomePage = () => {
               ))}
             </div>
 
-            {/* TRANSACTION INPUT AREA */}
             <div className="lg:col-span-1 bg-black/30 p-5 rounded-2xl border border-white/5 space-y-5 h-full flex flex-col justify-between">
               <div>
                 <label className="block text-xs font-black text-white/70 uppercase tracking-wider mb-2 pl-1">Safaricom Phone Number</label>
@@ -438,16 +477,10 @@ const HomePage = () => {
                     <p className="text-xs text-white/80 mt-0.5">{film.year}</p>
                   </div>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
-                  <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center shadow-lg">
-                    <span className="text-white text-base">▶</span>
-                  </div>
-                </div>
               </button>
             ))}
           </div>
         </section>
-
       </div>
     </main>
   );
@@ -577,7 +610,7 @@ export default function App() {
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
-        .custom-scrollbar::-webkit-scrollbar-track { bg: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(34, 197, 94, 0.2); border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(34, 197, 94, 0.4); }
       `}</style>
