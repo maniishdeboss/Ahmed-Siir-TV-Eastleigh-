@@ -5,44 +5,43 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { amount, msisdn, account_no } = body;
 
-    const apiKey = process.env.TINYPESA_API_KEY;
+    const url = "https://backend.payhero.co.ke/api/v2/payments";
+    
+    const channelId = process.env.PAYHERO_CHANNEL_ID;
+    const authToken = process.env.PAYHERO_API_TOKEN;
 
-    if (!apiKey) {
+    if (!channelId || !authToken) {
       return NextResponse.json(
-        { success: false, message: "TINYPESA_API_KEY is missing in Vercel." },
+        { success: false, message: "Pay Hero configuration is missing on server." },
         { status: 500 }
       );
     }
 
-    const response = await fetch("https://tinypesa.com/api/v1/express/initialize", {
+    const payload = {
+      amount: amount,
+      phone_number: msisdn,
+      channel_id: Number(channelId),
+      provider: "mpesa",
+      external_reference: account_no || "AhmedLiveTV",
+      callback_url: "https://ahmed-sports-live-website-rnir90qtw.vercel.app/api/callback"
+    };
+
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "ApiKey": apiKey,
-        "Accept": "application/json"
+        "Authorization": authToken
       },
-      body: JSON.stringify({ amount, msisdn, account_no }),
+      body: JSON.stringify(payload),
     });
 
-    const responseText = await response.text();
-    let data;
-    try {
-      data = JSON.parse(responseText);
-    } catch {
-      data = { message: responseText };
-    }
+    const data = await response.json();
+    return NextResponse.json(data, { status: response.status });
 
-    if (!response.ok) {
-      return NextResponse.json(
-        { success: false, message: `TinyPesa Error (${response.status}): ${JSON.stringify(data)}` },
-        { status: response.status }
-      );
-    }
-
-    return NextResponse.json(data, { status: 200 });
   } catch (error: any) {
+    console.error("Pay Hero STK Error:", error);
     return NextResponse.json(
-      { success: false, message: `Server Exception: ${error.message}` }, 
+      { success: false, message: `Server error: ${error.message}` }, 
       { status: 500 }
     );
   }
