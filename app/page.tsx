@@ -177,13 +177,11 @@ const HomePage = () => {
     setIsLoadingPayment(true);
 
     try {
-      // Direct STK Push call to TinyPesa Express API
-      const response = await fetch("https://tinypesa.com/api/v1/express/initialize", {
+      // Calling internal API Route (Server-side Proxy to TinyPesa)
+      const response = await fetch("/api/stk", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "ApiKey": "Geli_API_Key-gaaga_Halkan", // Ku bedel API Key-gaaga saxda ah ee TinyPesa
-          "Accept": "application/json"
         },
         body: JSON.stringify({
           amount: price,
@@ -375,7 +373,7 @@ const HomePage = () => {
               <p className="text-sm text-white/60 mt-0.5">Official link for affordable internet packages</p>
             </div>
             <span className="text-xs bg-green-500 text-black font-black px-3 py-1.5 rounded-full uppercase tracking-wider animate-pulse">
-              Active
+              Active STK
             </span>
           </div>
 
@@ -432,7 +430,7 @@ const HomePage = () => {
                 disabled={isLoadingPayment}
                 className="w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-600 text-black font-black text-base py-4 rounded-xl transition-all shadow-xl uppercase tracking-widest flex items-center justify-center gap-2"
               >
-                <span>{isLoadingPayment ? "Processing..." : "Buy Selected Bundle"}</span>
+                <span>{isLoadingPayment ? "Processing STK..." : "Buy Selected Bundle"}</span>
               </button>
             </div>
           </form>
