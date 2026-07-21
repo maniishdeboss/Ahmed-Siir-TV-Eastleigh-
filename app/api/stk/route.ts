@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       phone_number: msisdn,
       channel_id: Number(channelId),
       provider: "mpesa",
-      external_reference: account_no || "AhmedLiveTV",
+      external_reference: account_no || "11020",
       callback_url: "https://ahmed-sports-live-website-rnir90qtw.vercel.app/api/callback"
     };
 
