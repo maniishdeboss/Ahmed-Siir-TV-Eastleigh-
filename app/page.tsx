@@ -4,13 +4,13 @@ import Head from 'next/head'
 
 // --- MULTI-COLORED CHANNELS ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-amber-600 to-black", icon: "🏆", siirUrl: "https://sporty.com/sporty-tv" },
-  { id: 11, title: "Sports Live Highlights", bg: "from-blue-600 to-black", icon: "⚡", youtube: "https://sporty.com/sporty-tv" },
-  { id: 3, title: "Premier League", bg: "from-purple-600 to-black", icon: "🏆", youtube: "https://sporty.com/sporty-tv" },
-  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-black", icon: "💥", youtube: "https://sporty.com/sporty-tv" },
-  { id: 5, title: "Wildlife Live", bg: "from-emerald-600 to-black", icon: "🦁", youtube: "MiQe9ob9aDc" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-amber-600 to-black", icon: "🇦🇷🏆🇪🇸", siirUrl: "https://sporty.com/sporty-tv" },
+  { id: 11, title: "Sports Live Highlights", bg: "from-blue-600 to-black", icon: "🇫🇷🇦🇷⚡", youtube: "https://sporty.com/sporty-tv" },
+  { id: 3, title: "Premier League", bg: "from-purple-600 to-black", icon: "🏴󠁧󠁢󠁥󠁮󠁧󠁿🏆", youtube: "https://sporty.com/sporty-tv" },
+  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-black", icon: "🌟🔥💥", youtube: "https://sporty.com/sporty-tv" },
+  { id: 5, title: "Wildlife Live", bg: "from-emerald-600 to-black", icon: "😹🎬🦙🦁", youtube: "MiQe9ob9aDc" },
   { id: 6, title: "Al Jazeera", bg: "from-sky-600 to-black", icon: "📰", youtube: "gCNeDWCI0vo" },
-  { id: 7, title: "Movies Live", bg: "from-pink-600 to-black", icon: "🎥", youtube: "89c4owSHL2E" },
+  { id: 7, title: "Movies Live", bg: "from-pink-600 to-black", icon: "🎥📸", youtube: "89c4owSHL2E" },
   { id: 8, title: "Highlights", bg: "from-orange-600 to-black", icon: "🎬", youtube: "dQw4w9WgXcQ" },
   { id: 9, title: "Kenya Citizens TV", bg: "from-yellow-600 to-black", icon: "🇰🇪", youtube: "1YzlFiqmHDY" },
   { id: 10, title: "Somali TV", bg: "from-cyan-600 to-black", icon: "🇸🇴", youtube: "-qDzZEXIJdk" },
@@ -69,7 +69,7 @@ const Header = () => (
 const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
   const tabs = ['Home', 'Live', 'Browse', 'Profile'];
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-black border-t border-zinc-900 p-3 flex justify-around z-50 text-white w-full">
+    <nav className="absolute bottom-0 left-0 right-0 bg-black border-t border-zinc-900 p-3 flex justify-around z-50 text-white w-full">
       {tabs.map((tab) => (
         <button
           key={tab}
@@ -404,15 +404,24 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
 
   return (
-    <div className="bg-black min-h-screen w-full flex flex-col justify-between font-sans text-white">
-      <Header />
-      <div className="flex-1 overflow-y-auto">
-        {activeTab === 'Home' && <HomePage />}
-        {activeTab === 'Live' && <LivePage />}
-        {activeTab === 'Browse' && <BrowsePage />}
-        {activeTab === 'Profile' && <ProfilePage />}
+    <div className="bg-[#050505] min-h-screen w-full flex items-center justify-center p-0 md:p-6">
+      {/* Mobile Frame Container: Wuxuu ka dhigayaa mid u eg Mobile App dhab ah xitaa haddii PC laga furo */}
+      <div className="bg-black w-full md:max-w-[420px] md:h-[880px] md:rounded-[40px] md:border-[10px] md:border-zinc-800 flex flex-col justify-between font-sans text-white shadow-2xl overflow-hidden relative">
+        
+        {/* App Header */}
+        <Header />
+
+        {/* Scrollable Body Content */}
+        <div className="flex-1 overflow-y-auto">
+          {activeTab === 'Home' && <HomePage />}
+          {activeTab === 'Live' && <LivePage />}
+          {activeTab === 'Browse' && <BrowsePage />}
+          {activeTab === 'Profile' && <ProfilePage />}
+        </div>
+
+        {/* Bottom Navigation */}
+        <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       </div>
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );
 }
