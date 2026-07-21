@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
     if (!apiKey) {
       return NextResponse.json(
-        { success: false, message: "TinyPesa API Key is missing in environment variables." },
+        { success: false, message: "Server Error: TINYPESA_API_KEY is missing in Vercel Environment Variables." },
         { status: 500 }
       );
     }
@@ -26,8 +26,11 @@ export async function POST(request: Request) {
 
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
-  } catch (error) {
-    console.error("Proxy STK Error:", error);
-    return NextResponse.json({ success: false, message: "Network error occurred on server" }, { status: 500 });
+  } catch (error: any) {
+    console.error("Detailed Proxy STK Error:", error);
+    return NextResponse.json(
+      { success: false, message: `Server error: ${error.message || "Unknown error"}` }, 
+      { status: 500 }
+    );
   }
 }
