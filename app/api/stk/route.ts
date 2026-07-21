@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     }
 
     const payload = {
-      amount: amount,
+      amount: Number(amount),
       phone_number: msisdn,
       channel_id: Number(channelId),
       provider: "mpesa",
