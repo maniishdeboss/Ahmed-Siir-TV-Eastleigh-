@@ -39,8 +39,8 @@ const WATCH_BY_COUNTRY = [
 ];
 
 const FOOTBALL_LEAGUES = [
-  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "https://sporty.com/sporty-tv" },
-  { id: 2, name: "International Friendly", logo: "⚽", bg: "https://sporty.com/sporty-tv" },
+  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "bg-gradient-to-r from-blue-700 to-indigo-900" },
+  { id: 2, name: "International Friendly", logo: "⚽", bg: "bg-gradient-to-r from-emerald-700 to-teal-900" },
   { id: 3, name: "English Premier League", logo: "🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
   { id: 4, name: "Serie A", logo: "🇮🇹", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
   { id: 5, name: "La Liga", logo: "🇪🇸", bg: "bg-gradient-to-r from-red-600 to-yellow-500" },
@@ -331,7 +331,7 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* AHMED DATA DEALS KENYA - MOVED UP HERE ("KOOR KEEN") */}
+        {/* AHMED DATA DEALS KENYA SECTION */}
         <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border-2 border-green-500/40 shadow-2xl w-full">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-white/10 pb-4">
             <div>
@@ -401,7 +401,7 @@ const HomePage = () => {
           </form>
         </section>
 
-        {/* FILMS SECTION - MOVED DOWN HERE ("HOOS GEE") */}
+        {/* FILMS SECTION */}
         <section className="p-6 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl w-full">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-xl font-black text-orange-400 uppercase tracking-wide">Hindi & Hollywood Films</h2>
