@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
     if (!apiKey) {
       return NextResponse.json(
-        { success: false, message: "Server Error: TINYPESA_API_KEY is missing in Vercel Environment Variables." },
+        { success: false, message: "TINYPESA_API_KEY is missing in Vercel." },
         { status: 500 }
       );
     }
@@ -24,12 +24,25 @@ export async function POST(request: Request) {
       body: JSON.stringify({ amount, msisdn, account_no }),
     });
 
-    const data = await response.json();
-    return NextResponse.json(data, { status: response.status });
+    const responseText = await response.text();
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      data = { message: responseText };
+    }
+
+    if (!response.ok) {
+      return NextResponse.json(
+        { success: false, message: `TinyPesa Error (${response.status}): ${JSON.stringify(data)}` },
+        { status: response.status }
+      );
+    }
+
+    return NextResponse.json(data, { status: 200 });
   } catch (error: any) {
-    console.error("Detailed Proxy STK Error:", error);
     return NextResponse.json(
-      { success: false, message: `Server error: ${error.message || "Unknown error"}` }, 
+      { success: false, message: `Server Exception: ${error.message}` }, 
       { status: 500 }
     );
   }
