@@ -69,7 +69,7 @@ const Header = () => (
 const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
   const tabs = ['Home', 'Live', 'Browse', 'Profile'];
   return (
-    <nav className="absolute bottom-0 left-0 right-0 bg-black border-t border-zinc-900 p-3 flex justify-around z-50 text-white">
+    <nav className="fixed bottom-0 left-0 right-0 bg-black border-t border-zinc-900 p-3 flex justify-around z-50 text-white max-w-xl mx-auto">
       {tabs.map((tab) => (
         <button
           key={tab}
@@ -325,7 +325,7 @@ const LivePage = () => {
   if (selectedLeague) {
     const matches = MATCHES_DATA[selectedLeague] || [];
     return (
-      <div className="space-y-4 custom-scrollbar">
+      <div className="space-y-4 custom-scrollbar pb-24">
         <div className="flex items-center gap-3 p-3 bg-zinc-900 border-b border-zinc-800">
           <button onClick={() => setSelectedLeague(null)} className="text-white text-xl">←</button>
           <h3 className="text-xs font-black uppercase">Live Matches</h3>
@@ -355,7 +355,7 @@ const LivePage = () => {
   }
 
   return (
-    <div className="p-4 space-y-3 bg-black min-h-full custom-scrollbar">
+    <div className="p-4 space-y-3 bg-black min-h-full pb-24 custom-scrollbar">
       <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Football Leagues</h3>
       <div className="grid grid-cols-2 gap-3">
         {FOOTBALL_LEAGUES.map((l) => (
@@ -374,7 +374,7 @@ const LivePage = () => {
 };
 
 const BrowsePage = () => (
-  <div className="p-4 space-y-3 bg-black min-h-full custom-scrollbar">
+  <div className="p-4 space-y-3 bg-black min-h-full pb-24 custom-scrollbar">
     <h3 className="text-xs font-black uppercase tracking-wider text-zinc-400">Browse By Country</h3>
     <div className="grid grid-cols-2 gap-3">
       {WATCH_BY_COUNTRY.map((c, i) => (
@@ -389,7 +389,7 @@ const BrowsePage = () => (
 );
 
 const ProfilePage = () => (
-  <div className="p-6 text-center space-y-4 bg-black min-h-full flex flex-col items-center justify-center custom-scrollbar">
+  <div className="p-6 text-center space-y-4 bg-black min-h-screen pb-24 flex flex-col items-center justify-center custom-scrollbar">
     <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center text-2xl font-black text-white shadow-lg">
       A
     </div>
@@ -404,18 +404,15 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
 
   return (
-    <div className="bg-black min-h-screen w-full flex justify-center items-center overflow-hidden font-sans">
-      {/* PHONE CONTAINER */}
-      <div className="w-full sm:max-w-sm h-screen sm:h-[844px] bg-black sm:rounded-[40px] sm:border-[8px] sm:border-zinc-800 flex flex-col relative overflow-hidden shadow-2xl">
-        <Header />
-        <div className="flex-1 overflow-y-auto custom-scrollbar">
-          {activeTab === 'Home' && <HomePage />}
-          {activeTab === 'Live' && <LivePage />}
-          {activeTab === 'Browse' && <BrowsePage />}
-          {activeTab === 'Profile' && <ProfilePage />}
-        </div>
-        <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+    <div className="bg-black min-h-screen w-full flex flex-col justify-between font-sans text-white max-w-xl mx-auto relative shadow-2xl border-x border-zinc-900">
+      <Header />
+      <div className="flex-1 overflow-y-auto custom-scrollbar">
+        {activeTab === 'Home' && <HomePage />}
+        {activeTab === 'Live' && <LivePage />}
+        {activeTab === 'Browse' && <BrowsePage />}
+        {activeTab === 'Profile' && <ProfilePage />}
       </div>
+      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
       <style jsx global>{`
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
