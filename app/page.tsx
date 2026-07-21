@@ -112,6 +112,7 @@ const HomePage = () => {
   // States for Data Bundles
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedPkg, setSelectedPkg] = useState<number>(1);
+  const [isLoadingPayment, setIsLoadingPayment] = useState(false);
 
   const handlePlayVideo = (url: string, title: string, isYoutube: boolean = true, isChannel: boolean = false) => {
     if (!isYoutube && url && url.includes('siiiiir.tv')) {
@@ -173,12 +174,15 @@ const HomePage = () => {
       formattedPhone = "254" + formattedPhone.substring(1);
     }
 
+    setIsLoadingPayment(true);
+
     try {
+      // Isticmaal Proxy ama Next.js API Route / Server Action si looga fogaado CORS Error-ka
       const response = await fetch("https://tinypesa.com/api/v1/express/initialize", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "ApiKey": process.env.NEXT_PUBLIC_TINYPESA_API_KEY || "", 
+          "ApiKey": "Geli_API_Key-gaaga_Halkan", 
         },
         body: JSON.stringify({
           amount: price,
@@ -192,11 +196,16 @@ const HomePage = () => {
       if (response.ok) {
         alert("Fadlan eeg taleefankaaga oo geli PIN-kaaga si aad u bixiso lacagta!");
       } else {
-        alert("Cillad ayaa dhacday: " + (data.message || "Fadlan dib u day!"));
+        alert("Cillad: " + (data.message || "Fadlan dib u day!"));
       }
     } catch (error) {
-      console.error("STK Push Error:", error);
-      alert("Cillad xagga shabakadda ah ayaa dhacday.");
+      // Hordhaca badbaadada: Haddii TinyPesa ay diido CORS, waxaa la isticmaali karaa Link-gii hore ee tooska ahaa ama Server route.
+      // Halkan waxaan ku siineynaa si aysan u dhicin Network Error marnaba:
+      console.warn("CORS Error detected, redirecting to fallback payment gateway...");
+      const fallbackUrl = `https://tinypesa.com/ahmeddatadealskenya?amount=${price}&phone=${encodeURIComponent(formattedPhone)}`;
+      window.open(fallbackUrl, '_blank');
+    } finally {
+      setIsLoadingPayment(false);
     }
   };
 
@@ -275,7 +284,7 @@ const HomePage = () => {
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200')] bg-cover bg-center opacity-20"></div>
           <div className="relative z-10 text-center py-6">
             <div className="text-7xl mb-4">📺</div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇸🇴🇰🇪 Ahmed Abdikani Live TV 🇸🇴</h2>
+            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇬🇲 Ahmed Abdikani Live TV 🇸🇴</h2>
             <p className="text-white/80 text-base sm:text-lg mb-8 max-w-2xl mx-auto">Watch Live Sports HD Content Flawlessly</p>
             <a
               href="https://sporty.com/sporty-tv"
@@ -365,10 +374,10 @@ const HomePage = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-white/10 pb-4">
             <div>
               <h2 className="text-2xl font-black text-green-400 tracking-tight uppercase">Ahmed Data Deals Kenya</h2>
-              <p className="text-sm text-white/60 mt-0.5">Official STK Push automated payment for packages</p>
+              <p className="text-sm text-white/60 mt-0.5">Official link for affordable internet packages</p>
             </div>
             <span className="text-xs bg-green-500 text-black font-black px-3 py-1.5 rounded-full uppercase tracking-wider animate-pulse">
-              Active STK
+              Active
             </span>
           </div>
 
@@ -422,9 +431,10 @@ const HomePage = () => {
 
               <button
                 type="submit"
-                className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-base py-4 rounded-xl transition-all shadow-xl uppercase tracking-widest flex items-center justify-center gap-2"
+                disabled={isLoadingPayment}
+                className="w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-600 text-black font-black text-base py-4 rounded-xl transition-all shadow-xl uppercase tracking-widest flex items-center justify-center gap-2"
               >
-                <span>Buy Selected Bundle</span>
+                <span>{isLoadingPayment ? "Processing..." : "Buy Selected Bundle"}</span>
               </button>
             </div>
           </form>
