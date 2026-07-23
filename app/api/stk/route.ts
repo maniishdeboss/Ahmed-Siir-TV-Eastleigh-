@@ -1,14 +1,21 @@
 import { NextResponse } from 'next/server';
 
+// Test - haddii aad browser ka gasho /api/stk waa inuu ku yiraa API is working
+export async function GET() {
+  return NextResponse.json({ message: "TinyPesa STK API is working - use POST" });
+}
+
 export async function POST(request: Request) {
   try {
-    const { amount, msisdn, account_no } = await request.json();
+    const body = await request.json();
+    const { amount, msisdn, account_no } = body;
+
+    console.log("Incoming:", body);
 
     if (!process.env.TINYPESA_API_KEY) {
       return NextResponse.json({ success: false, message: "TINYPESA_API_KEY missing in Vercel" }, { status: 500 });
     }
 
-    // TinyPesa wuxuu rabaa 254...
     let phone = msisdn.toString().trim();
     if (phone.startsWith('0')) phone = '254' + phone.slice(1);
     if (phone.startsWith('+')) phone = phone.slice(1);
@@ -17,21 +24,21 @@ export async function POST(request: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Apikey': process.env.TINYPESA_API_KEY // <-- muhiim
+        'Apikey': process.env.TINYPESA_API_KEY,
       },
       body: JSON.stringify({
         amount: Number(amount),
         msisdn: phone,
-        account_no: account_no || "AHMED_TV"
-      })
+        account_no: account_no || `AHMED_${Date.now()}`,
+      }),
     });
 
     const data = await res.json();
-    console.log("TinyPesa Response:", data);
+    console.log("TinyPesa:", data);
     return NextResponse.json(data, { status: res.status });
 
   } catch (error: any) {
-    console.error("TinyPesa STK Error:", error);
+    console.error(error);
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
 }
