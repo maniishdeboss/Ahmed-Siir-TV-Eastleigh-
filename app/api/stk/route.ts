@@ -2,47 +2,36 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { amount, msisdn, account_no } = body;
+    const { amount, msisdn, account_no } = await request.json();
 
-    const url = "https://backend.payhero.co.ke/api/v2/payments";
-    
-    const channelId = process.env.PAYHERO_CHANNEL_ID;
-    const authToken = process.env.PAYHERO_API_TOKEN;
-
-    if (!channelId || !authToken) {
-      return NextResponse.json(
-        { success: false, message: "Pay Hero configuration is missing on server." },
-        { status: 500 }
-      );
+    if (!process.env.TINYPESA_API_KEY) {
+      return NextResponse.json({ success: false, message: "TINYPESA_API_KEY missing in Vercel" }, { status: 500 });
     }
 
-    const payload = {
-      amount: Number(amount),
-      phone_number: msisdn,
-      channel_id: Number(channelId),
-      provider: "mpesa",
-      external_reference: account_no || "11020",
-      callback_url: "https://ahmed-sports-live-website-rnir90qtw.vercel.app/api/callback"
-    };
+    // TinyPesa wuxuu rabaa 254...
+    let phone = msisdn.toString().trim();
+    if (phone.startsWith('0')) phone = '254' + phone.slice(1);
+    if (phone.startsWith('+')) phone = phone.slice(1);
 
-    const response = await fetch(url, {
-      method: "POST",
+    const res = await fetch('https://tinypesa.com/api/v1/express/initialize', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": authToken
+        'Content-Type': 'application/json',
+        'Apikey': process.env.TINYPESA_API_KEY // <-- muhiim
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        amount: Number(amount),
+        msisdn: phone,
+        account_no: account_no || "AHMED_TV"
+      })
     });
 
-    const data = await response.json();
-    return NextResponse.json(data, { status: response.status });
+    const data = await res.json();
+    console.log("TinyPesa Response:", data);
+    return NextResponse.json(data, { status: res.status });
 
   } catch (error: any) {
-    console.error("Pay Hero STK Error:", error);
-    return NextResponse.json(
-      { success: false, message: `Server error: ${error.message}` }, 
-      { status: 500 }
-    );
+    console.error("TinyPesa STK Error:", error);
+    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
 }
