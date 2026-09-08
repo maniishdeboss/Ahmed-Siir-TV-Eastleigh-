@@ -318,20 +318,20 @@ const HomePage = () => {
           </div>
         </section>
 
-        {/* PREMIUM LIVE TV SECTION */}
+        {/* PREMIUM LIVE TV SECTION - UPDATED WITH YASIRTV LINK */}
         <section className="p-6 rounded-3xl bg-[#111122] border border-blue-500/30 shadow-xl w-full">
           <h2 className="text-xl font-black mb-4 text-blue-400 uppercase tracking-wide">Premium Live TV</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <button
-              onClick={() => handlePlayVideo("https://sporty.com/football/world-cup/match/norway-vs-england/sr:match:53452529", "World cup - Live", false)}
+              onClick={() => handlePlayVideo("https://912acsss8af382.yasirtv.com/playerv5.php?match=4828500&key=9f39972b67d6ce22189507d008acwc26", "Real Madrid vs Inter Milan - Live", false)}
               className="bg-gradient-to-br from-blue-900 to-black p-8 rounded-2xl border border-white/10 text-center transform hover:scale-[1.03] transition-transform shadow-xl w-full"
             >
-              <p className="font-black text-white text-lg">World cup - Live</p>
+              <p className="font-black text-white text-lg">Real Madrid vs Inter Milan - Live</p>
             </button>
           </div>
         </section>
 
-        {/* AHMED DATA DEALS KENYA - MOVED UP HERE ("KOOR KEEN") */}
+        {/* AHMED DATA DEALS KENYA */}
         <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border-2 border-green-500/40 shadow-2xl w-full">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-white/10 pb-4">
             <div>
@@ -401,7 +401,7 @@ const HomePage = () => {
           </form>
         </section>
 
-        {/* FILMS SECTION - MOVED DOWN HERE ("HOOS GEE") */}
+        {/* FILMS SECTION */}
         <section className="p-6 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl w-full">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-xl font-black text-orange-400 uppercase tracking-wide">Hindi & Hollywood Films</h2>
