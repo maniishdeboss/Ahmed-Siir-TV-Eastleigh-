@@ -2,43 +2,41 @@
 import { useState, useRef, useEffect } from 'react'
 import Head from 'next/head'
 
-// --- NEW M3U8 LINKS - YOUR CLOUDFRONT beIN SPORTS 1080p ---
+// --- YOUR REAL MAN UNITED LIVE IMAGES ---
+const REAL_MANUTD_IMAGE = "https://d2egosedh0nm8l.cloudfront.net/images/channel-links/7932402/image/b1949bb5-3a73-445b-8ab8-f5a88601cc05";
+const REAL_MANUTD_IMAGE_2 = "https://d2egosedh0nm8l.cloudfront.net/images/channel-links/7932210/image/05d1b05f-7111-4359-a981-bd867e79eb78";
+
+// --- NEW M3U8 LINKS - CLOUDFRONT beIN SPORTS 1080p ---
 const BEIN_LINKS = {
   bein1: "https://dktvrj635xulp.cloudfront.net/live/bein1_1080p.m3u8",
   bein2: "https://dktvrj635xulp.cloudfront.net/live/bein2_1080p.m3u8",
   bein3: "https://dktvrj635xulp.cloudfront.net/live/bein3_1080p.m3u8",
   bein4: "https://dktvrj635xulp.cloudfront.net/live/bein4_1080p.m3u8",
-  bein5: "https://dktvrj635xulp.cloudfront.net/live/bein5_1080p.m3u8", // YOUR MAIN LINK - MAN UTD vs MAN CITY
+  bein5: "https://dktvrj635xulp.cloudfront.net/live/bein5_1080p.m3u8", // MAIN - MAN UTD vs MAN CITY
   bein6: "https://dktvrj635xulp.cloudfront.net/live/bein6_1080p.m3u8",
 };
 
-// --- DATA SECTION - UPDATED WITH YOUR M3U8 ---
+// --- DATA SECTION - 100% CLEAN, NO sporty.com ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", m3u8: BEIN_LINKS.bein1, badge: "LIVE" },
-  { id: 11, title: "Sports Live Highlights", bg: "from-indigo-600 to-purple-800", icon: "⚡", flag: "🏅", m3u8: BEIN_LINKS.bein2, badge: "LIVE" },
-  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", m3u8: BEIN_LINKS.bein5, badge: "LIVE • DERBY" }, // MAN UTD vs MAN CITY
-  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", m3u8: BEIN_LINKS.bein3, badge: "LIVE" },
-  { id: 5, title: "Wildlife Live", bg: "from-green-600 to-lime-800", icon: "🦁", flag: "🌿", youtube: "MiQe9ob9aDc" },
-  { id: 6, title: "Al Jazeera", bg: "from-teal-600 to-cyan-800", icon: "📰", flag: "🇶🇦", youtube: "gCNeDWCI0vo" },
-  { id: 7, title: "Movies Live", bg: "from-pink-600 to-rose-800", icon: "🎥", flag: "🎞️", youtube: "89c4owSHL2E" },
-  { id: 8, title: "Highlights", bg: "from-yellow-600 to-orange-700", icon: "🎬", flag: "📺", youtube: "dQw4w9WgXcQ" },
-  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", m3u8: BEIN_LINKS.bein1, badge: "LIVE" },
-  { id: 9, title: "Kenya Citizens TV", bg: "from-red-600 to-black", icon: "🇰🇪", flag: "🇰🇪", youtube: "1YzlFiqmHDY" },
-  { id: 10, title: "Somali TV", bg: "from-blue-500 to-cyan-600", icon: "🇸🇴", flag: "🇸🇴", youtube: "-qDzZEXIJdk" },
+  { id: 1, title: "FIFA World Cup 2026", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "🇸🇴", m3u8: BEIN_LINKS.bein1, image: "https://images.unsplash.com/photo-1504305754058-4f08ccd90d9a?w=400", badge: "LIVE" },
+  { id: 11, title: "Sports Live Highlights", bg: "from-indigo-600 to-purple-800", icon: "⚡", flag: "🏅", m3u8: BEIN_LINKS.bein2, image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400", badge: "LIVE" },
+  { id: 3, title: "Premier League", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", m3u8: BEIN_LINKS.bein5, image: REAL_MANUTD_IMAGE, badge: "LIVE • DERBY" },
+  { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", m3u8: BEIN_LINKS.bein3, image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=400", badge: "LIVE" },
+  { id: 5, title: "Wildlife Live", bg: "from-green-600 to-lime-800", icon: "🦁", flag: "🌿", youtube: "MiQe9ob9aDc", image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400" },
+  { id: 6, title: "Al Jazeera", bg: "from-teal-600 to-cyan-800", icon: "📰", flag: "🇶🇦", youtube: "gCNeDWCI0vo", image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400" },
+  { id: 7, title: "Movies Live", bg: "from-pink-600 to-rose-800", icon: "🎥", flag: "🎞️", youtube: "89c4owSHL2E", image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400" },
+  { id: 8, title: "Highlights", bg: "from-yellow-600 to-orange-700", icon: "🎬", flag: "📺", youtube: "dQw4w9WgXcQ", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" },
+  { id: 2, title: "Champions League", bg: "from-purple-600 to-indigo-800", icon: "⚽", flag: "🌍", m3u8: BEIN_LINKS.bein1, image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400", badge: "LIVE" },
+  { id: 9, title: "Kenya Citizens TV", bg: "from-red-600 to-black", icon: "🇰🇪", flag: "🇰🇪", youtube: "1YzlFiqmHDY", image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=400" },
+  { id: 10, title: "Somali TV", bg: "from-blue-500 to-cyan-600", icon: "🇸🇴", flag: "🇸🇴", youtube: "-qDzZEXIJdk", image: "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?w=400" },
 ];
 
 const ALL_FILMS = [
-  { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-orange-600 to-red-800", youtube: "y7tv1y_Q_Q0", image: "https://sporty.com/sporty-tv" },
+  { id: 22, title: "MAN UTD vs MAN CITY - LIVE", year: "2026", rating: "9.9", type: "Premier League • beIN 5", bg: "from-slate-800 to-slate-950", m3u8: BEIN_LINKS.bein5, badge: "1080p • DERBY LIVE", image: REAL_MANUTD_IMAGE },
+  { id: 23, title: "MAN UTD LIVE HD", year: "2026", rating: "9.8", type: "Premier League", bg: "from-red-800 to-red-950", m3u8: BEIN_LINKS.bein5, badge: "LIVE • REAL", image: REAL_MANUTD_IMAGE_2 },
+  { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-orange-600 to-red-800", youtube: "y7tv1y_Q_Q0", image: "https://images.unsplash.com/photo-1594909771206-00276884c702?w=400" },
   { id: 2, title: "Pathaan", year: "2023", rating: "7.2", type: "Hindi", bg: "from-yellow-600 to-orange-700", youtube: "vqu4z34wENw", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400" },
   { id: 3, title: "Dangal", year: "2016", rating: "8.3", type: "Hindi", bg: "from-blue-600 to-indigo-800", youtube: "x_7YlGv9u1g", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" },
-  { id: 4, title: "3 Idiots", year: "2009", rating: "8.4", type: "Hindi", bg: "from-green-600 to-teal-800", youtube: "K0eDlFX9GMc", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400" },
-  { id: 5, title: "PK", year: "2014", rating: "8.1", type: "Hindi", bg: "from-purple-600 to-pink-800", youtube: "82ZEDGPCkT8", image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400" },
-  { id: 22, title: "BeIN Sports 5 HD", year: "2026", rating: "9.5", type: "Live Sports", bg: "from-slate-800 to-slate-950", m3u8: BEIN_LINKS.bein5, badge: "1080p • MAN UTD vs MAN CITY", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400" },
-  { id: 6, title: "Bajrangi Bhaijaan", year: "2015", rating: "8.0", type: "Hindi", bg: "from-red-600 to-rose-800", youtube: "vyX4toD395U", image: "https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=400" },
-  { id: 7, title: "KGF Chapter 2", year: "2022", rating: "8.4", type: "Hindi", bg: "from-amber-600 to-yellow-800", youtube: "Qah9sSIXJqk", image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400" },
-  { id: 8, title: "RRR", year: "2022", rating: "7.8", type: "Hindi", bg: "from-cyan-600 to-blue-800", youtube: "NgBoMJy386M", image: "https://images.unsplash.com/photo-1594909122845-11baa9b7703b?w=400" },
-  { id: 9, title: "Avengers: Endgame", year: "2019", rating: "8.4", type: "Hollywood", bg: "from-indigo-600 to-purple-900", youtube: "TcMBFSGVi1c", image: "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=400" },
-  { id: 10, title: "Avatar", year: "2009", rating: "7.9", type: "Hollywood", bg: "from-sky-600 to-blue-900", youtube: "5PSNL1qE6VY", image: "https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=400" },
 ];
 
 const WATCH_BY_COUNTRY = [
@@ -49,8 +47,8 @@ const WATCH_BY_COUNTRY = [
 ];
 
 const FOOTBALL_LEAGUES = [
-  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "https://sporty.com/sporty-tv" },
-  { id: 2, name: "International Friendly", logo: "⚽", bg: "https://sporty.com/sporty-tv" },
+  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "bg-gradient-to-r from-blue-600 to-indigo-700" },
+  { id: 2, name: "International Friendly", logo: "⚽", bg: "bg-gradient-to-r from-green-600 to-teal-700" },
   { id: 3, name: "English Premier League", logo: "🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
   { id: 4, name: "Serie A", logo: "🇮🇹", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
   { id: 5, name: "La Liga", logo: "🇪🇸", bg: "bg-gradient-to-r from-red-600 to-yellow-500" },
@@ -61,15 +59,10 @@ const MATCHES_DATA: Record<number, any[]> = {
   1: [
     { id: 1, team1: "Portugal", team2: "Uzbekistan", flag1: "🇵🇹", flag2: "🇺🇿", time: "LIVE NOW", quality: "HD 1080p", link: BEIN_LINKS.bein1, isM3U8: true },
     { id: 2, team1: "Spain", team2: "Brazil", flag1: "🇪🇸", flag2: "🇧🇷", time: "Upcoming", quality: "HD 1080p", link: BEIN_LINKS.bein2, isM3U8: true },
-    { id: 3, team1: "England", team2: "Ghana", flag1: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", flag2: "🇬🇭", time: "LIVE NOW", quality: "HD 1080p", link: BEIN_LINKS.bein1, isM3U8: true },
   ],
   3: [
-    { id: 1, team1: "MAN UTD", team2: "MAN CITY", flag1: "🔴", flag2: "🔵", time: "TODAY 18:30 - LIVE", quality: "1080p", link: BEIN_LINKS.bein5, isM3U8: true },
+    { id: 1, team1: "MAN UTD", team2: "MAN CITY", flag1: "🔴", flag2: "🔵", time: "TODAY 18:30 - LIVE", quality: "1080p", link: BEIN_LINKS.bein5, image: REAL_MANUTD_IMAGE, isM3U8: true },
     { id: 2, team1: "Arsenal", team2: "Chelsea", flag1: "🔴", flag2: "🔵", time: "Today 22:00", quality: "HD 1080p", link: BEIN_LINKS.bein1, isM3U8: true },
-    { id: 3, team1: "Man City", team2: "Liverpool", flag1: "🔵", flag2: "🔴", time: "Tomorrow 19:30", quality: "HD 1080p", link: BEIN_LINKS.bein2, isM3U8: true },
-  ],
-  5: [
-    { id: 1, team1: "Barcelona", team2: "Real Madrid", flag1: "🔵", flag2: "⚪", time: "Sunday 22:00", quality: "HD 1080p", link: BEIN_LINKS.bein3, isM3U8: true },
   ],
 };
 
@@ -78,14 +71,8 @@ const DATA_PACKAGES = [
   { id: 2, name: "250MB Daily", price: 20, desc: "24 HOURS", badge: null },
   { id: 3, name: "1GB Flash Data", price: 19, desc: "1 HOUR - TUNUKIWA", badge: "Tunukiwa" },
   { id: 4, name: "1.25GB Midnight", price: 50, desc: "TILL MIDNIGHT", badge: "Best Deal" },
-  { id: 5, name: "1.25GB Midnight", price: 55, desc: "TILL MIDNIGHT", badge: null },
-  { id: 6, name: "1.5GB Heavy Bundle", price: 49, desc: "3 HOURS - TUNUKIWA", badge: "Tunukiwa" },
-  { id: 7, name: "2GB Super Deal", price: 99, desc: "TILL MIDNIGHT - TUNUKIWA", badge: "Bingwa" },
-  { id: 8, name: "350MB Weekly", price: 49, desc: "7 DAYS", badge: null },
-  { id: 9, name: "350MB Weekly", price: 52, desc: "7 DAYS", badge: null }
 ];
 
-// --- COMPONENTS ---
 const Header = () => (
   <header className="p-5 flex items-center border-b border-white/10 bg-[#06060f]/90 backdrop-blur-md sticky top-0 z-50 shadow-xl w-full px-6">
     <h1 className="text-3xl font-black tracking-tighter text-white">AHMED <span className="text-blue-500">LIVE</span> TV <span className="text-xs bg-green-500 text-black px-2 py-1 rounded-full ml-2">beIN 5 1080p</span></h1>
@@ -97,40 +84,24 @@ const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTa
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-[#0a0a1a]/95 border-t border-white/10 p-5 flex justify-around backdrop-blur-xl z-50 shadow-2xl">
       {tabs.map((tab) => (
-        <button
-          key={tab}
-          onClick={() => setActiveTab(tab)}
-          className={`text-sm font-black uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}
-        >
-          {tab}
-        </button>
+        <button key={tab} onClick={() => setActiveTab(tab)} className={`text-sm font-black uppercase tracking-widest text-white transition-all duration-300 ${activeTab === tab ? 'opacity-100 scale-110 text-blue-500' : 'opacity-60'}`}>{tab}</button>
       ))}
     </nav>
   );
 };
 
-// --- HLS PLAYER COMPONENT ---
-const HLSPlayer = ({ src, title }: { src: string; title: string }) => {
+// --- HLS PLAYER WITH PROFESSIONAL TV WATERMARK ---
+const HLSPlayer = ({ src, title }: { src: string; title: string; poster?: string }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-
     if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = src;
       video.addEventListener('loadedmetadata', () => setIsLoading(false));
-    } else if ((window as any).Hls) {
-      const hls = new (window as any).Hls({ enableWorker: true });
-      hls.loadSource(src);
-      hls.attachMedia(video);
-      hls.on((window as any).Hls.Events.MANIFEST_PARSED, () => {
-        setIsLoading(false);
-        video.play().catch(() => {});
-      });
     } else {
-      // Load HLS.js dynamically
       const script = document.createElement('script');
       script.src = 'https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js';
       script.onload = () => {
@@ -147,18 +118,41 @@ const HLSPlayer = ({ src, title }: { src: string; title: string }) => {
   }, [src]);
 
   return (
-    <div className="relative w-full aspect-video bg-black">
+    <div className="relative w-full aspect-video bg-black group overflow-hidden rounded-xl">
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black z-10">
-          <div className="text-white font-bold animate-pulse">Loading {title} - beIN 5 1080p...</div>
+        <div className="absolute inset-0 flex items-center justify-center bg-black z-20">
+          <div className="text-white font-bold animate-pulse text-center">
+            <div className="text-4xl mb-2">📺</div>
+            Loading {title} - beIN 5 1080p...
+          </div>
         </div>
       )}
-      <video ref={videoRef} controls autoPlay playsInline className="w-full h-full" />
+      <video ref={videoRef} controls autoPlay playsInline poster={poster || REAL_MANUTD_IMAGE} className="w-full h-full" />
+
+      {/* PROFESSIONAL WATERMARK - BOTTOM */}
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-3 pointer-events-none">
+        <div className="flex justify-between items-end">
+          <div className="bg-black/70 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full flex items-center gap-2">
+            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+            <span className="text-white font-black text-[11px] tracking-wider">AHMED LIVE TV • beIN 5 1080p • MAN UTD vs MAN CITY</span>
+          </div>
+          <div className="bg-red-600 px-2.5 py-1 rounded-full text-white font-black text-[10px] shadow-lg">🔴 LIVE • HD</div>
+        </div>
+      </div>
+
+      {/* TOP LEFT - SMALL LOGO */}
+      <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 pointer-events-none">
+        <span className="text-white font-black text-[11px] tracking-widest">AHMED LIVE TV</span>
+      </div>
+
+      {/* TOP RIGHT - beIN BADGE */}
+      <div className="absolute top-3 right-14 bg-green-600/90 backdrop-blur px-2 py-1 rounded-full text-white font-black text-[9px] pointer-events-none">
+        beIN SPORTS 5
+      </div>
     </div>
   );
 };
 
-// --- PAGES ---
 const HomePage = () => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [activeTitle, setActiveTitle] = useState<string>("");
@@ -169,7 +163,6 @@ const HomePage = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [showNotification, setShowNotification] = useState(true);
-
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedPkg, setSelectedPkg] = useState<number>(1);
 
@@ -227,6 +220,7 @@ const HomePage = () => {
 
   return (
     <main className="p-6 pb-28 w-full px-4 sm:px-8 relative space-y-8">
+      {/* Search */}
       <div className="bg-[#111122] rounded-2xl p-4 border border-blue-500/30 shadow-xl w-full">
         <div className="flex gap-3">
           <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleYouTubeSearch()} placeholder="Search YouTube - movies, music, live..." className="flex-1 bg-[#0a0a1a] text-white px-5 py-4 rounded-xl border border-white/10 focus:outline-none focus:border-blue-500 text-base" />
@@ -244,7 +238,7 @@ const HomePage = () => {
             {searchResults.map((video) => (
               <button key={video.id} onClick={() => handlePlayVideo(video.id, video.title, true)} className="flex gap-4 bg-[#0a0a1a] p-4 rounded-xl border border-white/5 hover:bg-[#1a1a2a] transition text-left transform hover:scale-[1.02]">
                 <img src={video.thumbnail} alt={video.title} className="w-36 h-24 object-cover rounded-lg" />
-                <div className="flex-1"><p className="text-white font-bold text-sm sm:text-base line-clamp-2">{video.title}</p><p className="text-white/50 text-xs mt-1.5">{video.channel}</p></div>
+                <div className="flex-1"><p className="text-white font-bold text-sm line-clamp-2">{video.title}</p><p className="text-white/50 text-xs mt-1.5">{video.channel}</p></div>
               </button>
             ))}
           </div>
@@ -261,205 +255,124 @@ const HomePage = () => {
             </div>
             <button onClick={() => setActiveVideo(null)} className="text-white/60 hover:text-white text-4xl leading-none">×</button>
           </div>
-          <div className="aspect-video bg-black rounded-xl overflow-hidden w-full max-w-6xl mx-auto">
+          <div className="w-full max-w-6xl mx-auto">
             {isM3U8Video ? (
-              <HLSPlayer src={activeVideo} title={activeTitle} />
+              <HLSPlayer src={activeVideo} title={activeTitle} poster={REAL_MANUTD_IMAGE} />
             ) : (
-              <iframe src={isYoutubeVideo ? `https://www.youtube.com/embed/${activeVideo}?autoplay=1` : activeVideo} className="w-full h-full" allow="autoplay; encrypted-media; fullscreen" allowFullScreen />
+              <div className="aspect-video bg-black rounded-xl overflow-hidden">
+                <iframe src={isYoutubeVideo ? `https://www.youtube.com/embed/${activeVideo}?autoplay=1` : activeVideo} className="w-full h-full" allow="autoplay; encrypted-media; fullscreen" allowFullScreen />
+              </div>
             )}
           </div>
         </div>
       )}
 
+      {/* HERO - WITH YOUR REAL IMAGE */}
       <div className="relative w-full">
-        <div className="w-full bg-gradient-to-br from-blue-900 via-black to-blue-900 rounded-3xl overflow-hidden border-2 border-green-500/50 shadow-2xl p-10 md:p-16 relative">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200')] bg-cover bg-center opacity-20"></div>
-          <div className="relative z-10 text-center py-6">
-            <div className="text-7xl mb-4">📺</div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇬🇲 Ahmed Abdikani live TV 🇸🇴</h2>
-            <p className="text-white/80 text-base sm:text-lg mb-2 max-w-2xl mx-auto">Watch Live Sports HD 1080p • beIN Sports CloudFront • No Betting</p>
-            <p className="text-green-400 text-sm font-bold mb-8">✓ beIN 5: dktvrj635xulp.cloudfront.net • MAN UTD vs MAN CITY LIVE TODAY</p>
-            <button onClick={() => handlePlayVideo(BEIN_LINKS.bein5, "MAN UNITED vs MAN CITY • LIVE • beIN 5 1080p", false, false, true)} className="inline-block bg-green-600 hover:bg-green-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider">🔴 Click Here to Watch Derby LIVE 1080p</button>
+        <div className="w-full rounded-3xl overflow-hidden border-2 border-green-500/50 shadow-2xl relative h-[420px]">
+          <img src={REAL_MANUTD_IMAGE} alt="MAN UTD vs MAN CITY" className="absolute inset-0 w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20"></div>
+          <div className="relative z-10 text-center py-6 h-full flex flex-col justify-center items-center p-6">
+            <div className="text-5xl mb-3">📺</div>
+            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight drop-shadow-xl">🇬🇲 Ahmed Abdikani live TV 🇸🇴</h2>
+            <p className="text-white/90 text-base sm:text-lg mb-2 max-w-2xl mx-auto font-bold drop-shadow">Watch Live Sports HD 1080p • beIN Sports CloudFront • No Betting</p>
+            <p className="text-green-400 text-sm font-black mb-8 drop-shadow">✓ beIN 5: MAN UTD vs MAN CITY LIVE TODAY - 1080p</p>
+            <button onClick={() => handlePlayVideo(BEIN_LINKS.bein5, "MAN UNITED vs MAN CITY • LIVE • beIN 5 1080p", false, false, true)} className="inline-block bg-green-600 hover:bg-green-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-2xl uppercase tracking-wider border-2 border-white/20">🔴 Click Here to Watch Derby LIVE 1080p</button>
           </div>
         </div>
         {showNotification && (
-          <div className="absolute top-4 right-4 z-30 w-72 bg-white text-black p-3.5 rounded-xl shadow-2xl border border-gray-200 animate-fade-in flex flex-col gap-2">
-            <div className="flex justify-between items-start"><h4 className="text-xs font-bold text-gray-900 tracking-tight">beIN 5 1080p Ready!</h4><button onClick={() => setShowNotification(false)} className="text-gray-400 hover:text-black text-base font-bold leading-none">×</button></div>
-            <div className="flex gap-2 items-center"><div className="w-12 h-8 bg-green-900 rounded overflow-hidden shrink-0"><img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=100" className="w-full h-full object-cover" alt="Thumb" /></div><p className="text-[10px] text-gray-600 leading-tight">MAN UTD vs MAN CITY live on beIN 5 1080p - CloudFront HD - No Betting</p></div>
-            <button onClick={() => { setShowNotification(false); handlePlayVideo(BEIN_LINKS.bein5, "MAN UTD vs MAN CITY LIVE", false, false, true); }} className="w-full bg-green-600 text-white font-bold text-[11px] py-1.5 rounded uppercase tracking-wider text-center hover:bg-green-700 transition-colors">WATCH NOW 1080p</button>
+          <div className="absolute top-4 right-4 z-30 w-72 bg-white text-black p-3.5 rounded-xl shadow-2xl border border-gray-200 flex flex-col gap-2">
+            <div className="flex justify-between items-start"><h4 className="text-xs font-bold text-gray-900">beIN 5 1080p Ready!</h4><button onClick={() => setShowNotification(false)} className="text-gray-400 hover:text-black text-base font-bold">×</button></div>
+            <div className="flex gap-2 items-center"><div className="w-12 h-8 bg-green-900 rounded overflow-hidden shrink-0"><img src={REAL_MANUTD_IMAGE} className="w-full h-full object-cover" alt="Thumb" /></div><p className="text-[10px] text-gray-600 leading-tight">MAN UTD vs MAN CITY live on beIN 5 1080p - Real Image</p></div>
+            <button onClick={() => { setShowNotification(false); handlePlayVideo(BEIN_LINKS.bein5, "MAN UTD vs MAN CITY LIVE", false, false, true); }} className="w-full bg-green-600 text-white font-bold text-[11px] py-1.5 rounded uppercase text-center hover:bg-green-700">WATCH NOW 1080p</button>
           </div>
         )}
       </div>
 
       <div className="flex items-center px-2"><span className="bg-red-600 text-xs px-3 py-1 rounded-full mr-3 animate-pulse font-bold">LIVE</span><p className="text-base font-black text-white uppercase tracking-wider">Ahmed Abdikani Live Streaming • beIN Sports 1080p</p></div>
 
+      {/* CHANNELS - WITH REAL IMAGES */}
       <div className="w-full space-y-8">
         <section className="w-full">
-          <h2 className="text-xl font-black mb-4 text-white/90 tracking-wide uppercase">All Live Channels - beIN 1080p CloudFront</h2>
+          <h2 className="text-xl font-black mb-4 text-white/90 tracking-wide uppercase">All Live Channels - beIN 1080p CloudFront - Real Images</h2>
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide w-full">
             {SPORTS_CHANNELS.map((ch) => (
-              <button key={ch.id} onClick={() => { if ((ch as any).m3u8) { handlePlayVideo((ch as any).m3u8, ch.title, false, false, true); } else if ((ch as any).youtube) { handlePlayVideo((ch as any).youtube, ch.title, true, (ch as any).isYoutubeChannel); } }} className={`shrink-0 w-52 h-36 bg-gradient-to-br ${ch.bg} rounded-2xl p-5 flex flex-col justify-between border-2 ${ch.title.includes('Premier League') ? 'border-green-400 shadow-green-500/30' : 'border-white/5'} shadow-xl transition-all transform hover:scale-105 active:scale-95 cursor-pointer`}>
-                <div className="flex justify-between items-start w-full"><span className="text-3xl">{ch.icon}</span><span className={`text-[10px] ${ch.title.includes('Premier League') ? 'bg-green-600' : 'bg-red-600'} px-2.5 py-1 rounded-full font-black`}>{(ch as any).badge || 'LIVE'}</span></div>
-                <div><h3 className="font-bold text-sm text-white text-left line-clamp-2">{ch.title}</h3>{(ch as any).m3u8 && <p className="text-[10px] text-white/70 text-left mt-1">beIN 1080p • CloudFront</p>}</div>
+              <button key={ch.id} onClick={() => { if ((ch as any).m3u8) { handlePlayVideo((ch as any).m3u8, ch.title, false, false, true); } else if ((ch as any).youtube) { handlePlayVideo((ch as any).youtube, ch.title, true); } }} className="shrink-0 w-52 h-36 rounded-2xl overflow-hidden border-2 border-white/10 hover:border-green-400 transition-all relative group">
+                <img src={(ch as any).image} alt={ch.title} className="absolute inset-0 w-full h-full object-cover" />
+                <div className={`absolute inset-0 bg-gradient-to-br ${ch.bg} opacity-80 mix-blend-multiply`}></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                <div className="relative z-10 p-4 h-full flex flex-col justify-between">
+                  <div className="flex justify-between items-start"><span className="text-2xl">{ch.icon}</span>{(ch as any).badge && <span className="bg-red-600 text-[9px] px-2 py-1 rounded-full font-black text-white animate-pulse">{(ch as any).badge}</span>}</div>
+                  <div><p className="text-white font-black text-sm">{ch.title}</p><p className="text-white/70 text-[10px]">beIN 1080p • CloudFront</p></div>
+                </div>
               </button>
             ))}
           </div>
         </section>
 
-        <section className="p-6 rounded-3xl bg-[#111122] border border-green-500/40 shadow-xl w-full">
-          <h2 className="text-xl font-black mb-4 text-green-400 uppercase tracking-wide">Premium Live TV - MAN UTD vs MAN CITY TODAY</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button onClick={() => handlePlayVideo(BEIN_LINKS.bein5, "MAN UNITED vs MAN CITY - LIVE DERBY - beIN 5 1080p", false, false, true)} className="bg-gradient-to-br from-green-900 to-black p-8 rounded-2xl border-2 border-green-400 text-center transform hover:scale-[1.03] transition-transform shadow-xl w-full">
-              <p className="font-black text-white text-lg">🔴 MAN UTD vs MAN CITY - LIVE NOW</p>
-              <p className="text-green-400 text-sm mt-2">beIN 5 1080p • dktvrj635xulp.cloudfront.net</p>
-              <p className="text-white/60 text-xs mt-1">Today Sep 13, 2026 - 6:30 PM EAT</p>
+        {/* PREMIUM - WITH REAL IMAGE */}
+        <section className="bg-[#111122] rounded-3xl p-6 border border-green-500/30 w-full">
+          <h2 className="text-lg font-black mb-4 text-green-400 uppercase">Premium Live TV - MAN UTD vs MAN CITY TODAY - Real Image</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <button onClick={() => handlePlayVideo(BEIN_LINKS.bein5, "MAN UTD vs MAN CITY - LIVE NOW", false, false, true)} className="relative h-40 rounded-2xl overflow-hidden border-2 border-green-400 group">
+              <img src={REAL_MANUTD_IMAGE} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Derby" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+              <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-4">
+                <p className="text-white font-black text-lg flex items-center gap-2"><span className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>MAN UTD vs MAN CITY - LIVE NOW</p>
+                <p className="text-green-300 text-xs mt-1">beIN 5 1080p • Real Image • 1080p</p>
+                <p className="text-white/60 text-[10px] mt-1">Today Sep 13, 2026 - 6:30 PM EAT</p>
+              </div>
             </button>
-            <button onClick={() => handlePlayVideo(BEIN_LINKS.bein1, "FIFA World Cup 2026 - beIN 1", false, false, true)} className="bg-gradient-to-br from-blue-900 to-black p-8 rounded-2xl border border-white/10 text-center transform hover:scale-[1.03] transition-transform shadow-xl w-full">
-              <p className="font-black text-white text-lg">FIFA World Cup 2026 - beIN 1</p>
+            <button onClick={() => handlePlayVideo(BEIN_LINKS.bein1, "FIFA World Cup 2026 - beIN 1", false, false, true)} className="relative h-40 rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-blue-900 to-black flex items-center justify-center">
+              <p className="text-white font-black">FIFA World Cup 2026 - beIN 1</p>
             </button>
-          </div>
-        </section>
-
-        <section className="p-6 rounded-3xl bg-gradient-to-br from-green-950 via-[#0d1b15] to-[#050c08] border-2 border-green-500/40 shadow-2xl w-full">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-white/10 pb-4">
-            <div><h2 className="text-2xl font-black text-green-400 tracking-tight uppercase">Ahmed Data Deals Kenya</h2><p className="text-sm text-white/60 mt-0.5">Official link for affordable internet packages</p></div>
-            <span className="text-xs bg-green-500 text-black font-black px-3 py-1.5 rounded-full uppercase tracking-wider animate-pulse">Active</span>
-          </div>
-          <form onSubmit={handleBuyData} className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            <div className="lg:col-span-2 max-h-[420px] overflow-y-auto pr-2 space-y-3 custom-scrollbar grid grid-cols-1 sm:grid-cols-2 gap-3 !space-y-0">
-              {DATA_PACKAGES.map((pkg) => (
-                <div key={pkg.id} onClick={() => setSelectedPkg(pkg.id)} className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer flex justify-between items-center h-20 ${selectedPkg === pkg.id ? 'bg-green-900/40 border-green-400 shadow-xl scale-[1.01]' : 'bg-[#0a110e]/80 border-white/10 hover:border-green-500/30'}`}>
-                  <div className="text-left space-y-1">
-                    <div className="flex items-center gap-2"><span className="text-[9px] font-black tracking-wider text-green-400 uppercase bg-green-950/80 px-1.5 py-0.5 rounded border border-green-500/20">{pkg.desc}</span>{pkg.badge && <span className="text-[8px] font-black tracking-tighter text-white uppercase bg-red-600 px-1 py-0.5 rounded">{pkg.badge}</span>}</div>
-                    <p className="font-black text-white text-base tracking-wide">{pkg.name}</p>
-                  </div>
-                  <div className="text-right flex items-center gap-3"><span className="text-base font-black text-white">KSh {pkg.price}</span><div className={`w-5 h-5 rounded-full flex items-center justify-center border text-[10px] ${selectedPkg === pkg.id ? 'bg-green-400 border-green-400 text-black' : 'border-white/20 text-transparent'}`}>✓</div></div>
-                </div>
-              ))}
-            </div>
-            <div className="lg:col-span-1 bg-black/30 p-5 rounded-2xl border border-white/5 space-y-5 h-full flex flex-col justify-between">
-              <div><label className="block text-xs font-black text-white/70 uppercase tracking-wider mb-2 pl-1">Safaricom Phone Number</label><input type="text" placeholder="Example: 0712345678" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="w-full bg-[#050a07] text-white px-5 py-4 rounded-xl border border-white/10 text-base focus:outline-none focus:border-green-400 transition-colors placeholder:text-white/20" /></div>
-              <button type="submit" className="w-full bg-green-500 hover:bg-green-600 text-black font-black text-base py-4 rounded-xl transition-all shadow-xl uppercase tracking-widest flex items-center justify-center gap-2"><span>Buy Selected Bundle</span></button>
-            </div>
-          </form>
-        </section>
-
-        <section className="p-6 rounded-3xl bg-[#111122] border border-orange-500/30 shadow-xl w-full">
-          <div className="flex items-center justify-between mb-5"><h2 className="text-xl font-black text-orange-400 uppercase tracking-wide">Hindi & Hollywood Films</h2><span className="text-xs bg-orange-600 px-4 py-1.5 rounded-full font-black">11 FILMS</span></div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
-            {ALL_FILMS.map((film) => (
-              <button key={film.id} onClick={() => { if ((film as any).m3u8) { handlePlayVideo((film as any).m3u8, film.title, false, false, true); } else if ((film as any).youtube) { handlePlayVideo((film as any).youtube, film.title, true); } }} className="relative h-56 rounded-2xl border border-white/10 overflow-hidden transform hover:scale-105 transition-transform shadow-xl group w-full">
-                <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${(film as any).image})`}} />
-                <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-85 group-hover:opacity-75 transition-opacity`} />
-                <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
-                  <div className="flex justify-between items-start"><span className="text-3xl">🎬</span><div className="flex flex-col gap-1 items-end"><span className="text-xs bg-black/60 px-2.5 py-1 rounded-full font-black">⭐ {film.rating}</span><span className={`text-[11px] px-2 py-0.5 rounded-full font-black ${(film as any).type === 'Live Sports' ? 'bg-green-600' : film.type === 'Hindi' ? 'bg-orange-600' : 'bg-blue-600'}`}>{film.type}</span></div></div>
-                  <div><p className="font-black text-white text-sm sm:text-base line-clamp-2 leading-tight">{film.title}</p><p className="text-xs text-white/80 mt-0.5">{film.year}</p></div>
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40"><div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center shadow-lg"><span className="text-white text-base">▶</span></div></div>
-              </button>
-            ))}
           </div>
         </section>
       </div>
+
+      {/* DATA DEALS */}
+      <section className="bg-[#0f1f0f] rounded-3xl p-6 border border-green-500/30 w-full">
+        <h2 className="text-xl font-black text-green-400 mb-1">AHMED DATA DEALS KENYA</h2>
+        <p className="text-white/50 text-xs mb-4">Official link for affordable internet packages</p>
+        <form onSubmit={handleBuyData} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {DATA_PACKAGES.map((pkg) => (
+              <label key={pkg.id} className={`flex justify-between items-center p-4 rounded-xl border-2 cursor-pointer transition-all ${selectedPkg === pkg.id ? 'bg-green-900/40 border-green-500' : 'bg-[#0a0a1a] border-white/10'}`}>
+                <div><p className="text-[10px] text-white/50 uppercase flex gap-1">{pkg.desc} {pkg.badge && <span className="bg-red-600 text-white px-1 rounded text-[8px]">{pkg.badge}</span>}</p><p className="text-white font-bold text-sm">{pkg.name}</p></div>
+                <div className="flex items-center gap-2"><span className="text-white font-black text-sm">KSh {pkg.price}</span><input type="radio" name="pkg" checked={selectedPkg === pkg.id} onChange={() => setSelectedPkg(pkg.id)} className="accent-green-500" /></div>
+              </label>
+            ))}
+          </div>
+          <div className="flex gap-3">
+            <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Safaricom: 07XXXXXXXX" className="flex-1 bg-[#0a0a1a] text-white px-4 py-3 rounded-xl border border-white/10 focus:border-green-500 outline-none" required />
+            <button type="submit" className="bg-green-600 hover:bg-green-700 text-white font-black px-6 py-3 rounded-xl">BUY NOW</button>
+          </div>
+        </form>
+      </section>
     </main>
   );
 };
 
-const LivePage = () => {
-  const [selectedLeague, setSelectedLeague] = useState<number | null>(null);
-  const [activeStream, setActiveStream] = useState<string | null>(null);
-  const [isM3U8Stream, setIsM3U8Stream] = useState(false);
-
-  if (selectedLeague) {
-    const matches = MATCHES_DATA[selectedLeague] || [];
-    const leagueName = FOOTBALL_LEAGUES.find(l => l.id === selectedLeague)?.name || "";
-    return (
-      <section className="bg-[#0a0a1f] min-h-screen pb-28 w-full">
-        <div className="bg-[#0a0a1f] p-5 flex items-center gap-4 border-b border-white/10 sticky top-0 z-40 px-6">
-          <button onClick={() => {setSelectedLeague(null); setActiveStream(null); setIsM3U8Stream(false);}} className="text-white text-3xl">←</button>
-          <h2 className="text-2xl font-black text-white uppercase">{leagueName} - beIN 1080p</h2>
-        </div>
-        {activeStream && (
-          <div className="bg-black aspect-video max-w-6xl mx-auto rounded-xl overflow-hidden my-6 shadow-2xl">
-            {isM3U8Stream ? <HLSPlayer src={activeStream} title={leagueName} /> : <iframe src={activeStream} className="w-full h-full" allow="autoplay; encrypted-media; fullscreen" allowFullScreen />}
-          </div>
-        )}
-        <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-          {matches.map((match) => (
-            <div key={match.id} className="bg-[#111122] rounded-xl border border-white/5 shadow-lg">
-              <button onClick={() => { setActiveStream(match.link); setIsM3U8Stream(!!match.isM3U8); }} className="w-full p-5 flex items-center justify-between hover:bg-white/5 transition transform hover:scale-[1.01]">
-                <div className="flex items-center gap-4 flex-1"><div className="text-center w-24"><div className="text-3xl">{match.flag1}</div><div className="text-3xl">{match.flag2}</div></div><div className="text-left"><p className="font-black text-white text-base sm:text-lg">{match.team1} VS {match.team2}</p><p className="text-sm text-green-400 mt-0.5">{match.time}</p></div></div>
-                <div className="text-right"><p className="text-sm text-green-500 font-black tracking-wider">{match.quality}</p><p className="text-[10px] text-white/50">CloudFront</p></div>
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
-    );
-  }
+export default function Page() {
+  const [activeTab, setActiveTab] = useState("Home");
 
   return (
-    <section className="bg-[#0a0a1f] min-h-screen pb-28 w-full">
-      <div className="bg-[#0a0a1f] p-5 flex justify-between items-center border-b border-white/10 sticky top-0 z-40 px-6"><h1 className="text-2xl font-black text-white uppercase tracking-wide">Football Live HD - beIN 1080p</h1><span className="bg-green-600 text-xs px-3 py-1 rounded-full font-bold">MAN UTD vs MAN CITY TODAY</span></div>
-      <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
-        {FOOTBALL_LEAGUES.map((league) => (
-          <button key={league.id} onClick={() => setSelectedLeague(league.id)} className={`${league.bg} w-full p-8 rounded-2xl border border-white/10 flex flex-col items-center justify-center hover:opacity-95 transition-all transform hover:scale-105 shadow-xl`}>
-            <div className="bg-white p-5 rounded-xl mb-4 w-36 h-24 flex items-center justify-center shadow-inner"><span className="text-5xl">{league.logo}</span></div>
-            <p className="font-black text-white text-lg sm:text-xl tracking-wide">{league.name}</p>
-          </button>
-        ))}
+    <>
+      <Head>
+        <title>Ahmed Live TV - MAN UTD vs MAN CITY LIVE - beIN 5 1080p</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js" async></script>
+      </Head>
+      <div className="min-h-screen bg-[#050510] text-white w-full">
+        <Header />
+        <HomePage />
+        <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
+        <style jsx global>{`
+          .scrollbar-hide::-webkit-scrollbar { display: none; }
+          .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+          .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        `}</style>
       </div>
-    </section>
-  );
-};
-
-const BrowsePage = () => (
-  <section className="p-6 pb-28 text-center w-full">
-    <h2 className="text-2xl font-black mb-6 uppercase tracking-wide">Browse Categories - beIN 1080p Live</h2>
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
-        {WATCH_BY_COUNTRY.map((c, i) => (
-            <div key={i} className={`bg-gradient-to-br ${c.bg} p-8 rounded-2xl border border-white/10 shadow-xl transform hover:scale-105 transition-transform`}>
-                <span className="text-5xl">{c.flag}</span>
-                <p className="font-black text-base text-white mt-3 uppercase tracking-wide">{c.country}</p>
-            </div>
-        ))}
-    </div>
-  </section>
-);
-
-const ProfilePage = () => (
-  <section className="p-6 pb-28 text-center w-full">
-    <div className="bg-[#111122] p-10 rounded-3xl border border-white/10 max-w-lg mx-auto mt-12 shadow-2xl">
-      <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl font-black text-white shadow-lg">A</div>
-      <h2 className="text-2xl font-black uppercase tracking-wide">Profile</h2>
-      <p className="text-gray-400 text-lg mt-1">Ahmed Abdikani Mohamed</p>
-      <p className="text-green-400 text-sm mt-3 font-bold">✓ beIN 5 1080p CloudFront Live</p>
-      <p className="text-white/50 text-xs mt-1">dktvrj635xulp.cloudfront.net/live/bein5_1080p.m3u8</p>
-    </div>
-  </section>
-);
-
-export default function App() {
-  const [activeTab, setActiveTab] = useState('Home');
-  return (
-    <div className="bg-[#06060f] min-h-screen text-white font-sans flex flex-col items-center w-full overflow-x-hidden">
-      <Head><title>Ahmed Live TV - beIN 5 1080p MAN UTD vs MAN CITY</title><script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js" async></script></Head>
-      <Header />
-      <div className="w-full flex-1">
-        {activeTab === 'Home' && <HomePage />}
-        {activeTab === 'Live' && <LivePage />}
-        {activeTab === 'Browse' && <BrowsePage />}
-        {activeTab === 'Profile' && <ProfilePage />}
-      </div>
-      <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
-      <style jsx global>{`
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
-        .custom-scrollbar::-webkit-scrollbar-track { bg: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(34, 197, 94, 0.2); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(34, 197, 94, 0.4); }
-      `}</style>
-    </div>
+    </>
   );
 }
