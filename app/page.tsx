@@ -276,7 +276,7 @@ const HomePage = () => {
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200')] bg-cover bg-center opacity-20"></div>
           <div className="relative z-10 text-center py-6">
             <div className="text-7xl mb-4">📺</div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇬🇲 Ahmed Abdikani Live TV 🇸🇴</h2>
+            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇬🇲 Ahmed Abdikani live TV 🇸🇴</h2>
             <p className="text-white/80 text-base sm:text-lg mb-2 max-w-2xl mx-auto">Watch Live Sports HD 1080p • beIN Sports CloudFront • No Betting</p>
             <p className="text-green-400 text-sm font-bold mb-8">✓ beIN 5: dktvrj635xulp.cloudfront.net • MAN UTD vs MAN CITY LIVE TODAY</p>
             <button onClick={() => handlePlayVideo(BEIN_LINKS.bein5, "MAN UNITED vs MAN CITY • LIVE • beIN 5 1080p", false, false, true)} className="inline-block bg-green-600 hover:bg-green-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider">🔴 Click Here to Watch Derby LIVE 1080p</button>
