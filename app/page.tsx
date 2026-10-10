@@ -14,7 +14,7 @@ const BEIN_LINKS = {
 
 // --- DATA SECTION - UPDATED WITH YOUR M3U8 ---
 const SPORTS_CHANNELS = [
-  { id: 1, title: "Premier League ", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "📺🇸🇴🇰🇪", m3u8: BEIN_LINKS.bein1, badge: "LIVE" },
+  { id: 1, title: "Premier League ", bg: "from-blue-600 to-blue-800", icon: "🏆", flag: "📺🇸🇴🇰🇪", m3u8: BEIN_LINKS.bein1, badge: "LIVE" },.<iframe src="https://912acsss8af382.yasirtv.com/playerv5.php?match=4742041&key=9f39972b67d6ce22189507d008acwc26" width="640" height="360" frameborder="0" allowfullscreen scrolling="no"></iframe>
   { id: 11, title: "Sports Live Highlights", bg: "from-indigo-600 to-purple-800", icon: "⚡", flag: "🏅", m3u8: BEIN_LINKS.bein2, badge: "LIVE" },
   { id: 3, title: "La Liga", bg: "from-emerald-600 to-green-800", icon: "🏆", flag: "🇬🇧", m3u8: BEIN_LINKS.bein5, badge: "LIVE • DERBY" }, // MAN UTD vs MAN CITY
   { id: 4, title: "Wrestling WWE", bg: "from-red-600 to-orange-800", icon: "💥", flag: "⚡", m3u8: BEIN_LINKS.bein3, badge: "LIVE" },
@@ -28,7 +28,7 @@ const SPORTS_CHANNELS = [
 ];
 
 const ALL_FILMS = [
-  { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-orange-600 to-red-800", youtube: "y7tv1y_Q_Q0", image: "https://sporty.com/sporty-tv" },
+  { id: 1, title: "Jawan", year: "2023", rating: "8.1", type: "Hindi", bg: "from-orange-600 to-red-800", youtube: "y7tv1y_Q_Q0", image: "<iframe src="https://912acsss8af382.yasirtv.com/playerv5.php?match=4742041&key=9f39972b67d6ce22189507d008acwc26" width="640" height="360" frameborder="0" allowfullscreen scrolling="no"></iframe>" },
   { id: 2, title: "Pathaan", year: "2023", rating: "7.2", type: "Hindi", bg: "from-yellow-600 to-orange-700", youtube: "vqu4z34wENw", image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=400" },
   { id: 3, title: "Dangal", year: "2016", rating: "8.3", type: "Hindi", bg: "from-blue-600 to-indigo-800", youtube: "x_7YlGv9u1g", image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400" },
   { id: 4, title: "3 Idiots", year: "2009", rating: "8.4", type: "Hindi", bg: "from-green-600 to-teal-800", youtube: "K0eDlFX9GMc", image: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400" },
@@ -49,7 +49,7 @@ const WATCH_BY_COUNTRY = [
 ];
 
 const FOOTBALL_LEAGUES = [
-  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "https://sporty.com/sporty-tv" },
+  { id: 1, name: "FIFA World Cup", logo: "🏆", bg: "<iframe src="https://912acsss8af382.yasirtv.com/playerv5.php?match=4742041&key=9f39972b67d6ce22189507d008acwc26" width="640" height="360" frameborder="0" allowfullscreen scrolling="no"></iframe>" },
   { id: 2, name: "International Friendly", logo: "⚽", bg: "https://sporty.com/sporty-tv" },
   { id: 3, name: "English Premier League", logo: "🦁", bg: "bg-gradient-to-r from-purple-700 to-purple-900" },
   { id: 4, name: "Serie A", logo: "🇮🇹", bg: "bg-gradient-to-r from-blue-500 to-blue-700" },
