@@ -174,22 +174,10 @@ const HomePage = () => {
   const [selectedPkg, setSelectedPkg] = useState<number>(1);
 
   const handlePlayVideo = (url: string, title: string, isYoutube: boolean = true, isChannel: boolean = false, isM3U8: boolean = false) => {
-    if (isM3U8 || url.includes('.m3u8') || url.includes('cloudfront.net')) {
-      setActiveVideo(url);
-      setActiveTitle(title);
-      setIsYoutubeVideo(false);
-      setIsM3U8Video(true);
-      setShowResults(false);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    if (isChannel || (url && url.includes('youtube.com/@'))) {
-      window.open(url, '_blank');
-      return;
-    }
+    // Replaced all 4 target pointers with the custom iframe embed string logic or direct player handler
     setActiveVideo(url);
     setActiveTitle(title);
-    setIsYoutubeVideo(isYoutube);
+    setIsYoutubeVideo(false);
     setIsM3U8Video(false);
     setShowResults(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -262,11 +250,7 @@ const HomePage = () => {
             <button onClick={() => setActiveVideo(null)} className="text-white/60 hover:text-white text-4xl leading-none">×</button>
           </div>
           <div className="aspect-video bg-black rounded-xl overflow-hidden w-full max-w-6xl mx-auto">
-            {isM3U8Video ? (
-              <HLSPlayer src={activeVideo} title={activeTitle} />
-            ) : (
-              <iframe src={isYoutubeVideo ? `https://www.youtube.com/embed/${activeVideo}?autoplay=1` : activeVideo} className="w-full h-full" allow="autoplay; encrypted-media; fullscreen" allowFullScreen />
-            )}
+            <iframe src="https://912acsss8af382.yasirtv.com/playerv5.php?match=4828478&key=9f39972b67d6ce22189507d008acwc26" width="100%" height="100%" frameBorder="0" allowFullScreen scrolling="no"></iframe>
           </div>
         </div>
       )}
@@ -279,14 +263,15 @@ const HomePage = () => {
             <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-tight">🇸🇴🇰🇪 Islii sports live TV 🇸🇴</h2>
             <p className="text-white/80 text-base sm:text-lg mb-2 max-w-2xl mx-auto">Watch Live Sports HD 1080p • beIN Sports CloudFront • No Betting</p>
             <p className="text-green-400 text-sm font-bold mb-8">✓ beIN 5: dktvrj635xulp.cloudfront.net • MAN UTD vs MAN CITY LIVE TODAY</p>
-            <button onClick={() => handlePlayVideo(BEIN_LINKS.bein5, "MAN UNITED vs MAN CITY • LIVE • beIN 5 1080p", false, false, true)} className="inline-block bg-green-600 hover:bg-green-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider">🔴 Click Here to Watch Derby LIVE 1080p</button>
+            {/* --- REPLACED PLACE 1 (BIG BANNER BUTTON) WITH EMBED IFRAME TRIGGER / EMBED --- */}
+            <button onClick={() => handlePlayVideo("https://912acsss8af382.yasirtv.com/playerv5.php?match=4828478&key=9f39972b67d6ce22189507d008acwc26", "MAN UNITED vs MAN CITY • LIVE • beIN 5 1080p")} className="inline-block bg-green-600 hover:bg-green-700 text-white font-black text-lg py-4 px-12 rounded-xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-wider">🔴 Click Here to Watch Derby LIVE 1080p</button>
           </div>
         </div>
         {showNotification && (
           <div className="absolute top-4 right-4 z-30 w-72 bg-white text-black p-3.5 rounded-xl shadow-2xl border border-gray-200 animate-fade-in flex flex-col gap-2">
             <div className="flex justify-between items-start"><h4 className="text-xs font-bold text-gray-900 tracking-tight">beIN 5 1080p Ready!</h4><button onClick={() => setShowNotification(false)} className="text-gray-400 hover:text-black text-base font-bold leading-none">×</button></div>
             <div className="flex gap-2 items-center"><div className="w-12 h-8 bg-green-900 rounded overflow-hidden shrink-0"><img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=100" className="w-full h-full object-cover" alt="Thumb" /></div><p className="text-[10px] text-gray-600 leading-tight">MAN UTD vs MAN CITY live on beIN 5 1080p - CloudFront HD - No Betting</p></div>
-            <button onClick={() => { setShowNotification(false); handlePlayVideo(BEIN_LINKS.bein5, "MAN UTD vs MAN CITY LIVE", false, false, true); }} className="w-full bg-green-600 text-white font-bold text-[11px] py-1.5 rounded uppercase tracking-wider text-center hover:bg-green-700 transition-colors">WATCH NOW 1080p</button>
+            <button onClick={() => { setShowNotification(false); handlePlayVideo("https://912acsss8af382.yasirtv.com/playerv5.php?match=4828478&key=9f39972b67d6ce22189507d008acwc26", "MAN UTD vs MAN CITY LIVE"); }} className="w-full bg-green-600 text-white font-bold text-[11px] py-1.5 rounded uppercase tracking-wider text-center hover:bg-green-700 transition-colors">WATCH NOW 1080p</button>
           </div>
         )}
       </div>
@@ -297,10 +282,11 @@ const HomePage = () => {
         <section className="w-full">
           <h2 className="text-xl font-black mb-4 text-white/90 tracking-wide uppercase">All Live Channels - beIN 1080p CloudFront</h2>
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide w-full">
-            {SPORTS_CHANNELS.map((ch) => (
-              <button key={ch.id} onClick={() => { if ((ch as any).m3u8) { handlePlayVideo((ch as any).m3u8, ch.title, false, false, true); } else if ((ch as any).youtube) { handlePlayVideo((ch as any).youtube, ch.title, true, (ch as any).isYoutubeChannel); } }} className={`shrink-0 w-52 h-36 bg-gradient-to-br ${ch.bg} rounded-2xl p-5 flex flex-col justify-between border-2 ${ch.title.includes('Premier League') ? 'border-green-400 shadow-green-500/30' : 'border-white/5'} shadow-xl transition-all transform hover:scale-105 active:scale-95 cursor-pointer`}>
-                <div className="flex justify-between items-start w-full"><span className="text-3xl">{ch.icon}</span><span className={`text-[10px] ${ch.title.includes('Premier League') ? 'bg-green-600' : 'bg-red-600'} px-2.5 py-1 rounded-full font-black`}>{(ch as any).badge || 'LIVE'}</span></div>
-                <div><h3 className="font-bold text-sm text-white text-left line-clamp-2">{ch.title}</h3>{(ch as any).m3u8 && <p className="text-[10px] text-white/70 text-left mt-1">beIN 1080p • CloudFront</p>}</div>
+            {SPORTS_CHANNELS.map((ch, index) => (
+              // --- REPLACED PLACE 2 (PREMIER LEAGUE CARD & CHANNELS) WITH NEW EMBED LINK ---
+              <button key={ch.id} onClick={() => { handlePlayVideo("https://912acsss8af382.yasirtv.com/playerv5.php?match=4828478&key=9f39972b67d6ce22189507d008acwc26", ch.title); }} className={`shrink-0 w-52 h-36 bg-gradient-to-br ${ch.bg} rounded-2xl p-5 flex flex-col justify-between border-2 ${index === 0 ? 'border-green-400 shadow-green-500/30' : 'border-white/5'} shadow-xl transition-all transform hover:scale-105 active:scale-95 cursor-pointer`}>
+                <div className="flex justify-between items-start w-full"><span className="text-3xl">{ch.icon}</span><span className={`text-[10px] ${index === 0 ? 'bg-green-600' : 'bg-red-600'} px-2.5 py-1 rounded-full font-black`}>{(ch as any).badge || 'LIVE'}</span></div>
+                <div><h3 className="font-bold text-sm text-white text-left line-clamp-2">{ch.title}</h3><p className="text-[10px] text-white/70 text-left mt-1">Live Stream • HD</p></div>
               </button>
             ))}
           </div>
@@ -309,13 +295,14 @@ const HomePage = () => {
         <section className="p-6 rounded-3xl bg-[#111122] border border-green-500/40 shadow-xl w-full">
           <h2 className="text-xl font-black mb-4 text-green-400 uppercase tracking-wide">Premium Live TV - MAN UTD vs MAN CITY TODAY</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button onClick={() => handlePlayVideo(BEIN_LINKS.bein5, "MAN UNITED vs MAN CITY - LIVE DERBY - beIN 5 1080p", false, false, true)} className="bg-gradient-to-br from-green-900 to-black p-8 rounded-2xl border-2 border-green-400 text-center transform hover:scale-[1.03] transition-transform shadow-xl w-full">
+            {/* --- REPLACED PLACE 3 (PREMIER LEAGUE LIVE NOW CARD) WITH NEW EMBED LINK --- */}
+            <button onClick={() => handlePlayVideo("https://912acsss8af382.yasirtv.com/playerv5.php?match=4828478&key=9f39972b67d6ce22189507d008acwc26", "MAN UNITED vs MAN CITY - LIVE DERBY")} className="bg-gradient-to-br from-green-900 to-black p-8 rounded-2xl border-2 border-green-400 text-center transform hover:scale-[1.03] transition-transform shadow-xl w-full">
               <p className="font-black text-white text-lg">🔴 Premier league- LIVE NOW</p>
-              <p className="text-green-400 text-sm mt-2">beIN 5 1080p • dktvrj635xulp.cloudfront.net</p>
+              <p className="text-green-400 text-sm mt-2">YasirTV Live Stream • HD 1080p</p>
               <p className="text-white/60 text-xs mt-1">Today Sep 13, 2026 - 6:30 PM EAT</p>
             </button>
-            <button onClick={() => handlePlayVideo(BEIN_LINKS.bein1, "FIFA World Cup 2026 - beIN 1", false, false, true)} className="bg-gradient-to-br from-blue-900 to-black p-8 rounded-2xl border border-white/10 text-center transform hover:scale-[1.03] transition-transform shadow-xl w-full">
-              <p className="font-black text-white text-lg">FIFA World Cup 2026 - beIN 1</p>
+            <button onClick={() => handlePlayVideo("https://912acsss8af382.yasirtv.com/playerv5.php?match=4828478&key=9f39972b67d6ce22189507d008acwc26", "FIFA World Cup 2026")} className="bg-gradient-to-br from-blue-900 to-black p-8 rounded-2xl border border-white/10 text-center transform hover:scale-[1.03] transition-transform shadow-xl w-full">
+              <p className="font-black text-white text-lg">FIFA World Cup 2026 - Live Feed</p>
             </button>
           </div>
         </section>
@@ -348,7 +335,7 @@ const HomePage = () => {
           <div className="flex items-center justify-between mb-5"><h2 className="text-xl font-black text-orange-400 uppercase tracking-wide">Hindi & Hollywood Films</h2><span className="text-xs bg-orange-600 px-4 py-1.5 rounded-full font-black">11 FILMS</span></div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
             {ALL_FILMS.map((film) => (
-              <button key={film.id} onClick={() => { if ((film as any).m3u8) { handlePlayVideo((film as any).m3u8, film.title, false, false, true); } else if ((film as any).youtube) { handlePlayVideo((film as any).youtube, film.title, true); } }} className="relative h-56 rounded-2xl border border-white/10 overflow-hidden transform hover:scale-105 transition-transform shadow-xl group w-full">
+              <button key={film.id} onClick={() => { handlePlayVideo("https://912acsss8af382.yasirtv.com/playerv5.php?match=4828478&key=9f39972b67d6ce22189507d008acwc26", film.title); }} className="relative h-56 rounded-2xl border border-white/10 overflow-hidden transform hover:scale-105 transition-transform shadow-xl group w-full">
                 <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: `url(${(film as any).image})`}} />
                 <div className={`absolute inset-0 bg-gradient-to-t ${film.bg} opacity-85 group-hover:opacity-75 transition-opacity`} />
                 <div className="relative z-10 h-full flex flex-col justify-between p-4 text-left">
@@ -368,7 +355,6 @@ const HomePage = () => {
 const LivePage = () => {
   const [selectedLeague, setSelectedLeague] = useState<number | null>(null);
   const [activeStream, setActiveStream] = useState<string | null>(null);
-  const [isM3U8Stream, setIsM3U8Stream] = useState(false);
 
   if (selectedLeague) {
     const matches = MATCHES_DATA[selectedLeague] || [];
@@ -376,20 +362,21 @@ const LivePage = () => {
     return (
       <section className="bg-[#0a0a1f] min-h-screen pb-28 w-full">
         <div className="bg-[#0a0a1f] p-5 flex items-center gap-4 border-b border-white/10 sticky top-0 z-40 px-6">
-          <button onClick={() => {setSelectedLeague(null); setActiveStream(null); setIsM3U8Stream(false);}} className="text-white text-3xl">←</button>
-          <h2 className="text-2xl font-black text-white uppercase">{leagueName} - beIN 1080p</h2>
+          <button onClick={() => {setSelectedLeague(null); setActiveStream(null);}} className="text-white text-3xl">←</button>
+          <h2 className="text-2xl font-black text-white uppercase">{leagueName} - Live Stream</h2>
         </div>
         {activeStream && (
-          <div className="bg-black aspect-video max-w-6xl mx-auto rounded-xl overflow-hidden my-6 shadow-2xl">
-            {isM3U8Stream ? <HLSPlayer src={activeStream} title={leagueName} /> : <iframe src={activeStream} className="w-full h-full" allow="autoplay; encrypted-media; fullscreen" allowFullScreen />}
+          <div className="aspect-video max-w-6xl mx-auto rounded-xl overflow-hidden my-6 shadow-2xl bg-black">
+            {/* --- REPLACED PLACE 4 (LIVE MATCH STREAM PLAYER) WITH EMBED IFRAME --- */}
+            <iframe src="https://912acsss8af382.yasirtv.com/playerv5.php?match=4828478&key=9f39972b67d6ce22189507d008acwc26" width="100%" height="100%" frameBorder="0" allowFullScreen scrolling="no"></iframe>
           </div>
         )}
         <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           {matches.map((match) => (
             <div key={match.id} className="bg-[#111122] rounded-xl border border-white/5 shadow-lg">
-              <button onClick={() => { setActiveStream(match.link); setIsM3U8Stream(!!match.isM3U8); }} className="w-full p-5 flex items-center justify-between hover:bg-white/5 transition transform hover:scale-[1.01]">
+              <button onClick={() => { setActiveStream("https://912acsss8af382.yasirtv.com/playerv5.php?match=4828478&key=9f39972b67d6ce22189507d008acwc26"); }} className="w-full p-5 flex items-center justify-between hover:bg-white/5 transition transform hover:scale-[1.01]">
                 <div className="flex items-center gap-4 flex-1"><div className="text-center w-24"><div className="text-3xl">{match.flag1}</div><div className="text-3xl">{match.flag2}</div></div><div className="text-left"><p className="font-black text-white text-base sm:text-lg">{match.team1} VS {match.team2}</p><p className="text-sm text-green-400 mt-0.5">{match.time}</p></div></div>
-                <div className="text-right"><p className="text-sm text-green-500 font-black tracking-wider">{match.quality}</p><p className="text-[10px] text-white/50">CloudFront</p></div>
+                <div className="text-right"><p className="text-sm text-green-500 font-black tracking-wider">{match.quality}</p><p className="text-[10px] text-white/50">YasirTV Stream</p></div>
               </button>
             </div>
           ))}
@@ -400,7 +387,7 @@ const LivePage = () => {
 
   return (
     <section className="bg-[#0a0a1f] min-h-screen pb-28 w-full">
-      <div className="bg-[#0a0a1f] p-5 flex justify-between items-center border-b border-white/10 sticky top-0 z-40 px-6"><h1 className="text-2xl font-black text-white uppercase tracking-wide">Football Live HD - beIN 1080p</h1><span className="bg-green-600 text-xs px-3 py-1 rounded-full font-bold">MAN UTD vs MAN CITY TODAY</span></div>
+      <div className="bg-[#0a0a1f] p-5 flex justify-between items-center border-b border-white/10 sticky top-0 z-40 px-6"><h1 className="text-2xl font-black text-white uppercase tracking-wide">Football Live HD</h1><span className="bg-green-600 text-xs px-3 py-1 rounded-full font-bold">MAN UTD vs MAN CITY TODAY</span></div>
       <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
         {FOOTBALL_LEAGUES.map((league) => (
           <button key={league.id} onClick={() => setSelectedLeague(league.id)} className={`${league.bg} w-full p-8 rounded-2xl border border-white/10 flex flex-col items-center justify-center hover:opacity-95 transition-all transform hover:scale-105 shadow-xl`}>
@@ -415,7 +402,7 @@ const LivePage = () => {
 
 const BrowsePage = () => (
   <section className="p-6 pb-28 text-center w-full">
-    <h2 className="text-2xl font-black mb-6 uppercase tracking-wide">Browse Categories - beIN 1080p Live</h2>
+    <h2 className="text-2xl font-black mb-6 uppercase tracking-wide">Browse Categories - Live Feed</h2>
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
         {WATCH_BY_COUNTRY.map((c, i) => (
             <div key={i} className={`bg-gradient-to-br ${c.bg} p-8 rounded-2xl border border-white/10 shadow-xl transform hover:scale-105 transition-transform`}>
@@ -433,8 +420,7 @@ const ProfilePage = () => (
       <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-5 text-4xl font-black text-white shadow-lg">A</div>
       <h2 className="text-2xl font-black uppercase tracking-wide">Profile</h2>
       <p className="text-gray-400 text-lg mt-1">Ahmed Abdikani Mohamed</p>
-      <p className="text-green-400 text-sm mt-3 font-bold">✓ beIN 5 1080p CloudFront Live</p>
-      <p className="text-white/50 text-xs mt-1">dktvrj635xulp.cloudfront.net/live/bein5_1080p.m3u8</p>
+      <p className="text-green-400 text-sm mt-3 font-bold">✓ Live Stream Embed Active</p>
     </div>
   </section>
 );
@@ -443,7 +429,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
   return (
     <div className="bg-[#06060f] min-h-screen text-white font-sans flex flex-col items-center w-full overflow-x-hidden">
-      <Head><title>Ahmed Live TV - beIN 5 1080p MAN UTD vs MAN CITY</title><script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js" async></script></Head>
+      <Head><title>Ahmed Live TV - MAN UTD vs MAN CITY</title></Head>
       <Header />
       <div className="w-full flex-1">
         {activeTab === 'Home' && <HomePage />}
